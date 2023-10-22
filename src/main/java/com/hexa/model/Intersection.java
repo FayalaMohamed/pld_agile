@@ -66,4 +66,8 @@ public class Intersection {
     this.id = id;
   }
 
+  public String toString() {
+    return id + " " + latitude + " " + longitude;
+  }
+
 }

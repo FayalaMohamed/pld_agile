@@ -23,7 +23,12 @@ public class Graphe extends Observable {
     this.segments = new ArrayList<Segment>();
   }
 
-  public Intersection trouverIntersectionParId(Intersection id) {
+  public Intersection trouverIntersectionParId(String id) {
+    for (Intersection inter : intersections) {
+      if (inter.getId().equals(id)) {
+        return inter;
+      }
+    }
     return null;
   }
 

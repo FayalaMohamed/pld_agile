@@ -3,6 +3,7 @@ package com.hexa.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -18,7 +19,7 @@ public class XMLParser {
     marsh.marshal(graphe, new File(outputFile));
   }
 
-  public static Graphe xmlToGraphe(String path) {
+  public static Graphe xmlToGraphe(String path) throws Exception {
     Graphe map = null;
     try {
       JAXBContext context = JAXBContext.newInstance(Graphe.class);
@@ -28,6 +29,17 @@ public class XMLParser {
       e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
+    }
+    ArrayList<Segment> segments = map.getSegments();
+    for (int i = 0; i < segments.size(); ++i) {
+      Segment seg = segments.get(i);
+      Intersection dest = map.trouverIntersectionParId(seg.getDestinationId());
+      Intersection ori = map.trouverIntersectionParId(seg.getOrigineId());
+      if (dest == null || ori == null) {
+        throw new Exception("ERROR WITH IDS, NON EXISTING INTERSECTION INSIDE SEGMENT");
+      }
+      seg.setDestination(dest);
+      seg.setOrigine(ori);
     }
     return map;
   }
