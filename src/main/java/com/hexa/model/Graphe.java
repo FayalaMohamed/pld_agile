@@ -11,17 +11,19 @@ public class Graphe extends Observable {
 	/**
      * Table de hashage contenant l'ensemble des segments du graphe en clé et le coût de chacun en valeur
      */
-    private Map<Segment, Double> segments;
+    protected Map<Segment, Double> segments;
 
     /**
      * Ensemble d'intersections (= sommets du graphe)
      */
-    private Set<Intersection> intersections;
+    protected Set<Intersection> intersections;
+    
+    protected Map<Intersection, Set<Intersection>> listeSuccesseur;
     
     /**
      * Entrepot = point de départ et d'arrivée du circuit du livreur
      */
-    private Entrepot entrepot;
+    protected Entrepot entrepot;
 
     /**
      * Default constructor
@@ -31,6 +33,8 @@ public class Graphe extends Observable {
     	segments = new HashMap<Segment, Double>();
     	intersections = new HashSet<Intersection>();
     	
+    	listeSuccesseur = new HashMap<Intersection, Set<Intersection>>();
+    	
     }
     
     /**
@@ -39,6 +43,7 @@ public class Graphe extends Observable {
      */
     public void setEntrepot (Entrepot entrepot) {
     	this.entrepot = entrepot;
+    	listeSuccesseur.put(entrepot, new HashSet<Intersection>());
     }
     
     /**
@@ -54,7 +59,11 @@ public class Graphe extends Observable {
      * @return true si n'est pas déjà présent dans le graphe
      */
     public boolean ajouterIntersection(Intersection inter) {
-        return intersections.add(inter);
+        if (intersections.add(inter)) {
+        	listeSuccesseur.put(inter, new HashSet<Intersection>());
+        	return true;
+        }
+        return false;
     }
 
     /**
@@ -72,6 +81,9 @@ public class Graphe extends Observable {
      */
     public boolean ajouterSegment(Segment seg) {
         if (segments.putIfAbsent(seg, seg.getLongueur()) == null) {
+        	
+        	listeSuccesseur.get(seg.getOrigine()).add(seg.getDestination());
+        	
         	return true;
         }
         else {
@@ -105,6 +117,10 @@ public class Graphe extends Observable {
     public Intersection[] getIntersections() {
     	return intersections.toArray(new Intersection[0]);
     }
+    
+    public boolean hasIntersection(Intersection inter) {
+    	return intersections.contains(inter);
+    }
 
     /**
      * 
@@ -122,6 +138,10 @@ public class Graphe extends Observable {
      */
     public double getCost(Segment s) {
     	return segments.get(s);
+    }
+    
+    public Intersection[] getSuccesseur(Intersection inter) {
+    	return listeSuccesseur.get(inter).toArray(new Intersection[0]);
     }
 
 }
