@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.XmlType;
 
 @XmlType(propOrder = { "id", "latitude", "longitude" })
 public class Intersection {
-  private int id;
+  private String id;
   private double latitude;
   private double longitude;
   private double x;
@@ -15,7 +15,7 @@ public class Intersection {
   public Intersection() {
   }
 
-  public Intersection(int id, double longitude, double latitude) {
+  public Intersection(String id, double longitude, double latitude) {
     this.id = id;
     this.longitude = longitude;
     this.latitude = latitude;
@@ -58,11 +58,11 @@ public class Intersection {
   }
 
   @XmlAttribute(name = "id")
-  public int getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(String id) {
     this.id = id;
   }
 

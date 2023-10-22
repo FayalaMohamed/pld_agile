@@ -1,11 +1,9 @@
 package com.hexa.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
@@ -16,13 +14,13 @@ import jakarta.xml.bind.annotation.XmlType;
 public class Graphe extends Observable {
 
   @XmlElement(name = "intersection")
-  private Set<Intersection> intersections;
+  private ArrayList<Intersection> intersections;
   @XmlElement(name = "segment")
-  private Set<Segment> segments;
+  private ArrayList<Segment> segments;
 
   public Graphe() {
-    this.intersections = new HashSet<Intersection>();
-    this.segments = new HashSet<Segment>();
+    this.intersections = new ArrayList<Intersection>();
+    this.segments = new ArrayList<Segment>();
   }
 
   public Intersection trouverIntersectionParId(Intersection id) {
@@ -37,11 +35,11 @@ public class Graphe extends Observable {
     this.segments.add(seg);
   }
 
-  public Set<Intersection> getIntersections() {
+  public ArrayList<Intersection> getIntersections() {
     return this.intersections;
   }
 
-  public Set<Segment> getSegments() {
+  public ArrayList<Segment> getSegments() {
     return this.segments;
   }
 

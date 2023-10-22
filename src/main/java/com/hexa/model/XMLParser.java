@@ -11,11 +11,11 @@ import jakarta.xml.bind.Unmarshaller;
 
 public class XMLParser {
 
-  public static void grapheToXml(Graphe graphe) throws JAXBException, IOException {
+  public static void grapheToXml(Graphe graphe, String outputFile) throws JAXBException, IOException {
     JAXBContext context = JAXBContext.newInstance(Graphe.class);
     Marshaller marsh = context.createMarshaller();
     marsh.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    marsh.marshal(graphe, new File("/tmp/graphe.xml"));
+    marsh.marshal(graphe, new File(outputFile));
   }
 
   public static Graphe xmlToGraphe(String path) {
