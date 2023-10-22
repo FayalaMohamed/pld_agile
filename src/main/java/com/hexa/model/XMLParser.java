@@ -1,36 +1,35 @@
 package com.hexa.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
-import java.io.BufferedReader;
-import java.util.*;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
-/**
- * 
- */
 public class XMLParser {
 
-    /**
-     * Default constructor
-     */
-    public XMLParser() {
-    }
+  public static void grapheToXml(Graphe graphe) throws JAXBException, IOException {
+    JAXBContext context = JAXBContext.newInstance(Graphe.class);
+    Marshaller marsh = context.createMarshaller();
+    marsh.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    marsh.marshal(graphe, new File("/tmp/graphe.xml"));
+  }
 
-    /**
-     * @param bufRead 
-     * @return
-     */
-    private static String getNextLine(BufferedReader bufRead) {
-        // TODO implement here
-        return "";
+  public static Graphe xmlToGraphe(String path) {
+    Graphe map = null;
+    try {
+      JAXBContext context = JAXBContext.newInstance(Graphe.class);
+      Unmarshaller unmarshaller = context.createUnmarshaller();
+      map = (Graphe) unmarshaller.unmarshal(new FileInputStream(path));
+    } catch (JAXBException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-
-    /**
-     * @param balise 
-     * @return
-     */
-    private static List<String> getInfos(String balise) {
-        // TODO implement here
-        return null;
-    }
+    return map;
+  }
 
 }

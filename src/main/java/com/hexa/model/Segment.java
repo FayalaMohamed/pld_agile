@@ -1,47 +1,72 @@
 package com.hexa.model;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlType;
 
-import java.util.*;
-
-/**
- * 
- */
+@XmlType(propOrder = { "destinationId", "longueur", "nom", "origineId" })
 public class Segment {
 
-    /**
-     * Default constructor
-     */
-    public Segment() {
-    }
+  private double longueur;
+  private String nom;
+  private Intersection origine;
+  private Intersection destination;
 
-    /**
-     * 
-     */
-    private double longueur;
+  public Segment() {
+  }
 
-    /**
-     * 
-     */
-    private String nom;
+  public Segment(Intersection origine, Intersection destination, double longueur, String nom) {
+    this.origine = origine;
+    this.destination = destination;
+    this.longueur = longueur;
+    this.nom = nom;
+  }
 
-    /**
-     * 
-     */
-    private Intersection origine;
+  @XmlAttribute(name = "length")
+  public double getLongueur() {
+    return longueur;
+  }
 
-    /**
-     * 
-     */
-    private Intersection destination;
+  public void setLongueur(double longueur) {
+    this.longueur = longueur;
+  }
 
-    /**
-     * @param origine 
-     * @param destination 
-     * @param longueur 
-     * @param nom
-     */
-    public void Segment(Intersection origine, Intersection destination, double longueur, String nom) {
-        // TODO implement here
-    }
+  @XmlAttribute(name = "name")
+  public String getNom() {
+    return nom;
+  }
+
+  public void setNom(String nom) {
+    this.nom = nom;
+  }
+
+  @XmlTransient
+  public Intersection getOrigine() {
+    return origine;
+  }
+
+  @XmlAttribute(name = "origin")
+  public int getOrigineId() {
+    return origine.getId();
+  }
+
+  public void setOrigine(Intersection origine) {
+    this.origine = origine;
+  }
+
+  @XmlTransient
+  public Intersection getDestination() {
+    return destination;
+  }
+
+  @XmlAttribute(name = "destination")
+  public int getDestinationId() {
+    return destination.getId();
+  }
+
+  public void setDestination(Intersection destination) {
+    this.destination = destination;
+  }
 
 }

@@ -1,51 +1,69 @@
 package com.hexa.model;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlType;
 
-import java.util.*;
-
-/**
- * 
- */
+@XmlType(propOrder = { "id", "latitude", "longitude" })
 public class Intersection {
+  private int id;
+  private double latitude;
+  private double longitude;
+  private double x;
+  private double y;
 
-    /**
-     * Default constructor
-     */
-    public Intersection() {
-    }
+  public Intersection() {
+  }
 
-    /**
-     * 
-     */
-    private double latitude;
+  public Intersection(int id, double longitude, double latitude) {
+    this.id = id;
+    this.longitude = longitude;
+    this.latitude = latitude;
+  }
 
-    /**
-     * 
-     */
-    private double longitude;
+  @XmlAttribute(name = "latitude")
+  public double getLatitude() {
+    return latitude;
+  }
 
-    /**
-     * 
-     */
-    private double x;
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
 
-    /**
-     * 
-     */
-    private double y;
+  @XmlAttribute(name = "longitude")
+  public double getLongitude() {
+    return longitude;
+  }
 
-    /**
-     * 
-     */
-    private int id;
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
+  }
 
-    /**
-     * @param id 
-     * @param longitude 
-     * @param latitude
-     */
-    public void Intersection(int id, double longitude, double latitude) {
-        // TODO implement here
-    }
+  @XmlTransient
+  public double getX() {
+    return x;
+  }
+
+  public void setX(double x) {
+    this.x = x;
+  }
+
+  @XmlTransient
+  public double getY() {
+    return y;
+  }
+
+  public void setY(double y) {
+    this.y = y;
+  }
+
+  @XmlAttribute(name = "id")
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
 
 }

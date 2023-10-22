@@ -1,52 +1,48 @@
 package com.hexa.model;
 
+import java.util.HashSet;
+import java.util.Set;
 
-import java.util.*;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
-/**
- * 
- */
+@XmlRootElement(name = "map")
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlType(propOrder = { "intersections", "segments" })
 public class Graphe extends Observable {
 
-    /**
-     * Default constructor
-     */
-    public Graphe() {
-    }
+  @XmlElement(name = "intersection")
+  private Set<Intersection> intersections;
+  @XmlElement(name = "segment")
+  private Set<Segment> segments;
 
-    /**
-     * 
-     */
-    private Set<Segment> segments;
+  public Graphe() {
+    this.intersections = new HashSet<Intersection>();
+    this.segments = new HashSet<Segment>();
+  }
 
-    /**
-     * 
-     */
-    private Set<Intersection> intersections;
+  public Intersection trouverIntersectionParId(Intersection id) {
+    return null;
+  }
 
-    /**
-     * @param inter 
-     * @return
-     */
-    public void ajouterIntersection(Intersection inter) {
-        // TODO implement here
-    }
+  public void ajouterIntersection(Intersection inter) {
+    this.intersections.add(inter);
+  }
 
-    /**
-     * @param id 
-     * @return
-     */
-    public Intersection trouverIntersectionParId(Intersection id) {
-        // TODO implement here
-        return null;
-    }
+  public void ajouterSegment(Segment seg) {
+    this.segments.add(seg);
+  }
 
-    /**
-     * @param seg 
-     * @return
-     */
-    public void ajouterSegment(Segment seg) {
-        // TODO implement here
-    }
+  public Set<Intersection> getIntersections() {
+    return this.intersections;
+  }
+
+  public Set<Segment> getSegments() {
+    return this.segments;
+  }
 
 }
