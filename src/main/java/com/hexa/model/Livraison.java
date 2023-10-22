@@ -8,11 +8,6 @@ import java.util.*;
  */
 public class Livraison extends Intersection {
 
-    /**
-     * Default constructor
-     */
-    public Livraison() {
-    }
 
     /**
      * 
@@ -23,5 +18,9 @@ public class Livraison extends Intersection {
      * Type à revoir
      */
     private int plageHoraire;
+    
+    public Livraison(int id, double longitude, double latitude) {
+    	super(id, longitude, latitude);
+    }
 
 }
