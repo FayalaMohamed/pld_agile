@@ -9,7 +9,8 @@ import com.hexa.model.XMLParser;
 
 public class App {
   public static void main(String[] args) {
-    String inputFile = "/home/thomasboyer/Downloads/fichiersXML2022/smallMap.xml";
+    Long start = System.currentTimeMillis();
+    String inputFile = "/home/thomasboyer/Downloads/fichiersXML2022/largeMap.xml";
     System.out.println("Making a graph from the file : " + inputFile);
     Graphe map;
     try {
@@ -18,7 +19,7 @@ public class App {
       ex.printStackTrace();
       return;
     }
-    System.out.println("Printing a few intersections out of the Graph object : ");
+    System.out.println("Printing a few intersections out of the Graph object :");
     ArrayList<Intersection> intersections = map.getIntersections();
     for (Intersection inter : intersections) {
       System.out.println(
@@ -27,7 +28,8 @@ public class App {
 
     ArrayList<Segment> segments = map.getSegments();
     for (Segment seg : segments) {
-      System.out.println("Destination : " + seg.getDestination() + " Length : " + seg.getLongueur() + " Name : "
+      System.out.println("Destination : " + seg.getDestination() + " Length : " +
+          seg.getLongueur() + " Name : "
           + seg.getNom() + " Origin : " + seg.getOrigine());
     }
     String outputFile = "/tmp/grapheGenere.xml";
@@ -37,5 +39,7 @@ public class App {
     } catch (Exception ex) {
       ex.printStackTrace();
     }
+    Long end = System.currentTimeMillis();
+    System.out.println("Time : " + (double) (end - start) / 1000);
   }
 }
