@@ -12,15 +12,15 @@ import jakarta.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "map")
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlType(propOrder = { "entrepot", "intersections", "segments" })
+@XmlType(propOrder = { "intersections", "segments" })
 public class Graphe extends Observable {
 
   @XmlElement(name = "intersection")
   private ArrayList<Intersection> intersections;
   @XmlElement(name = "segment")
   private ArrayList<Segment> segments;
-  @XmlElement(name = "warehouse")
-  private Entrepot entrepot;
+  @XmlTransient
+  private String entrepot = "25303831";
   @XmlTransient
   private HashMap<String, Intersection> mappingIntersection;
 
@@ -54,8 +54,8 @@ public class Graphe extends Observable {
     mappingIntersection.put(intersection.getId(), intersection);
   }
 
-  public Intersection getEntrepot() {
-    return entrepot;
+  public boolean isEntrepot(String intersectionId) {
+    return intersectionId.equals(entrepot);
   }
 
 }
