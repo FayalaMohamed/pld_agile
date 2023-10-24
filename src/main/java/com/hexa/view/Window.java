@@ -10,17 +10,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 
 public class Window extends JFrame{
 
-    private ActionEvent CHARGER_CARTE;
+    protected static final String CHARGER_CARTE = "test";
 
     private Controller controller;
 
     private GraphicalView graphicalView;
+
+    private JPanel panelGauche;
+    private JPanel panelDroit;
 
     private int width;
     private int height;
@@ -33,13 +35,22 @@ public class Window extends JFrame{
 
         width = 1200;
         height = 700;
-        setSize(width, height);
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        setContentPane(initFenetre());
+        panelGauche = new JPanel(); //remplacer par initPanelGauche(), qui le remplit
+        panelGauche.setBackground(Color.blue);
+        getContentPane().add(panelGauche);
+
+        graphicalView = new GraphicalView(this);
+        
+        panelDroit = new JPanel(); //idem
+        panelDroit.setBackground(Color.red);
+        getContentPane().add(panelDroit);
+
+        setWindowSize();
 
         setVisible(true);
     }
@@ -48,44 +59,14 @@ public class Window extends JFrame{
         controller = c;
     }
 
-    private JPanel initFenetre() {
+    private void setWindowSize() {
+        setSize(width, height);
+        panelGauche.setSize(width/5, height);
+        panelDroit.setSize(width/5, height);
+        panelGauche.setLocation(0, 0);
+        graphicalView.setLocation(panelGauche.getWidth(), 0);
+        panelDroit.setLocation(panelGauche.getWidth()+graphicalView.getViewWidth(), 0);
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-
-        panel.setPreferredSize(new Dimension(width, height));
-
-        JPanel panneauGauche = new JPanel(new GridBagLayout());
-        panneauGauche.setBackground(new Color(100, 0, 0));
-
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.gridx = 0;
-        c.gridy = 0;
-        panel.add(panneauGauche, c);
-
-        JPanel panneauCarte = new JPanel();
-        panneauCarte.setBackground(new Color(0, 100, 0));
-
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 3;
-        c.weighty = 1;
-        c.gridx = 1;
-        c.gridy = 0;
-        panel.add(panneauCarte, c);
-
-        JPanel panneauDroit = new JPanel(new GridBagLayout());
-        panneauDroit.setBackground(new Color(0, 0,100));
-
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.gridx = 2;
-        c.gridy = 0;
-        panel.add(panneauDroit, c);
-
-        return panel;
     }
 
     private JPanel initButtons() {
@@ -93,13 +74,28 @@ public class Window extends JFrame{
 
         JButton boutonTest = new JButton("Test");
         boutonTest.addActionListener(new ButtonListener(controller));
-        CHARGER_CARTE = new ActionEvent(boutonTest, 1, "CHARGER_CARTE", ALLBITS, ABORT);
         panel.add(boutonTest);
 
         return panel;
     }
 
     public void afficherCarte(Graphe carte) {
-        graphicalView.afficherCarte(carte);
+        // graphicalView = new GraphicalView(carte, width, height);
+        // panelPrincipal.remove;
+        // GridBagConstraints c = new GridBagConstraints();
+        // c.fill = GridBagConstraints.BOTH;
+        // c.weightx = 3;
+        // c.weighty = 1;
+        // c.gridx = 1;
+        // c.gridy = 0;
+        // panelPrincipal.add(graphicalView, c);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }
