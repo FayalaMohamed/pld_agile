@@ -112,6 +112,7 @@ public class Dijkstra implements ShortestPath{
 		
 		while (pi.get(dest) != null) {
 			path.add(0, pi.get(dest));
+			dest = pi.get(dest).getOrigine();
 		}
 		
 		return path;

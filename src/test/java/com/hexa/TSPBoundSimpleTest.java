@@ -38,13 +38,13 @@ public class TSPBoundSimpleTest {
     public void setUp(int nb) {
         Intersection[] inters = new Intersection[nb];
 
-        Entrepot e = new Entrepot(0, 39.2, 39.3);
+        Entrepot e = new Entrepot(0L, 39.2, 39.3);
         inters[0] = e;
 
         g.setEntrepot(e);
 
         for (int i = 1; i < nb; i++) {
-            inters[i] = new Intersection(i, 40.2 + i, 40.3 + i);
+            inters[i] = new Intersection((long)i, 40.2 + i, 40.3 + i);
             g.ajouterIntersection(inters[i]);
         }
 
