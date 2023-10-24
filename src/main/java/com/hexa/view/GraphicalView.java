@@ -42,13 +42,7 @@ public class GraphicalView extends JPanel {
         w.getContentPane().add(this);
     }
 
-    public GraphicalView(Graphe carte, Window w) {
-        super();
-
-        setLayout(null);
-        setBackground(Color.white);
-
-		setSize(viewWidth, viewHeight);
+    public void ajouterCarte(Graphe carte) {
 
         this.carte = carte;
         this.intersections = carte.getIntersections();
@@ -60,15 +54,25 @@ public class GraphicalView extends JPanel {
         repaint();
     }
 
-    public void dessinerIntersection(Intersection i) {
-        System.out.println("appel dessin intersection");
-        int r = 1;
+    public void display(Intersection i) {
+        int r = 3;
         int xpos = (int)((i.getLongitude() - longitudeMin)/(longitudeMax - longitudeMin)*viewWidth);
         int ypos = (int)((i.getLatitude() - latitudeMin)/(latitudeMax - latitudeMin)*viewHeight);
-        System.out.println("xpos : " + xpos + " / ypos : " + ypos);
 
         g.fillOval(xpos, ypos, r, r);
-        System.out.println("fin dessin intersection");
+    }
+
+    public void display(Segment s) {
+
+        Intersection origine = s.getOrigine();
+        Intersection destination = s.getDestination();
+
+        int xOrigine = (int)((origine.getLongitude() - longitudeMin)/(longitudeMax - longitudeMin)*viewWidth);
+        int yOrigine = (int)((origine.getLatitude() - latitudeMin)/(latitudeMax - latitudeMin)*viewHeight);
+        int xDestination = (int)((destination.getLongitude() - longitudeMin)/(longitudeMax - longitudeMin)*viewWidth);
+        int yDestination = (int)((destination.getLatitude() - latitudeMin)/(latitudeMax - latitudeMin)*viewHeight);
+
+        g.drawLine(xOrigine, yOrigine, xDestination, yDestination);
     }
 
     private void definirExtremesCoordonnees() {
@@ -95,6 +99,18 @@ public class GraphicalView extends JPanel {
 
         super.paintComponent(g);
         g.setColor(Color.blue);
+        this.g = g;
+        if (carte != null) {
+            Iterator<Intersection> iit = intersections.iterator();
+            while (iit.hasNext()) {
+                display(iit.next());
+            }
+
+            Iterator<Segment> sit = segments.iterator();
+            while (sit.hasNext()) {
+                display(sit.next());
+            }
+        }
     }
 
     public int getViewHeight() {

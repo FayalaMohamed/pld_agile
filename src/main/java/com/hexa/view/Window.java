@@ -45,7 +45,7 @@ public class Window extends JFrame{
         getContentPane().add(panelGauche);
 
         graphicalView = new GraphicalView(this);
-        
+
         panelDroit = new JPanel(); //idem
         panelDroit.setBackground(Color.red);
         getContentPane().add(panelDroit);
@@ -80,15 +80,7 @@ public class Window extends JFrame{
     }
 
     public void afficherCarte(Graphe carte) {
-        // graphicalView = new GraphicalView(carte, width, height);
-        // panelPrincipal.remove;
-        // GridBagConstraints c = new GridBagConstraints();
-        // c.fill = GridBagConstraints.BOTH;
-        // c.weightx = 3;
-        // c.weighty = 1;
-        // c.gridx = 1;
-        // c.gridy = 0;
-        // panelPrincipal.add(graphicalView, c);
+        graphicalView.ajouterCarte(carte);
     }
 
     public int getWidth() {
