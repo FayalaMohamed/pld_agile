@@ -9,7 +9,8 @@ import com.hexa.model.XMLParser;
 
 public class App {
   public static void main(String[] args) {
-    String inputFile = "/home/thomasboyer/Downloads/fichiersXML2022/smallMap.xml";
+    Long start = System.currentTimeMillis();
+    String inputFile = "/home/thomasboyer/Downloads/fichiersXML2022/largeMap.xml";
     System.out.println("Making a graph from the file : " + inputFile);
     Graphe map;
     try {
@@ -18,11 +19,15 @@ public class App {
       ex.printStackTrace();
       return;
     }
-    System.out.println("Printing a few intersections out of the Graph object : ");
+
+    Intersection entrepot = new Intersection();
     ArrayList<Intersection> intersections = map.getIntersections();
     for (Intersection inter : intersections) {
       System.out.println(
           "ID : " + inter.getId() + " Latitude : " + inter.getLatitude() + " Longitude : " + inter.getLongitude());
+      if (map.isEntrepot(inter.getId())) {
+        entrepot = inter;
+      }
     }
 
     ArrayList<Segment> segments = map.getSegments();
@@ -30,12 +35,19 @@ public class App {
       System.out.println("Destination : " + seg.getDestination() + " Length : " + seg.getLongueur() + " Name : "
           + seg.getNom() + " Origin : " + seg.getOrigine());
     }
-    String outputFile = "/tmp/grapheGenere.xml";
-    System.out.println("Writing the graph to " + outputFile);
-    try {
-      XMLParser.grapheToXml(map, outputFile);
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
+
+    System.out.println("Entrepot : " + entrepot);
+
+    // TODO: FIX THE PARSER SO THAT IT CAN PARSE ENTREPOT CORRECTLY AND GENERATE AN
+    // XML
+    // String outputFile = "/tmp/grapheGenere.xml";
+    // System.out.println("Writing the graph to " + outputFile);
+    // try {
+    // XMLParser.grapheToXml(map, outputFile);
+    // } catch (Exception ex) {
+    // ex.printStackTrace();
+    // }
+    Long end = System.currentTimeMillis();
+    System.out.println("Time : " + (double) (end - start) / 1000);
   }
 }

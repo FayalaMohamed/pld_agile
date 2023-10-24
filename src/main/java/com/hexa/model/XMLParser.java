@@ -30,6 +30,10 @@ public class XMLParser {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    ArrayList<Intersection> intersections = map.getIntersections();
+    for (Intersection intersection : intersections) {
+      map.addMappingIntersection(intersection);
+    }
     ArrayList<Segment> segments = map.getSegments();
     for (int i = 0; i < segments.size(); ++i) {
       Segment seg = segments.get(i);

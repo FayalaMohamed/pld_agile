@@ -1,11 +1,13 @@
 package com.hexa.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import jakarta.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "map")
@@ -17,19 +19,19 @@ public class Graphe extends Observable {
   private ArrayList<Intersection> intersections;
   @XmlElement(name = "segment")
   private ArrayList<Segment> segments;
+  @XmlTransient
+  private String entrepot = "25303831";
+  @XmlTransient
+  private HashMap<String, Intersection> mappingIntersection;
 
   public Graphe() {
     this.intersections = new ArrayList<Intersection>();
     this.segments = new ArrayList<Segment>();
+    this.mappingIntersection = new HashMap<String, Intersection>();
   }
 
   public Intersection trouverIntersectionParId(String id) {
-    for (Intersection inter : intersections) {
-      if (inter.getId().equals(id)) {
-        return inter;
-      }
-    }
-    return null;
+    return mappingIntersection.get(id);
   }
 
   public void ajouterIntersection(Intersection inter) {
@@ -46,6 +48,14 @@ public class Graphe extends Observable {
 
   public ArrayList<Segment> getSegments() {
     return this.segments;
+  }
+
+  public void addMappingIntersection(Intersection intersection) {
+    mappingIntersection.put(intersection.getId(), intersection);
+  }
+
+  public boolean isEntrepot(String intersectionId) {
+    return intersectionId.equals(entrepot);
   }
 
 }
