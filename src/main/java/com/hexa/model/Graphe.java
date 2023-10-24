@@ -66,14 +66,6 @@ public class Graphe extends Observable {
         return false;
     }
 
-    /**
-     * @param id 
-     * @return
-     */
-    public Intersection trouverIntersectionParId(Intersection id) {
-        // TODO implement here
-        return null;
-    }
 
     /**
      * @param seg 

@@ -1,6 +1,7 @@
 package com.hexa.model;
 
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.hexa.model.algo.ShortestPath;
 import com.hexa.model.algo.dijkstra.Dijkstra;
@@ -8,8 +9,12 @@ import com.hexa.model.algo.dijkstra.Dijkstra;
 public class GrapheComplet extends Graphe {
 	
 	
+	private Map<Segment, Chemin> cheminsPlusCourt;
+	
 	public GrapheComplet(Graphe carte, Tournee tournee) {
 		super();
+		
+		cheminsPlusCourt = new HashMap<Segment, Chemin>();
 		
 		ShortestPath sp = new Dijkstra();
 		
@@ -27,30 +32,37 @@ public class GrapheComplet extends Graphe {
 		
 		
 		//Calcul du plus court chemin de l'entrepot à chaque lieu de livraisons
+		Segment s;
 		sp.searchShortestPath(carte, entrepot, null);
 		for (Intersection inter : intersections) {
-			this.ajouterSegment(new Segment(entrepot, inter, sp.getCost(inter), "toto"));
+			 s = new Segment(entrepot, inter, sp.getCost(inter), "toto");
+			this.ajouterSegment(s);
 			
-			// A FAIRE : Enregistrer le chemin correspondant
+			this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(inter)));
 		}
 		
 		//Calcul des plus courts chemin à partir de chaque lieu de livraison
 		for (Intersection depart : intersections) {
 			sp.searchShortestPath(carte, depart, null);
 			
-			this.ajouterSegment(new Segment(depart, entrepot, sp.getCost(entrepot), null));
+			s = new Segment(depart, entrepot, sp.getCost(entrepot), null);
 			
-			// A FAIRE : Enregistrer le chemin correspondant
+			this.ajouterSegment(s);
+			
+			this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(entrepot)));
 			
 			for (Intersection arrive : intersections) {
 				if ( arrive != depart) {
-					this.ajouterSegment(new Segment(depart, arrive, sp.getCost(entrepot), null));
-					// A FAIRE : Enregistrer le chemin correspondant
+					s = new Segment(depart, arrive, sp.getCost(arrive), null);
+					this.ajouterSegment(s);
+					this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(arrive)));
 				}
 			}
 		}
 	}
 	
-	
+	public Chemin getChemin(Segment s) {
+		return cheminsPlusCourt.get(s);
+	}
 
 }

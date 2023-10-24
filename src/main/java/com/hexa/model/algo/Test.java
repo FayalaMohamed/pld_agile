@@ -102,7 +102,7 @@ public class Test {
 		listSeg.add(new Segment(inters[6], inters[7], 1, "toto"));
 		listSeg.add(new Segment(inters[7], inters[8], 3, "toto"));
 		listSeg.add(new Segment(inters[8], inters[9], 4, "toto"));
-		listSeg.add(new Segment(inters[9], inters[0], 2, "toto"));
+		listSeg.add(new Segment(inters[9], inters[0], 4, "toto"));
 		listSeg.add(new Segment(inters[0], inters[10], 8, "toto"));
 		listSeg.add(new Segment(inters[10], inters[9], 1, "toto"));
 		listSeg.add(new Segment(inters[10], inters[8], 5, "toto"));
@@ -191,6 +191,8 @@ public class Test {
 		
 		Graphe g3 = new GrapheComplet(g2, tournee);
 		g3.afficher();
+		
+		computeSolutionTSP(g3);
 		
 		
 
