@@ -22,12 +22,14 @@ abstract class TemplateTSP implements TSP {
 	public void searchSolution(int timeLimit, Graphe g) {
 		
 		//Def. limite de temps 
-		if (timeLimit <= 0) return;
+		if (timeLimit <= 0 ) return;
 		startTime = System.currentTimeMillis();	
 		this.timeLimit = timeLimit;
 		
 		//Def. graphe
 		this.g = g;
+		if (g == null)
+			return;
 		
 		//Creation tableau du circuit solution
 		sizeBestSol = g.getNbIntersections() +2; //pour l'entrepot au depart et à l'arrivé
@@ -50,7 +52,9 @@ abstract class TemplateTSP implements TSP {
 		branchAndBound(g.getEntrepot(), unvisited, visited, 0.0);
 
 		//Rajout de l'entrepot à la fin de la solution
-		bestSol[sizeBestSol-1] = g.getEntrepot();
+		bestSol[sizeBestSol - 1] = g.getEntrepot();
+		if(bestSolCost == Double.MAX_VALUE)
+			bestSolCost = -1;
 	}
 
 	@Override

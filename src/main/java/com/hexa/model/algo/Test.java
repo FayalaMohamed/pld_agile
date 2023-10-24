@@ -23,33 +23,60 @@ public class Test {
 	 */
 	public static Graphe createCompleteGraph(int nb) {
 		Intersection[] inters = new Intersection[nb];
-		
-		Entrepot e = new Entrepot(0, 39.2,39.3);
+
+		Entrepot e = new Entrepot(0, 39.2, 39.3);
 		inters[0] = e;
-		
+
 		Graphe g = new Graphe();
 		g.setEntrepot(e);
-	
+
 		for (int i = 1; i < nb; i++) {
-			inters[i] = new Intersection(i, 40.2 + i,40.3 + i);
+			inters[i] = new Intersection(i, 40.2 + i, 40.3 + i);
 			g.ajouterIntersection(inters[i]);
 		}
-		
+
 		Segment segment;
-		
+
 		for (int i = 0; i < nb; i++) {
 			for (int j = 0; j < nb; j++) {
 				if (j == i) {
 					continue;
 				}
-				int nombreAleatoire = 1 + (int)(Math.random() * ((10 - 1) + 1));
+				int nombreAleatoire = 1 + (int) (Math.random() * ((10 - 1) + 1));
 				segment = new Segment(inters[i], inters[j], nombreAleatoire, "toto");
 				g.ajouterSegment(segment);
 			}
 		}
-		
+
 		return g;
-		
+
+	}
+	
+	public static Graphe createCompleteGraph2(int nb) {
+		Intersection[] inters = new Intersection[nb];
+
+		Entrepot e = new Entrepot(0, 39.2, 39.3);
+		inters[0] = e;
+		Graphe g = new Graphe();
+		g.setEntrepot(e);
+
+		for (int i = 1; i < nb; i++) {
+			inters[i] = new Intersection(i, 40.2 + i, 40.3 + i);
+			g.ajouterIntersection(inters[i]);
+		}
+
+		Segment segment;
+
+		for (int i = 0; i < nb; i++) {
+			for (int j = 0; j < nb; j++) {
+				if (j == i) {
+					continue;
+				}
+				segment = new Segment(inters[i], inters[j], i + j, "toto");
+				g.ajouterSegment(segment);
+			}
+		}
+		return g;
 	}
 	
 	/**
@@ -170,18 +197,18 @@ public class Test {
 	public static void main(String[] args) {
 		System.out.println("Bonjour");
 		
-		/*
+		
 		//Test algo TSP
-		Graphe g = createCompleteGraph(20);
+		Graphe g = createCompleteGraph2(20);
 		
 		g.afficher();
 		
 		computeSolutionTSP(g);
-		*/
+		
 		
 		
 		//Test creation graphe complet à partir de carte et tournee
-		Graphe g2 = createMap();
+		/* Graphe g2 = createMap();
 		g2.afficher();
 		
 		Tournee tournee = createTournee(3, g2);
@@ -190,7 +217,7 @@ public class Test {
 		//computeShortestPath(g2);
 		
 		Graphe g3 = new GrapheComplet(g2, tournee);
-		g3.afficher();
+		g3.afficher(); */
 		
 		
 
