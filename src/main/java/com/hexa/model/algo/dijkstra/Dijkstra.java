@@ -59,7 +59,8 @@ public class Dijkstra implements ShortestPath{
 	
 	@Override
 	public void searchShortestPath (Graphe carte, Intersection origine, Set<Intersection> exclu) {
-		
+		if (carte == null)
+			return;
 		if (exclu == null) {
 			exclu = new HashSet<Intersection>();
 		}
@@ -83,9 +84,11 @@ public class Dijkstra implements ShortestPath{
 		}
 		
 		//Def. origine
+		if(cout.containsKey(origine)){
 		cout.replace(origine, 0.0);
 		coloriage.replace(origine, Couleur.GRIS);
 		gris.insert(origine, cout);
+	}
 		
 		
 		//Algo
@@ -120,13 +123,13 @@ public class Dijkstra implements ShortestPath{
 	
 	@Override
 	public double getCost(Intersection inter) {
-		return searchOK ? cout.get(inter) : -1.0;
+		return searchOK && cout.containsKey(inter)? cout.get(inter)  : -1.0;
 	}
 	
 	@Override
 	public List<Segment> getSolPath(Intersection dest) {
 		
-		if ( ! searchOK ) {
+		if (!searchOK || !cout.containsKey(dest)) {
 			return null;
 		}
 		

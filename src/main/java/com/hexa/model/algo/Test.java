@@ -148,7 +148,6 @@ public class Test {
     }
 
     return tournee;
-
   }
 
   public static void computeShortestPath(Graphe g) {

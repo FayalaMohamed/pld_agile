@@ -1,6 +1,5 @@
 package com.hexa;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import com.hexa.model.Entrepot;
@@ -13,48 +12,44 @@ import com.hexa.model.algo.branch_bound.TSPBoundSimple;
 
 public class TSPBoundSimpleTest {
 
-    Graphe g = new Graphe();
+    Graphe graphe= new Graphe();
 
     @Test
     public void TSPBoundSimpleCasLimites1() {
-        g = null;
+        graphe= null;
         TSP tsp = new TSPBoundSimple();
 
-        tsp.searchSolution(20000, g);
+        tsp.searchSolution(20000,graphe);
         assert (tsp.getSolutionCost() == -1);
         for (int i = 0; i < 10; i++)
             assert (tsp.getSolution(i) == null);
     }
     @Test
     public void TSPBoundSimpleCasLimites2() {
-        g = new Graphe();
+        graphe= new Graphe();
         TSP tsp = new TSPBoundSimple();
 
-        tsp.searchSolution(20000, g);
+        tsp.searchSolution(20000,graphe);
         assert (tsp.getSolutionCost() == -1);
         for (int i = 0; i < 10; i++)
             assert (tsp.getSolution(i) == null);
     }
     
-    public void setUp(int nb) {
+    public void setUp(int nb) throws GrapheException {
         Intersection[] inters = new Intersection[nb];
 
         Entrepot e = new Entrepot(0L, 39.2, 39.3);
         inters[0] = e;
 
         try {
-			g.setEntrepot(e);
+			graphe.setEntrepot(e);
 		} catch (GrapheException e1) {
 			e1.printStackTrace();
 		}
 
         for (int i = 1; i < nb; i++) {
             inters[i] = new Intersection((long)i, 40.2 + i, 40.3 + i);
-            try {
-				g.ajouterIntersection(inters[i]);
-			} catch (GrapheException e1) {
-				e1.printStackTrace();
-			}
+           graphe.ajouterIntersection(inters[i]);
         }
 
         Segment segment;
@@ -71,7 +66,7 @@ public class TSPBoundSimpleTest {
                 }
                 segment = new Segment(inters[i], inters[j], cout, "toto");
                 try {
-					g.ajouterSegment(segment);
+					graphe.ajouterSegment(segment);
 				} catch (GrapheException e1) {
 					e1.printStackTrace();
 				}
@@ -79,39 +74,41 @@ public class TSPBoundSimpleTest {
         }
     }
     
-    public void generalCase(int nb) {
+    public void generalCase(int nb) throws GrapheException {
         setUp(nb);
         TSP tsp = new TSPBoundSimple();
-        tsp.searchSolution(20000, g);
+        tsp.searchSolution(20000, graphe);
         
         double expectedBestSol = 0;
-
-        for (int i = 0; i < g.getNbIntersections() + 1; i++){
+        // g.afficher();
+        for (int i = 0; i < graphe.getNbIntersections() + 2; i++)
+            System.out.print(tsp.getSolution(i).getId() + " ");
+        for (int i = 0; i < graphe.getNbIntersections() + 1; i++){
             expectedBestSol += 2 * i;
             assert (tsp.getSolution(i).getId() == i);
         }
-        expectedBestSol += 9 * g.getNbIntersections();
-        assert (tsp.getSolution(g.getNbIntersections() + 1).getId() == 0);
-        assert (tsp.getSolution(g.getNbIntersections() + 2) == null);
+        expectedBestSol += 9 * graphe.getNbIntersections();
+        assert (tsp.getSolution(graphe.getNbIntersections() + 1).getId() == 0);
+        assert (tsp.getSolution(graphe.getNbIntersections() + 2) == null);
         assert (tsp.getSolution(-1) == null);
         assert (tsp.getSolutionCost() == expectedBestSol);
     }
     
     @Test
-    public void TSPBoundSimpleGeneralCaseTest1() {
+    public void TSPBoundSimpleGeneralCaseTest1() throws GrapheException {
         generalCase(5);
     }
     @Test
-    public void TSPBoundSimpleGeneralCaseTest2() {
+    public void TSPBoundSimpleGeneralCaseTest2() throws GrapheException {
         generalCase(10);
     }
     @Test
-    public void TSPBoundSimpleGeneralCaseTest3() {
+    public void TSPBoundSimpleGeneralCaseTest3() throws GrapheException {
         generalCase(15);
     }
     @Test
-    public void TSPBoundSimpleGeneralCaseTest4() {
-        generalCase(20);
+    public void TSPBoundSimpleGeneralCaseTest4() throws GrapheException {
+        generalCase(21);
     }
 
 }
