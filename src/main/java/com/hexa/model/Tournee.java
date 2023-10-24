@@ -3,6 +3,9 @@ package com.hexa.model;
 
 import java.util.*;
 
+import com.hexa.model.algo.TSP;
+import com.hexa.model.algo.branch_bound.TSPBoundSimple;
+
 /**
  * 
  */
@@ -31,10 +34,7 @@ public class Tournee extends Observable {
      * 
      */
     private Livreur livreur;
-
-    /**
-     * Circuit optimal à faire pour effectuer toutes les livraisons
-     */
+    
     private Circuit circuit;
 
     
@@ -55,4 +55,27 @@ public class Tournee extends Observable {
     public Livraison[] getLivraisons() {
     	return livraisons.toArray(new Livraison[0]);
     }
+    
+    public void build(Graphe carte) {
+    	
+    	GrapheComplet grapheComplet  = new GrapheComplet(carte, this); 
+    	
+    	TSP tsp = new TSPBoundSimple();
+		
+		long startTime = System.currentTimeMillis();
+		tsp.searchSolution(20000, grapheComplet);
+		System.out.print("Solution of cost "+tsp.getSolutionCost()+" found in "
+				+(System.currentTimeMillis() - startTime)+"ms : ");
+		
+		Intersection depart, arrive;
+		ArrayList<Chemin> list = new ArrayList<Chemin>();
+		int i = 0;
+		while ( (depart = tsp.getSolution(i++)) != null && (arrive = tsp.getSolution(i++)) != null ) {
+			list.add( grapheComplet.getChemin(new Segment(depart, arrive))); 
+		}
+		
+		circuit = new Circuit(list);
+    	
+    }
+    
 }

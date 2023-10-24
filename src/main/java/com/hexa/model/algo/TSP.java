@@ -13,6 +13,7 @@ public interface TSP {
 	 */
 	public void searchSolution(int timeLimit, Graphe g);
 	
+	
 	/**
 	 * @param i
 	 * @return le i-ème sommet visité de la solution calculée par <code>searchSolution</code> 

@@ -100,7 +100,6 @@ public class Graphe extends Observable {
       System.out.println("cost[" + seg.getOrigine().getId() + "][" + seg.getDestination().getId() + "] = "
           + seg.getLongueur() + ";");
     }
-
   }
 
   /**
