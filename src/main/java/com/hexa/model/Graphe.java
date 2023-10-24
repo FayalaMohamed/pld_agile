@@ -1,52 +1,61 @@
 package com.hexa.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import java.util.*;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlType;
 
-/**
- * 
- */
+@XmlRootElement(name = "map")
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlType(propOrder = { "intersections", "segments" })
 public class Graphe extends Observable {
 
-    /**
-     * Default constructor
-     */
-    public Graphe() {
-    }
+  @XmlElement(name = "intersection")
+  private ArrayList<Intersection> intersections;
+  @XmlElement(name = "segment")
+  private ArrayList<Segment> segments;
+  @XmlTransient
+  private String entrepot = "25303831";
+  @XmlTransient
+  private HashMap<String, Intersection> mappingIntersection;
 
-    /**
-     * 
-     */
-    private Set<Segment> segments;
+  public Graphe() {
+    this.intersections = new ArrayList<Intersection>();
+    this.segments = new ArrayList<Segment>();
+    this.mappingIntersection = new HashMap<String, Intersection>();
+  }
 
-    /**
-     * 
-     */
-    private Set<Intersection> intersections;
+  public Intersection trouverIntersectionParId(String id) {
+    return mappingIntersection.get(id);
+  }
 
-    /**
-     * @param inter 
-     * @return
-     */
-    public void ajouterIntersection(Intersection inter) {
-        // TODO implement here
-    }
+  public void ajouterIntersection(Intersection inter) {
+    this.intersections.add(inter);
+  }
 
-    /**
-     * @param id 
-     * @return
-     */
-    public Intersection trouverIntersectionParId(Intersection id) {
-        // TODO implement here
-        return null;
-    }
+  public void ajouterSegment(Segment seg) {
+    this.segments.add(seg);
+  }
 
-    /**
-     * @param seg 
-     * @return
-     */
-    public void ajouterSegment(Segment seg) {
-        // TODO implement here
-    }
+  public ArrayList<Intersection> getIntersections() {
+    return this.intersections;
+  }
+
+  public ArrayList<Segment> getSegments() {
+    return this.segments;
+  }
+
+  public void addMappingIntersection(Intersection intersection) {
+    mappingIntersection.put(intersection.getId(), intersection);
+  }
+
+  public boolean isEntrepot(String intersectionId) {
+    return intersectionId.equals(entrepot);
+  }
 
 }
