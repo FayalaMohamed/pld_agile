@@ -16,7 +16,7 @@ public class ButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case Window.CHARGER_CARTE: controller.chargerCarte();
+            // case Window.CHARGER_CARTE: controller.chargerCarte();
         }
     }
 }

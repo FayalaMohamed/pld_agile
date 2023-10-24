@@ -10,12 +10,15 @@ public class Controller {
 
     private InitialState initialState;
     
-    public Controller(Window w) {
+    public Controller() {
         
         initialState = new InitialState();
         
-        window = w;
         currentState = initialState;
+    }
+
+    public void initController(Window w) {
+        window = w;
     }
 
     public void setCurrentState(State s) {

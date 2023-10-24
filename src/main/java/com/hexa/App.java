@@ -2,15 +2,24 @@ package com.hexa;
 
 import java.util.ArrayList;
 
+import com.hexa.controller.Controller;
 import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
 import com.hexa.model.XMLParser;
+import com.hexa.view.Window;
 
 public class App {
   public static void main(String[] args) {
+
+    Controller controller = new Controller();
+    Window window = new Window();
+
+    controller.initController(window);
+    window.initWindow(controller);
+
     Long start = System.currentTimeMillis();
-    String inputFile = "/home/thomasboyer/Downloads/fichiersXML2022/largeMap.xml";
+    String inputFile = "C:\\Users\\marti\\OneDrive\\Bureau\\fichiersXML2022\\largeMap.xml";
     System.out.println("Making a graph from the file : " + inputFile);
     Graphe map;
     try {
