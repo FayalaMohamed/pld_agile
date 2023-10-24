@@ -73,6 +73,7 @@ abstract class TemplateTSP implements TSP {
 		return -1;
 	}
 
+
 	
 	/**
 	 * Algorithme de branch and bound pour résoudre le TSP dans le graphe g
