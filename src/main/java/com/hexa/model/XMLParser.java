@@ -1,6 +1,7 @@
 package com.hexa.model;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,6 +14,29 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XMLParser {
+  public static void grapheToXml(String path, Graphe graphe) {
+    try {
+      PrintWriter writer = new PrintWriter(path, "UTF-8");
+      writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
+      writer.println("<map>");
+      Intersection[] intersections = graphe.getIntersections();
+      Entrepot entrepot = graphe.getEntrepot();
+      writer.println(entrepot.toTag());
+      Intersection inter = new Intersection(entrepot.getId(), entrepot.getLongitude(), entrepot.getLatitude());
+      writer.println(inter.toTag());
+      for (Intersection intersection : intersections) {
+        writer.println(intersection.toTag());
+      }
+      Segment[] segments = graphe.getSegments();
+      for (Segment segment : segments) {
+        writer.println(segment.toTag());
+      }
+      writer.println("</map>");
+      writer.close();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
 
   public static Graphe xmlToGraphe(String path) throws Exception {
     Graphe map = new Graphe();

@@ -146,4 +146,8 @@ public class Graphe extends Observable {
     return listeSuccesseur.get(inter).toArray(new Intersection[0]);
   }
 
+  public Segment[] getSegments() {
+    return segments.keySet().toArray(new Segment[0]);
+  }
+
 }

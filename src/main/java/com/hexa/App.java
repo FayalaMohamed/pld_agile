@@ -1,7 +1,5 @@
 package com.hexa;
 
-import java.util.Set;
-
 import com.hexa.model.Entrepot;
 import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
@@ -23,6 +21,7 @@ public class App {
       Entrepot entrepot = map.getEntrepot();
       System.out.println("Entrepot : " + entrepot);
       map.afficher();
+      XMLParser.grapheToXml("/tmp/generated_graph.xml", map);
     } catch (Exception ex) {
       ex.printStackTrace();
     }

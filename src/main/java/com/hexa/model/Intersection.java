@@ -30,7 +30,23 @@ public class Intersection {
   /**
    * identifient
    */
-  private Long id;
+  protected Long id;
+
+  public double getLatitude() {
+    return latitude;
+  }
+
+  public double getLongitude() {
+    return longitude;
+  }
+
+  public double getX() {
+    return x;
+  }
+
+  public double getY() {
+    return y;
+  }
 
   /**
    * @param id
@@ -66,6 +82,10 @@ public class Intersection {
 
   public String toString() {
     return ("id : " + id + " latitude : " + latitude + " longitude : " + longitude);
+  }
+
+  public String toTag() {
+    return "<intersection id=\"" + id + "\" latitude=\"" + latitude + "\" longitude=\"" + longitude + "\"/>";
   }
 
 }

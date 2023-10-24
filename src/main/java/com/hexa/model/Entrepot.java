@@ -16,4 +16,7 @@ public class Entrepot extends Intersection {
     super(id, longitude, latitude);
   }
 
+  public String toTag() {
+    return "<warehouse address=\"" + id + "\"/>";
+  }
 }
