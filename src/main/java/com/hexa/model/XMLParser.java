@@ -1,36 +1,91 @@
 package com.hexa.model;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import java.io.BufferedReader;
-import java.util.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-/**
- * 
- */
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 public class XMLParser {
 
-    /**
-     * Default constructor
-     */
-    public XMLParser() {
+  public static Graphe xmlToGraphe(String path) throws Exception {
+    Graphe map = new Graphe();
+    File stocks = new File(path);
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    Document doc = dBuilder.parse(stocks);
+    doc.getDocumentElement().normalize();
+
+    NodeList warehouses = doc.getElementsByTagName("warehouse");
+    ArrayList<Long> warehouses_list = new ArrayList<Long>();
+    if (warehouses.getLength() < 1) {
+      throw new Exception("There are no warehouses in this XML : " + path);
+    } else {
+      for (int i = 0; i < warehouses.getLength(); ++i) {
+        Node warehouse = warehouses.item(i);
+        NamedNodeMap attributes = warehouse.getAttributes();
+        if (attributes.getLength() != 1) {
+          throw new Exception("Warehouse tag should only have one attribute");
+        }
+        warehouses_list.add(Long.parseLong(attributes.item(0).getNodeValue()));
+      }
+    }
+    for (Long warehouse : warehouses_list) {
+      System.out.println(warehouse);
     }
 
-    /**
-     * @param bufRead 
-     * @return
-     */
-    private static String getNextLine(BufferedReader bufRead) {
-        // TODO implement here
-        return "";
+    HashMap<Long, Intersection> mapping_id_intersection = new HashMap<Long, Intersection>();
+    NodeList intersections = doc.getElementsByTagName("intersection");
+    for (int i = 0; i < intersections.getLength(); i++) {
+      Node intersection = intersections.item(i);
+      NamedNodeMap attributes = intersection.getAttributes();
+      if (attributes.getLength() != 3 || attributes.item(0).getNodeName() != "id"
+          || attributes.item(1).getNodeName() != "latitude" || attributes.item(2).getNodeName() != "longitude") {
+        throw new Exception("An intersection must have 3 attributes in this order : id, latitude, longitude");
+      }
+      Long id = Long.parseLong(attributes.item(0).getNodeValue());
+      double latitude = Double.parseDouble(attributes.item(1).getNodeValue());
+      double longitude = Double.parseDouble(attributes.item(2).getNodeValue());
+      if (warehouses_list.contains(id)) {
+        Entrepot entrepot = new Entrepot(id, longitude, latitude);
+        // TODO Int the files there are only one warehouse, but if scalable entrepot
+        // should become a list in Graphe Julien said not
+        map.setEntrepot(entrepot);
+        mapping_id_intersection.put(id, entrepot);
+      } else {
+        Intersection inter = new Intersection(id, longitude, latitude);
+        map.ajouterIntersection(inter);
+        mapping_id_intersection.put(id, inter);
+      }
     }
 
-    /**
-     * @param balise 
-     * @return
-     */
-    private static List<String> getInfos(String balise) {
-        // TODO implement here
-        return null;
+    NodeList segments = doc.getElementsByTagName("segment");
+    for (int i = 0; i < segments.getLength(); i++) {
+      Node segment = segments.item(i);
+      NamedNodeMap attributes = segment.getAttributes();
+      if (attributes.getLength() != 4 || attributes.item(0).getNodeName() != "destination"
+          || attributes.item(1).getNodeName() != "length" || attributes.item(2).getNodeName() != "name"
+          || attributes.item(3).getNodeName() != "origin") {
+        throw new Exception("An intersection must have 4 attributes in this order : destination, length, name, origin");
+      }
+      Long destination = Long.parseLong(attributes.item(0).getNodeValue());
+      double length = Double.parseDouble(attributes.item(1).getNodeValue());
+      String name = attributes.item(2).getNodeValue();
+      Long origin = Long.parseLong(attributes.item(3).getNodeValue());
+      Intersection inter_origin = mapping_id_intersection.get(origin);
+      Intersection inter_destination = mapping_id_intersection.get(destination);
+      if (inter_origin == null || inter_destination == null) {
+        throw new Exception("Segment has an intersection that does not exist " + destination + " " + origin);
+      }
+      Segment seg = new Segment(inter_origin, inter_destination, length, name);
+      map.ajouterSegment(seg);
     }
-
+    return map;
+  }
 }
