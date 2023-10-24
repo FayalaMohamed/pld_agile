@@ -1,5 +1,6 @@
 package com.hexa.controller;
 
+import com.hexa.model.Graphe;
 import com.hexa.view.Window;
 
 public class Controller {
@@ -25,7 +26,17 @@ public class Controller {
         currentState = s;
     }
 
-    public void chargerCarte() {
-        currentState.chargerCarte(this, window);
+    public Graphe chargerCarte(String file) {
+
+        Graphe map = currentState.chargerCarte(this, window, file);
+
+        if (map != null) {
+            System.out.println("appel charger carte");
+            // window.afficherCarte(map);
+        } else {
+            System.out.println("erreur fichier invalide");
+        }
+
+        return map;
     }
 }

@@ -1,9 +1,10 @@
 package com.hexa.controller;
 
+import com.hexa.model.Graphe;
 import com.hexa.view.Window;
 
 public interface State {
 
-    public void chargerCarte(Controller c, Window w);
+    public Graphe chargerCarte(Controller c, Window w, String file);
     
 }

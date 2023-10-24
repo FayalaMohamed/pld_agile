@@ -18,34 +18,28 @@ public class App {
     controller.initController(window);
     window.initWindow(controller);
 
-    Long start = System.currentTimeMillis();
     String inputFile = "C:\\Users\\marti\\OneDrive\\Bureau\\fichiersXML2022\\largeMap.xml";
-    System.out.println("Making a graph from the file : " + inputFile);
-    Graphe map;
-    try {
-      map = XMLParser.xmlToGraphe(inputFile);
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      return;
-    }
+    controller.chargerCarte(inputFile);
+
+    Long start = System.currentTimeMillis();
 
     Intersection entrepot = new Intersection();
-    ArrayList<Intersection> intersections = map.getIntersections();
-    for (Intersection inter : intersections) {
-      System.out.println(
-          "ID : " + inter.getId() + " Latitude : " + inter.getLatitude() + " Longitude : " + inter.getLongitude());
-      if (map.isEntrepot(inter.getId())) {
-        entrepot = inter;
-      }
-    }
+    // ArrayList<Intersection> intersections = map.getIntersections();
+    // for (Intersection inter : intersections) {
+    //   System.out.println(
+    //       "ID : " + inter.getId() + " Latitude : " + inter.getLatitude() + " Longitude : " + inter.getLongitude());
+    //   if (map.isEntrepot(inter.getId())) {
+    //     entrepot = inter;
+    //   }
+    // }
 
-    ArrayList<Segment> segments = map.getSegments();
-    for (Segment seg : segments) {
-      System.out.println("Destination : " + seg.getDestination() + " Length : " + seg.getLongueur() + " Name : "
-          + seg.getNom() + " Origin : " + seg.getOrigine());
-    }
+    // ArrayList<Segment> segments = map.getSegments();
+    // for (Segment seg : segments) {
+    //   System.out.println("Destination : " + seg.getDestination() + " Length : " + seg.getLongueur() + " Name : "
+    //       + seg.getNom() + " Origin : " + seg.getOrigine());
+    // }
 
-    System.out.println("Entrepot : " + entrepot);
+    // System.out.println("Entrepot : " + entrepot);
 
     // TODO: FIX THE PARSER SO THAT IT CAN PARSE ENTREPOT CORRECTLY AND GENERATE AN
     // XML

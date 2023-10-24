@@ -4,12 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.hexa.controller.Controller;
+import com.hexa.model.Graphe;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
@@ -19,6 +19,8 @@ public class Window extends JFrame{
     private ActionEvent CHARGER_CARTE;
 
     private Controller controller;
+
+    private GraphicalView graphicalView;
 
     private int width;
     private int height;
@@ -58,6 +60,7 @@ public class Window extends JFrame{
 
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
+        c.weighty = 1;
         c.gridx = 0;
         c.gridy = 0;
         panel.add(panneauGauche, c);
@@ -67,6 +70,7 @@ public class Window extends JFrame{
 
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 3;
+        c.weighty = 1;
         c.gridx = 1;
         c.gridy = 0;
         panel.add(panneauCarte, c);
@@ -76,6 +80,7 @@ public class Window extends JFrame{
 
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
+        c.weighty = 1;
         c.gridx = 2;
         c.gridy = 0;
         panel.add(panneauDroit, c);
@@ -92,5 +97,9 @@ public class Window extends JFrame{
         panel.add(boutonTest);
 
         return panel;
+    }
+
+    public void afficherCarte(Graphe carte) {
+        graphicalView.afficherCarte(carte);
     }
 }
