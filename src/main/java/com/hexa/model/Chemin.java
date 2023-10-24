@@ -9,6 +9,10 @@ public class Chemin implements Iterator<Segment> {
 	private int size;
 	private int index;
 	
+	/**
+	 * 
+	 * @param seq liste ordonnée de segment qui doivent composer le chemin
+	 */
 	public Chemin(List<Segment> seq) {
 		
 		sequence = seq.toArray(new Segment[0]);

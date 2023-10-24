@@ -10,7 +10,7 @@ public class Livraison {
 
 
     /**
-     * 
+     * Heure de livraison
      */
     private Date heureEstimee;
 

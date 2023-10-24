@@ -14,24 +14,46 @@ import com.hexa.model.algo.ShortestPath;
 
 public class Dijkstra implements ShortestPath{
 	
+	/**
+	 * Table associant à une intersection le cout minimal pour l'atteindre
+	 */
 	private Map<Intersection, Double> cout;
 	
+	/**
+	 * Table associant chaque intersection au segment qui permet de l'atteindre
+	 */
 	private Map<Intersection, Segment> pi;
+	
 	
 	private enum Couleur {
 		BLANC, GRIS, NOIR
 	};
 	
+	/**
+	 * Table associant chaque intersection à sa couleur
+	 */
 	private Map<Intersection, Couleur> coloriage;
-	private TasBinaire gris;
 	
+	/**
+	 * Tas binaire des intersections atteintes mais pas visités complétement (=grises) 
+	 */
+	private TasIntersection gris;
+	
+	/**
+	 * Permet de savoir si on a fait au moins une recherche de plus court chemin
+	 */
 	private boolean searchOK;
 	
+	/**
+	 * Constructeur
+	 * 
+	 * Initialise les tables
+	 */
 	public Dijkstra() {
 		cout = new HashMap<Intersection, Double>();
 		pi = new HashMap<Intersection, Segment>();
 		coloriage = new HashMap<Intersection, Couleur>();
-		gris = new TasBinaire();
+		gris = new TasIntersection();
 		searchOK = false;
 	}
 	

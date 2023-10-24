@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import com.hexa.model.Entrepot;
 import com.hexa.model.Graphe;
+import com.hexa.model.GrapheException;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
 import com.hexa.model.algo.TSP;
@@ -41,11 +42,19 @@ public class TSPBoundSimpleTest {
         Entrepot e = new Entrepot(0L, 39.2, 39.3);
         inters[0] = e;
 
-        g.setEntrepot(e);
+        try {
+			g.setEntrepot(e);
+		} catch (GrapheException e1) {
+			e1.printStackTrace();
+		}
 
         for (int i = 1; i < nb; i++) {
             inters[i] = new Intersection((long)i, 40.2 + i, 40.3 + i);
-            g.ajouterIntersection(inters[i]);
+            try {
+				g.ajouterIntersection(inters[i]);
+			} catch (GrapheException e1) {
+				e1.printStackTrace();
+			}
         }
 
         Segment segment;
@@ -61,7 +70,11 @@ public class TSPBoundSimpleTest {
                     cout = (i + j);
                 }
                 segment = new Segment(inters[i], inters[j], cout, "toto");
-                g.ajouterSegment(segment);
+                try {
+					g.ajouterSegment(segment);
+				} catch (GrapheException e1) {
+					e1.printStackTrace();
+				}
             }
         }
     }

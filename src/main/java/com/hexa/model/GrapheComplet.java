@@ -8,24 +8,40 @@ import com.hexa.model.algo.dijkstra.Dijkstra;
 
 public class GrapheComplet extends Graphe {
 	
-	
+	/**
+	 * Table associant chaque segment du graphe complet avec le chemin emprunté pour le créer
+	 */
 	private Map<Segment, Chemin> cheminsPlusCourt;
 	
-	public GrapheComplet(Graphe carte, Tournee tournee) {
+	
+	/**
+	 * Construit un graphe complet ayant pour sommet l'ensemble des lieux de livraisons de la tournée.
+	 * Chaque segment est calculé avec l'algorithme de Dijkstra.
+	 * Le chemin calculé d'un sommet à un autre est mémorisé dans une table.
+	 * 
+	 * @param carte le graphe représentant la carte
+	 * @param tournee la tournée de livraison
+	 * @throws GrapheException
+	 * @throws TourneeException
+	 */
+	public GrapheComplet(Graphe carte, Tournee tournee) throws GrapheException, TourneeException {
 		super();
 		
 		cheminsPlusCourt = new HashMap<Segment, Chemin>();
 		
 		ShortestPath sp = new Dijkstra();
 		
-		this.setEntrepot(carte.entrepot);
+		super.setEntrepot(carte.entrepot);
 		
 		//Ajout des lieux de livraison et verification qu'ils sont bien sur la carte => création des sommets
 		Livraison[] livraisons = tournee.getLivraisons();
 		for (int i = 0; i < tournee.getNbLivraisons(); i++) {
 			
 			if (carte.hasIntersection(livraisons[i].getLieu())) {
-				this.ajouterIntersection(livraisons[i].getLieu());
+				super.ajouterIntersection(livraisons[i].getLieu());
+			}
+			else {
+				throw new TourneeException("Tournee invalide : un point de livraison n'appartient pas à la carte");
 			}
 			
 		}
@@ -36,7 +52,7 @@ public class GrapheComplet extends Graphe {
 		sp.searchShortestPath(carte, entrepot, null);
 		for (Intersection inter : intersections) {
 			 s = new Segment(entrepot, inter, sp.getCost(inter), "toto");
-			this.ajouterSegment(s);
+			super.ajouterSegment(s);
 			
 			this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(inter)));
 		}
@@ -47,22 +63,48 @@ public class GrapheComplet extends Graphe {
 			
 			s = new Segment(depart, entrepot, sp.getCost(entrepot), null);
 			
-			this.ajouterSegment(s);
+			super.ajouterSegment(s);
 			
 			this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(entrepot)));
 			
 			for (Intersection arrive : intersections) {
 				if ( arrive != depart) {
 					s = new Segment(depart, arrive, sp.getCost(arrive), null);
-					this.ajouterSegment(s);
+					super.ajouterSegment(s);
 					this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(arrive)));
 				}
 			}
 		}
 	}
 	
+	/**
+	 * 
+	 * @param s un segment du graphe complet
+	 * @return le chemin le plus court pour aller de l'origine de s à la destination
+	 */
 	public Chemin getChemin(Segment s) {
 		return cheminsPlusCourt.get(s);
+	}
+	
+	
+	/**
+	 * Surcharge de la méthode de graphe afin de l'interdire pour un graphe complet
+	 * 
+	 * @param inter
+	 * @return rien
+	 * @throws GrapheException 
+	 */
+	public boolean ajouterIntersection(Intersection inter) throws GrapheException {
+		throw new GrapheException("Impossible d'ajouter une intersection à un graphe complet");
+	}
+
+
+	/**
+	 * @param seg
+	 * @return true si n'est pas déjà présent dans le graphe
+	 */
+	public boolean ajouterSegment(Segment seg) throws GrapheException {
+		throw new GrapheException("Impossible d'ajouter un segment à un graphe complet");
 	}
 
 }

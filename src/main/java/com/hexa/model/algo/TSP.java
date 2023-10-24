@@ -23,7 +23,7 @@ public interface TSP {
 	
 	/** 
 	 * @return le cout total de la solution calculée par <code>searchSolution</code> 
-	 * (-1 si <code>searchSolution</code> n'a pas encore été appelé).
+	 * (-1 si <code>searchSolution</code> n'a pas encore été appelé ou si le graphe est vide).
 	 */
 	public double getSolutionCost();
 

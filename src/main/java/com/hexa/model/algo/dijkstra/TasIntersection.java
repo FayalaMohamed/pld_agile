@@ -5,11 +5,19 @@ import java.util.Map;
 
 import com.hexa.model.Intersection;
 
-public class TasBinaire {
+public class TasIntersection {
 	
+	/**
+	 * Tableau dynamique des intersections à maintenir trier par ordre croissant de cout d'accès
+	 */
 	private ArrayList<Intersection> list;
 	
-	public TasBinaire() {
+	/**
+	 * Constructeur
+	 * 
+	 * Initialise le tableau dynamique
+	 */
+	public TasIntersection() {
 		this.list = new ArrayList<Intersection>();
 	}
 
@@ -17,6 +25,11 @@ public class TasBinaire {
 		return list.size();
 	}
 	
+	/**
+	 * Insere inter au bonne emplacement dans le tas en fonction de son cout
+	 * @param inter
+	 * @param cout
+	 */
 	public void insert (Intersection inter, Map<Intersection, Double> cout) {
 		
 		//Ajout à la fin du tas
@@ -37,12 +50,24 @@ public class TasBinaire {
 		}
 	}
 	
+	/**
+	 * Echange l'intersection à la place i avec celle de la place j
+	 * @param i 
+	 * @param j
+	 * 
+	 * Pre-condition : i < list.size() && j < list.size()
+	 */
 	private void swap(int i, int j) {
 		Intersection temp = list.get(i);
 		list.set(i, list.get(j));
 		list.set(j, temp);
 	}
 	
+	/**
+	 * Extrait la première intersection du tableau et rearrange les autres pour le maintenir trier
+	 * @param cout
+	 * @return
+	 */
 	public Intersection extract(Map<Intersection, Double> cout) {
 		
 		if (list.size() == 0) {

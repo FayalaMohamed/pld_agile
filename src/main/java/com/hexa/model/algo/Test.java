@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import com.hexa.model.Circuit;
 import com.hexa.model.Entrepot;
 import com.hexa.model.Graphe;
 import com.hexa.model.GrapheComplet;
+import com.hexa.model.GrapheException;
 import com.hexa.model.Intersection;
 import com.hexa.model.Livraison;
 import com.hexa.model.Segment;
 import com.hexa.model.Tournee;
+import com.hexa.model.TourneeException;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
 import com.hexa.model.algo.dijkstra.Dijkstra;
 
@@ -21,8 +24,9 @@ public class Test {
    * 
    * @param nb nombre d'intersection à créer dans le graphe
    * @return un graphe complet
+ * @throws GrapheException 
    */
-  public static Graphe createCompleteGraph(int nb) {
+  public static Graphe createCompleteGraph(int nb) throws GrapheException {
     Intersection[] inters = new Intersection[nb];
 
     Entrepot e = new Entrepot(0L, 39.2, 39.3);
@@ -74,8 +78,9 @@ public class Test {
    * Créer une map imaginaire fixe
    * 
    * @return
+ * @throws GrapheException 
    */
-  public static Graphe createMap() {
+  public static Graphe createMap() throws GrapheException {
 
     Intersection[] inters = new Intersection[11];
 
@@ -180,18 +185,27 @@ public class Test {
      * computeSolutionTSP(g);
      */
 
-    // Test creation graphe complet à partir de carte et tournee
-    Graphe g2 = createMap();
-    g2.afficher();
+    
+	try {
+		Graphe g2 = createMap();
+		Tournee tournee = createTournee(5, g2);
+		tournee.afficher();
+	    tournee.construireCircuit(g2);
+	    
+	    //Affichage du circuit
+	    Circuit circuit = tournee.getCircuit();
+	    Segment seg;
+	    while (circuit.hasNext()) {
+	    	seg = circuit.next();
+	    	System.out.println(seg.getOrigine().getId() + " -> " + seg.getDestination().getId());
+	    }
 
-    Tournee tournee = createTournee(3, g2);
-    tournee.afficher();
-
-    // computeShortestPath(g2);
-
-    Graphe g3 = new GrapheComplet(g2, tournee);
-    g3.afficher();
-
+	} catch (GrapheException e) {
+		e.printStackTrace();
+	} catch (TourneeException e) {
+		e.printStackTrace();
+	}
+    
   }
 
 }

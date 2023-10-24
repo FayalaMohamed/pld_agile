@@ -10,7 +10,10 @@ public class Circuit implements Iterator<Segment>{
 	private int index;
 	
 	
-	
+	/**
+	 * 
+	 * @param seq liste ordonnée de chemin qui doivent composer le circuit
+	 */
 	public Circuit(List<Chemin> seq) {
 		
 		sequence = seq.toArray(new Chemin[0]);
