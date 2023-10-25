@@ -15,6 +15,8 @@ public class Controller {
   protected final EtatCreerRequete2 etatCreerRequete2 = new EtatCreerRequete2();
   protected final EtatCarteChargee etatCarteChargee = new EtatCarteChargee();
   protected final EtatAuMoinsUneRequete etatAuMoinsUneRequete = new EtatAuMoinsUneRequete();
+  protected final ChargerCarte chargerCarte = new ChargerCarte();
+
 
   public Controller() {
     currentState = initialState;
@@ -43,6 +45,9 @@ public class Controller {
 
   public void chargerCarte() {
     currentState.chargerCarte(this, window);
+  }
+
+  public void chargerRequetes() {
   }
 
   // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD

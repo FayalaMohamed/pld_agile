@@ -13,13 +13,13 @@ public class App {
   public static void main(String[] args) {
 
     Controller controller = new Controller();
-    String inputFile = "/home/canaple/Dev/pld_agile/largeMap.xml";
+    // String inputFile = "/home/canaple/Dev/pld_agile/largeMap.xml";
     // controller.chargerCarteTest(inputFile);
-    controller.chargerCarte();
+    // controller.chargerCarte();
 
     Long start = System.currentTimeMillis();
 
-    Intersection entrepot = new Intersection();
+    // Intersection entrepot = new Intersection();
     // ArrayList<Intersection> intersections = map.getIntersections();
     // for (Intersection inter : intersections) {
     // System.out.println(

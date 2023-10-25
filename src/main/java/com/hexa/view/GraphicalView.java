@@ -14,7 +14,6 @@ import com.hexa.model.Segment;
 public class GraphicalView extends JPanel {
 
   private static final long serialVersionUID = 1L;
-  private int scale;
   private int viewHeight;
   private int viewWidth;
   private Graphics g;
@@ -31,8 +30,8 @@ public class GraphicalView extends JPanel {
   public GraphicalView(Window w) {
     super();
 
-    viewWidth = (int) (w.getWidth() * 0.6);
-    viewHeight = w.getHeight();
+    viewWidth = 1000;
+    viewHeight = 700;
 
     setSize(viewWidth, viewHeight);
     setBackground(Color.white);

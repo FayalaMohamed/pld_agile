@@ -1,52 +1,38 @@
 package com.hexa.view;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.SwingUtilities;
 
 import com.hexa.controller.Controller;
 
-public class MouseListener implements java.awt.event.MouseListener {
+public class MouseListener extends MouseAdapter {
 
-  private Controller controller;
+	private Controller controller;
+	private GraphicalView graphicalView;
+	private Window window;
 
-  public MouseListener(Controller controller) {
-    this.controller = controller;
-  }
+	public MouseListener(Controller c, GraphicalView gv, Window w){
+		this.controller = c;
+		this.graphicalView = gv;
+		this.window = w;
+	}
 
-  @Override
-  public void mouseClicked(MouseEvent e) {
-    // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method
-    // 'mouseClicked'");
-  }
+	@Override
+	public void mouseClicked(MouseEvent evt) {
+		// Method called by the mouse listener each time the mouse is clicked 
+		switch (evt.getButton()){
+		case MouseEvent.BUTTON1:
+				controller.clicGauche(); 
+			  break;
+		case MouseEvent.BUTTON3: 
+			controller.clicGauche(); 
+			break;
+		default:
+		}
+	}
 
-  @Override
-  public void mousePressed(MouseEvent e) {
-    switch (e.getButton()) {
-      case MouseEvent.BUTTON1:
-        controller.clicGauche();
-      case MouseEvent.BUTTON2:
-        controller.clicDroit();
-    }
-  }
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-    // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method
-    // 'mouseReleased'");
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-    // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method
-    // 'mouseEntered'");
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
-    // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method
-    // 'mouseExited'");
-  }
+	public void mouseMoved(MouseEvent evt) {
+	}
 }
