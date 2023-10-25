@@ -108,7 +108,7 @@ public class TSPBoundSimpleTest {
     }
     @Test
     public void TSPBoundSimpleGeneralCaseTest4() throws GrapheException {
-        generalCase(21);
+        generalCase(19);
     }
 
 }

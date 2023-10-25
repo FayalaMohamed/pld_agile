@@ -3,6 +3,9 @@ package com.hexa.model;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,10 +23,18 @@ public class XMLParser {
       writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
       writer.println("<map>");
       Intersection[] intersections = graphe.getIntersections();
+      Arrays.sort(intersections, new Comparator<Intersection>() {
+        @Override
+        public int compare(Intersection obj1, Intersection obj2) {
+          return Long.compare(obj1.id, obj2.id);
+        }
+      });
       Entrepot entrepot = graphe.getEntrepot();
-      writer.println(entrepot.toTag());
-      Intersection inter = new Intersection(entrepot.getId(), entrepot.getLongitude(), entrepot.getLatitude());
-      writer.println(inter.toTag());
+      if (entrepot != null) {
+        writer.println(entrepot.toTag());
+        Intersection inter = new Intersection(entrepot.getId(), entrepot.getLongitude(), entrepot.getLatitude());
+        writer.println(inter.toTag());
+      }
       for (Intersection intersection : intersections) {
         writer.println(intersection.toTag());
       }
@@ -96,7 +107,7 @@ public class XMLParser {
       if (attributes.getLength() != 4 || attributes.item(0).getNodeName() != "destination"
           || attributes.item(1).getNodeName() != "length" || attributes.item(2).getNodeName() != "name"
           || attributes.item(3).getNodeName() != "origin") {
-        throw new Exception("An intersection must have 4 attributes in this order : destination, length, name, origin");
+        throw new Exception("A segment must have 4 attributes in this order : destination, length, name, origin");
       }
       Long destination = Long.parseLong(attributes.item(0).getNodeValue());
       double length = Double.parseDouble(attributes.item(1).getNodeValue());
@@ -105,7 +116,8 @@ public class XMLParser {
       Intersection inter_origin = mapping_id_intersection.get(origin);
       Intersection inter_destination = mapping_id_intersection.get(destination);
       if (inter_origin == null || inter_destination == null) {
-        throw new Exception("Segment has an intersection that does not exist " + destination + " " + origin);
+        throw new Exception("Segment has an intersection that does not exist: destination = " + destination
+            + " and origin = " + origin);
       }
       Segment seg = new Segment(inter_origin, inter_destination, length, name);
       map.ajouterSegment(seg);
