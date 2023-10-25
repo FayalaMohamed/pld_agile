@@ -26,6 +26,14 @@ public class Controller {
         currentState = s;
     }
 
+    public void leftClick() {
+        currentState.leftClick();
+    }
+
+    public void rightClick() {
+        currentState.rightClick();
+    }
+
     public Graphe chargerCarte(String file) {
 
         Graphe map = currentState.chargerCarte(this, window, file);

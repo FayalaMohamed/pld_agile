@@ -5,6 +5,7 @@ import com.hexa.view.Window;
 
 public interface State {
 
-    public Graphe chargerCarte(Controller c, Window w, String file);
-    
+    public default void leftClick() {}
+    public default void rightClick() {}
+    public default Graphe chargerCarte(Controller c, Window w, String file) { return null; } //!!!!! il faut pas la alisser s'exécuter en défaut
 }

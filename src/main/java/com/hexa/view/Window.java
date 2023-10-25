@@ -7,9 +7,6 @@ import com.hexa.controller.Controller;
 import com.hexa.model.Graphe;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 
@@ -31,7 +28,7 @@ public class Window extends JFrame{
 
         super();
         
-        setTitle("AGILE");
+        setTitle("AGILE H4413");
 
         width = 1200;
         height = 700;
@@ -45,6 +42,7 @@ public class Window extends JFrame{
         getContentPane().add(panelGauche);
 
         graphicalView = new GraphicalView(this);
+        graphicalView.addMouseListener(new MouseListener(controller));
 
         panelDroit = new JPanel(); //idem
         panelDroit.setBackground(Color.red);

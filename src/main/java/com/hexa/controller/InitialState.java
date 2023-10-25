@@ -4,7 +4,7 @@ import com.hexa.model.Graphe;
 import com.hexa.model.XMLParser;
 import com.hexa.view.Window;
 
-public class InitialState implements State{
+public class InitialState implements State {
     
     public Graphe chargerCarte(Controller c, Window w, String file) {
         
