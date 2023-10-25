@@ -2,49 +2,61 @@ package com.hexa.controller;
 
 import com.hexa.model.Graphe;
 import com.hexa.view.Window;
+import com.hexa.model.XMLParser;
 
 public class Controller {
 
-    private State currentState;
+  private State currentState;
+  private Window window;
+  private Graphe carte;
 
-    private Window window;
+  protected final InitialState initialState = new InitialState();
+  protected final EtatCreerRequete1 etatCreerRequete1 = new EtatCreerRequete1();
+  protected final EtatCreerRequete2 etatCreerRequete2 = new EtatCreerRequete2();
+  protected final EtatCarteChargee etatCarteChargee = new EtatCarteChargee();
+  protected final EtatAuMoinsUneRequete etatAuMoinsUneRequete = new EtatAuMoinsUneRequete();
 
-    private InitialState initialState;
-    
-    public Controller() {
-        
-        initialState = new InitialState();
-        
-        currentState = initialState;
+  public Controller() {
+    currentState = initialState;
+    window = new Window(this);
+  }
+
+  public void initController(Window w) {
+    window = w;
+  }
+
+  public void setCurrentState(State s) {
+    currentState = s;
+  }
+
+  public void setCarte(Graphe carte) {
+    this.carte = carte;
+  }
+
+  public void clicGauche() {
+    currentState.clicGauche();
+  }
+
+  public void clicDroit() {
+    currentState.clicDroit();
+  }
+
+  public void chargerCarte() {
+    currentState.chargerCarte(this, window);
+  }
+
+  // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD
+  public void chargerCarteTest(String file) {
+    System.out.println("Making a graph from the file : " + file);
+    Graphe carte = null;
+    try {
+      carte = XMLParser.xmlToGraphe(file);
+      // TODO implémenter la fonctionnalité d'annuler ICI
+      setCarte(carte);
+      window.afficherCarte(carte);
+      setCurrentState(etatCarteChargee);
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
-
-    public void initController(Window w) {
-        window = w;
-    }
-
-    public void setCurrentState(State s) {
-        currentState = s;
-    }
-
-    public void leftClick() {
-        currentState.leftClick();
-    }
-
-    public void rightClick() {
-        currentState.rightClick();
-    }
-
-    public Graphe chargerCarte(String file) {
-
-        Graphe map = currentState.chargerCarte(this, window, file);
-
-        if (map != null) {
-            System.out.println("appel charger carte");
-            // window.afficherCarte(map);
-        } else {
-            System.out.println("erreur fichier invalide");
-        }
-
-        return map;
-    }
+  }
 }

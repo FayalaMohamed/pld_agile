@@ -13,30 +13,28 @@ public class App {
   public static void main(String[] args) {
 
     Controller controller = new Controller();
-    Window window = new Window();
-
-    controller.initController(window);
-    window.initWindow(controller);
-
-    String inputFile = "C:\\Users\\marti\\OneDrive\\Bureau\\fichiersXML2022\\largeMap.xml";
-    controller.chargerCarte(inputFile);
+    String inputFile = "/home/canaple/Dev/pld_agile/largeMap.xml";
+    // controller.chargerCarteTest(inputFile);
+    controller.chargerCarte();
 
     Long start = System.currentTimeMillis();
 
     Intersection entrepot = new Intersection();
     // ArrayList<Intersection> intersections = map.getIntersections();
     // for (Intersection inter : intersections) {
-    //   System.out.println(
-    //       "ID : " + inter.getId() + " Latitude : " + inter.getLatitude() + " Longitude : " + inter.getLongitude());
-    //   if (map.isEntrepot(inter.getId())) {
-    //     entrepot = inter;
-    //   }
+    // System.out.println(
+    // "ID : " + inter.getId() + " Latitude : " + inter.getLatitude() + " Longitude
+    // : " + inter.getLongitude());
+    // if (map.isEntrepot(inter.getId())) {
+    // entrepot = inter;
+    // }
     // }
 
     // ArrayList<Segment> segments = map.getSegments();
     // for (Segment seg : segments) {
-    //   System.out.println("Destination : " + seg.getDestination() + " Length : " + seg.getLongueur() + " Name : "
-    //       + seg.getNom() + " Origin : " + seg.getOrigine());
+    // System.out.println("Destination : " + seg.getDestination() + " Length : " +
+    // seg.getLongueur() + " Name : "
+    // + seg.getNom() + " Origin : " + seg.getOrigine());
     // }
 
     // System.out.println("Entrepot : " + entrepot);

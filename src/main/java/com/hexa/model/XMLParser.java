@@ -19,12 +19,19 @@ public class XMLParser {
     marsh.marshal(graphe, new File(outputFile));
   }
 
-  public static Graphe xmlToGraphe(String path) throws Exception {
+  public static Graphe xmlToGraphe(String file) throws Exception {
     Graphe map = null;
+    FileInputStream xmlFileInputStream = null;
+    if (file == null) {
+      xmlFileInputStream = new FileInputStream(XMLfileOpener.getInstance().open(true));
+    } else {
+      xmlFileInputStream = new FileInputStream(file);
+    }
+
     try {
       JAXBContext context = JAXBContext.newInstance(Graphe.class);
       Unmarshaller unmarshaller = context.createUnmarshaller();
-      map = (Graphe) unmarshaller.unmarshal(new FileInputStream(path));
+      map = (Graphe) unmarshaller.unmarshal(xmlFileInputStream);
     } catch (JAXBException e) {
       e.printStackTrace();
     } catch (Exception e) {
