@@ -4,6 +4,10 @@ import com.hexa.view.Window;
 
 public interface State {
 
+  public default void entryAction(Controller c, Window w) {
+
+  }
+
   public default void clicGauche() {
   }
 
@@ -18,7 +22,7 @@ public interface State {
   }
 
   // TODO modifier la signature de la fonction pour enelever file
-  public default void chargerRequetes(Controller c, Window w, String file) {
+  public default void chargerRequetes(Controller c, Window w) {
   }
 
   public default void supprimerRequetes(Controller c, Window w) {

@@ -17,6 +17,7 @@ public class Controller {
   protected final EtatCarteChargee etatCarteChargee = new EtatCarteChargee();
   protected final EtatAuMoinsUneRequete etatAuMoinsUneRequete = new EtatAuMoinsUneRequete();
   protected final ChargerCarte chargerCarte = new ChargerCarte();
+  protected final EtatChargerRequete etatChargerRequete = new EtatChargerRequete();
 
   public Controller() {
     currentState = initialState;

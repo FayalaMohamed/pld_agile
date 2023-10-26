@@ -1,14 +1,12 @@
 package com.hexa.controller;
 
-import java.io.File;
-
 import com.hexa.model.Graphe;
 import com.hexa.model.XMLParser;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
+import java.io.File;
 
-public class ChargerCarte implements State {
-
+public class EtatChargerRequete implements State {
   public void entryAction(Controller c, Window w) {
     // faire un truc comme : XMLParser.serlectfile() -> problème du singleton
     try {
