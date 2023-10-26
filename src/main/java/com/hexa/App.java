@@ -13,8 +13,8 @@ public class App {
   public static void main(String[] args) {
 
     Controller controller = new Controller();
-    // String inputFile = "/home/canaple/Dev/pld_agile/largeMap.xml";
-    // controller.chargerCarteTest(inputFile);
+    String inputFile = "C:\\Users\\marti\\OneDrive\\Bureau\\fichiersXML2022\\largeMap.xml";
+    controller.chargerCarteTest(inputFile);
     // controller.chargerCarte();
 
     Long start = System.currentTimeMillis();

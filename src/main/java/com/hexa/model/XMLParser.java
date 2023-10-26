@@ -21,6 +21,7 @@ public class XMLParser {
 
   public static Graphe xmlToGraphe(String file) throws Exception {
     Graphe map = null;
+    
     FileInputStream xmlFileInputStream = null;
     if (file == null) {
       xmlFileInputStream = new FileInputStream(XMLfileOpener.getInstance().open(true));

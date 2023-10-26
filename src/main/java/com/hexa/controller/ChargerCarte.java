@@ -9,10 +9,10 @@ public class ChargerCarte implements State {
 
   public void entryAction(Controller c, Window w) {
     //faire un truc comme : XMLParser.serlectfile() -> problème du singleton
-    if (xmlFileInputStream != null) {
-        //appel de XMLParser avec le flux en paramètre
-    } else {
-        c.setCurrentState(c.initialState);
-    }
+    // if (xmlFileInputStream != null) {
+    //     //appel de XMLParser avec le flux en paramètre
+    // } else {
+    //     c.setCurrentState(c.initialState);
+    // }
   }
 }
