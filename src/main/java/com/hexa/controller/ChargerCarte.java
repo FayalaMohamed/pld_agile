@@ -12,7 +12,7 @@ public class ChargerCarte implements State {
     // faire un truc comme : XMLParser.serlectfile() -> problème du singleton
     try {
       File xmlFile = XMLfileOpener.getInstance().open(true);
-      XMLParser.xmlToGraphe(xmlFile);
+      XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
       c.setCurrentState(c.etatCarteChargee);
     } catch (Exception e) {
       c.setCurrentState(c.initialState);

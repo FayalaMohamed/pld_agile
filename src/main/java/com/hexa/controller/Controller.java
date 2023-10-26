@@ -55,7 +55,7 @@ public class Controller {
     System.out.println("Making a graph from the file : " + file);
     Graphe carte = null;
     try {
-      carte = XMLParser.xmlToGraphe(new File(file));
+      carte = XMLParser.xmlToGraphe(file);
       // TODO implémenter la fonctionnalité d'annuler ICI
       setCarte(carte);
       window.afficherCarte(carte);

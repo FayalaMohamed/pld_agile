@@ -3,6 +3,7 @@ package com.hexa.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
@@ -41,8 +42,8 @@ public class GraphicalView extends JPanel {
   public void ajouterCarte(Graphe carte) {
 
     this.carte = carte;
-    this.intersections = carte.getIntersections();
-    this.segments = carte.getSegments();
+    this.intersections = new ArrayList<>(Arrays.asList(carte.getIntersections()));
+    this.segments = new ArrayList<>(Arrays.asList(carte.getSegments()));
 
     latitudeMax = -90;
     latitudeMin = 90;
