@@ -1,8 +1,8 @@
 package com.hexa.controller;
 
 import com.hexa.view.Window;
-import com.hexa.controller.EtatCarteChargee;
-import com.hexa.controller.EtatCreerRequete2;
+import com.hexa.model.Coordonnees;
+import com.hexa.model.Intersection;
 
 public class EtatCreerRequete1 implements State {
 
