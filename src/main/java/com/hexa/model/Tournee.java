@@ -5,6 +5,8 @@ import java.util.*;
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
 
+import com.hexa.observer.Observable;
+
 /**
  * 
  */
@@ -19,6 +21,8 @@ public class Tournee extends Observable {
 	 * Ensemble des livraisons à effectuer
 	 */
 	private Set<Livraison> livraisons;
+
+	private Livreur livreur; 
 
 	private int[] finTourneeEstime; // 0: heure | 1: minute
 
@@ -83,6 +87,9 @@ public class Tournee extends Observable {
 		return livraisons.toArray(new Livraison[0]);
 	}
 
+	public Iterator<Livraison> getLivraisonIterator() {
+		return livraisons.iterator();
+	}
 	/**
 	 * 
 	 * Construit le meilleur circuit pour réaliser la tournée à partir de la carte
@@ -153,9 +160,27 @@ public class Tournee extends Observable {
 
 		circuit = new Circuit(list);
 		circuitCalculer = true;
-    
-    this.notifyObservers(this);
 
+		this.notifyObservers(this);
+
+	}
+	
+	public Livreur getLivreur() {
+		return livreur;
+	}
+
+	public void setLivreur(Livreur livreur) {
+		this.livreur = livreur;
+	}
+
+	public void supprimerLivraison(Intersection intersection) {
+		for (Livraison l : livraisons) {
+			System.out.println(l.toString());
+			if (l.getLieu() == intersection) {
+				livraisons.remove(l);
+			}
+		}
+		this.notifyObservers(this);
 	}
 
 	/**
@@ -169,6 +194,10 @@ public class Tournee extends Observable {
 		} else {
 			throw new TourneeException("Le circuit n'a pas encore été calculé");
 		}
+	}
+
+	public boolean estCalculee() {
+		return circuitCalculer;
 	}
 
 }
