@@ -10,16 +10,21 @@ public class Livraison {
 
 
     /**
-     * Heure de livraison
+     * Heure estimé de livraison
      */
     private int[] heureEstime; //0: heure | 1: minutes
 
     /**
-     * Type à revoir
+     * Plage horaire durant laquelle la livraison peut se faire
      */
     private int[] plageHoraire; //0: min | 1: max
     
     private Intersection lieu;
+    
+    /**
+     * Livreur affecté à la livraison
+     */
+    private Livreur livreur;
     
     public Livraison(Intersection lieu) {
     	

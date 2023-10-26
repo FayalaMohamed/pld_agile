@@ -15,20 +15,16 @@ public class Tournee extends Observable {
 	/**
      * Jour à laquelle doit/s'est passé la tournée
      */
-    private Date date;
+    //private Date date;
 
     /**
      * Ensemble des livraisons à effectuer
      */
     private Set<Livraison> livraisons;
 
-    /**
-     * Livreur affecté à la tournée
-     */
-    private Livreur livreur;
     
     
-    private int[] finTourneeEstime;
+    private int[] finTourneeEstime; //0: heure | 1: minute
     
     
     /**
@@ -173,6 +169,11 @@ public class Tournee extends Observable {
     	
     }
     
+    /**
+     * 
+     * @return le meilleur circuit à prendre pour faire la tournée
+     * @throws TourneeException
+     */
     public Circuit getCircuit() throws TourneeException {
     	if (circuitCalculer) {
     		return circuit;
