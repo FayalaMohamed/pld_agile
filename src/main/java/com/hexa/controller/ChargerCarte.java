@@ -2,6 +2,7 @@ package com.hexa.controller;
 
 import java.io.File;
 
+import com.hexa.model.Graphe;
 import com.hexa.model.XMLParser;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
@@ -12,7 +13,8 @@ public class ChargerCarte implements State {
     // faire un truc comme : XMLParser.serlectfile() -> problème du singleton
     try {
       File xmlFile = XMLfileOpener.getInstance().open(true);
-      XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
+      Graphe map = XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
+      w.afficherCarte(map);
       c.setCurrentState(c.etatCarteChargee);
     } catch (Exception e) {
       c.setCurrentState(c.initialState);
