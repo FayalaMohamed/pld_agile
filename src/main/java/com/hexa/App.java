@@ -78,20 +78,20 @@ public class App {
     }
 
   }
-  public static ArrayList<Livraison> testParserDeLivraison() throws ParseException {
+  public static Set<Livraison> testParserDeLivraison() throws ParseException {
 
-    ArrayList<Livraison> listeLivraisons = new ArrayList<Livraison>();
+    Set<Livraison> listeLivraisons = new HashSet<>();
 
     for(int i = 0; i<5;i++){
 
-      int dateHeure = 11;
+      int dateHeure = 11+i;
       int dateMinute= 59;
       int livreur_id = 55;
       int plageDebut= 10;
       int plageFin = 11;
-      Long id =  25175791L;
-      double latitude = 45.75406;
-      double longitude = 4.857418;
+      Long id =  25175791L +i;
+      double latitude = 45.75406+i;
+      double longitude = 4.857418+i;
 
       Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
       livraison.setLivreur(new Livreur(livreur_id));
@@ -100,6 +100,13 @@ public class App {
 
       listeLivraisons.add(livraison);
 
+
+
+
+    }
+    for(Livraison l :  listeLivraisons){
+
+      System.out.println(l.toString());
 
     }
 
@@ -151,7 +158,7 @@ public class App {
 
     XMLParser.listeLivraisonsToXml("/tmp/listeLivraison.xml", testParserDeLivraison());
 
-    ArrayList<Livraison> listeLivraisons= XMLParser.xmlToListeLivraison("/tmp/listeLivraison.xml");
+    Set<Livraison> listeLivraisons= XMLParser.xmlToListeLivraison("/tmp/listeLivraison.xml");
 
     XMLParser.listeLivraisonsToXml("/tmp/listeLivraison2.xml", listeLivraisons);
 

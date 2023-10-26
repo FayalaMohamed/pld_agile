@@ -87,6 +87,14 @@ public class Tournee extends Observable {
 		return livraisons.toArray(new Livraison[0]);
 	}
 
+	public Set<Livraison> getLivraisonsSet() {
+		return livraisons;
+	}
+
+	public void setLivraisons(Set<Livraison> livraisons){
+		this.livraisons = livraisons;
+	}
+
 	public Iterator<Livraison> getLivraisonIterator() {
 		return livraisons.iterator();
 	}

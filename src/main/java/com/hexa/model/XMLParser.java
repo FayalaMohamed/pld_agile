@@ -125,14 +125,14 @@ public class XMLParser {
     return map;
   }
 
-  public static ArrayList<Livraison> xmlToListeLivraison(String path) throws Exception {
+  public static Set<Livraison> xmlToListeLivraison(String path) throws Exception {
     File stocks = new File(path);
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
     Document doc = dBuilder.parse(stocks);
     doc.getDocumentElement().normalize();
 
-    ArrayList<Livraison> listeLivraisons = new ArrayList<Livraison>();
+    Set<Livraison> listeLivraisons = new HashSet<Livraison>();
 
     NodeList livraisons = doc.getElementsByTagName("livraison");
     for (int i = 0; i < livraisons.getLength(); i++) {
@@ -172,7 +172,7 @@ public class XMLParser {
   }
 
 
-  public static void listeLivraisonsToXml(String path, ArrayList<Livraison> liste_livraisons) {
+  public static void listeLivraisonsToXml(String path, Set<Livraison> liste_livraisons) {
     try {
       PrintWriter writer = new PrintWriter(path, "UTF-8");
       writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
