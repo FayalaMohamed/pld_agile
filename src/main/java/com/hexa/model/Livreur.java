@@ -1,5 +1,6 @@
 package com.hexa.model;
 
+
 import java.util.*;
 
 /**
@@ -8,12 +9,12 @@ import java.util.*;
 public class Livreur {
 
   /**
-   * 
+   *
    */
   private int id;
 
   /**
-   * 
+   *
    */
   private Set<Tournee> tournees;
 

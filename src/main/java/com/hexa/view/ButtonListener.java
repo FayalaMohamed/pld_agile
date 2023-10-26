@@ -35,6 +35,12 @@ public class ButtonListener implements ActionListener {
         System.out.println("Bouton Calculer tournée");
         controller.calculerTournee();
         break;
+       case Window.CHARGER_REQUETES:
+           controller.chargerRequetes();
+           break;
+       case Window.SAUVEGARDER_REQUETES:
+           controller.sauvegarderRequetes();
+           break;
     }
   }
 }

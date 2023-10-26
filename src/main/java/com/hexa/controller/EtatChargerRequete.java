@@ -1,29 +1,26 @@
 package com.hexa.controller;
 
-import java.io.File;
-
 import com.hexa.model.Graphe;
 import com.hexa.model.XMLParser;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
+import java.io.File;
 
-public class ChargerCarte implements State {
-
+public class EtatChargerRequete implements State {
   public void entryAction(Controller c, Window w) {
     // faire un truc comme : XMLParser.serlectfile() -> problème du singleton
     try {
       File xmlFile = XMLfileOpener.getInstance().open(true);
+
       if (xmlFile == null) {
-          // TODO (itération 2) gérer aussi le cas où on charge d'un autre état que
-          // l'initial
-          c.setCurrentState(c.initialState);
+        c.setCurrentState(c.etatCarteChargee);
       } else {
-          Graphe map = XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
-          w.afficherCarte(map);
-          c.setCarte(map);
-          c.setCurrentState(c.etatCarteChargee);
+        // TODO ajouter le chargement des requetes
+        // c.getTournee().setLivraison(xmlToListeLivraison(xmlFile.getAbsolutePath()));
+        c.setCurrentState(c.etatAuMoinsUneRequete);
       }
     } catch (Exception e) {
+      e.printStackTrace();
       c.setCurrentState(c.initialState);
     }
   }
