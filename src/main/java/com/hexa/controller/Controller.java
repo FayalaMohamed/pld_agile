@@ -1,10 +1,7 @@
 package com.hexa.controller;
 
-<<<<<<< HEAD
 import java.io.File;
 
-=======
->>>>>>> le-merge-Algo-SupprimerRequete
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Livraison;
