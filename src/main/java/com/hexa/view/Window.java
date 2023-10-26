@@ -60,7 +60,7 @@ public class Window extends JFrame {
     for (int i = 0; i < controller.getNbLivreurs(); ++i) {
       liste_livreurs[i] = Integer.toString(i);
     }
-    livreurMenue = new JComboBox(liste_livreurs);
+    livreurMenue = new JComboBox<String>(liste_livreurs);
     livreurMenue.setSize(buttonWidth, buttonHeight);
     livreurMenue.setLocation(5, (boutons.size()) * buttonHeight);
     livreurMenue.setFocusable(false);
