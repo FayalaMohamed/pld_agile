@@ -25,16 +25,17 @@ public class Window extends JFrame {
   protected static final String SAUVEGARDER_REQUETES = "Sauvegarder des requêtes";
   protected static final String CALCULER_TOURNEE = "Calculer la tournée";
 
-  private final String texteBoutons[] = {CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES, SAUVEGARDER_REQUETES,
-                                        CALCULER_TOURNEE};
+  private final String texteBoutons[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
+      SAUVEGARDER_REQUETES,
+      CALCULER_TOURNEE };
 
   private ArrayList<JButton> boutons;
-	private final int buttonHeight = 40;
-	private final int buttonWidth = 250;
+  private final int buttonHeight = 40;
+  private final int buttonWidth = 250;
   private final int messageFrameHeight = 110;
 
   private GraphicalView graphicalView;
-	private JLabel messageFrame;
+  private JLabel messageFrame;
 
   private MouseListener mouseListener;
   private ButtonListener buttonListener;
@@ -55,9 +56,9 @@ public class Window extends JFrame {
     setResizable(false);
 
     graphicalView = new GraphicalView(this);
-		messageFrame = new JLabel();
-		messageFrame.setBorder(BorderFactory.createTitledBorder("Messages..."));
-		getContentPane().add(messageFrame);
+    messageFrame = new JLabel();
+    messageFrame.setBorder(BorderFactory.createTitledBorder("Messages..."));
+    getContentPane().add(messageFrame);
 
     mouseListener = new MouseListener(controller, graphicalView, this);
     addMouseListener(mouseListener);
@@ -67,32 +68,32 @@ public class Window extends JFrame {
   }
 
   private void setWindowSize() {
-    int allButtonHeight = buttonHeight*texteBoutons.length;
-		height = Math.max(graphicalView.getViewHeight(), allButtonHeight)+messageFrameHeight;
-		width = graphicalView.getViewWidth() + buttonWidth + 10;
+    int allButtonHeight = buttonHeight * texteBoutons.length;
+    height = Math.max(graphicalView.getViewHeight(), allButtonHeight) + messageFrameHeight;
+    width = graphicalView.getViewWidth() + buttonWidth + 10;
     setSize(width, height);
-    graphicalView.setLocation(buttonWidth+10, 0);
-		messageFrame.setSize(width,messageFrameHeight);
-		messageFrame.setLocation(0,height-messageFrameHeight);
+    graphicalView.setLocation(buttonWidth + 10, 0);
+    messageFrame.setSize(width, messageFrameHeight);
+    messageFrame.setLocation(0, height - messageFrameHeight);
     setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     setLocationRelativeTo(null);
   }
 
   private void initBoutons(Controller controller) {
-    
+
     buttonListener = new ButtonListener(controller);
-		boutons = new ArrayList<JButton>();
-		
-    for (String text : texteBoutons){
-			JButton bouton = new JButton(text);
-			boutons.add(bouton);
-			bouton.setSize(buttonWidth,buttonHeight);
-			bouton.setLocation(5,(boutons.size()-1)*buttonHeight);
-			bouton.setFocusable(false);
-			bouton.setFocusPainted(false);
-			bouton.addActionListener(buttonListener);
-			getContentPane().add(bouton);
-		}
+    boutons = new ArrayList<JButton>();
+
+    for (String text : texteBoutons) {
+      JButton bouton = new JButton(text);
+      boutons.add(bouton);
+      bouton.setSize(buttonWidth, buttonHeight);
+      bouton.setLocation(5, (boutons.size() - 1) * buttonHeight);
+      bouton.setFocusable(false);
+      bouton.setFocusPainted(false);
+      bouton.addActionListener(buttonListener);
+      getContentPane().add(bouton);
+    }
   }
 
   public void afficherLivraisons(boolean affBoutonSuppr) {
@@ -112,5 +113,9 @@ public class Window extends JFrame {
 
   public int getHeight() {
     return height;
+  }
+
+  public GraphicalView getGraphicalView() {
+    return graphicalView;
   }
 }
