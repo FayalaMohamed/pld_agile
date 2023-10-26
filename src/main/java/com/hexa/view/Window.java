@@ -95,6 +95,9 @@ public class Window extends JFrame {
 		}
   }
 
+  public void afficherLivraisons(boolean affBoutonSuppr) {
+  }
+
   public void afficherMessage(String message) {
     messageFrame.setText(message);
   }

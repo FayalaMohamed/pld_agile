@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
@@ -55,11 +56,10 @@ public class GraphicalView extends JPanel {
   }
 
   public void display(Intersection i) {
-    int r = 3;
+    int r = 2;
     int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
     int ypos = (int) ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight);
-
-    g.fillOval(xpos, ypos, r, r);
+    g.fillOval(xpos-r, ypos-r, 2*r, 2*r);
   }
 
   public void display(Segment s) {
@@ -115,6 +115,12 @@ public class GraphicalView extends JPanel {
         display(sit.next());
       }
     }
+  }
+
+  public Coordonnees CoordGPSToViewPos(Intersection i) {
+    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
+    int ypos = (int) ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight);
+    return new Coordonnees(xpos, ypos);
   }
 
   public int getViewHeight() {

@@ -1,7 +1,8 @@
 package com.hexa.controller;
 
-import java.io.File;
+import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
+import com.hexa.model.Livraison;
 import com.hexa.view.Window;
 import com.hexa.model.XMLParser;
 
@@ -35,7 +36,7 @@ public class Controller {
     this.carte = carte;
   }
 
-  public void clicGauche() {
+  public void clicGauche(Coordonnees c) {
     currentState.clicGauche();
   }
 
@@ -48,6 +49,10 @@ public class Controller {
   }
 
   public void chargerRequetes() {
+  }
+
+  public void supprimerRequete(Livraison l) {
+    
   }
 
   // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD
