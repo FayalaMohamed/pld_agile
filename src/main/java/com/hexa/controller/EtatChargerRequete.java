@@ -16,6 +16,7 @@ public class EtatChargerRequete implements State {
         c.setCurrentState(c.etatCarteChargee);
       } else {
         // TODO ajouter le chargement des requetes
+        // c.getTournee().setLivraison(xmlToListeLivraison(xmlFile.getAbsolutePath()));
         c.setCurrentState(c.etatAuMoinsUneRequete);
       }
     } catch (Exception e) {

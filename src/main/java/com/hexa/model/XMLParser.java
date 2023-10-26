@@ -170,7 +170,7 @@ public class XMLParser {
   }
 
 
-  public static void listeLivraisonsToXml(String path, List<Livraison> liste_livraisons) {
+  public static void listeLivraisonsToXml(String path, ArrayList<Livraison> liste_livraisons) {
     try {
       PrintWriter writer = new PrintWriter(path, "UTF-8");
       writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");

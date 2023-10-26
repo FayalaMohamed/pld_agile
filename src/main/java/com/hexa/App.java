@@ -78,7 +78,7 @@ public class App {
     }
 
   }
-  public static List<Livraison> testParserDeLivraison() throws ParseException {
+  public static ArrayList<Livraison> testParserDeLivraison() throws ParseException {
 
     ArrayList<Livraison> listeLivraisons = new ArrayList<Livraison>();
 
