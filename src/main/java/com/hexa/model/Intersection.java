@@ -18,16 +18,6 @@ public class Intersection {
   private double longitude;
 
   /**
-   * 
-   */
-  private double x;
-
-  /**
-   * 
-   */
-  private double y;
-
-  /**
    * identifient
    */
   protected Long id;
@@ -38,14 +28,6 @@ public class Intersection {
 
   public double getLongitude() {
     return longitude;
-  }
-
-  public double getX() {
-    return x;
-  }
-
-  public double getY() {
-    return y;
   }
 
   /**

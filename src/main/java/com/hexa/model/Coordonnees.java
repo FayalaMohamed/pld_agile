@@ -23,5 +23,4 @@ public class Coordonnees {
     return (this.x <= autresCoordonnees.x + floue && this.x >= autresCoordonnees.x - floue
         && this.y <= autresCoordonnees.y + floue && this.y >= autresCoordonnees.y - floue);
   }
-
 }

@@ -1,9 +1,13 @@
 package com.hexa.controller;
 
+<<<<<<< HEAD
 import java.io.File;
 
+=======
+>>>>>>> le-merge-Algo-SupprimerRequete
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
+import com.hexa.model.Livraison;
 import com.hexa.view.Window;
 import com.hexa.model.XMLParser;
 
@@ -59,6 +63,9 @@ public class Controller {
 
   public void creerRequete() {
     currentState.creerRequete(this, window);
+  }
+
+  public void supprimerRequete(Livraison l) {
   }
 
   // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD

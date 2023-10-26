@@ -44,4 +44,5 @@ public class MouseListener extends MouseAdapter {
 
   public void mouseMoved(MouseEvent evt) {
   }
+
 }
