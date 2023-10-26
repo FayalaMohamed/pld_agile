@@ -1,11 +1,11 @@
 package com.hexa.controller;
 
-import com.hexa.controller.EtatCreerRequete1;
 import com.hexa.view.Window;
 
 public class EtatCarteChargee implements State {
 
   public void creerRequete(Controller c, Window w) {
+    w.afficherMessage("création d'une nouvelle requête, veuillez sélectionner une intersection");
     c.setCurrentState(c.etatCreerRequete1);
   }
 

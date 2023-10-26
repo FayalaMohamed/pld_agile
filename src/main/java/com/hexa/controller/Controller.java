@@ -1,7 +1,9 @@
 package com.hexa.controller;
 
-import java.io.File;
+import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
+import com.hexa.model.Livraison;
+import com.hexa.model.Tournee;
 import com.hexa.view.Window;
 import com.hexa.model.XMLParser;
 
@@ -10,17 +12,36 @@ public class Controller {
   private State currentState;
   private Window window;
   private Graphe carte;
+  private Tournee tournee;
+  int nbLivreurs;
 
   protected final InitialState initialState = new InitialState();
   protected final EtatCreerRequete1 etatCreerRequete1 = new EtatCreerRequete1();
   protected final EtatCreerRequete2 etatCreerRequete2 = new EtatCreerRequete2();
   protected final EtatCarteChargee etatCarteChargee = new EtatCarteChargee();
   protected final EtatAuMoinsUneRequete etatAuMoinsUneRequete = new EtatAuMoinsUneRequete();
+  protected final EtatSupprimerRequete etatSupprimerRequete = new EtatSupprimerRequete();
   protected final ChargerCarte chargerCarte = new ChargerCarte();
 
   public Controller() {
+    // WARNING: The number of "livreurs" is currently hard coded
+    nbLivreurs = 3;
     currentState = initialState;
-    window = new Window(this);
+    tournee = new Tournee();
+    window = new Window(this, tournee);
+    window.afficherMessage("Choisissez une carte à afficher");
+  }
+
+  public int getNbLivreurs() {
+    return nbLivreurs;
+  }
+
+  public Tournee getTournee() {
+    return tournee;
+  }
+
+  public Graphe getCarte() {
+    return carte;
   }
 
   public void initController(Window w) {
@@ -35,12 +56,13 @@ public class Controller {
     this.carte = carte;
   }
 
-  public void clicGauche() {
-    currentState.clicGauche();
+  public void clicGauche(Coordonnees coordonnees) {
+    currentState.clicGauche(this, window, coordonnees);
   }
 
   public void clicDroit() {
-    currentState.clicDroit();
+    System.out.println("Performing the right click on state : " + currentState);
+    currentState.clicDroit(this, window);
   }
 
   public void chargerCarte() {
@@ -48,6 +70,14 @@ public class Controller {
   }
 
   public void chargerRequetes() {
+  }
+
+  public void creerRequete() {
+    currentState.creerRequete(this, window);
+  }
+
+  public void supprimerRequete() {
+    currentState.supprimerRequete(this, window);
   }
 
   // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD
@@ -64,4 +94,13 @@ public class Controller {
       ex.printStackTrace();
     }
   }
+
+  public void choixLivreur(int livreur) {
+    currentState.choixLivreur(this, window, livreur);
+  }
+
+  public void calculerTournee() {
+    currentState.calculerTournee(this, window);
+  }
+
 }

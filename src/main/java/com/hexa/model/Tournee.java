@@ -153,6 +153,8 @@ public class Tournee extends Observable {
 
 		circuit = new Circuit(list);
 		circuitCalculer = true;
+    
+    this.notifyObservers(this);
 
 	}
 

@@ -8,16 +8,24 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import com.hexa.model.Circuit;
+import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
+import com.hexa.model.Livraison;
 import com.hexa.model.Segment;
+import com.hexa.model.Tournee;
+import com.hexa.model.TourneeException;
+import com.hexa.observer.Observable;
+import com.hexa.observer.Observer;
 
-public class GraphicalView extends JPanel {
+public class GraphicalView extends JPanel implements Observer{
 
   private static final long serialVersionUID = 1L;
   private int viewHeight;
   private int viewWidth;
   private Graphics g;
+  private Tournee tournee;
 
   private Graphe carte;
   private ArrayList<Intersection> intersections;
@@ -28,8 +36,10 @@ public class GraphicalView extends JPanel {
   private double longitudeMin;
   private double longitudeMax;
 
-  public GraphicalView(Window w) {
+  public GraphicalView(Window w, Tournee tournee) {
     super();
+    tournee.addObserver(this);
+    this.tournee = tournee;
 
     viewWidth = 1000;
     viewHeight = 700;
@@ -37,6 +47,10 @@ public class GraphicalView extends JPanel {
     setSize(viewWidth, viewHeight);
     setBackground(Color.white);
     w.getContentPane().add(this);
+  }
+
+  @Override
+  public void update(Observable o, Object arg) {
   }
 
   public void ajouterCarte(Graphe carte) {
@@ -54,15 +68,15 @@ public class GraphicalView extends JPanel {
     repaint();
   }
 
-  public void display(Intersection i) {
-    int r = 3;
+  public void display(Intersection i, Color c) {
+    int r = 2;
     int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
     int ypos = (int) ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight);
-
-    g.fillOval(xpos, ypos, r, r);
+    g.setColor(c);
+    g.fillOval(xpos-r, ypos-r, 2*r, 2*r);
   }
 
-  public void display(Segment s) {
+  public void display(Segment s, Color c) {
 
     Intersection origine = s.getOrigine();
     Intersection destination = s.getDestination();
@@ -72,6 +86,7 @@ public class GraphicalView extends JPanel {
     int xDestination = (int) ((destination.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
     int yDestination = (int) ((destination.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight);
 
+    g.setColor(c);
     g.drawLine(xOrigine, yOrigine, xDestination, yDestination);
   }
 
@@ -102,19 +117,46 @@ public class GraphicalView extends JPanel {
   public void paintComponent(Graphics g) {
 
     super.paintComponent(g);
-    g.setColor(Color.blue);
     this.g = g;
     if (carte != null) {
       Iterator<Intersection> iit = intersections.iterator();
       while (iit.hasNext()) {
-        display(iit.next());
+        Intersection intersection = iit.next();
+        boolean adresseLivraison=false;
+        for ( Livraison livraison : tournee.getLivraisons()) {
+          if (livraison.getLieu() == intersection){
+            adresseLivraison = true;
+          }
+        }
+        if ( adresseLivraison) {
+          display(intersection, Color.red);
+        } else {
+          display(intersection, Color.blue);
+        }
+
+
       }
 
       Iterator<Segment> sit = segments.iterator();
       while (sit.hasNext()) {
-        display(sit.next());
+        display(sit.next(), Color.blue);
+      }
+
+      Circuit circuitTournee;
+      try {
+        circuitTournee = tournee.getCircuit();
+        while (circuitTournee.hasNext())
+          display(circuitTournee.next(), Color.green);
+      } catch (TourneeException e) {
+        e.printStackTrace();
       }
     }
+  }
+
+  public Coordonnees CoordGPSToViewPos(Intersection i) {
+    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
+    int ypos = (int) ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight);
+    return new Coordonnees(xpos, ypos);
   }
 
   public int getViewHeight() {
