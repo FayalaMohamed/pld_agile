@@ -6,6 +6,7 @@ import com.hexa.controller.EtatCarteChargee;
 public class EtatAuMoinsUneRequete implements State {
 
   public void creerRequete(Controller c, Window w) {
+    w.afficherMessage("création d'une nouvelle requête, veuillez sélectionner une intersection");
     c.setCurrentState(c.etatCreerRequete1);
   }
 

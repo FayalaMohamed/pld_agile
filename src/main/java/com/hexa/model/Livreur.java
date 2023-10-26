@@ -27,6 +27,10 @@ public class Livreur {
     this.id = id;
   }
 
+  public int getId() {
+    return id;
+  }
+
   public Set<Tournee> getTournees() {
     return tournees;
   }

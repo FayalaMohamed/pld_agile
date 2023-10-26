@@ -39,6 +39,10 @@ public class Controller {
     return nbLivreurs;
   }
 
+  public Tournee getTournee() {
+    return tournee;
+  }
+
   public Graphe getCarte() {
     return carte;
   }
