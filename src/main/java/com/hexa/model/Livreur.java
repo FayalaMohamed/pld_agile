@@ -35,4 +35,7 @@ public class Livreur {
     this.tournees.add(tournee);
   }
 
+  public String toString() {
+    return "id : " + id;
+  }
 }

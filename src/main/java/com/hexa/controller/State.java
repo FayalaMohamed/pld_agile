@@ -28,4 +28,7 @@ public interface State {
   public default void sauvegarderRequetes(Controller c, Window w) {
   }
 
+  public default void choixLivreur(Controller c, Window w, int livreur) {
+  }
+
 }

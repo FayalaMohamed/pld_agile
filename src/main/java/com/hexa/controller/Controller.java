@@ -92,4 +92,9 @@ public class Controller {
       ex.printStackTrace();
     }
   }
+
+  public void choixLivreur(int livreur) {
+    currentState.choixLivreur(this, window, livreur);
+  }
+
 }

@@ -1,9 +1,11 @@
 package com.hexa.view;
 
-import com.hexa.controller.Controller;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JComboBox;
+
+import com.hexa.controller.Controller;
 
 public class BoxListener implements ActionListener {
 
@@ -15,10 +17,8 @@ public class BoxListener implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    switch (e.getActionCommand()) {
-      default:
-        System.out.println("COMBO BOX");
-        break;
-    }
+    JComboBox<String> box = (JComboBox<String>) e.getSource();
+    System.out.println("COMBO BOX " + box.getSelectedItem());
+    controller.choixLivreur(Integer.valueOf((String) box.getSelectedItem()));
   }
 }
