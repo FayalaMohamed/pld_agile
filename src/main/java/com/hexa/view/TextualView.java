@@ -49,7 +49,10 @@ public class TextualView extends JLabel implements Observer{
 	 */
 	public void display(Livraison l) {
 		text = text+"<li>";
-		text = text+"Livraison: adresse=(" + l.getLieu().getId();
+		text = text+"Livraison: " + l.toString();
+		if (tournee.estCalculee()) {
+			text = text+ " Plage horaire : " + l.getPlageHoraire()[0] + "h - " + l.getPlageHoraire()[0] + "h";
+		}
 		text = text+"</li>";
 	}
 }

@@ -1,6 +1,5 @@
 package com.hexa.controller;
 
-import com.hexa.controller.EtatCreerRequete1;
 import com.hexa.view.Window;
 
 public class EtatCarteChargee implements State {

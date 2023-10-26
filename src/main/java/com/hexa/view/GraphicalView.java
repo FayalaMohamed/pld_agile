@@ -8,12 +8,14 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import com.hexa.model.Circuit;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
 import com.hexa.model.Livraison;
 import com.hexa.model.Segment;
 import com.hexa.model.Tournee;
+import com.hexa.model.TourneeException;
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
 
@@ -49,9 +51,6 @@ public class GraphicalView extends JPanel implements Observer{
 
   @Override
   public void update(Observable o, Object arg) {
-    Iterator<Livraison> it = tournee.getLivraisonIterator();
-		while (it.hasNext())
-			display(it.next().getLieu(), Color.red);
   }
 
   public void ajouterCarte(Graphe carte) {
@@ -118,17 +117,38 @@ public class GraphicalView extends JPanel implements Observer{
   public void paintComponent(Graphics g) {
 
     super.paintComponent(g);
-    g.setColor(Color.blue);
     this.g = g;
     if (carte != null) {
       Iterator<Intersection> iit = intersections.iterator();
       while (iit.hasNext()) {
-        display(iit.next(), g.getColor());
+        Intersection intersection = iit.next();
+        boolean adresseLivraison=false;
+        for ( Livraison livraison : tournee.getLivraisons()) {
+          if (livraison.getLieu() == intersection){
+            adresseLivraison = true;
+          }
+        }
+        if ( adresseLivraison) {
+          display(intersection, Color.red);
+        } else {
+          display(intersection, Color.blue);
+        }
+
+
       }
 
       Iterator<Segment> sit = segments.iterator();
       while (sit.hasNext()) {
-        display(sit.next(), g.getColor());
+        display(sit.next(), Color.blue);
+      }
+
+      Circuit circuitTournee;
+      try {
+        circuitTournee = tournee.getCircuit();
+        while (circuitTournee.hasNext())
+          display(circuitTournee.next(), Color.green);
+      } catch (TourneeException e) {
+        e.printStackTrace();
       }
     }
   }

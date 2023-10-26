@@ -1,12 +1,8 @@
 package com.hexa.controller;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Livraison;
-import com.hexa.model.Livreur;
 import com.hexa.model.Tournee;
 import com.hexa.view.Window;
 import com.hexa.model.XMLParser;
@@ -24,6 +20,7 @@ public class Controller {
   protected final EtatCreerRequete2 etatCreerRequete2 = new EtatCreerRequete2();
   protected final EtatCarteChargee etatCarteChargee = new EtatCarteChargee();
   protected final EtatAuMoinsUneRequete etatAuMoinsUneRequete = new EtatAuMoinsUneRequete();
+  protected final EtatSupprimerRequete etatSupprimerRequete = new EtatSupprimerRequete();
   protected final ChargerCarte chargerCarte = new ChargerCarte();
 
   public Controller() {
@@ -79,7 +76,8 @@ public class Controller {
     currentState.creerRequete(this, window);
   }
 
-  public void supprimerRequete(Livraison l) {
+  public void supprimerRequete() {
+    currentState.supprimerRequete(this, window);
   }
 
   // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD
@@ -99,6 +97,10 @@ public class Controller {
 
   public void choixLivreur(int livreur) {
     currentState.choixLivreur(this, window, livreur);
+  }
+
+  public void calculerTournee() {
+    currentState.calculerTournee(this, window);
   }
 
 }

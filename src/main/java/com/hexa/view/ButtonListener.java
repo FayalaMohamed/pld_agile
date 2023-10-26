@@ -17,11 +17,23 @@ public class ButtonListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
       case Window.CHARGER_CARTE:
+        System.out.println("Bouton Charger Carte");
         controller.chargerCarte();
         break;
+      
       case Window.CREER_REQUETE:
-        System.out.println("CreerRequete button pressed");
+        System.out.println("Bouton Créer Requête");
         controller.creerRequete();
+        break;
+
+      case Window.SUPPRIMER_REQUETES:
+        System.out.println("Bouton Supprimer Requête");
+        controller.supprimerRequete();
+        break;
+
+      case Window.CALCULER_TOURNEE:
+        System.out.println("Bouton Calculer tournée");
+        controller.calculerTournee();
         break;
     }
   }

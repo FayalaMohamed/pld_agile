@@ -64,6 +64,16 @@ public class Tournee extends Observable {
     return s;
   }
 
+  public void supprimerLivraison(Intersection intersection) {
+    for (Livraison l: livraisons) {
+      System.out.println(l.toString());
+      if (l.getLieu() == intersection) {
+        livraisons.remove(l);
+      }
+    }
+    this.notifyObservers(this);
+  }
+
   /**
    * uniquement pour le dev
    */
@@ -120,6 +130,7 @@ public class Tournee extends Observable {
     circuit = new Circuit(list);
     circuitCalculer = true;
 
+    this.notifyObservers(this);
   }
 
   public Circuit getCircuit() throws TourneeException {
@@ -136,6 +147,10 @@ public class Tournee extends Observable {
 
   public void setLivreur(Livreur livreur) {
     this.livreur = livreur;
+  }
+
+  public boolean estCalculee() {
+    return circuitCalculer == true;
   }
 
 }

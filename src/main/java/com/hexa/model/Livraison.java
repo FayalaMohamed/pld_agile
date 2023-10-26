@@ -54,6 +54,10 @@ public class Livraison {
     return lieu;
   }
 
+  public Livreur getLivreur() {
+    return livreur;
+  }
+
   public int[] getHeureEstime() {
     return heureEstime;
   }

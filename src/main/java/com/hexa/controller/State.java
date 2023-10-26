@@ -22,10 +22,13 @@ public interface State {
   public default void chargerRequetes(Controller c, Window w, String file) {
   }
 
-  public default void supprimerRequetes(Controller c, Window w) {
+  public default void supprimerRequete(Controller c, Window w) {
   }
 
   public default void sauvegarderRequetes(Controller c, Window w) {
+  }
+
+  public default void calculerTournee(Controller c, Window w) {
   }
 
   public default void choixLivreur(Controller c, Window w, int livreur) {
