@@ -179,7 +179,7 @@ public class XMLParser {
       writer.println("<livraisons>");
       SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
       for (Livraison livraison : liste_livraisons) {
-        writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateHeure=\"" + livraison.getHeureEstime()[1]
+        writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateMinute=\"" + livraison.getHeureEstime()[1]
                 + "\" livreurId=\"" + livraison.getLivreur().getId()
                 + "\" plageDebut=\"" + livraison.getPlageHoraire()[0] + "\" plageFin=\"" + livraison.getPlageHoraire()[1] + "\" id=\"" + livraison.getLieu().getId() +  "\" latitude=\"" + livraison.getLieu().getLatitude()
                 +  "\" longitude=\"" + livraison.getLieu().getLongitude() +"\"/>");

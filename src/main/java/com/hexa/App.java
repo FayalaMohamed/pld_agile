@@ -152,6 +152,14 @@ public class App {
     XMLParser.listeLivraisonsToXml("/tmp/listeLivraison.xml", testParserDeLivraison());
 
     ArrayList<Livraison> listeLivraisons= XMLParser.xmlToListeLivraison("/tmp/listeLivraison.xml");
+
+    XMLParser.listeLivraisonsToXml("/tmp/listeLivraison2.xml", listeLivraisons);
+
+    for(Livraison l :  listeLivraisons){
+
+      System.out.println(l.toString());
+
+    }
   }
 
 
