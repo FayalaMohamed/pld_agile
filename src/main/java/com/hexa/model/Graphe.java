@@ -144,7 +144,7 @@ public class Graphe extends Observable {
 	 * @return le cout de passage par le segment s
 	 */
 	public double getCost(Segment s) {
-		return segments.get(s);
+		return segments.containsKey(s) ? segments.get(s) : Double.MAX_VALUE;
 	}
 
 	/**

@@ -83,5 +83,4 @@ public class Livraison {
   public String toString() {
     return "Adresse : " + this.lieu + " Livreur : " + this.livreur;
   }
-
 }

@@ -67,7 +67,7 @@ public class Test {
     TSP tsp = new TSPBoundSimple();
 
     long startTime = System.currentTimeMillis();
-    tsp.searchSolution(20000, g);
+    //tsp.searchSolution(20000, g);
     System.out.print("Solution of cost " + tsp.getSolutionCost() + " found in "
         + (System.currentTimeMillis() - startTime) + "ms : ");
     for (int i = 0; i < g.getNbIntersections() + 2; i++)
@@ -96,34 +96,34 @@ public class Test {
 
     List<Segment> listSeg = new ArrayList<Segment>();
 
-    listSeg.add(new Segment(inters[0], inters[1], 2, "toto"));
-    listSeg.add(new Segment(inters[1], inters[0], 6, "toto"));
-    listSeg.add(new Segment(inters[1], inters[2], 5, "toto"));
-    listSeg.add(new Segment(inters[2], inters[1], 4, "toto"));
-    listSeg.add(new Segment(inters[2], inters[3], 7, "toto"));
-    listSeg.add(new Segment(inters[3], inters[2], 1, "toto"));
-    listSeg.add(new Segment(inters[4], inters[3], 3, "toto"));
-    listSeg.add(new Segment(inters[3], inters[4], 3, "toto"));
-    listSeg.add(new Segment(inters[5], inters[4], 6, "toto"));
-    listSeg.add(new Segment(inters[5], inters[6], 2, "toto"));
-    listSeg.add(new Segment(inters[6], inters[5], 9, "toto"));
-    listSeg.add(new Segment(inters[6], inters[7], 1, "toto"));
-    listSeg.add(new Segment(inters[7], inters[8], 3, "toto"));
-    listSeg.add(new Segment(inters[8], inters[9], 4, "toto"));
-    listSeg.add(new Segment(inters[9], inters[0], 2, "toto"));
-    listSeg.add(new Segment(inters[0], inters[10], 8, "toto"));
-    listSeg.add(new Segment(inters[10], inters[9], 1, "toto"));
-    listSeg.add(new Segment(inters[10], inters[8], 5, "toto"));
-    listSeg.add(new Segment(inters[7], inters[10], 6, "toto"));
-    listSeg.add(new Segment(inters[10], inters[6], 7, "toto"));
-    listSeg.add(new Segment(inters[3], inters[10], 1, "toto"));
-    listSeg.add(new Segment(inters[10], inters[4], 3, "toto"));
-    listSeg.add(new Segment(inters[10], inters[3], 10, "toto"));
-    listSeg.add(new Segment(inters[2], inters[10], 8, "toto"));
-    listSeg.add(new Segment(inters[10], inters[2], 3, "toto"));
-    listSeg.add(new Segment(inters[1], inters[10], 7, "toto"));
-    listSeg.add(new Segment(inters[3], inters[0], 10, "toto"));
-    listSeg.add(new Segment(inters[6], inters[0], 2, "toto"));
+    listSeg.add(new Segment(inters[0], inters[1], 2*1000, "toto"));
+    listSeg.add(new Segment(inters[1], inters[0], 6*1000, "toto"));
+    listSeg.add(new Segment(inters[1], inters[2], 5*1000, "toto"));
+    listSeg.add(new Segment(inters[2], inters[1], 4*1000, "toto"));
+    listSeg.add(new Segment(inters[2], inters[3], 7*1000, "toto"));
+    listSeg.add(new Segment(inters[3], inters[2], 1*1000, "toto"));
+    listSeg.add(new Segment(inters[4], inters[3], 3*1000, "toto"));
+    listSeg.add(new Segment(inters[3], inters[4], 3*1000, "toto"));
+    listSeg.add(new Segment(inters[5], inters[4], 6*1000, "toto"));
+    listSeg.add(new Segment(inters[5], inters[6], 2*1000, "toto"));
+    listSeg.add(new Segment(inters[6], inters[5], 9*1000, "toto"));
+    listSeg.add(new Segment(inters[6], inters[7], 1*1000, "toto"));
+    listSeg.add(new Segment(inters[7], inters[8], 3*1000, "toto"));
+    listSeg.add(new Segment(inters[8], inters[9], 4*1000, "toto"));
+    listSeg.add(new Segment(inters[9], inters[0], 2*1000, "toto"));
+    listSeg.add(new Segment(inters[0], inters[10], 8*1000, "toto"));
+    listSeg.add(new Segment(inters[10], inters[9], 1*1000, "toto"));
+    listSeg.add(new Segment(inters[10], inters[8], 5*1000, "toto"));
+    listSeg.add(new Segment(inters[7], inters[10], 6*1000, "toto"));
+    listSeg.add(new Segment(inters[10], inters[6], 7*1000, "toto"));
+    listSeg.add(new Segment(inters[3], inters[10], 1*1000, "toto"));
+    listSeg.add(new Segment(inters[10], inters[4], 3*1000, "toto"));
+    listSeg.add(new Segment(inters[10], inters[3], 10*1000, "toto"));
+    listSeg.add(new Segment(inters[2], inters[10], 8*1000, "toto"));
+    listSeg.add(new Segment(inters[10], inters[2], 3*1000, "toto"));
+    listSeg.add(new Segment(inters[1], inters[10], 7*1000, "toto"));
+    listSeg.add(new Segment(inters[3], inters[0], 10*1000, "toto"));
+    listSeg.add(new Segment(inters[6], inters[0], 2*1000, "toto"));
 
     for (Segment seg : listSeg) {
       g.ajouterSegment(seg);
@@ -188,15 +188,22 @@ public class Test {
 	try {
 		Graphe g2 = createMap();
 		Tournee tournee = createTournee(5, g2);
-		tournee.afficher();
+		//tournee.afficher();
 	    tournee.construireCircuit(g2);
 	    
 	    //Affichage du circuit
+	    /*
 	    Circuit circuit = tournee.getCircuit();
 	    Segment seg;
 	    while (circuit.hasNext()) {
 	    	seg = circuit.next();
 	    	System.out.println(seg.getOrigine().getId() + " -> " + seg.getDestination().getId());
+	    }
+	    */
+	    System.out.println("\nLivraisons avec heure estime : ");
+	    
+	    for (Livraison l : tournee.getLivraisons()) {
+	    	System.out.println ("Lieu : " + l.getLieu().getId() + " -> Heure : " + l.getHeureEstime()[0] + " Minutes : " + l.getHeureEstime()[1]);
 	    }
 
 	} catch (GrapheException e) {
