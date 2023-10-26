@@ -60,9 +60,13 @@ public class Window extends JFrame {
     for (int i = 0; i < controller.getNbLivreurs(); ++i) {
       liste_livreurs[i] = Integer.toString(i);
     }
+    JLabel label = new JLabel("Livreurs");
+    label.setSize(buttonWidth, buttonHeight);
+    label.setLocation(5, boutons.size() * buttonHeight);
+    getContentPane().add(label);
     livreurMenue = new JComboBox<String>(liste_livreurs);
     livreurMenue.setSize(buttonWidth, buttonHeight);
-    livreurMenue.setLocation(5, (boutons.size()) * buttonHeight);
+    livreurMenue.setLocation(5, (boutons.size() + 1) * buttonHeight);
     livreurMenue.setFocusable(false);
     BoxListener boxListener = new BoxListener(controller);
     livreurMenue.addActionListener(boxListener);
@@ -71,7 +75,7 @@ public class Window extends JFrame {
     graphicalView = new GraphicalView(this, t);
     textualView = new TextualView(this, t);
     messageFrame = new JLabel();
-    messageFrame.setBorder(BorderFactory.createTitledBorder("Messages..."));
+    messageFrame.setBorder(BorderFactory.createTitledBorder(""));
     getContentPane().add(messageFrame);
 
     mouseListener = new MouseListener(controller, graphicalView, this);
