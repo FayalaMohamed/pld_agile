@@ -24,6 +24,7 @@ public class Controller {
   protected final ChargerCarte chargerCarte = new ChargerCarte();
   protected final EtatSupprimerRequete etatSupprimerRequete = new EtatSupprimerRequete();
   protected final EtatChargerRequete etatChargerRequete = new EtatChargerRequete();
+  protected final EtatSauvegarderRequete etatSauvegarderRequete = new EtatSauvegarderRequete();
 
   public Controller() {
     // WARNING: The number of "livreurs" is currently hard coded
@@ -72,6 +73,7 @@ public class Controller {
   }
 
   public void chargerRequetes() {
+    currentState.chargerRequetes(this,window);
   }
 
   public void choixLivreur(int livreur) {

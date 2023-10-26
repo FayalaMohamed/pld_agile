@@ -16,7 +16,7 @@ import javax.swing.JComboBox;
 
 public class Window extends JFrame {
 
-  protected static final String CHARGER_CARTE = "Charger un carte";
+  protected static final String CHARGER_CARTE = "Charger une carte";
   protected static final String CREER_REQUETE = "Créer une requête";
   protected static final String SUPPRIMER_REQUETES = "Supprimer une requête";
   protected static final String CHARGER_REQUETES = "Charger des requêtes";

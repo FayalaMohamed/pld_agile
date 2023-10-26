@@ -36,9 +36,11 @@ public class ButtonListener implements ActionListener {
         controller.calculerTournee();
         break;
        case Window.CHARGER_REQUETES:
+         System.out.println("Bouton charger requetes");
            controller.chargerRequetes();
            break;
        case Window.SAUVEGARDER_REQUETES:
+         System.out.println("Bouton sauvegarder requetes");
            controller.sauvegarderRequetes();
            break;
     }

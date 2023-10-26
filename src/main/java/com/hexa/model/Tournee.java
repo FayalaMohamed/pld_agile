@@ -61,7 +61,9 @@ public class Tournee extends Observable {
 		if (circuitCalculer) {
 			return false;
 		}
-		return this.livraisons.add(l);
+		boolean success = this.livraisons.add(l);
+		notifyObservers(this);
+		return success;
 	}
 
 	/**
@@ -93,6 +95,7 @@ public class Tournee extends Observable {
 
 	public void setLivraisons(Set<Livraison> livraisons){
 		this.livraisons = livraisons;
+		this.notifyObservers(this);
 	}
 
 	public Iterator<Livraison> getLivraisonIterator() {
@@ -172,7 +175,11 @@ public class Tournee extends Observable {
 		this.notifyObservers(this);
 
 	}
-	
+
+	public void setCircuitCalculer(boolean circuitCalculer) {
+		this.circuitCalculer = circuitCalculer;
+	}
+
 	public Livreur getLivreur() {
 		return livreur;
 	}

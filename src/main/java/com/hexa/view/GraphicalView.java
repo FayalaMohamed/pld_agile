@@ -51,6 +51,8 @@ public class GraphicalView extends JPanel implements Observer{
 
   @Override
   public void update(Observable o, Object arg) {
+    paintComponent(g);
+    repaint();
   }
 
   public void ajouterCarte(Graphe carte) {
@@ -70,6 +72,9 @@ public class GraphicalView extends JPanel implements Observer{
 
   public void display(Intersection i, Color c) {
     int r = 2;
+    if (c.equals(Color.red)) {
+      r = 6;
+    }
     int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
     int ypos = (int) ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight);
     g.setColor(c);

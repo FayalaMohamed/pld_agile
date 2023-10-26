@@ -138,9 +138,6 @@ public class XMLParser {
     for (int i = 0; i < livraisons.getLength(); i++) {
       Node uneLivraison = livraisons.item(i);
       NamedNodeMap attributes = uneLivraison.getAttributes();
-      for(int j= 0; j< attributes.getLength();j++){
-        System.out.println(attributes.item(j).getNodeName());
-      }
 
       if (attributes.getLength() != 8 || attributes.item(0).getNodeName() != "dateHeure"
               || attributes.item(1).getNodeName() != "dateMinute" || attributes.item(2).getNodeName() != "id" || attributes.item(3).getNodeName() != "latitude"
@@ -166,7 +163,6 @@ public class XMLParser {
       listeLivraisons.add(livraison);
 
     }
-
 
     return listeLivraisons;
   }

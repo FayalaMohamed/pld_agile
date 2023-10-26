@@ -27,7 +27,7 @@ public class TextualView extends JLabel implements Observer{
 		this.setVerticalTextPosition(TOP);
 		this.setVerticalAlignment(TOP);
 		window.getContentPane().add(this);
-		tournee.addObserver(this); // this observes plan
+		tournee.addObserver(this); // this observes tournee
 		this.tournee = tournee;
 	}
 	
@@ -51,7 +51,7 @@ public class TextualView extends JLabel implements Observer{
 		text = text+"<li>";
 		text = text+"Livraison: " + l.toString();
 		if (tournee.estCalculee()) {
-			text = text+ " Plage horaire : " + l.getPlageHoraire()[0] + "h - " + l.getPlageHoraire()[0] + "h";
+			text = text+ " Plage horaire : " + l.getPlageHoraire()[0] + "h - " + l.getPlageHoraire()[1] + "h";
 		}
 		text = text+"</li>";
 	}

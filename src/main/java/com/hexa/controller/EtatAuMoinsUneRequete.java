@@ -25,6 +25,8 @@ public class EtatAuMoinsUneRequete implements State {
   }
 
   public void sauvegarderRequetes(Controller c, Window w) {
+    c.setCurrentState(c.etatSauvegarderRequete);
+    c.entryAction();
   }
 
   public void calculerTournee(Controller c, Window w) {

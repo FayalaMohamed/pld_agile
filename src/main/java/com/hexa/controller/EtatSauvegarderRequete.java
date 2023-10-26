@@ -12,10 +12,8 @@ public class EtatSauvegarderRequete implements State {
   public void entryAction(Controller c, Window w) {
     try {
       File xmlFile = XMLfileOpener.getInstance().open(false);
-      if (xmlFile == null) {
-      } else {
-        // TODO mettre l'appel a la sauvegarde (a decommenter)
-        XMLParser.listeLivraisonsToXml("/tmp/listeLivraison.xml", (c.getTournee().getLivraisonsSet()));
+      if (xmlFile != null) {
+        XMLParser.listeLivraisonsToXml(xmlFile.getAbsolutePath(), (c.getTournee().getLivraisonsSet()));
       }
     } catch (Exception e) {
       e.printStackTrace();
