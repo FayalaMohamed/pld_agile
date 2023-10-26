@@ -18,6 +18,9 @@ public class EtatCreerRequete2 implements State {
       w.afficherMessage("Vous devez choisir une intersection avant de choisir un livreur");
       return;
     }
+    // FIX: This is not good, need to have a list of livreurs somewhere and perform
+    // a getLivreurById (create the livreur and append it to the list if it does not
+    // exist yet)
     livraison.setLivreur(new Livreur(livreur));
     w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
     c.setCurrentState(c.etatAuMoinsUneRequete);
