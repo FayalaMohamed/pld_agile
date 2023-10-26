@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.hexa.model.Graphe;
+import com.hexa.model.GrapheComplet;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
 import com.hexa.model.algo.TSP;
@@ -19,7 +20,7 @@ abstract class TemplateTSP implements TSP {
 	private int sizeBestSol;
 
 	@Override
-	public void searchSolution(int timeLimit, Graphe g) {
+	public void searchSolution(int timeLimit, GrapheComplet g) {
 		
 		//Def. limite de temps 
 		if (timeLimit <= 0 ) return;

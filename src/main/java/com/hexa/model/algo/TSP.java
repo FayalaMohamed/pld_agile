@@ -1,6 +1,7 @@
 package com.hexa.model.algo;
 
 import com.hexa.model.Graphe;
+import com.hexa.model.GrapheComplet;
 import com.hexa.model.Intersection;
 
 public interface TSP {
@@ -11,7 +12,7 @@ public interface TSP {
 	 * @param limitTime
 	 * @param g
 	 */
-	public void searchSolution(int timeLimit, Graphe g);
+	public void searchSolution(int timeLimit, GrapheComplet g);
 	
 	
 	/**

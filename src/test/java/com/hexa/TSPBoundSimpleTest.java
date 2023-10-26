@@ -4,15 +4,18 @@ import org.junit.jupiter.api.Test;
 
 import com.hexa.model.Entrepot;
 import com.hexa.model.Graphe;
+import com.hexa.model.GrapheComplet;
 import com.hexa.model.GrapheException;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
+import com.hexa.model.Tournee;
+import com.hexa.model.TourneeException;
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
 
 public class TSPBoundSimpleTest {
 
-    Graphe graphe= new Graphe();
+    GrapheComplet graphe;
 
     @Test
     public void TSPBoundSimpleCasLimites1() {
@@ -26,7 +29,13 @@ public class TSPBoundSimpleTest {
     }
     @Test
     public void TSPBoundSimpleCasLimites2() {
-        graphe= new Graphe();
+        try {
+			graphe= new GrapheComplet(new Graphe(), new Tournee());
+		} catch (GrapheException e) {
+			e.printStackTrace();
+		} catch (TourneeException e) {
+			e.printStackTrace();
+		}
         TSP tsp = new TSPBoundSimple();
 
         tsp.searchSolution(20000,graphe);
