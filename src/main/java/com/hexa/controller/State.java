@@ -14,14 +14,12 @@ public interface State {
   public default void clicDroit() {
   }
 
-  // TODO modifier la signature de la fonction pour enelever file
   public default void chargerCarte(Controller c, Window w) {
   }
 
   public default void creerRequete(Controller c, Window w) {
   }
 
-  // TODO modifier la signature de la fonction pour enelever file
   public default void chargerRequetes(Controller c, Window w) {
   }
 

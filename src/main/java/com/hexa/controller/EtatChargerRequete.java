@@ -13,15 +13,13 @@ public class EtatChargerRequete implements State {
       File xmlFile = XMLfileOpener.getInstance().open(true);
 
       if (xmlFile == null) {
-        // TODO (itération 2) gérer aussi le cas où on charge d'un autre état que
-        // l'initial
-        c.setCurrentState(c.initialState);
-      } else {
-        Graphe map = XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
-        w.afficherCarte(map);
         c.setCurrentState(c.etatCarteChargee);
+      } else {
+        // TODO ajouter le chargement des requetes
+        c.setCurrentState(c.etatAuMoinsUneRequete);
       }
     } catch (Exception e) {
+      e.printStackTrace();
       c.setCurrentState(c.initialState);
     }
   }

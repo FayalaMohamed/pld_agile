@@ -1,6 +1,5 @@
 package com.hexa.controller;
 
-import java.io.File;
 import com.hexa.model.Graphe;
 import com.hexa.view.Window;
 import com.hexa.model.XMLParser;
@@ -18,6 +17,7 @@ public class Controller {
   protected final EtatAuMoinsUneRequete etatAuMoinsUneRequete = new EtatAuMoinsUneRequete();
   protected final ChargerCarte chargerCarte = new ChargerCarte();
   protected final EtatChargerRequete etatChargerRequete = new EtatChargerRequete();
+  protected final EtatSauvegarderRequete etatSauvegarderRequete = new EtatSauvegarderRequete();
 
   public Controller() {
     currentState = initialState;
@@ -51,6 +51,10 @@ public class Controller {
   public void chargerRequetes() {
   }
 
+  public void entryAction() {
+    currentState.entryAction(this, window);
+  }
+
   // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD
   public void chargerCarteTest(String file) {
     System.out.println("Making a graph from the file : " + file);
@@ -64,5 +68,9 @@ public class Controller {
     } catch (Exception ex) {
       ex.printStackTrace();
     }
+  }
+
+  public State getCurrentState() {
+    return currentState;
   }
 }

@@ -6,7 +6,11 @@ import com.hexa.controller.EtatCreerRequete2;
 
 public class EtatCreerRequete1 implements State {
 
-  public void clicDroit(Controller c, Window w) {
+  public void clicDroit(Controller c) {
+    c.setCurrentState(c.etatCarteChargee);
+  }
+
+  public void clicGauche(Controller c) {
     c.setCurrentState(c.etatCreerRequete2);
   }
 
