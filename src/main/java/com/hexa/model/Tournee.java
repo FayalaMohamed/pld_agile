@@ -1,93 +1,105 @@
 package com.hexa.model;
 
-
 import java.util.*;
 
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
 
+import com.hexa.observer.Observable;
+
 /**
  * 
  */
 public class Tournee extends Observable {
-	
-	
-	/**
-     * Jour à laquelle doit/s'est passé la tournée
-     */
-    //private Date date;
 
-    /**
-     * Ensemble des livraisons à effectuer
-     */
-    private Set<Livraison> livraisons;
+  /**
+   * Jour à laquelle doit/s'est passé la tournée
+   */
+  private Date date;
 
-    
-    
-    private int[] finTourneeEstime; //0: heure | 1: minute
-    
-    
-    /**
-     * Circuit (=sequence de segments) à parcourir par le livreur pour faire toutes les livraisons
-     */
-    private Circuit circuit;
-    private boolean circuitCalculer;
+  /**
+   * Ensemble des livraisons à effectuer
+   */
+  private Set<Livraison> livraisons;
 
-    /**
-     * Default constructor
-     * 
-     * Initialise les attributs
-     */
-    public Tournee() {
-    	
-    	this.livraisons = new HashSet<Livraison>();
-    	circuit = null;
-    	circuitCalculer = false;
-    	
-    	finTourneeEstime = new int[2];
-    	
-    }
+  /**
+   * Livreur affecté à la tournée
+   */
+  private Livreur livreur;
 
-    
+  /**
+   * Circuit (=sequence de segments) à parcourir par le livreur pour faire toutes
+   * les livraisons
+   */
+  private Circuit circuit;
+  private boolean circuitCalculer;
 
-    /**
-     * Ajoute une livraisons 
-     * 
-     * Définit l'état du circuit à non calculé => A FAIRE : décider si on doit recalculer ou si on interdit l'ajout après calcul
-     * 
-     * @param l une livraison à ajouter à cette tournée
-     * @return true si la livraison n'était pas déjà présente
-     */
-    public boolean ajouterLivraison (Livraison l) {
-    	if (circuitCalculer) {
-    		return false;
-    	}
-    	return this.livraisons.add(l);
+  /**
+   * Default constructor
+   * 
+   * Initialise les attributs
+   */
+  public Tournee() {
+
+    this.livraisons = new HashSet<Livraison>();
+    circuit = null;
+    circuitCalculer = false;
+
+  }
+
+  /**
+   * Ajoute une livraisons
+   * 
+   * Définit l'état du circuit à non calculé => A FAIRE : décider si on doit
+   * recalculer ou si on interdit l'ajout après calcul
+   * 
+   * @param l une livraison à ajouter à cette tournée
+   * @return true si la livraison n'était pas déjà présente
+   */
+  public boolean ajouterLivraison(Livraison l) {
+    boolean s = this.livraisons.add(l);
+    if (s) {
+      this.notifyObservers(this);
     }
-    
-    
-    /**
-     * uniquement pour le dev
-     */
-    public void afficher() {
-    	for (Livraison l : livraisons) {
-    		System.out.println(l.getLieu().getId());
-    	}
+    return s;
+  }
+
+  public void supprimerLivraison(Intersection intersection) {
+    for (Livraison l: livraisons) {
+      System.out.println(l.toString());
+      if (l.getLieu() == intersection) {
+        livraisons.remove(l);
+      }
     }
-    
-    /**
-     * @return le nombre de livraison que contient cette tournée
-     */
-    public int getNbLivraisons() {
-    	return livraisons.size();
+    this.notifyObservers(this);
+  }
+
+  /**
+   * uniquement pour le dev
+   */
+  public void afficher() {
+    for (Livraison l : livraisons) {
+      System.out.println(l.getLieu().getId());
     }
-    
-    /**
-     * @return un tableau de l'ensemble des livraisons à faire
-     */
-    public Livraison[] getLivraisons() {
-    	return livraisons.toArray(new Livraison[0]);
-    }
+  }
+
+  /**
+   * @return le nombre de livraison que contient cette tournée
+   */
+  public int getNbLivraisons() {
+    return livraisons.size();
+  }
+
+  /**
+   * @return un tableau de l'ensemble des livraisons à faire
+   */
+  public Livraison[] getLivraisons() {
+    return livraisons.toArray(new Livraison[0]);
+  }
+
+  public Iterator<Livraison> getLivraisonIterator() {
+    return livraisons.iterator();
+  }
     
     /**
      * 
@@ -166,6 +178,8 @@ public class Tournee extends Observable {
 		
 		circuit = new Circuit(list);
 		circuitCalculer = true;
+      
+    this.notifyObservers(this);
     	
     }
     
@@ -182,5 +196,18 @@ public class Tournee extends Observable {
     		throw new TourneeException("Le circuit n'a pas encore été calculé");
     	}
     }
-    
+  }
+
+  public Livreur getLivreur() {
+    return livreur;
+  }
+
+  public void setLivreur(Livreur livreur) {
+    this.livreur = livreur;
+  }
+
+  public boolean estCalculee() {
+    return circuitCalculer == true;
+  }
+
 }
