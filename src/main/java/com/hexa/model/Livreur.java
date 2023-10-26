@@ -11,7 +11,8 @@ public class Livreur {
     /**
      * Default constructor
      */
-    public Livreur() {
+    public Livreur(int id) {
+        this.id = id;
     }
 
     /**
@@ -24,4 +25,7 @@ public class Livreur {
      */
     private Set<Tournee> tournees;
 
+    public int getId() {
+        return id;
+    }
 }

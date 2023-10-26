@@ -1,13 +1,10 @@
 package com.hexa;
 
-import com.hexa.model.Circuit;
-import com.hexa.model.Entrepot;
-import com.hexa.model.Graphe;
-import com.hexa.model.Intersection;
-import com.hexa.model.Livraison;
-import com.hexa.model.Segment;
-import com.hexa.model.Tournee;
-import com.hexa.model.XMLParser;
+import com.hexa.model.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.hexa.controller.Controller;
 
@@ -81,8 +78,35 @@ public class App {
     }
 
   }
+  public static List<Livraison> testParserDeLivraison() throws ParseException {
 
-  public static void main(String[] args) {
+    ArrayList<Livraison> listeLivraisons = new ArrayList<Livraison>();
+
+    for(int i = 0; i<5;i++){
+
+      SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+      Date date = sdf.parse("11:11");
+      int livreur_id = 55;
+      int plage = 2;
+      Long id =  25175791L;
+      double latitude = 45.75406;
+      double longitude = 4.857418;
+
+      Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
+      livraison.setLivreur(new Livreur(livreur_id));
+      livraison.setPlageHoraire(plage);
+      livraison.setHeureEstimee(date);
+
+      listeLivraisons.add(livraison);
+
+
+    }
+
+    return listeLivraisons;
+  }
+
+
+  public static void main(String[] args) throws Exception {
 
     Controller controller = new Controller();
     // String inputFile =
@@ -123,5 +147,15 @@ public class App {
     // }
     Long end = System.currentTimeMillis();
     System.out.println("Time : " + (double) (end - start) / 1000);
+
+    XMLParser.listeLivraisonsToXml("/tmp/listeLivraison.xml", testParserDeLivraison());
+
+    ArrayList<Livraison> listeLivraisons= XMLParser.xmlToListeLivraison("/tmp/listeLivraison.xml");
   }
+
+
+
+
+
+
 }

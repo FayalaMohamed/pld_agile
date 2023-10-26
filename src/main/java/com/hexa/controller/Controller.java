@@ -49,6 +49,11 @@ public class Controller {
   }
 
   public void chargerRequetes() {
+    currentState.chargerRequetes(this, window);
+  }
+
+  public void sauvegarderRequetes() {
+    currentState.sauvegarderRequetes(this, window);
   }
 
   public void entryAction() {

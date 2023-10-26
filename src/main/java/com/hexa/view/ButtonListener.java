@@ -7,16 +7,24 @@ import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
 
-    private Controller controller;
+  private Controller controller;
 
-    public ButtonListener(Controller controller) {
-        this.controller = controller;
-    }
+  public ButtonListener(Controller controller) {
+    this.controller = controller;
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case Window.CHARGER_CARTE: controller.chargerCarte();
-        }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+      case Window.CHARGER_CARTE:
+        controller.chargerCarte();
+        break;
+      case Window.CHARGER_REQUETES:
+        controller.chargerRequetes();
+        break;
+      case Window.SAUVEGARDER_REQUETES:
+        controller.sauvegarderRequetes();
+        break;
     }
+  }
 }
