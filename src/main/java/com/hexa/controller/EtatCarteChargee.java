@@ -9,7 +9,13 @@ public class EtatCarteChargee implements State {
     c.setCurrentState(c.etatCreerRequete1);
   }
 
-  // TODO modifier la signature de la fonction pour enelever file
-  public void chargerRequetes(Controller c, Window w, String file) {
+  public void chargerRequetes(Controller c, Window w) {
+    c.setCurrentState(c.etatChargerRequete);
+    c.entryAction();
+  }
+
+  public void chargerCarte(Controller c, Window w) {
+    c.setCurrentState(c.chargerCarte);
+    c.entryAction();
   }
 }
