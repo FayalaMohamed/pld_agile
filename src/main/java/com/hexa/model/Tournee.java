@@ -1,10 +1,11 @@
 package com.hexa.model;
 
-
 import java.util.*;
 
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
+
+import com.hexa.observer.Observable;
 
 /**
  * 
@@ -57,7 +58,11 @@ public class Tournee extends Observable {
      * @return true si la livraison n'était pas déjà présente
      */
     public boolean ajouterLivraison (Livraison l) {
-    	return this.livraisons.add(l);
+    	boolean s = this.livraisons.add(l);
+      if (s) {
+        this.notifyObservers(this);
+      }
+      return s;
     }
     
     
@@ -83,6 +88,10 @@ public class Tournee extends Observable {
     public Livraison[] getLivraisons() {
     	return livraisons.toArray(new Livraison[0]);
     }
+
+    public Iterator<Livraison> getLivraisonIterator(){
+		  return livraisons.iterator();
+	  }
     
     /**
      * 

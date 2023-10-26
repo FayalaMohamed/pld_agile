@@ -15,6 +15,7 @@ public class ChargerCarte implements State {
       File xmlFile = XMLfileOpener.getInstance().open(true);
       Graphe map = XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
       w.afficherCarte(map);
+      c.setCarte(map);
       c.setCurrentState(c.etatCarteChargee);
     } catch (Exception e) {
       c.setCurrentState(c.initialState);

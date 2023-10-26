@@ -5,6 +5,7 @@ import java.io.File;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Livraison;
+import com.hexa.model.Tournee;
 import com.hexa.view.Window;
 import com.hexa.model.XMLParser;
 
@@ -13,6 +14,7 @@ public class Controller {
   private State currentState;
   private Window window;
   private Graphe carte;
+  private Tournee tournee;
 
   protected final InitialState initialState = new InitialState();
   protected final EtatCreerRequete1 etatCreerRequete1 = new EtatCreerRequete1();
@@ -23,7 +25,8 @@ public class Controller {
 
   public Controller() {
     currentState = initialState;
-    window = new Window(this);
+    tournee = new Tournee();
+    window = new Window(this, tournee);
   }
 
   public Graphe getCarte() {
@@ -43,7 +46,7 @@ public class Controller {
   }
 
   public void clicGauche(Coordonnees coordonnees) {
-    currentState.clicGauche(coordonnees);
+    currentState.clicGauche(this, window, coordonnees);
   }
 
   public void clicDroit() {

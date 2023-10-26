@@ -5,7 +5,7 @@ import com.hexa.view.Window;
 
 public interface State {
 
-  public default void clicGauche(Coordonnees Coordonnees) {
+  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees) {
   }
 
   public default void clicDroit(Controller c, Window w) {

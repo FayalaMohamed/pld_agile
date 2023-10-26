@@ -2,15 +2,11 @@ package com.hexa.view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import com.hexa.controller.Controller;
 import com.hexa.model.Graphe;
+import com.hexa.model.Tournee;
 
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -33,8 +29,10 @@ public class Window extends JFrame {
   private final int buttonHeight = 40;
   private final int buttonWidth = 250;
   private final int messageFrameHeight = 110;
+	private final int textualViewWidth = 400;
 
   private GraphicalView graphicalView;
+  private TextualView textualView;
   private JLabel messageFrame;
 
   private MouseListener mouseListener;
@@ -43,7 +41,7 @@ public class Window extends JFrame {
   private int width;
   private int height;
 
-  public Window(Controller controller) {
+  public Window(Controller controller, Tournee t) {
 
     super();
 
@@ -55,7 +53,8 @@ public class Window extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setResizable(false);
 
-    graphicalView = new GraphicalView(this);
+    graphicalView = new GraphicalView(this, t);
+    textualView = new TextualView(this, t);
     messageFrame = new JLabel();
     messageFrame.setBorder(BorderFactory.createTitledBorder("Messages..."));
     getContentPane().add(messageFrame);
@@ -70,11 +69,13 @@ public class Window extends JFrame {
   private void setWindowSize() {
     int allButtonHeight = buttonHeight * texteBoutons.length;
     height = Math.max(graphicalView.getViewHeight(), allButtonHeight) + messageFrameHeight;
-    width = graphicalView.getViewWidth() + buttonWidth + 10;
+    width = graphicalView.getViewWidth() + buttonWidth + 10 +textualViewWidth;
     setSize(width, height);
     graphicalView.setLocation(buttonWidth + 10, 0);
     messageFrame.setSize(width, messageFrameHeight);
     messageFrame.setLocation(0, height - messageFrameHeight);
+    textualView.setSize(textualViewWidth,height-messageFrameHeight);
+		textualView.setLocation(10+graphicalView.getViewWidth()+buttonWidth,0);
     setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     setLocationRelativeTo(null);
   }
@@ -94,9 +95,6 @@ public class Window extends JFrame {
       bouton.addActionListener(buttonListener);
       getContentPane().add(bouton);
     }
-  }
-
-  public void afficherLivraisons(boolean affBoutonSuppr) {
   }
 
   public void afficherMessage(String message) {
