@@ -7,7 +7,9 @@ import com.hexa.controller.EtatCreerRequete2;
 public class EtatCreerRequete1 implements State {
 
   public void clicDroit(Controller c, Window w) {
-    c.setCurrentState(c.etatCreerRequete2);
+    w.afficherMessage("Cancelled the creation of new request");
+    System.out.println("Cancelled the creation of new request");
+    c.setCurrentState(c.etatCarteChargee);
   }
 
   // TODO modifier la signature de la fonction pour enelever file

@@ -7,7 +7,7 @@ public interface State {
   public default void clicGauche() {
   }
 
-  public default void clicDroit() {
+  public default void clicDroit(Controller c, Window w) {
   }
 
   // TODO modifier la signature de la fonction pour enelever file

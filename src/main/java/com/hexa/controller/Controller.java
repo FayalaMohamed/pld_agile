@@ -40,7 +40,8 @@ public class Controller {
   }
 
   public void clicDroit() {
-    currentState.clicDroit();
+    System.out.println("Performing the right click on state : " + currentState);
+    currentState.clicDroit(this, window);
   }
 
   public void chargerCarte() {
@@ -48,6 +49,10 @@ public class Controller {
   }
 
   public void chargerRequetes() {
+  }
+
+  public void creerRequete() {
+    currentState.creerRequete(this, window);
   }
 
   // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD
