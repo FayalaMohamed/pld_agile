@@ -3,6 +3,7 @@ package com.hexa.controller;
 import com.hexa.model.Coordonnees;
 import java.io.File;
 import com.hexa.model.Graphe;
+import com.hexa.model.Tournee;
 import com.hexa.view.Window;
 import com.hexa.model.XMLParser;
 
@@ -51,6 +52,10 @@ public class Controller {
   public void chargerRequetes() {
   }
 
+  public Graphe getCarte() {
+    return carte;
+  }
+
   // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD
   public void chargerCarteTest(String file) {
     System.out.println("Making a graph from the file : " + file);
@@ -65,4 +70,6 @@ public class Controller {
       ex.printStackTrace();
     }
   }
+
+
 }

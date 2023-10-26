@@ -84,18 +84,19 @@ public class App {
 
     for(int i = 0; i<5;i++){
 
-      SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-      Date date = sdf.parse("11:11");
+      int dateHeure = 11;
+      int dateMinute= 59;
       int livreur_id = 55;
-      int plage = 2;
+      int plageDebut= 10;
+      int plageFin = 11;
       Long id =  25175791L;
       double latitude = 45.75406;
       double longitude = 4.857418;
 
       Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
       livraison.setLivreur(new Livreur(livreur_id));
-      livraison.setPlageHoraire(plage);
-      livraison.setHeureEstimee(date);
+      livraison.setPlageHoraire(plageDebut,plageFin);
+      livraison.setHeureEstime(dateHeure,dateMinute);
 
       listeLivraisons.add(livraison);
 

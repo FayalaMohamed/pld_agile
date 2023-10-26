@@ -142,24 +142,26 @@ public class XMLParser {
         System.out.println(attributes.item(j).getNodeName());
       }
 
-      if (attributes.getLength() != 6 || attributes.item(0).getNodeName() != "date"
-               || attributes.item(1).getNodeName() != "id" || attributes.item(2).getNodeName() != "latitude"
-              || attributes.item(3).getNodeName() != "livreurId" || attributes.item(4).getNodeName() != "longitude" || attributes.item(5).getNodeName() != "plage") {
+      if (attributes.getLength() != 8 || attributes.item(0).getNodeName() != "dateHeure"
+              || attributes.item(1).getNodeName() != "dateMinute" || attributes.item(2).getNodeName() != "id" || attributes.item(3).getNodeName() != "latitude"
+              || attributes.item(4).getNodeName() != "livreurId" || attributes.item(5).getNodeName() != "longitude" || attributes.item(6).getNodeName() != "plageDebut"
+              || attributes.item(7).getNodeName() != "plageFin") {
         throw new Exception("A delivery must have 6 attributes in this order : date, livreurId, id, latitude, longitude");
       }
-      SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-      Date date = sdf.parse(attributes.item(0).getNodeValue());
+      int dateHeure = Integer.parseInt(attributes.item(0).getNodeValue());
+      int dateMinute = Integer.parseInt(attributes.item(1).getNodeValue());
 
-      int livreurId = Integer.parseInt(attributes.item(3).getNodeValue());
-      int plage = Integer.parseInt(attributes.item(5).getNodeValue());
-      Long id = Long.parseLong(attributes.item(1).getNodeValue());
-      double latitude = Double.parseDouble(attributes.item(2).getNodeValue());
-      double longitude = Double.parseDouble(attributes.item(4).getNodeValue());
+      int livreurId = Integer.parseInt(attributes.item(4).getNodeValue());
+      int plageDebut = Integer.parseInt(attributes.item(6).getNodeValue());
+      int plageFin = Integer.parseInt(attributes.item(7).getNodeValue());
+      Long id = Long.parseLong(attributes.item(2).getNodeValue());
+      double latitude = Double.parseDouble(attributes.item(3).getNodeValue());
+      double longitude = Double.parseDouble(attributes.item(5).getNodeValue());
 
       Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
       livraison.setLivreur(new Livreur(livreurId));
-      livraison.setPlageHoraire(plage);
-      livraison.setHeureEstimee(date);
+      livraison.setPlageHoraire(plageDebut,plageFin);
+      livraison.setHeureEstime(dateHeure,dateMinute);
 
       listeLivraisons.add(livraison);
 
@@ -177,8 +179,9 @@ public class XMLParser {
       writer.println("<livraisons>");
       SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
       for (Livraison livraison : liste_livraisons) {
-        writer.println("<livraison date=\"" + outputFormat.format(livraison.getHeureEstimee()) + "\" livreurId=\"" + livraison.getLivreur().getId()
-                + "\" plage=\"" + livraison.getPlageHoraire() + "\" id=\"" + livraison.getLieu().getId() +  "\" latitude=\"" + livraison.getLieu().getLatitude()
+        writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateHeure=\"" + livraison.getHeureEstime()[1]
+                + "\" livreurId=\"" + livraison.getLivreur().getId()
+                + "\" plageDebut=\"" + livraison.getPlageHoraire()[0] + "\" plageFin=\"" + livraison.getPlageHoraire()[1] + "\" id=\"" + livraison.getLieu().getId() +  "\" latitude=\"" + livraison.getLieu().getLatitude()
                 +  "\" longitude=\"" + livraison.getLieu().getLongitude() +"\"/>");
 
 
