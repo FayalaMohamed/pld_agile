@@ -32,3 +32,4 @@ target
 .vscode
 
 .settings
+compileAndRun.sh

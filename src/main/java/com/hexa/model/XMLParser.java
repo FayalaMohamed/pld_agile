@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -98,6 +97,7 @@ public class XMLParser {
         map.ajouterIntersection(inter);
         mapping_id_intersection.put(id, inter);
       }
+
     }
 
     NodeList segments = doc.getElementsByTagName("segment");
