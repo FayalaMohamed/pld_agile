@@ -14,12 +14,10 @@ public class Chemin implements Iterator<Segment> {
 	 * @param seq liste ordonnée de segment qui doivent composer le chemin
 	 */
 	public Chemin(List<Segment> seq) {
-		
 		sequence = seq.toArray(new Segment[0]);
 		size = seq.size();
 		
-		index = 0;
-		
+		index = 0;		
 	}
 	
 	@Override
@@ -34,8 +32,5 @@ public class Chemin implements Iterator<Segment> {
 	@Override
 	public Segment next() {
 		return sequence[index++];
-	}
-	
-	
-	
+	}	
 }

@@ -1,10 +1,8 @@
 package com.hexa;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.hexa.model.Entrepot;
@@ -61,7 +59,7 @@ public class xmlToGrapheTest {
         @Test
         public void xmlToGrapheTest3() throws Exception {
                 Exception exception = assertThrows(Exception.class, () -> {
-                        Graphe graphe = XMLParser.xmlToGraphe(
+                        XMLParser.xmlToGraphe(
                                 "./src/test/java/com/hexa/XMLTest/xmlTest2.xml");
                 });
 
@@ -70,7 +68,7 @@ public class xmlToGrapheTest {
         @Test
         public void xmlToGrapheTest4() throws Exception {
                 Exception exception = assertThrows(Exception.class, () -> {
-                        Graphe graphe = XMLParser.xmlToGraphe(
+                        XMLParser.xmlToGraphe(
                                 "./src/test/java/com/hexa/XMLTest/xmlTest3.xml");
                 });
 
@@ -79,7 +77,7 @@ public class xmlToGrapheTest {
         @Test
         public void xmlToGrapheTest5() throws Exception {
                 Exception exception = assertThrows(Exception.class, () -> {
-                        Graphe graphe = XMLParser.xmlToGraphe(
+                        XMLParser.xmlToGraphe(
                                 "./src/test/java/com/hexa/XMLTest/xmlTest4.xml");
                 });
 
@@ -88,7 +86,7 @@ public class xmlToGrapheTest {
         @Test
         public void xmlToGrapheTest6() throws Exception {
                 Exception exception = assertThrows(Exception.class, () -> {
-                        Graphe graphe = XMLParser.xmlToGraphe(
+                        XMLParser.xmlToGraphe(
                                 "./src/test/java/com/hexa/XMLTest/xmlTest5.xml");
                 });
 
@@ -97,10 +95,28 @@ public class xmlToGrapheTest {
         @Test
         public void xmlToGrapheTest7() throws Exception {
                 Exception exception = assertThrows(Exception.class, () -> {
-                        Graphe graphe = XMLParser.xmlToGraphe(
+                        XMLParser.xmlToGraphe(
                                 "./src/test/java/com/hexa/XMLTest/xmlTest6.xml");
                 });
 
                 assertEquals("Segment has an intersection that does not exist: destination = 2129259178 and origin = 25175791", exception.getMessage());
+        }
+        @Test
+        public void xmlToGrapheTest8() throws Exception {
+                Exception exception = assertThrows(Exception.class, () -> {
+                        XMLParser.xmlToGraphe(
+                                "./src/test/java/com/hexa/XMLTest/xmlTest7.xml");
+                });
+
+                assertEquals("A segment must have 4 attributes in this order : destination, length, name, origin", exception.getMessage());
+        }
+        @Test
+        public void xmlToGrapheTest9() throws Exception {
+                Exception exception = assertThrows(Exception.class, () -> {
+                        XMLParser.xmlToGraphe(
+                                "./src/test/java/com/hexa/XMLTest/xmlTest8.xml");
+                });
+
+                assertEquals("An intersection must have 3 attributes in this order : id, latitude, longitude", exception.getMessage());
         }
 }

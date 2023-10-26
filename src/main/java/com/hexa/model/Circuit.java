@@ -19,8 +19,7 @@ public class Circuit implements Iterator<Segment>{
 		sequence = seq.toArray(new Chemin[0]);
 		size = seq.size();
 		
-		index = 0;
-		
+		index = 0;		
 	}
 	
 	@Override
