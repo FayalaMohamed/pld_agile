@@ -11,7 +11,7 @@ public class XMLfileOpener extends FileFilter {// Singleton
   private XMLfileOpener() {
   }
 
-  protected static XMLfileOpener getInstance() {
+  public static XMLfileOpener getInstance() {
     if (instance == null)
       instance = new XMLfileOpener();
     return instance;

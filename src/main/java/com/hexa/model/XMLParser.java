@@ -19,15 +19,9 @@ public class XMLParser {
     marsh.marshal(graphe, new File(outputFile));
   }
 
-  public static Graphe xmlToGraphe(String file) throws Exception {
+  public static Graphe xmlToGraphe(File xmlFile) throws Exception {
     Graphe map = null;
-    
-    FileInputStream xmlFileInputStream = null;
-    if (file == null) {
-      xmlFileInputStream = new FileInputStream(XMLfileOpener.getInstance().open(true));
-    } else {
-      xmlFileInputStream = new FileInputStream(file);
-    }
+    FileInputStream xmlFileInputStream = new FileInputStream(xmlFile);
 
     try {
       JAXBContext context = JAXBContext.newInstance(Graphe.class);
