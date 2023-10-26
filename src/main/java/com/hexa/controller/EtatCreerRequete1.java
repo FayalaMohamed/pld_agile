@@ -15,6 +15,7 @@ public class EtatCreerRequete1 implements State {
         w.afficherMessage("Intersection sélectionnée pour la livraison");
         c.etatCreerRequete2.entryAction(intersection);
         c.setCurrentState(c.etatCreerRequete2);
+        w.afficherMessage("Sélectionnez un livreur");
       }
     }
   }

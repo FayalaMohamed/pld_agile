@@ -1,6 +1,5 @@
 package com.hexa.model;
 
-
 import java.util.*;
 
 /**
@@ -8,20 +7,32 @@ import java.util.*;
  */
 public class Livreur {
 
-    /**
-     * Default constructor
-     */
-    public Livreur() {
-    }
+  /**
+   * 
+   */
+  private int id;
 
-    /**
-     * 
-     */
-    private int id;
+  /**
+   * 
+   */
+  private Set<Tournee> tournees;
 
-    /**
-     * 
-     */
-    private Set<Tournee> tournees;
+  /**
+   * Default constructor
+   */
+  public Livreur() {
+  }
+
+  public Livreur(int id) {
+    this.id = id;
+  }
+
+  public Set<Tournee> getTournees() {
+    return tournees;
+  }
+
+  public void addTournee(Tournee tournee) {
+    this.tournees.add(tournee);
+  }
 
 }

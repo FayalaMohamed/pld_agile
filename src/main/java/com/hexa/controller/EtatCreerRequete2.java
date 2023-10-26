@@ -13,6 +13,7 @@ public class EtatCreerRequete2 implements State {
   }
 
   public void clicDroit(Controller c, Window w) {
+    w.afficherMessage("Création de requête annulée");
     c.setCurrentState(c.etatCarteChargee);
   }
 

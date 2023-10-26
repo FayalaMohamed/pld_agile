@@ -6,7 +6,7 @@ import com.hexa.view.Window;
 public class EtatCarteChargee implements State {
 
   public void creerRequete(Controller c, Window w) {
-    w.afficherMessage("Creating new request, please select an intersection");
+    w.afficherMessage("création d'une nouvelle requête, veuillez sélectionner une intersection");
     c.setCurrentState(c.etatCreerRequete1);
   }
 

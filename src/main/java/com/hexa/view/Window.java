@@ -8,9 +8,11 @@ import com.hexa.model.Graphe;
 import com.hexa.model.Tournee;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public class Window extends JFrame {
 
@@ -29,11 +31,12 @@ public class Window extends JFrame {
   private final int buttonHeight = 40;
   private final int buttonWidth = 250;
   private final int messageFrameHeight = 110;
-	private final int textualViewWidth = 400;
+  private final int textualViewWidth = 400;
 
   private GraphicalView graphicalView;
   private TextualView textualView;
   private JLabel messageFrame;
+  private JComboBox livreurMenue;
 
   private MouseListener mouseListener;
   private ButtonListener buttonListener;
@@ -53,6 +56,18 @@ public class Window extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setResizable(false);
 
+    String[] liste_livreurs = new String[controller.getNbLivreurs()];
+    for (int i = 0; i < controller.getNbLivreurs(); ++i) {
+      liste_livreurs[i] = Integer.toString(i);
+    }
+    livreurMenue = new JComboBox(liste_livreurs);
+    livreurMenue.setSize(buttonWidth, buttonHeight);
+    livreurMenue.setLocation(5, (boutons.size()) * buttonHeight);
+    livreurMenue.setFocusable(false);
+    BoxListener boxListener = new BoxListener(controller);
+    livreurMenue.addActionListener(boxListener);
+    getContentPane().add(livreurMenue);
+
     graphicalView = new GraphicalView(this, t);
     textualView = new TextualView(this, t);
     messageFrame = new JLabel();
@@ -69,13 +84,13 @@ public class Window extends JFrame {
   private void setWindowSize() {
     int allButtonHeight = buttonHeight * texteBoutons.length;
     height = Math.max(graphicalView.getViewHeight(), allButtonHeight) + messageFrameHeight;
-    width = graphicalView.getViewWidth() + buttonWidth + 10 +textualViewWidth;
+    width = graphicalView.getViewWidth() + buttonWidth + 10 + textualViewWidth;
     setSize(width, height);
     graphicalView.setLocation(buttonWidth + 10, 0);
     messageFrame.setSize(width, messageFrameHeight);
     messageFrame.setLocation(0, height - messageFrameHeight);
-    textualView.setSize(textualViewWidth,height-messageFrameHeight);
-		textualView.setLocation(10+graphicalView.getViewWidth()+buttonWidth,0);
+    textualView.setSize(textualViewWidth, height - messageFrameHeight);
+    textualView.setLocation(10 + graphicalView.getViewWidth() + buttonWidth, 0);
     setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     setLocationRelativeTo(null);
   }

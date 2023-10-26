@@ -1,10 +1,12 @@
 package com.hexa.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Livraison;
+import com.hexa.model.Livreur;
 import com.hexa.model.Tournee;
 import com.hexa.view.Window;
 import com.hexa.model.XMLParser;
@@ -15,6 +17,7 @@ public class Controller {
   private Window window;
   private Graphe carte;
   private Tournee tournee;
+  int nbLivreurs;
 
   protected final InitialState initialState = new InitialState();
   protected final EtatCreerRequete1 etatCreerRequete1 = new EtatCreerRequete1();
@@ -24,9 +27,16 @@ public class Controller {
   protected final ChargerCarte chargerCarte = new ChargerCarte();
 
   public Controller() {
+    // WARNING: The number of "livreurs" is currently hard coded
+    nbLivreurs = 3;
     currentState = initialState;
     tournee = new Tournee();
     window = new Window(this, tournee);
+    window.afficherMessage("Choisissez une carte à afficher");
+  }
+
+  public int getNbLivreurs() {
+    return nbLivreurs;
   }
 
   public Graphe getCarte() {

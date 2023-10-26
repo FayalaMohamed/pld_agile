@@ -13,14 +13,14 @@ public class InitialState implements State {
     c.chargerCarte.entryAction(c, w);
     // Graphe carte = null;
     // try {
-    //   carte = XMLParser.xmlToGraphe(null);
-    //   // TODO implémenter la fonctionnalité d'annuler ICI
-    //   c.setCarte(carte);
-    //   w.afficherCarte(carte);
-    //   c.setCurrentState(c.etatCarteChargee);
+    // carte = XMLParser.xmlToGraphe(null);
+    // // TODO implémenter la fonctionnalité d'annuler ICI
+    // c.setCarte(carte);
+    // w.afficherCarte(carte);
+    // c.setCurrentState(c.etatCarteChargee);
     // } catch (Exception ex) {
-    //   ex.printStackTrace();
-    //   w.afficherMessage("Opération impossible : fichier invalide");
+    // ex.printStackTrace();
+    // w.afficherMessage("Opération impossible : fichier invalide");
     // }
   }
 }
