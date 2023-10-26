@@ -116,13 +116,13 @@ public class Tournee extends Observable {
 
 		// Calcul du meilleur circuit
 		TSP tsp = new TSPBoundSimple();
-		tsp.searchSolution(20000, grapheComplet);
+		tsp.searchSolution(60000, grapheComplet);
 
 		// Construction du circuit de segment et recupération des couts
 		Intersection depart, arrive;
 		ArrayList<Chemin> list = new ArrayList<Chemin>();
-		Map<Intersection, Double> cout = new HashMap<Intersection, Double>();
-		Double coutTotal = 0.0;
+		Map<Intersection, Double> temps = new HashMap<Intersection, Double>();
+		Double tempsTotal = 0.0;
 		int i = 0;
 		while ((depart = tsp.getSolution(i)) != null && (arrive = tsp.getSolution(i + 1)) != null) {
 			i++;
@@ -130,26 +130,23 @@ public class Tournee extends Observable {
 			Segment seg = new Segment(depart, arrive);
 			list.add(grapheComplet.getChemin(seg));
 
-			coutTotal += grapheComplet.getCost(seg);
-			cout.put(arrive, coutTotal);
-			coutTotal += 5.0 / 60.0; // 5 min de battement à ajouter pour faire la livraison
+			tempsTotal += (grapheComplet.getCost(seg) / 1000.0) / 15.0; //m -> km -> h
+			temps.put(arrive, tempsTotal);
+			tempsTotal += 5.0 / 60.0; // 5 min de battement à ajouter pour faire la livraison
 
 		}
 
 		// Calcul des heures de passage (delta de 5 min à chaque livraison)
-		Double longueur;
+		Double heure;
 		int heureDepart = 8;
 		int[] tab = new int[2];
 		for (Livraison l : livraisons) {
 
-			if ((longueur = cout.get(l.getLieu())) != null) {
-
-				longueur /= 1000; // m -> km
-				longueur /= 15.0; // division par la vitesse pour obtenir le temps en h
+			if ((heure = temps.get(l.getLieu())) != null) {
 
 				// Paramètrage de la livraison
-				tab[0] = heureDepart + longueur.intValue();
-				double temp = ((double) heureDepart + longueur);
+				tab[0] = heureDepart + heure.intValue();
+				double temp = ((double) heureDepart + heure);
 				tab[1] = (int) ((temp - (int) temp) * 60.0);
 
 				l.setHeureEstime(tab[0], tab[1]);
@@ -160,13 +157,13 @@ public class Tournee extends Observable {
 			}
 
 			else {
-				throw new TourneeException("Cout d'une livraison inexistant");
+				throw new TourneeException("Cout d'une livraison inexistant : " + l.getLieu().getId());
 			}
 
 		}
 
-		finTourneeEstime[0] = heureDepart + cout.get(grapheComplet.getEntrepot()).intValue();
-		double temp = ((double) heureDepart + cout.get(grapheComplet.getEntrepot()).intValue());
+		finTourneeEstime[0] = heureDepart + temps.get(grapheComplet.getEntrepot()).intValue();
+		double temp = ((double) heureDepart + temps.get(grapheComplet.getEntrepot()).intValue());
 		finTourneeEstime[1] = (int) ((temp - (int) temp) * 60.0);
 
 		circuit = new Circuit(list);
