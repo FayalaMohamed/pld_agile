@@ -7,7 +7,8 @@ import java.io.File;
 import static com.hexa.model.XMLParser.xmlToListeLivraison;
 
 /**
- * Etat dans lequel se trouve l'application quand le chargement d'un ensemble de requêtes est en cours
+ * Etat dans lequel se trouve l'application quand le chargement d'un ensemble de
+ * requêtes est en cours
  * --> entryAction charge un fichier de requêtes dans le controller
  */
 public class EtatChargerRequete implements State {
@@ -18,7 +19,7 @@ public class EtatChargerRequete implements State {
       if (xmlFile == null) {
         c.setCurrentState(c.etatCarteChargee);
       } else {
-        //TODO c.getTournee().setCircuitCalculer(true);
+        // TODO c.getTournee().setCircuitCalculer(true);
         c.getTournee().setLivraisons(xmlToListeLivraison(xmlFile.getAbsolutePath()));
         c.setCurrentState(c.etatAuMoinsUneRequete);
       }
