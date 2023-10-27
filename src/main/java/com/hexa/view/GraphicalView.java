@@ -172,6 +172,8 @@ public class GraphicalView extends JPanel implements Observer {
           }
         }
         if (adresseLivraison) {
+          // TODO: When the iterator is works with reset method, move it outside this loop
+          // to repaint int to red with the correct number
           display(intersection, Color.red, 7);
         } else {
           display(intersection, Color.blue, -1);
