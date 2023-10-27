@@ -36,6 +36,7 @@ public class GraphicalView extends JPanel implements Observer {
 
   /**
    * Crée la vue graphique correspondant à une tournée dans une fenêtre
+   * 
    * @param w
    * @param tournee
    */
@@ -53,7 +54,9 @@ public class GraphicalView extends JPanel implements Observer {
   }
 
   /**
-   * Méthode appelée par les objets observés par GraphicalView à chaque mise à jour de ces derniers
+   * Méthode appelée par les objets observés par GraphicalView à chaque mise à
+   * jour de ces derniers
+   * 
    * @param o
    * @param arg
    */
@@ -80,7 +83,7 @@ public class GraphicalView extends JPanel implements Observer {
 
   public void display(Intersection i, Color c) {
     int r = 2;
-    if (c.equals(Color.red)) {
+    if (c.equals(Color.red) || c.equals(Color.green)) {
       r = 6;
     }
     int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
@@ -134,6 +137,7 @@ public class GraphicalView extends JPanel implements Observer {
 
   /**
    * Méthode à appeler à chaque fois que la vue graphique doit être redessinée
+   * 
    * @param g the <code>Graphics</code> object to protect
    */
   @Override
@@ -142,6 +146,7 @@ public class GraphicalView extends JPanel implements Observer {
     super.paintComponent(g);
     this.g = g;
     if (carte != null) {
+      display(carte.getEntrepot(), Color.green);
       Iterator<Intersection> iit = intersections.iterator();
       while (iit.hasNext()) {
         Intersection intersection = iit.next();
@@ -223,7 +228,9 @@ public class GraphicalView extends JPanel implements Observer {
   }
 
   /**
-   * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour l'affichage graphique
+   * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
+   * l'affichage graphique
+   * 
    * @param i
    * @return
    */
