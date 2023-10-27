@@ -44,6 +44,13 @@ public class Window extends JFrame {
   private int width;
   private int height;
 
+  /**
+   * Crée une fenêtre avec des boutons, une zone graphique contenant un plan,
+   * une zone de texte dédiée aux messages, une zone de texte dédiée aux livraisons,
+   * et les listeners associés aux différents éléments (boutons, comboBox, vue graphique)
+   * @param controller
+   * @param t
+   */
   public Window(Controller controller, Tournee t) {
 
     super();
@@ -85,6 +92,9 @@ public class Window extends JFrame {
     setVisible(true);
   }
 
+  /**
+   * Définit la taille de la fenêtre et de ses éléments
+   */
   private void setWindowSize() {
     int allButtonHeight = buttonHeight * texteBoutons.length;
     height = Math.max(graphicalView.getViewHeight(), allButtonHeight) + messageFrameHeight;
@@ -99,6 +109,10 @@ public class Window extends JFrame {
     setLocationRelativeTo(null);
   }
 
+  /**
+   * Initialise les boutons pour le contrôleur controller avec des listeners
+   * @param controller
+   */
   private void initBoutons(Controller controller) {
 
     buttonListener = new ButtonListener(controller);
@@ -116,10 +130,18 @@ public class Window extends JFrame {
     }
   }
 
+  /**
+   * Affiche le message message
+   * @param message
+   */
   public void afficherMessage(String message) {
     messageFrame.setText(message);
   }
 
+  /**
+   * Affiche la carte carte
+   * @param carte
+   */
   public void afficherCarte(Graphe carte) {
     graphicalView.ajouterCarte(carte);
   }

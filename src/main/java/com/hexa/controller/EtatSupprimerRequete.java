@@ -4,11 +4,20 @@ import com.hexa.view.Window;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 
+/**
+ * Etat de l'application permettant de supprimer des requêtes
+ * --> clicDroit permet de retourner dans le mode etatCarteChargee ou etatAuMoinsUneRequete
+ * --> clicGauche permet de supprimer la livraison correspondant à l'intersection cliquée par l'utilisateur
+ */
 public class EtatSupprimerRequete implements State {
   
   public void clicDroit(Controller c, Window w) {
     System.out.println("Annuler Supprimer Requête");
-    c.setCurrentState(c.etatAuMoinsUneRequete);
+    if (c.getTournee().getLivraisonsSet().isEmpty()) {
+      c.setCurrentState(c.etatCarteChargee);
+    } else {
+      c.setCurrentState(c.etatAuMoinsUneRequete);
+    }
   }
   
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {

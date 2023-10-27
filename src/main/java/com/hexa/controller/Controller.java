@@ -16,6 +16,7 @@ public class Controller {
   private Tournee tournee;
   int nbLivreurs;
 
+  //Instances associées avec chacuns des états possibles pour le controlleur
   protected final InitialState initialState = new InitialState();
   protected final EtatCreerRequete1 etatCreerRequete1 = new EtatCreerRequete1();
   protected final EtatCreerRequete2 etatCreerRequete2 = new EtatCreerRequete2();
@@ -26,6 +27,9 @@ public class Controller {
   protected final EtatChargerRequete etatChargerRequete = new EtatChargerRequete();
   protected final EtatSauvegarderRequete etatSauvegarderRequete = new EtatSauvegarderRequete();
 
+  /**
+   * Crée le controlleur de l'application
+   */
   public Controller() {
     // WARNING: The number of "livreurs" is currently hard coded
     nbLivreurs = 3;
@@ -47,10 +51,6 @@ public class Controller {
     return carte;
   }
 
-  public void initController(Window w) {
-    window = w;
-  }
-
   public void setCurrentState(State s) {
     currentState = s;
   }
@@ -59,60 +59,78 @@ public class Controller {
     this.carte = carte;
   }
 
+  /**
+   * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
+   * @param coordonnees
+   */
   public void clicGauche(Coordonnees coordonnees) {
     currentState.clicGauche(this, window, coordonnees);
   }
 
+  /**
+   * Méthode appelée par la fenêtre après un clic droit sur la vue graphique
+   */
   public void clicDroit() {
     System.out.println("Performing the right click on state : " + currentState);
     currentState.clicDroit(this, window);
   }
 
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Charger une carte"
+   */
   public void chargerCarte() {
     currentState.chargerCarte(this, window);
   }
 
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Charger des requêtes"
+   */
   public void chargerRequetes() {
     currentState.chargerRequetes(this,window);
   }
 
+  /**
+   * Méthode appelée par la fenêtre après une sélection dans le JComboBox "Nombre de livreurs"
+   */
   public void choixLivreur(int livreur) {
     currentState.choixLivreur(this, window, livreur);
   }
 
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la tournée"
+   */
   public void calculerTournee() {
     currentState.calculerTournee(this, window);
   }
 
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Créer une requête"
+   */
   public void creerRequete() {
     currentState.creerRequete(this, window);
   }
 
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Supprimer une requête"
+   */
   public void supprimerRequete() {
     currentState.supprimerRequete(this, window);
   }
 
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Sauvegarder les requêtes"
+   */
   public void sauvegarderRequetes() {
     currentState.sauvegarderRequetes(this,window);
   }
 
+  /**
+   * Méthode appelée par un état a lorsqu'il passe à un autre état b
+   * (après être passé dans l'état b)
+   * Correspond à la première action qui doit être effectuée quand on entre dans l'état
+   */
   public void entryAction() {
     currentState.entryAction(this, window);
   }
 
-
-  // UNIQUEMENT DEDIE AUX TESTS, A SUPPRIMER PLUS TARD
-  public void chargerCarteTest(String file) {
-    System.out.println("Making a graph from the file : " + file);
-    Graphe carte = null;
-    try {
-      carte = XMLParser.xmlToGraphe(file);
-      // TODO implémenter la fonctionnalité d'annuler ICI
-      setCarte(carte);
-      window.afficherCarte(carte);
-      setCurrentState(etatCarteChargee);
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-  }
 }

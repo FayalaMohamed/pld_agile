@@ -27,9 +27,12 @@ public class MouseListener extends MouseAdapter {
     return new Coordonnees(x, y);
   }
 
+  /**
+   * Méthode appelée par le MouseListener chaque fois qu'un clic de souris est effectué
+   * @param evt the event to be processed
+   */
   @Override
   public void mouseClicked(MouseEvent evt) {
-    // Method called by the mouse listener each time the mouse is clicked
     switch (evt.getButton()) {
       case MouseEvent.BUTTON1:
         controller.clicGauche(coordinates(evt));

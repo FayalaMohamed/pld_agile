@@ -6,6 +6,9 @@ import com.hexa.view.Window;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 
+/**
+ *
+ */
 public class EtatCreerRequete1 implements State {
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {

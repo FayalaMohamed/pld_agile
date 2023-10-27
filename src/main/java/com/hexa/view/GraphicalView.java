@@ -36,6 +36,11 @@ public class GraphicalView extends JPanel implements Observer{
   private double longitudeMin;
   private double longitudeMax;
 
+  /**
+   * Crée la vue graphique correspondant à une tournée dans une fenêtre
+   * @param w
+   * @param tournee
+   */
   public GraphicalView(Window w, Tournee tournee) {
     super();
     tournee.addObserver(this);
@@ -49,6 +54,11 @@ public class GraphicalView extends JPanel implements Observer{
     w.getContentPane().add(this);
   }
 
+  /**
+   * Méthode appelée par les objets observés par GraphicalView à chaque mise à jour de ces derniers
+   * @param o
+   * @param arg
+   */
   @Override
   public void update(Observable o, Object arg) {
     paintComponent(g);
@@ -95,6 +105,10 @@ public class GraphicalView extends JPanel implements Observer{
     g.drawLine(xOrigine, yOrigine, xDestination, yDestination);
   }
 
+  /**
+   * Méthode déterminant les plus grandes coordonnées de la carte choisie
+   * Permet de définir l'échelle de la vue graphique
+   */
   private void definirExtremesCoordonnees() {
 
     Iterator<Intersection> it = intersections.iterator();
@@ -118,6 +132,10 @@ public class GraphicalView extends JPanel implements Observer{
     System.out.println("longitude min : " + longitudeMin + " / longitude max : " + longitudeMax);
   }
 
+  /**
+   * Méthode à appeler à chaque fois que la vue graphique doit être redessinée
+   * @param g the <code>Graphics</code> object to protect
+   */
   @Override
   public void paintComponent(Graphics g) {
 
@@ -158,6 +176,11 @@ public class GraphicalView extends JPanel implements Observer{
     }
   }
 
+  /**
+   * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour l'affichage graphique
+   * @param i
+   * @return
+   */
   public Coordonnees CoordGPSToViewPos(Intersection i) {
     int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
     int ypos = (int) ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight);

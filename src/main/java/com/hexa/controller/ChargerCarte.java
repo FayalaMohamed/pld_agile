@@ -7,6 +7,10 @@ import com.hexa.model.XMLParser;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
 
+/**
+ * Etat de l'application après un clic sur le bouton "Charger une carte"
+ * --> entryAction initialise la carte du controller
+ */
 public class ChargerCarte implements State {
 
   public void entryAction(Controller c, Window w) {

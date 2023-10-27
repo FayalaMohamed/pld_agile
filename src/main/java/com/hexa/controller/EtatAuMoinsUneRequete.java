@@ -1,10 +1,15 @@
 package com.hexa.controller;
 
 import com.hexa.view.Window;
-import com.hexa.controller.EtatCarteChargee;
-import com.hexa.model.GrapheException;
-import com.hexa.model.TourneeException;
 
+/**
+ * Etat correspondant au cas où une carte est chargée et au moins une requête existe
+ * --> creerRequete ajoute une nouvelle requête à la liste de requêtes
+ * --> supprimerRequete supprimer une requête de la liste de requêtes
+ * --> chargerCarte rentre dans l'état EtatChargerCarte
+ * --> sauvegarderRequete rentre dans l'état EtatSauvegarderRequetes
+ * --> calculerTournee génère le circuit optimal pour la tournée en cours
+ */
 public class EtatAuMoinsUneRequete implements State {
 
   public void creerRequete(Controller c, Window w) {
