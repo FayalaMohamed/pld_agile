@@ -2,6 +2,9 @@ package com.hexa.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -105,6 +108,11 @@ public class GraphicalView extends JPanel implements Observer {
         - ((destination.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
 
     g.setColor(c);
+    if (c == Color.red) {
+      Graphics2D g2 = (Graphics2D) g;
+      g2.setStroke(new BasicStroke(3));
+      g2.draw(new Line2D.Float(xOrigine, yOrigine, xDestination, yDestination));
+    }
     g.drawLine(xOrigine, yOrigine, xDestination, yDestination);
   }
 
