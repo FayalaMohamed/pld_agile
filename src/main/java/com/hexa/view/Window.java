@@ -1,7 +1,10 @@
 package com.hexa.view;
 
+import com.hexa.model.Intersection;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import com.hexa.controller.Controller;
 import com.hexa.model.Graphe;
@@ -152,6 +155,21 @@ public class Window extends JFrame {
     System.out.println("Buttons have been enabled : " + b);
     for (JButton bouton : boutons)
       bouton.setEnabled(b);
+  }
+
+  public Intersection popupChoixIntersections(List<Intersection> choixPossibles) {
+    Object[] possibilities = choixPossibles.toArray();
+    Intersection choix = (Intersection) JOptionPane.showInputDialog(
+        this,
+        "Plusieurs intersections sont possibles.\n"
+            + "Veuillez choisir une intersection :",
+        "Customized Dialog",
+        JOptionPane.PLAIN_MESSAGE,
+        null,
+        possibilities,
+        null);
+
+    return choix;
   }
 
   /**
