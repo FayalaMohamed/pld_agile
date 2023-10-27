@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Chemin implements Iterator<Segment> {
 
+
 	private Segment[] sequence;
 	private int size;
 	private int index;
@@ -42,4 +43,5 @@ public class Chemin implements Iterator<Segment> {
 	public Segment next() {
 		return sequence[index++];
 	}	
+
 }

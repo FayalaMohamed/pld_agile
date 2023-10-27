@@ -6,6 +6,9 @@ import com.hexa.view.Window;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 
+/**
+ *
+ */
 public class EtatCreerRequete1 implements State {
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {
@@ -14,6 +17,8 @@ public class EtatCreerRequete1 implements State {
       // not to duplicate code
       Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
       if (coord.equals(coordonneesSouris)) {
+        // TODO: Break when first intersection found, because there could be multiple
+        // intersections for one click
         w.afficherMessage("Intersection sélectionnée pour la livraison");
         c.etatCreerRequete2.entryAction(intersection);
         c.setCurrentState(c.etatCreerRequete2);

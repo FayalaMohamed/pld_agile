@@ -12,41 +12,41 @@ import com.hexa.observer.Observable;
  */
 public class Tournee extends Observable {
 
-	/**
-	 * Jour à laquelle doit/s'est passé la tournée
-	 */
-	// private Date date;
+  /**
+   * Jour à laquelle doit/s'est passé la tournée
+   */
+  // private Date date;
 
-	/**
-	 * Ensemble des livraisons à effectuer
-	 */
-	private Set<Livraison> livraisons;
+  /**
+   * Ensemble des livraisons à effectuer
+   */
+  private Set<Livraison> livraisons;
 
-	private Livreur livreur; 
+  private Livreur livreur;
 
-	private int[] finTourneeEstime; // 0: heure | 1: minute
+  private int[] finTourneeEstime; // 0: heure | 1: minute
 
-	/**
-	 * Circuit (=sequence de segments) à parcourir par le livreur pour faire toutes
-	 * les livraisons
-	 */
-	private Circuit circuit;
-	private boolean circuitCalculer;
+  /**
+   * Circuit (=sequence de segments) à parcourir par le livreur pour faire toutes
+   * les livraisons
+   */
+  private Circuit circuit;
+  private boolean circuitCalculer;
 
-	/**
-	 * Default constructor
-	 * 
-	 * Initialise les attributs
-	 */
-	public Tournee() {
+  /**
+   * Default constructor
+   * 
+   * Initialise les attributs
+   */
+  public Tournee() {
 
-		this.livraisons = new HashSet<Livraison>();
-		circuit = null;
-		circuitCalculer = false;
+    this.livraisons = new HashSet<Livraison>();
+    circuit = null;
+    circuitCalculer = false;
 
-		finTourneeEstime = new int[2];
+    finTourneeEstime = new int[2];
 
-	}
+  }
 
 	/**
 	 * Ajoute une livraisons et notifie les observeurs
@@ -66,28 +66,28 @@ public class Tournee extends Observable {
 		return success;
 	}
 
-	/**
-	 * uniquement pour le dev
-	 */
-	public void afficher() {
-		for (Livraison l : livraisons) {
-			System.out.println(l.getLieu().getId());
-		}
-	}
+  /**
+   * uniquement pour le dev
+   */
+  public void afficher() {
+    for (Livraison l : livraisons) {
+      System.out.println(l.getLieu().getId());
+    }
+  }
 
-	/**
-	 * @return le nombre de livraison que contient cette tournée
-	 */
-	public int getNbLivraisons() {
-		return livraisons.size();
-	}
+  /**
+   * @return le nombre de livraison que contient cette tournée
+   */
+  public int getNbLivraisons() {
+    return livraisons.size();
+  }
 
-	/**
-	 * @return un tableau de l'ensemble des livraisons à faire
-	 */
-	public Livraison[] getLivraisons() {
-		return livraisons.toArray(new Livraison[0]);
-	}
+  /**
+   * @return un tableau de l'ensemble des livraisons à faire
+   */
+  public Livraison[] getLivraisons() {
+    return livraisons.toArray(new Livraison[0]);
+  }
 
 	
 	/** 
@@ -114,13 +114,17 @@ public class Tournee extends Observable {
 		return livraisons.iterator();
 	}
 
-	/**
-	 * Construit le meilleur circuit pour réaliser la tournée à partir de la carte et notifie les observeurs
-	 * 
-	 * @param carte
-	 * @throws TourneeException
-	 * @throws GrapheException
-	 */
+	
+
+
+  /**
+   * 
+   * Construit le meilleur circuit pour réaliser la tournée à partir de la carte
+   * 
+   * @param carte
+   * @throws TourneeException
+   * @throws GrapheException
+   */
 	public void construireCircuit(Graphe carte) throws GrapheException, TourneeException {
 
 		// Création du graphe complet associé à la tournée
@@ -142,7 +146,7 @@ public class Tournee extends Observable {
 			Segment seg = new Segment(depart, arrive);
 			list.add(grapheComplet.getChemin(seg));
 
-			tempsTotal += (grapheComplet.getCost(seg) / 1000.0) / 15.0; //m -> km -> h
+			tempsTotal += (grapheComplet.getCost(seg) / 1000.0) / 15.0; // m -> km -> h
 			temps.put(arrive, tempsTotal);
 			tempsTotal += 5.0 / 60.0; // 5 min de battement à ajouter pour faire la livraison
 
@@ -182,9 +186,7 @@ public class Tournee extends Observable {
 		circuitCalculer = true;
 
 		this.notifyObservers(this);
-
 	}
-
 	
 	/** 
 	 * @param circuitCalculer
@@ -243,5 +245,20 @@ public class Tournee extends Observable {
 	public boolean estCalculee() {
 		return circuitCalculer;
 	}
+
+  public ArrayList<Segment> getSegments() {
+    ArrayList<Segment> segments = new ArrayList<Segment>();
+    if (circuit == null) {
+      return null;
+    }
+    Chemin[] chemins = circuit.getChemins();
+    for (Chemin chemin : chemins) {
+      Segment[] segmentsChemin = chemin.getSegments();
+      for (Segment seg : segmentsChemin) {
+        segments.add(seg);
+      }
+    }
+    return segments;
+  }
 
 }

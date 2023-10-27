@@ -110,7 +110,7 @@ public class XMLParser {
       double longitude = Double.parseDouble(attributes.item(2).getNodeValue());
       if (warehouses_list.contains(id)) {
         Entrepot entrepot = new Entrepot(id, longitude, latitude);
-        // TODO Int the files there are only one warehouse, but if scalable entrepot
+        // TODO: Int the files there are only one warehouse, but if scalable entrepot
         // should become a list in Graphe Julien said not
         map.setEntrepot(entrepot);
         mapping_id_intersection.put(id, entrepot);

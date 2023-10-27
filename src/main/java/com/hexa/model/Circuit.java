@@ -61,4 +61,9 @@ public class Circuit implements Iterator<Segment>{
 		}
 	}
 
+
+  public Chemin[] getChemins() {
+    return sequence;
+  }
+
 }

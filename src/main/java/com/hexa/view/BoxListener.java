@@ -15,6 +15,12 @@ public class BoxListener implements ActionListener {
     this.controller = controller;
   }
 
+  /**
+   * Méthode appelée par le BoxListener chaque fois qu'un choix est fait dans la JComboBox
+   * Prend la valeur choisie
+   * Puis délègue au contrôleur
+   * @param e the event to be processed
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
     JComboBox<String> box = (JComboBox<String>) e.getSource();
