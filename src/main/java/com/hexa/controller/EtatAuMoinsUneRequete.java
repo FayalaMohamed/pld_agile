@@ -22,6 +22,10 @@ public class EtatAuMoinsUneRequete implements State {
   }
 
   public void supprimerRequete(Controller c, Window w) {
+    if (c.getTournee().getLivraisons().length == 0) {
+      c.setCurrentState(c.etatCarteChargee);
+      return;
+    }
     c.setCurrentState(c.etatSupprimerRequete);
   }
 

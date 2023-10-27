@@ -184,12 +184,12 @@ public class GraphicalView extends JPanel implements Observer {
       // implementing a reset method that sets the iterator's index back to 0 in the
       // class circuit
       ArrayList<Segment> segmentsTournee = tournee.getSegments();
-      System.out.println("MY SEGMENTS : ");
-      if (segmentsTournee != null) {
-        for (Segment seg : segmentsTournee) {
-          System.out.println("SEGMENT : " + seg);
-        }
-      }
+      // System.out.println("MY SEGMENTS : ");
+      // if (segmentsTournee != null) {
+      // for (Segment seg : segmentsTournee) {
+      // System.out.println("SEGMENT : " + seg);
+      // }
+      // }
       for (Segment seg : segments) {
         if (segmentsTournee != null && segmentsTournee.contains(seg)) {
           display(seg, Color.red);
