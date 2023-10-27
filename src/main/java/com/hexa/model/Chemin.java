@@ -42,6 +42,10 @@ public class Chemin implements Iterator<Segment> {
 	@Override
 	public Segment next() {
 		return sequence[index++];
-	}	
+	}
+	
+	public Segment[] getSegments() {
+		return sequence;
+	}
 
 }
