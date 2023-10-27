@@ -3,7 +3,8 @@ package com.hexa.controller;
 import com.hexa.view.Window;
 
 /**
- * Etat correspondant au cas où une carte est chargée et au moins une requête existe
+ * Etat correspondant au cas où une carte est chargée et au moins une requête
+ * existe
  * --> creerRequete ajoute une nouvelle requête à la liste de requêtes
  * --> supprimerRequete supprimer une requête de la liste de requêtes
  * --> chargerCarte rentre dans l'état EtatChargerCarte
@@ -13,6 +14,7 @@ import com.hexa.view.Window;
 public class EtatAuMoinsUneRequete implements State {
 
   public void creerRequete(Controller c, Window w) {
+    w.allow(false);
     w.afficherMessage("création d'une nouvelle requête, veuillez sélectionner une intersection");
     c.setCurrentState(c.etatCreerRequete1);
   }
@@ -22,6 +24,7 @@ public class EtatAuMoinsUneRequete implements State {
   }
 
   public void supprimerRequete(Controller c, Window w) {
+    w.allow(false);
     if (c.getTournee().getLivraisons().length == 0) {
       c.setCurrentState(c.etatCarteChargee);
       return;
@@ -30,10 +33,13 @@ public class EtatAuMoinsUneRequete implements State {
   }
 
   public void chargerCarte(Controller c, Window w) {
-    c.setCurrentState(c.etatCarteChargee);
+    w.allow(false);
+    c.setCurrentState(c.chargerCarte);
+    c.chargerCarte.entryAction(c, w);
   }
 
   public void sauvegarderRequetes(Controller c, Window w) {
+    w.allow(false);
     c.setCurrentState(c.etatSauvegarderRequete);
     c.entryAction();
   }

@@ -7,8 +7,10 @@ import com.hexa.model.Tournee;
 import com.hexa.view.Window;
 
 /**
- * Etat de l'application quand on se trouve dans la deuxième étape de la création d'une requête
- * --> entryAction initialise la livraison avec l'intersection choisie à l'étape 1
+ * Etat de l'application quand on se trouve dans la deuxième étape de la
+ * création d'une requête
+ * --> entryAction initialise la livraison avec l'intersection choisie à l'étape
+ * 1
  * --> choixLivreur complète la nouvelle livraison en lui assignant un livreur
  * --> clicDroit annule la création de requête et revient à etatCarteChargee
  */
@@ -46,10 +48,12 @@ public class EtatCreerRequete2 implements State {
       System.out.println(livraison);
     }
     c.setCurrentState(c.etatAuMoinsUneRequete);
+    w.allow(true);
   }
 
   public void clicDroit(Controller c, Window w) {
     w.afficherMessage("Création de requête annulée");
     c.setCurrentState(c.etatCarteChargee);
+    w.allow(true);
   }
 }

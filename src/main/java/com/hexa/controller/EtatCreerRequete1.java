@@ -3,8 +3,6 @@ package com.hexa.controller;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 import com.hexa.view.Window;
-import com.hexa.model.Coordonnees;
-import com.hexa.model.Intersection;
 
 /**
  *
@@ -31,9 +29,7 @@ public class EtatCreerRequete1 implements State {
     w.afficherMessage("Création de requête annulée");
     System.out.println("Cancelled the creation of new request");
     c.setCurrentState(c.etatCarteChargee);
+    w.allow(true);
   }
 
-  // TODO modifier la signature de la fonction pour enelever file
-  public void chargerRequetes(Controller c, Window w, String file) {
-  }
 }

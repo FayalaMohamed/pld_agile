@@ -7,7 +7,8 @@ import java.io.File;
 
 /**
  * Etat de l'application permettant la sauvegarde des requêtes
- * --> entryAction sauvegarde la liste de livraisons actuelle du contrôleur dans le fichier choisi
+ * --> entryAction sauvegarde la liste de livraisons actuelle du contrôleur dans
+ * le fichier choisi
  */
 public class EtatSauvegarderRequete implements State {
 
@@ -22,5 +23,6 @@ public class EtatSauvegarderRequete implements State {
     } finally {
       c.setCurrentState(c.etatAuMoinsUneRequete);
     }
+    w.allow(true);
   }
 }

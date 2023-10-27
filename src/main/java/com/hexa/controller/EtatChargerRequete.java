@@ -27,5 +27,6 @@ public class EtatChargerRequete implements State {
       e.printStackTrace();
       c.setCurrentState(c.initialState);
     }
+    w.allow(true);
   }
 }

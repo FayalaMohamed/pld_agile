@@ -19,18 +19,19 @@ public class ChargerCarte implements State {
     try {
       File xmlFile = XMLfileOpener.getInstance().open(true);
       if (xmlFile == null) {
-          // TODO (itération 2) gérer aussi le cas où on charge d'un autre état que
-          // l'initial
-          c.setCurrentState(c.initialState);
+        // TODO (itération 2) gérer aussi le cas où on charge d'un autre état que
+        // l'initial
+        c.setCurrentState(c.initialState);
       } else {
-          Graphe map = XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
-          
-          w.afficherCarte(map);
-          c.setCarte(map);
-          c.setCurrentState(c.etatCarteChargee);
+        Graphe map = XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
+
+        w.afficherCarte(map);
+        c.setCarte(map);
+        c.setCurrentState(c.etatCarteChargee);
       }
     } catch (Exception e) {
       c.setCurrentState(c.initialState);
     }
+    w.allow(true);
   }
 }

@@ -46,8 +46,11 @@ public class Window extends JFrame {
 
   /**
    * Crée une fenêtre avec des boutons, une zone graphique contenant un plan,
-   * une zone de texte dédiée aux messages, une zone de texte dédiée aux livraisons,
-   * et les listeners associés aux différents éléments (boutons, comboBox, vue graphique)
+   * une zone de texte dédiée aux messages, une zone de texte dédiée aux
+   * livraisons,
+   * et les listeners associés aux différents éléments (boutons, comboBox, vue
+   * graphique)
+   * 
    * @param controller
    * @param t
    */
@@ -111,6 +114,7 @@ public class Window extends JFrame {
 
   /**
    * Initialise les boutons pour le contrôleur controller avec des listeners
+   * 
    * @param controller
    */
   private void initBoutons(Controller controller) {
@@ -132,6 +136,7 @@ public class Window extends JFrame {
 
   /**
    * Affiche le message message
+   * 
    * @param message
    */
   public void afficherMessage(String message) {
@@ -139,7 +144,19 @@ public class Window extends JFrame {
   }
 
   /**
+   * Activate buttons if b = true, unable them otherwise
+   * 
+   * @param b
+   */
+  public void allow(Boolean b) {
+    System.out.println("Buttons have been enabled : " + b);
+    for (JButton bouton : boutons)
+      bouton.setEnabled(b);
+  }
+
+  /**
    * Affiche la carte carte
+   * 
    * @param carte
    */
   public void afficherCarte(Graphe carte) {
