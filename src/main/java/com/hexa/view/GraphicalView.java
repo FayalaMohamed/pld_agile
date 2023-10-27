@@ -129,7 +129,7 @@ public class GraphicalView extends JPanel implements Observer{
         Intersection intersection = iit.next();
         boolean adresseLivraison=false;
         for ( Livraison livraison : tournee.getLivraisons()) {
-          if (livraison.getLieu() == intersection){
+          if (livraison.getLieu() == intersection || (livraison.getLieu().getLatitude() == intersection.getLatitude() && livraison.getLieu().getLongitude() == intersection.getLongitude() )){
             adresseLivraison = true;
           }
         }
