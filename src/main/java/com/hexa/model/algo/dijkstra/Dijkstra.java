@@ -57,6 +57,13 @@ public class Dijkstra implements ShortestPath{
 		searchOK = false;
 	}
 	
+	
+	/** Implementation de l'algorithme de Dijkstra pour calculer le plus court chemin 
+	 * de l'Intersection de départ vers toutes les autres Intersections du graphe
+	 * @param carte
+	 * @param origine
+	 * @param exclu
+	 */
 	@Override
 	public void searchShortestPath (Graphe carte, Intersection origine, Set<Intersection> exclu) {
 		if (carte == null)
@@ -121,11 +128,23 @@ public class Dijkstra implements ShortestPath{
 		
 	}
 	
+	
+	/** Retourne le cout du plus court chemin de l'Intersection de départ choisie pour faire le calcul
+	 *  pour arriver à l'Intersection en paramétre (-1 si l'algorithme n'a pas été exécuté ou l'intersection n'existe pas dans le graphe)
+	 * @param inter
+	 * @return double
+	 */
 	@Override
 	public double getCost(Intersection inter) {
 		return searchOK && cout.containsKey(inter)? cout.get(inter)  : -1.0;
 	}
 	
+	
+	/** Retourne la liste des Segments correspondant au chemin le plus court pour arriver 
+	 * à l'Intersection souhaitée à partir de l'Intersection de départ choisie pour faire le calcul
+	 * @param dest
+	 * @return List<Segment>
+	 */
 	@Override
 	public List<Segment> getSolPath(Intersection dest) {
 		
@@ -144,6 +163,11 @@ public class Dijkstra implements ShortestPath{
 		
 	}
 	
+	
+	/** Fonction utilisée par l'algorithme de dijkstra pour relacher les arcs et mettre à jour le cout pour arriver au sommet
+	 * @param seg
+	 * @param g
+	 */
 	private void relacher(Segment seg, Graphe g) {
 		
 		double temp = cout.get(seg.getOrigine()) + g.getCost(seg);

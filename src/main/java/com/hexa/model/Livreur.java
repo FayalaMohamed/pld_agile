@@ -28,18 +28,34 @@ public class Livreur {
     this.id = id;
   }
 
+  
+  /** 
+   * @return int
+   */
   public int getId() {
     return id;
   }
 
+  
+  /** 
+   * @return Set<Tournee>
+   */
   public Set<Tournee> getTournees() {
     return tournees;
   }
 
+  
+  /** Ajouter une Tournee au livreur
+   * @param tournee
+   */
   public void addTournee(Tournee tournee) {
     this.tournees.add(tournee);
   }
 
+  
+  /** 
+   * @return String
+   */
   public String toString() {
     return "id : " + id;
   }

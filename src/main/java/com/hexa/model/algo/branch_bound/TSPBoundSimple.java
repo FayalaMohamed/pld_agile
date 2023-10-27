@@ -9,6 +9,13 @@ import com.hexa.model.Segment;
 public class TSPBoundSimple extends TemplateTSP {
 
 	
+	
+	/** Fonction bound permettant d'avoir une estimation du cout pour lier le sommet courant à un des sommets non visités
+	 * et tous les sommets non visités à l'entrepôt ou à un des autres sommets non visités
+	 * @param sommetCourant
+	 * @param unvisited
+	 * @return double
+	 */
 	@Override
 	protected double bound(Intersection sommetCourant, List<Intersection> unvisited) {
 		
@@ -60,6 +67,16 @@ public class TSPBoundSimple extends TemplateTSP {
 		return l + sumLi;
 	}
 
+	
+	/**
+	 * Créer un itérateur qui parcourt la liste des sommets de unvisited qui sont
+	 * successeurs du sommetCourant
+	 * L'orde de parcours est l'orde inverse d'apparition dans unvisited
+	 * 
+	 * @param sommetCourant
+	 * @param unvisited
+	 * @return Iterator<Intersection>
+	 */
 	@Override
 	protected Iterator<Intersection> iterator(Intersection sommetCourant, List<Intersection> unvisited) {
 		return new SeqIter(unvisited, sommetCourant, g);

@@ -11,12 +11,22 @@ public class XMLfileOpener extends FileFilter {// Singleton
   private XMLfileOpener() {
   }
 
+  
+  /** Retourne la seule instance de la classe
+   * @return XMLfileOpener
+   */
   public static XMLfileOpener getInstance() {
     if (instance == null)
       instance = new XMLfileOpener();
     return instance;
   }
 
+  
+  /** Créer un explorateur de fichiers et permet de sélectionner un fichier à ouvrir
+   * @param read
+   * @return File
+   * @throws Exception
+   */
   public File open(boolean read) throws Exception {
     int returnVal;
     JFileChooser jFileChooserXML = new JFileChooser();
@@ -31,6 +41,11 @@ public class XMLfileOpener extends FileFilter {// Singleton
     return new File(jFileChooserXML.getSelectedFile().getAbsolutePath());
   }
 
+  
+  /** 
+   * @param f
+   * @return boolean
+   */
   @Override
   public boolean accept(File f) {
     if (f == null)
@@ -43,11 +58,20 @@ public class XMLfileOpener extends FileFilter {// Singleton
     return extension.contentEquals("xml");
   }
 
+  
+  /** 
+   * @return String
+   */
   @Override
   public String getDescription() {
     return "XML file";
   }
 
+  
+  /** 
+   * @param f
+   * @return String
+   */
   private String getExtension(File f) {
     String filename = f.getName();
     int i = filename.lastIndexOf('.');

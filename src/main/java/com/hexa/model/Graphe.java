@@ -32,7 +32,7 @@ public class Graphe extends Observable {
 	/**
 	 * Default constructor
 	 * 
-	 * Initialise les attributs
+	 * Initialise les attributs du graphe
 	 */
 	public Graphe() {
 
@@ -46,7 +46,7 @@ public class Graphe extends Observable {
 	}
 
 	/**
-	 * Définit l'entrepot pour ce graphe (= intersection de départ et d'arrivé)
+	 * Définit l'entrepot pour ce graphe (= intersection de départ et d'arrivé) s'il n'a pas été déjà définit
 	 * 
 	 * @param entrepot
 	 * @throws GrapheException 
@@ -70,7 +70,7 @@ public class Graphe extends Observable {
 		return entrepot;
 	}
 
-	/**
+	/** Ajoute l'Intersection en paramètre au graphe si elle n'a pas déjà été ajoutée
 	 * @param inter
 	 * @return true si n'est pas déjà présent dans le graphe
 	 */
@@ -83,7 +83,7 @@ public class Graphe extends Observable {
 	}
 
 
-	/**
+	/** Ajoute le Segment en paramètre au graphe si elle n'a pas déjà été ajoutée
 	 * @param seg
 	 * @return true si n'est pas déjà présent dans le graphe
 	 */
@@ -109,21 +109,21 @@ public class Graphe extends Observable {
 		}
 	}
 
-	/**
+	/** Retourne le nombre d'intersections dans le graphe
 	 * @return le nombre d'intersections que contient le graphe (n'inclut pas l'entrepot)
 	 */
 	public int getNbIntersections() {
 		return intersections.size();
 	}
 
-	/**
+	/** Retourne un tableau de toutes les intersections du graphe
 	 * @return un tableau de toutes les intersections du graphe (sans l'entrepot)
 	 */
 	public Intersection[] getIntersections() {
 		return intersections.toArray(new Intersection[0]);
 	}
 
-	/**
+	/** 
 	 * @param inter
 	 * @return true si inter est une intersection de ce graphe
 	 */
@@ -147,7 +147,7 @@ public class Graphe extends Observable {
 		return segments.containsKey(s) ? segments.get(s) : Double.MAX_VALUE;
 	}
 
-	/**
+	/** Retourne la liste des Intersections successeurs à l'Intersection en paramètre
 	 * @param inter une intersection du graphe
 	 * @return la liste des successeur de inter
 	 */

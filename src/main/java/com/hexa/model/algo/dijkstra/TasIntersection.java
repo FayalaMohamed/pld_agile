@@ -21,12 +21,16 @@ public class TasIntersection {
 		this.list = new ArrayList<Intersection>();
 	}
 
+	
+	/** Retourne la taille du tas
+	 * @return int
+	 */
 	public int getSize() {
 		return list.size();
 	}
 	
 	/**
-	 * Insere inter au bonne emplacement dans le tas en fonction de son cout
+	 * Insere une Intersection au bon emplacement dans le tas en fonction de son cout
 	 * @param inter
 	 * @param cout
 	 */

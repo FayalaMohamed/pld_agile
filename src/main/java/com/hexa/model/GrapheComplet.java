@@ -17,8 +17,14 @@ public class GrapheComplet extends Graphe {
 	/**
 	 * Construit un graphe complet ayant pour sommet l'ensemble des lieux de
 	 * livraisons de la tournée.
+	 * Un segment entre deux intersections du graphe complet est le plus court
+	 * chemin entre ces deux intersections dans le graphe en paramètre du
+	 * constructeur
 	 * Chaque segment est calculé avec l'algorithme de Dijkstra.
-	 * Le chemin calculé d'un sommet à un autre est mémorisé dans une table.
+	 * Le chemin calculé pour aller d'un sommet à un autre est mémorisé dans une
+	 * table.
+	 * 
+	 * UnGrapheComplet hérite de Graphe
 	 * 
 	 * @param carte   le graphe représentant la carte
 	 * @param tournee la tournée de livraison
@@ -83,10 +89,10 @@ public class GrapheComplet extends Graphe {
 		}
 	}
 
-	/**
+	/** Retourne le chemin (la liste des segments du graphe d'origine) correspondant un segment du graphe complet
 	 * 
 	 * @param s un segment du graphe complet
-	 * @return le chemin le plus court pour aller de l'origine de s à la destination
+	 * @return le chemin le plus court pour aller de l'origine à la destination du Segment en paramètre
 	 */
 	public Chemin getChemin(Segment s) {
 		return cheminsPlusCourt.get(s);
@@ -103,7 +109,7 @@ public class GrapheComplet extends Graphe {
 		throw new GrapheException("Impossible d'ajouter une intersection à un graphe complet");
 	}
 
-	/**
+	/** Surcharge de la méthode de graphe afin de l'interdire pour un graphe complet
 	 * @param seg
 	 * @return true si n'est pas déjà présent dans le graphe
 	 */

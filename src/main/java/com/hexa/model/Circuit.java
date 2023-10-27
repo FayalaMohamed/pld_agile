@@ -11,6 +11,8 @@ public class Circuit implements Iterator<Segment>{
 	
 	
 	/**
+	 * Constructor :
+	 * un circuit est un iterator sur les Segments des Chemins donnés en paramètre
 	 * 
 	 * @param seq liste ordonnée de chemin qui doivent composer le circuit
 	 */
@@ -22,6 +24,10 @@ public class Circuit implements Iterator<Segment>{
 		index = 0;		
 	}
 	
+	
+	/** Retourne True s'il existe au moins un autre Segment à parcourir
+	 * @return boolean
+	 */
 	@Override
 	public boolean hasNext() {
 		
@@ -40,6 +46,10 @@ public class Circuit implements Iterator<Segment>{
 		
 	}
 
+	
+	/** Retourne le prochain Segment parcouru
+	 * @return Segment
+	 */
 	@Override
 	public Segment next() {
 		

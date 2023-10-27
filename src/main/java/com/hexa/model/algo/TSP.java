@@ -16,15 +16,20 @@ public interface TSP {
 	
 	
 	/**
+	 * Retourne la iéme Intersection de la meilleure tournée possible
+	 * (null si i < 0 ou i >= nombre de sommets du graphe ou si le graphe de départ
+	 * est null)
+	 * 
 	 * @param i
-	 * @return le i-ème sommet visité de la solution calculée par <code>searchSolution</code> 
-	 * (null si <code>searchSolution</code> n'a pas encore été appelé, ou si i < 0 ou i >= nombre de sommets du graphe)
+	 * @return le i-ème sommet visité de la solution calculée par
+	 *         <code>searchSolution</code>
 	 */
 	public Intersection getSolution(int i);
 	
-	/** 
-	 * @return le cout total de la solution calculée par <code>searchSolution</code> 
-	 * (-1 si <code>searchSolution</code> n'a pas encore été appelé ou si le graphe est vide).
+	/**
+	 * Retourne le cout de la meilleure tournée possible
+	 * 
+	 * @return le cout total de la solution calculée par <code>searchSolution</code>
 	 */
 	public double getSolutionCost();
 

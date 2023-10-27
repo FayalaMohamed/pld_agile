@@ -22,15 +22,23 @@ public class Intersection {
    */
   protected Long id;
 
+  
+  /** 
+   * @return double
+   */
   public double getLatitude() {
     return latitude;
   }
 
+  
+  /** 
+   * @return double
+   */
   public double getLongitude() {
     return longitude;
   }
 
-  /**
+  /** Une intersection est caractérisée par son id, sa longitude et sa latitude
    * @param id
    * @param longitude
    * @param latitude
@@ -41,15 +49,29 @@ public class Intersection {
     this.id = id;
   }
 
+  
+  /** 
+   * @return Long
+   */
   public Long getId() {
     return id;
   }
 
+  
+  /** Retourne le hash de l'id de l'intersection
+   * @return int
+   */
   @Override
   public int hashCode() {
     return Objects.hash(id);
   }
 
+  
+  /** Retourne True si l'Intersection et l'Object donné en paramètre sont égaux : 
+   * égaux si l'objet est de la classe Intersection et a le même id que l'Intersection appelante
+   * @param obj
+   * @return boolean
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -62,10 +84,18 @@ public class Intersection {
     return id.equals(other.id);
   }
 
+  
+  /** Retourne une description textuelle correspondant à l'Intersection 
+   * @return String
+   */
   public String toString() {
     return ("id : " + id + " latitude : " + latitude + " longitude : " + longitude);
   }
 
+  
+  /** Retourne le tag XML correspondant à l'Intersection
+   * @return String
+   */
   public String toTag() {
     return "<intersection id=\"" + id + "\" latitude=\"" + latitude + "\" longitude=\"" + longitude + "\"/>";
   }

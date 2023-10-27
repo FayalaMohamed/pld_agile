@@ -16,6 +16,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XMLParser {
+
+  /**
+   * Génére le fichier correspondant à la sérialisation du graphe donné en
+   * paramètre.
+   * Le fichier est créé s'il n'existe pas et si on a le droit d'écrire dans le
+   * répertoire spécifié et si le dossier n'est pas dans un répertoire sécurisé.
+   * 
+   * @param path
+   * @param graphe
+   */
   public static void grapheToXml(String path, Graphe graphe) {
     try {
       PrintWriter writer = new PrintWriter(path, "UTF-8");
@@ -48,6 +58,18 @@ public class XMLParser {
     }
   }
 
+  /**
+   * Retourne un graphe créé à partir du fichier dont le path est donné en
+   * paramètre
+   * le fichier doit être existant et accessible en lecture.
+   * Tout fichier XML ne respectant pas la sémantique des tags : noms, nombre
+   * d'attributs, noms d'attributs ou lui manquant un entrepôt n'est pas lu et
+   * throws une Exception
+   * 
+   * @param path
+   * @return Graphe
+   * @throws Exception
+   */
   public static Graphe xmlToGraphe(String path) throws Exception {
     Graphe map = new Graphe();
     File stocks = new File(path);
@@ -125,6 +147,19 @@ public class XMLParser {
     return map;
   }
 
+  /**
+   * Retourne un set de Livraisons créé à partir du fichier dont le path est donné
+   * en paramètre.
+   * Le fichier doit être existant et accessible en lecture.
+   * 
+   * Tout fichier XML ne respectant pas la sémantique des tags : noms, nombre
+   * d'attributs, noms d'attributs  n'est pas lu et
+   * throws une Exception.
+   * 
+   * @param path
+   * @return Set<Livraison>
+   * @throws Exception
+   */
   public static Set<Livraison> xmlToListeLivraison(String path) throws Exception {
     File stocks = new File(path);
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -140,10 +175,13 @@ public class XMLParser {
       NamedNodeMap attributes = uneLivraison.getAttributes();
 
       if (attributes.getLength() != 8 || attributes.item(0).getNodeName() != "dateHeure"
-              || attributes.item(1).getNodeName() != "dateMinute" || attributes.item(2).getNodeName() != "id" || attributes.item(3).getNodeName() != "latitude"
-              || attributes.item(4).getNodeName() != "livreurId" || attributes.item(5).getNodeName() != "longitude" || attributes.item(6).getNodeName() != "plageDebut"
-              || attributes.item(7).getNodeName() != "plageFin") {
-        throw new Exception("A delivery must have 6 attributes in this order : date, livreurId, id, latitude, longitude");
+          || attributes.item(1).getNodeName() != "dateMinute" || attributes.item(2).getNodeName() != "id"
+          || attributes.item(3).getNodeName() != "latitude"
+          || attributes.item(4).getNodeName() != "livreurId" || attributes.item(5).getNodeName() != "longitude"
+          || attributes.item(6).getNodeName() != "plageDebut"
+          || attributes.item(7).getNodeName() != "plageFin") {
+        throw new Exception(
+            "A delivery must have 6 attributes in this order : date, livreurId, id, latitude, longitude");
       }
       int dateHeure = Integer.parseInt(attributes.item(0).getNodeValue());
       int dateMinute = Integer.parseInt(attributes.item(1).getNodeValue());
@@ -157,8 +195,8 @@ public class XMLParser {
 
       Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
       livraison.setLivreur(new Livreur(livreurId));
-      livraison.setPlageHoraire(plageDebut,plageFin);
-      livraison.setHeureEstime(dateHeure,dateMinute);
+      livraison.setPlageHoraire(plageDebut, plageFin);
+      livraison.setHeureEstime(dateHeure, dateMinute);
 
       listeLivraisons.add(livraison);
 
@@ -167,7 +205,14 @@ public class XMLParser {
     return listeLivraisons;
   }
 
-
+  /** Sérialisation d'un set de Livraisons et sauvegarde dans le fichier XML spécifié dans le path.
+   * 
+   * Le fichier est créé s'il n'existe pas et si on a le droit d'écrire dans le
+   * répertoire spécifié et si le dossier n'est pas dans un répertoire sécurisé.
+   * 
+   * @param path
+   * @param liste_livraisons
+   */
   public static void listeLivraisonsToXml(String path, Set<Livraison> liste_livraisons) {
     try {
       PrintWriter writer = new PrintWriter(path, "UTF-8");
@@ -175,11 +220,12 @@ public class XMLParser {
       writer.println("<livraisons>");
       SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
       for (Livraison livraison : liste_livraisons) {
-        writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateMinute=\"" + livraison.getHeureEstime()[1]
-                + "\" livreurId=\"" + livraison.getLivreur().getId()
-                + "\" plageDebut=\"" + livraison.getPlageHoraire()[0] + "\" plageFin=\"" + livraison.getPlageHoraire()[1] + "\" id=\"" + livraison.getLieu().getId() +  "\" latitude=\"" + livraison.getLieu().getLatitude()
-                +  "\" longitude=\"" + livraison.getLieu().getLongitude() +"\"/>");
-
+        writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateMinute=\""
+            + livraison.getHeureEstime()[1]
+            + "\" livreurId=\"" + livraison.getLivreur().getId()
+            + "\" plageDebut=\"" + livraison.getPlageHoraire()[0] + "\" plageFin=\"" + livraison.getPlageHoraire()[1]
+            + "\" id=\"" + livraison.getLieu().getId() + "\" latitude=\"" + livraison.getLieu().getLatitude()
+            + "\" longitude=\"" + livraison.getLieu().getLongitude() + "\"/>");
 
       }
       writer.println("</livraisons>");
@@ -188,7 +234,5 @@ public class XMLParser {
       ex.printStackTrace();
     }
   }
-
-
 
 }

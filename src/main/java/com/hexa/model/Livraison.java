@@ -34,12 +34,25 @@ public class Livraison {
 
   }
 
-	@Override
+	
+  /** 
+   * @return int
+   */
+  @Override
 	public int hashCode() {
 		return Objects.hash(lieu);
 	}
 
-	@Override
+	
+  /**
+   * Retourne True si la Livraison et l'Object donné en paramètre sont égaux :
+   * égaux si l'objet est de la classe Livraison et a le même lieu que
+   * la Livraison appelante
+   * 
+   * @param obj
+   * @return boolean
+   */
+  @Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -51,36 +64,72 @@ public class Livraison {
 		return Objects.equals(lieu, other.lieu);
 	}
 
+  
+  /** 
+   * @return Intersection
+   */
   public Intersection getLieu() {
     return lieu;
   }
 
+  
+  /** 
+   * @return Livreur
+   */
   public Livreur getLivreur() {
     return livreur;
   }
 
+  
+  /** 
+   * @return int[]
+   */
   public int[] getHeureEstime() {
     return heureEstime;
   }
 
+  
+  /** 
+   * @return int[]
+   */
   public int[] getPlageHoraire() {
     return plageHoraire;
   }
 
+  
+  /** 
+   * @param heure
+   * @param minutes
+   */
   public void setHeureEstime(int heure, int minutes) {
     this.heureEstime[0] = heure;
     this.heureEstime[1] = minutes;
   }
 
+  
+  /** 
+   * @param min
+   * @param max
+   */
   public void setPlageHoraire(int min, int max) {
     this.plageHoraire[0] = min;
     this.plageHoraire[1] = max;
   }
 
+  
+  /** 
+   * @param livreur
+   */
   public void setLivreur(Livreur livreur) {
     this.livreur = livreur;
   }
 
+  
+  /**
+   * Retourne une description textuelle correspondant à la Livraison
+   * 
+   * @return String
+   */
   public String toString() {
       return "Adresse : " + this.lieu + " Livreur : " + this.livreur;
   }

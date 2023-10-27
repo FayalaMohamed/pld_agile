@@ -19,6 +19,12 @@ abstract class TemplateTSP implements TSP {
 	private long startTime;
 	private int sizeBestSol;
 
+	
+	/** L'algo qui permet de trouver la meilleure tournée possible de l'entrepot passant par
+	 *  tous les sommet du graphe complet et retournant à l'entrepôt
+	 * @param timeLimit
+	 * @param g
+	 */
 	@Override
 	public void searchSolution(int timeLimit, GrapheComplet g) {
 		
@@ -60,6 +66,14 @@ abstract class TemplateTSP implements TSP {
 		System.out.println("Temps searchSolution TSP : " + (System.currentTimeMillis() - startTime));
 	}
 
+	
+	/**
+	 * Retourne la iéme Intersection de la meilleure tournée possible
+	 * (null si  i < 0 ou i >= nombre de sommets du graphe ou si le graphe de départ est null)
+	 * 
+	 * @param i
+	 * @return Intersection
+	 */
 	@Override
 	public Intersection getSolution(int i) {
 		if (g != null && i >= 0 && i < sizeBestSol) {
@@ -68,6 +82,10 @@ abstract class TemplateTSP implements TSP {
 		return null;
 	}
 
+	
+	/** Retourne le cout de la meilleure tournée possible
+	 * @return double
+	 */
 	@Override
 	public double getSolutionCost() {
 		if (g != null) {

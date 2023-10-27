@@ -6,7 +6,7 @@ package com.hexa.model;
  */
 public class Entrepot extends Intersection {
 
-  /**
+  /** Un Entrepot hérite d'une Intersection
    * @param id
    * @param longitude
    * @param latitude
@@ -15,6 +15,10 @@ public class Entrepot extends Intersection {
     super(id, longitude, latitude);
   }
 
+  
+  /** Retourne le tag XML correspondant à cet Entrepot
+   * @return String
+   */
   public String toTag() {
     return "<warehouse address=\"" + id + "\"/>";
   }

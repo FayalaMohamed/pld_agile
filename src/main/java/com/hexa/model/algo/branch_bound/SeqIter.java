@@ -32,11 +32,18 @@ public class SeqIter implements Iterator<Intersection> {
 		}
 	}
 
+	
+	/** Retourne True si il existe au moins une autre Intersection dans le tableau candidats 
+	 * @return boolean
+	 */
 	@Override
 	public boolean hasNext() {
 		return nbCandidats > 0;
 	}
 
+	/** Retourn la prochaine Intersection
+	 * @return Intersection
+	 */
 	@Override
 	public Intersection next() {
 		nbCandidats--;

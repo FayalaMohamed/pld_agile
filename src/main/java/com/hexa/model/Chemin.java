@@ -9,7 +9,8 @@ public class Chemin implements Iterator<Segment> {
 	private int size;
 	private int index;
 	
-	/**
+	/** Constructor :
+	 * un chemin est un iterator sur les Segments donnés en paramètre au constructeur
 	 * 
 	 * @param seq liste ordonnée de segment qui doivent composer le chemin
 	 */
@@ -20,6 +21,10 @@ public class Chemin implements Iterator<Segment> {
 		index = 0;		
 	}
 	
+	
+	/** Retourne True s'il existe encore un Segment à parcourir 
+	 * @return boolean
+	 */
 	@Override
 	public boolean hasNext() {
 		
@@ -29,6 +34,10 @@ public class Chemin implements Iterator<Segment> {
 		return false;
 	}
 
+	
+	/** Retourne le prochain Segment parcouru
+	 * @return Segment
+	 */
 	@Override
 	public Segment next() {
 		return sequence[index++];

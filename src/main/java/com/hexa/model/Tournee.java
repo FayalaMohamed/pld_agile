@@ -49,7 +49,7 @@ public class Tournee extends Observable {
 	}
 
 	/**
-	 * Ajoute une livraisons
+	 * Ajoute une livraisons et notifie les observeurs
 	 * 
 	 * Définit l'état du circuit à non calculé => A FAIRE : décider si on doit
 	 * recalculer ou si on interdit l'ajout après calcul
@@ -89,21 +89,33 @@ public class Tournee extends Observable {
 		return livraisons.toArray(new Livraison[0]);
 	}
 
+	
+	/** 
+	 * @return Set<Livraison>
+	 */
 	public Set<Livraison> getLivraisonsSet() {
 		return livraisons;
 	}
 
+	
+	/** 
+	 * @param livraisons
+	 */
 	public void setLivraisons(Set<Livraison> livraisons){
 		this.livraisons = livraisons;
 		this.notifyObservers(this);
 	}
 
+	
+	/** 
+	 * @return Iterator<Livraison>
+	 */
 	public Iterator<Livraison> getLivraisonIterator() {
 		return livraisons.iterator();
 	}
+
 	/**
-	 * 
-	 * Construit le meilleur circuit pour réaliser la tournée à partir de la carte
+	 * Construit le meilleur circuit pour réaliser la tournée à partir de la carte et notifie les observeurs
 	 * 
 	 * @param carte
 	 * @throws TourneeException
@@ -173,18 +185,34 @@ public class Tournee extends Observable {
 
 	}
 
+	
+	/** 
+	 * @param circuitCalculer
+	 */
 	public void setCircuitCalculer(boolean circuitCalculer) {
 		this.circuitCalculer = circuitCalculer;
 	}
 
+	
+	/** 
+	 * @return Livreur
+	 */
 	public Livreur getLivreur() {
 		return livreur;
 	}
 
+	
+	/** 
+	 * @param livreur
+	 */
 	public void setLivreur(Livreur livreur) {
 		this.livreur = livreur;
 	}
 
+	
+	/** Supprime une livraison de la tournee et notifie les observeurs
+	 * @param intersection
+	 */
 	public void supprimerLivraison(Intersection intersection) {
 		for (Livraison l : livraisons) {
 			System.out.println(l.toString());
@@ -195,7 +223,7 @@ public class Tournee extends Observable {
 		this.notifyObservers(this);
 	}
 
-	/**
+	/** Retourne le circuit calculé s'il est calculé sinon throws une Exception 
 	 * 
 	 * @return le meilleur circuit à prendre pour faire la tournée
 	 * @throws TourneeException
@@ -208,6 +236,10 @@ public class Tournee extends Observable {
 		}
 	}
 
+	
+	/** Retourne True si la tournee est calculee
+	 * @return boolean
+	 */
 	public boolean estCalculee() {
 		return circuitCalculer;
 	}
