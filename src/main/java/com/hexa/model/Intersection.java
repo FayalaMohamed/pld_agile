@@ -1,73 +1,103 @@
 package com.hexa.model;
 
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlTransient;
-import jakarta.xml.bind.annotation.XmlType;
+import java.util.*;
 
-@XmlType(propOrder = { "id", "latitude", "longitude" })
+/**
+ * 
+ */
 public class Intersection {
-  private String id;
+
+  /**
+   * latitude réel fourni par le fichier XML
+   */
   private double latitude;
+
+  /**
+   * longitude réel fourni par le fichier XML
+   */
   private double longitude;
-  private double x;
-  private double y;
 
-  public Intersection() {
-  }
+  /**
+   * identifient
+   */
+  protected Long id;
 
-  public Intersection(String id, double longitude, double latitude) {
-    this.id = id;
-    this.longitude = longitude;
-    this.latitude = latitude;
-  }
-
-  @XmlAttribute(name = "latitude")
+  
+  /** 
+   * @return double
+   */
   public double getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(double latitude) {
-    this.latitude = latitude;
-  }
-
-  @XmlAttribute(name = "longitude")
+  
+  /** 
+   * @return double
+   */
   public double getLongitude() {
     return longitude;
   }
 
-  public void setLongitude(double longitude) {
+  /** Une intersection est caractérisée par son id, sa longitude et sa latitude
+   * @param id
+   * @param longitude
+   * @param latitude
+   */
+  public Intersection(Long id, double longitude, double latitude) {
+    this.latitude = latitude;
     this.longitude = longitude;
-  }
-
-  @XmlTransient
-  public double getX() {
-    return x;
-  }
-
-  public void setX(double x) {
-    this.x = x;
-  }
-
-  @XmlTransient
-  public double getY() {
-    return y;
-  }
-
-  public void setY(double y) {
-    this.y = y;
-  }
-
-  @XmlAttribute(name = "id")
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
     this.id = id;
   }
 
+  
+  /** 
+   * @return Long
+   */
+  public Long getId() {
+    return id;
+  }
+
+  
+  /** Retourne le hash de l'id de l'intersection
+   * @return int
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  
+  /** Retourne True si l'Intersection et l'Object donné en paramètre sont égaux : 
+   * égaux si l'objet est de la classe Intersection et a le même id que l'Intersection appelante
+   * @param obj
+   * @return boolean
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Intersection other = (Intersection) obj;
+    return id.equals(other.id);
+  }
+
+  
+  /** Retourne une description textuelle correspondant à l'Intersection 
+   * @return String
+   */
   public String toString() {
-    return id + " " + latitude + " " + longitude;
+    return ("id : " + id + " latitude : " + latitude + " longitude : " + longitude);
+  }
+
+  
+  /** Retourne le tag XML correspondant à l'Intersection
+   * @return String
+   */
+  public String toTag() {
+    return "<intersection id=\"" + id + "\" latitude=\"" + latitude + "\" longitude=\"" + longitude + "\"/>";
   }
 
 }

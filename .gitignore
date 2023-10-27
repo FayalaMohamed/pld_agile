@@ -26,3 +26,10 @@ replay_pid*
 target
 
 .idea
+
+.classpath
+
+.vscode
+
+.settings
+compileAndRun.sh

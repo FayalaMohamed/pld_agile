@@ -1,84 +1,119 @@
 package com.hexa.model;
 
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlTransient;
-import jakarta.xml.bind.annotation.XmlType;
+import java.util.*;
 
-@XmlType(propOrder = { "destinationId", "longueur", "nom", "origineId" })
+/**
+ * 
+ */
 public class Segment {
 
+  /**
+   * Longueur en mètres du segment de route
+   */
   private double longueur;
+
+  /**
+   * Nom du segment
+   */
   private String nom;
+
+  /**
+   * point de départ
+   */
   private Intersection origine;
+
+  /**
+   * point d'arrivée
+   */
   private Intersection destination;
-  private String origineId;
-  private String destinationId;
 
-  public Segment() {
-  }
-
-  public Segment(Intersection origine, Intersection destination, double longueur, String nom, String origineId,
-      String destinationId) {
-    this.origine = origine;
+  /**
+   * @param origine
+   * @param destination
+   * @param longueur
+   * @param nom
+   */
+  public Segment(Intersection origine, Intersection destination, double longueur, String nom) {
     this.destination = destination;
-    this.longueur = longueur;
+    this.origine = origine;
     this.nom = nom;
-    this.destinationId = destinationId;
-    this.origineId = origineId;
+    this.longueur = longueur;
   }
 
-  @XmlAttribute(name = "length")
+  /**
+   * @param origine
+   * @param destination
+   */
+  public Segment(Intersection origine, Intersection destination) {
+    this.destination = destination;
+    this.origine = origine;
+    this.nom = null;
+    this.longueur = Double.MAX_VALUE;
+  }
+
+  
+  /** 
+   * @return double
+   */
   public double getLongueur() {
     return longueur;
   }
 
-  public void setLongueur(double longueur) {
-    this.longueur = longueur;
-  }
-
-  @XmlAttribute(name = "name")
-  public String getNom() {
-    return nom;
-  }
-
-  public void setNom(String nom) {
-    this.nom = nom;
-  }
-
-  @XmlTransient
+  
+  /** 
+   * @return Intersection
+   */
   public Intersection getOrigine() {
     return origine;
   }
 
-  @XmlAttribute(name = "origin")
-  public String getOrigineId() {
-    return origineId;
-  }
-
-  public void setOrigineId(String origineId) {
-    this.origineId = origineId;
-  }
-
-  public void setDestinationId(String destinationId) {
-    this.destinationId = destinationId;
-  }
-
-  public void setOrigine(Intersection origine) {
-    this.origine = origine;
-  }
-
-  @XmlTransient
+  
+  /** 
+   * @return Intersection
+   */
   public Intersection getDestination() {
     return destination;
   }
 
-  @XmlAttribute(name = "destination")
-  public String getDestinationId() {
-    return destinationId;
+  
+  /** Retourn le hash du Segment (à partir de l'origine et la destination)
+   * @return int
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(destination, origine);
   }
 
-  public void setDestination(Intersection destination) {
-    this.destination = destination;
+  
+  /**
+   * Retourne True si le Segment et l'Object donné en paramètre sont égaux :
+   * égaux si l'objet est de la classe Segment et a la même origine et destination que
+   * le Segment appelant
+   * 
+   * @param obj
+   * @return boolean
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Segment other = (Segment) obj;
+    return Objects.equals(destination, other.destination) && Objects.equals(origine, other.origine);
+  }
+
+  
+  /**
+   * Retourne le tag XML correspondant au Segment
+   * 
+   * @return String
+   */
+  public String toTag() {
+    return "<segment destination=\"" + destination.getId() + "\" length=\"" + longueur + "\" name=\"" + nom
+        + "\" origin=\"" + origine.getId() + "\"/>";
   }
 
 }

@@ -1,61 +1,165 @@
 package com.hexa.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
-import jakarta.xml.bind.annotation.XmlType;
-
-@XmlRootElement(name = "map")
-@XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlType(propOrder = { "intersections", "segments" })
+/**
+ * 
+ */
 public class Graphe extends Observable {
 
-  @XmlElement(name = "intersection")
-  private ArrayList<Intersection> intersections;
-  @XmlElement(name = "segment")
-  private ArrayList<Segment> segments;
-  @XmlTransient
-  private String entrepot = "25303831";
-  @XmlTransient
-  private HashMap<String, Intersection> mappingIntersection;
+	/**
+	 * Table contenant l'ensemble des segments du graphe en clé et le coût de chacun
+	 * en valeur
+	 */
+	protected Map<Segment, Double> segments;
 
-  public Graphe() {
-    this.intersections = new ArrayList<Intersection>();
-    this.segments = new ArrayList<Segment>();
-    this.mappingIntersection = new HashMap<String, Intersection>();
-  }
+	/**
+	 * Ensemble d'intersections (= sommets du graphe)
+	 */
+	protected Set<Intersection> intersections;
 
-  public Intersection trouverIntersectionParId(String id) {
-    return mappingIntersection.get(id);
-  }
+	/**
+	 * Table associant à chaque sommet, sa liste de successeur
+	 */
+	protected Map<Intersection, Set<Intersection>> listeSuccesseur;
 
-  public void ajouterIntersection(Intersection inter) {
-    this.intersections.add(inter);
-  }
+	/**
+	 * Entrepot
+	 */
+	protected Entrepot entrepot;
+	private boolean entrepotDefinit;
 
-  public void ajouterSegment(Segment seg) {
-    this.segments.add(seg);
-  }
+	/**
+	 * Default constructor
+	 * 
+	 * Initialise les attributs du graphe
+	 */
+	public Graphe() {
 
-  public ArrayList<Intersection> getIntersections() {
-    return this.intersections;
-  }
+		segments = new HashMap<Segment, Double>();
+		intersections = new HashSet<Intersection>();
 
-  public ArrayList<Segment> getSegments() {
-    return this.segments;
-  }
+		listeSuccesseur = new HashMap<Intersection, Set<Intersection>>();
 
-  public void addMappingIntersection(Intersection intersection) {
-    mappingIntersection.put(intersection.getId(), intersection);
-  }
+		entrepotDefinit = false;
 
-  public boolean isEntrepot(String intersectionId) {
-    return intersectionId.equals(entrepot);
-  }
+	}
+
+	/**
+	 * Définit l'entrepot pour ce graphe (= intersection de départ et d'arrivé) s'il n'a pas été déjà définit
+	 * 
+	 * @param entrepot
+	 * @throws GrapheException 
+	 */
+	public void setEntrepot(Entrepot entrepot) throws GrapheException {
+		if (!entrepotDefinit) {
+			this.entrepot = entrepot;
+			listeSuccesseur.put(entrepot, new HashSet<Intersection>());
+			this.entrepotDefinit = true;
+		}
+		else {
+			throw new GrapheException("L'entrepot de ce graphe a déjà été défini. Il n'est pas possible de le changer");
+		}
+	}
+
+	/**
+	 * 
+	 * @return l'entrepot du graphe
+	 */
+	public Entrepot getEntrepot() {
+		return entrepot;
+	}
+
+	/** Ajoute l'Intersection en paramètre au graphe si elle n'a pas déjà été ajoutée
+	 * @param inter
+	 * @return true si n'est pas déjà présent dans le graphe
+	 */
+	public boolean ajouterIntersection(Intersection inter) throws GrapheException {
+		if (intersections.add(inter)) {
+			listeSuccesseur.put(inter, new HashSet<Intersection>());
+			return true;
+		}
+		return false;
+	}
+
+
+	/** Ajoute le Segment en paramètre au graphe si elle n'a pas déjà été ajoutée
+	 * @param seg
+	 * @return true si n'est pas déjà présent dans le graphe
+	 */
+	public boolean ajouterSegment(Segment seg) throws GrapheException {
+		if (segments.putIfAbsent(seg, seg.getLongueur()) == null) {
+
+			listeSuccesseur.get(seg.getOrigine()).add(seg.getDestination());
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Utile uniquement pour la phase de test de developpement de l'algo de TSP
+	 */
+	public void afficher() {
+		for (Map.Entry<Segment, Double> entry : segments.entrySet()) {
+			Segment seg = (Segment) entry.getKey();
+			System.out.println("cost[" + seg.getOrigine().getId() + "][" + seg.getDestination().getId() + "] = "
+					+ seg.getLongueur() + ";");
+		}
+	}
+
+	/** Retourne le nombre d'intersections dans le graphe
+	 * @return le nombre d'intersections que contient le graphe (n'inclut pas l'entrepot)
+	 */
+	public int getNbIntersections() {
+		return intersections.size();
+	}
+
+	/** Retourne un tableau de toutes les intersections du graphe
+	 * @return un tableau de toutes les intersections du graphe (sans l'entrepot)
+	 */
+	public Intersection[] getIntersections() {
+		return intersections.toArray(new Intersection[0]);
+	}
+
+	/** 
+	 * @param inter
+	 * @return true si inter est une intersection de ce graphe
+	 */
+	public boolean hasIntersection(Intersection inter) {
+		return intersections.contains(inter);
+	}
+
+	/**
+	 * @param s
+	 * @return true si le graphe contient un segment identique à s
+	 */
+	public boolean hasSegment(Segment s) {
+		return segments.containsKey(s);
+	}
+
+	/**
+	 * @param s
+	 * @return le cout de passage par le segment s
+	 */
+	public double getCost(Segment s) {
+		return segments.containsKey(s) ? segments.get(s) : Double.MAX_VALUE;
+	}
+
+	/** Retourne la liste des Intersections successeurs à l'Intersection en paramètre
+	 * @param inter une intersection du graphe
+	 * @return la liste des successeur de inter
+	 */
+	public Intersection[] getSuccesseur(Intersection inter) {
+		return listeSuccesseur.get(inter).toArray(new Intersection[0]);
+	}
+
+	/**
+	 * @return un tableau de tous les segments du graphe
+	 */
+	public Segment[] getSegments() {
+		return segments.keySet().toArray(new Segment[0]);
+	}
 
 }
