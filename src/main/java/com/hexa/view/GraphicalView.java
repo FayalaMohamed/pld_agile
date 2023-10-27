@@ -1,6 +1,7 @@
 package com.hexa.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
@@ -84,7 +85,7 @@ public class GraphicalView extends JPanel implements Observer {
     repaint();
   }
 
-  public void display(Intersection i, Color c) {
+  public void display(Intersection i, Color c, int number) {
     int r = 2;
     if (c.equals(Color.red) || c.equals(Color.green)) {
       r = 6;
@@ -93,6 +94,11 @@ public class GraphicalView extends JPanel implements Observer {
     int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
     g.setColor(c);
     g.fillOval(xpos - r, ypos - r, 2 * r, 2 * r);
+    if (number != -1) {
+      g.setColor(Color.black);
+      g.setFont(new Font("TimesRoman", Font.BOLD, 25));
+      g.drawString(String.valueOf(number), xpos + r, ypos + r);
+    }
   }
 
   public void display(Segment s, Color c) {
@@ -154,7 +160,7 @@ public class GraphicalView extends JPanel implements Observer {
     super.paintComponent(g);
     this.g = g;
     if (carte != null) {
-      display(carte.getEntrepot(), Color.green);
+      display(carte.getEntrepot(), Color.green, -1);
       Iterator<Intersection> iit = intersections.iterator();
       while (iit.hasNext()) {
         Intersection intersection = iit.next();
@@ -166,9 +172,9 @@ public class GraphicalView extends JPanel implements Observer {
           }
         }
         if (adresseLivraison) {
-          display(intersection, Color.red);
+          display(intersection, Color.red, 7);
         } else {
-          display(intersection, Color.blue);
+          display(intersection, Color.blue, -1);
         }
 
       }
