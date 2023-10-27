@@ -8,14 +8,12 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
-import com.hexa.model.Circuit;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
 import com.hexa.model.Livraison;
 import com.hexa.model.Segment;
 import com.hexa.model.Tournee;
-import com.hexa.model.TourneeException;
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
 

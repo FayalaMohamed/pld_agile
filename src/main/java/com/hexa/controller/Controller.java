@@ -1,19 +1,17 @@
 package com.hexa.controller;
 
 import com.hexa.model.Coordonnees;
-import java.io.File;
 import com.hexa.model.Graphe;
 import com.hexa.model.Tournee;
 import com.hexa.view.Window;
-import com.hexa.model.XMLParser;
 
 public class Controller {
 
   private State currentState;
-  private Window window;
+  private final Window window;
   private Graphe carte;
 
-  private Tournee tournee;
+  private final Tournee tournee;
   int nbLivreurs;
 
   //Instances associées avec chacuns des états possibles pour le controlleur
@@ -61,7 +59,7 @@ public class Controller {
 
   /**
    * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
-   * @param coordonnees
+   * @param coordonnees les coordonnées du clic gauche
    */
   public void clicGauche(Coordonnees coordonnees) {
     currentState.clicGauche(this, window, coordonnees);
