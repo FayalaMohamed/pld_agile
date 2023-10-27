@@ -68,19 +68,27 @@ public class GrapheComplet extends Graphe {
 			sp.searchShortestPath(carte, depart, null);
 
 			s = new Segment(depart, entrepot, sp.getCost(entrepot), null);
+			
+			
 
 			super.ajouterSegment(s);
 
 			this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(entrepot)));
 
 			for (Intersection arrive : intersections) {
-				if (arrive != depart) {
+				if (! arrive.equals(depart)) {
 					s = new Segment(depart, arrive, sp.getCost(arrive), null);
+					
+					if (sp.getCost(arrive) == Double.MAX_VALUE) {
+						System.out.println(depart.getId() + " " + arrive.getId());
+					}
+					
 					super.ajouterSegment(s);
 					this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(arrive)));
 				}
 			}
 		}
+		
 	}
 
 	/**

@@ -53,11 +53,22 @@ public class TSPBoundSimple extends TemplateTSP {
 				
 			}
 			
+			/*
+			if (li != Double.MAX_VALUE) {
+				sumLi += li;
+			}
+			*/
 			sumLi += li;
 			
 		}
 		
-		return l + sumLi;
+		if (l != Double.MAX_VALUE) {
+			return l + sumLi;
+		}
+		else {
+			return sumLi;
+		}
+		
 	}
 
 	@Override
