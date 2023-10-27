@@ -165,66 +165,22 @@ public class GraphicalView extends JPanel implements Observer {
 
       }
 
-      // Iterator<Segment> sit = segments.iterator();
-      // while (sit.hasNext()) {
-      // for (Segment seg : segments) {
-      // ArrayList<Segment> segs = tournee.getSegments();
-      // long count = 0;
-      // if (segs != null) {
-      // count = tournee.getSegments().stream().filter(segment ->
-      // seg.equals(segment)).count();
-      // }
-      // if (count == 1) {
-      // display(seg, Color.red);
-      // } else if (count > 1) {
-      // display(seg, Color.red);
-      // } else {
-      // display(seg, Color.blue);
-      // }
-      // }
+      for (Segment segment : segments) {
+        display(segment, Color.blue);
+      }
 
       // TODO: replace tournee.getSegments with the circuit iterator, but think about
       // implementing a reset method that sets the iterator's index back to 0 in the
       // class circuit
-      ArrayList<Segment> segmentsTournee = tournee.getSegments();
-      // System.out.println("MY SEGMENTS : ");
-      // if (segmentsTournee != null) {
-      // for (Segment seg : segmentsTournee) {
-      // System.out.println("SEGMENT : " + seg);
-      // }
-      // }
-      for (Segment seg : segments) {
-        if (segmentsTournee != null && segmentsTournee.contains(seg)) {
-          display(seg, Color.red);
-        } else {
-          display(seg, Color.blue);
+      if (tournee.getCircuitCalculer()) {
+        ArrayList<Segment> segmentsTournee = tournee.getSegments();
+        for (Segment seg : segments) {
+          if (segmentsTournee != null && segmentsTournee.contains(seg)) {
+            display(seg, Color.red);
+          }
         }
       }
     }
-
-    // Circuit circuitTournee;
-    // ArrayList<Segment> segments_rouges = new ArrayList<Segment>();
-    // try {
-    // circuitTournee = tournee.getCircuit();
-    // while (circuitTournee.hasNext()) {
-    // Segment seg = circuitTournee.next();
-    // // System.out.println("SEGMENT : " + seg);
-    // segments_rouges.add(seg);
-    // // display(seg, Color.red);
-    // }
-    // } catch (TourneeException e) {
-    // e.printStackTrace();
-    // }
-    // for (Segment segment : segments) {
-    // if (!segments_rouges.contains(segment)) {
-    // // display(segment, Color.blue);
-    // }
-    // }
-    // System.out.println("THEIR SEGMENTS : ");
-    // for (Segment seg : segments_rouges) {
-    // System.out.println("SEGMENT : " + seg);
-    // }
-    // }
   }
 
   /**

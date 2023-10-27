@@ -48,23 +48,23 @@ public class Tournee extends Observable {
 
   }
 
-	/**
-	 * Ajoute une livraisons et notifie les observeurs
-	 * 
-	 * Définit l'état du circuit à non calculé => A FAIRE : décider si on doit
-	 * recalculer ou si on interdit l'ajout après calcul
-	 * 
-	 * @param l une livraison à ajouter à cette tournée
-	 * @return true si la livraison n'était pas déjà présente
-	 */
-	public boolean ajouterLivraison(Livraison l) {
-		if (circuitCalculer) {
-			return false;
-		}
-		boolean success = this.livraisons.add(l);
-		notifyObservers(this);
-		return success;
-	}
+  /**
+   * Ajoute une livraisons et notifie les observeurs
+   * 
+   * Définit l'état du circuit à non calculé => A FAIRE : décider si on doit
+   * recalculer ou si on interdit l'ajout après calcul
+   * 
+   * @param l une livraison à ajouter à cette tournée
+   * @return true si la livraison n'était pas déjà présente
+   */
+  public boolean ajouterLivraison(Livraison l) {
+    if (circuitCalculer) {
+      return false;
+    }
+    boolean success = this.livraisons.add(l);
+    notifyObservers(this);
+    return success;
+  }
 
   /**
    * uniquement pour le dev
@@ -89,33 +89,27 @@ public class Tournee extends Observable {
     return livraisons.toArray(new Livraison[0]);
   }
 
-	
-	/** 
-	 * @return Set<Livraison>
-	 */
-	public Set<Livraison> getLivraisonsSet() {
-		return livraisons;
-	}
+  /**
+   * @return Set<Livraison>
+   */
+  public Set<Livraison> getLivraisonsSet() {
+    return livraisons;
+  }
 
-	
-	/** 
-	 * @param livraisons
-	 */
-	public void setLivraisons(Set<Livraison> livraisons){
-		this.livraisons = livraisons;
-		this.notifyObservers(this);
-	}
+  /**
+   * @param livraisons
+   */
+  public void setLivraisons(Set<Livraison> livraisons) {
+    this.livraisons = livraisons;
+    this.notifyObservers(this);
+  }
 
-	
-	/** 
-	 * @return Iterator<Livraison>
-	 */
-	public Iterator<Livraison> getLivraisonIterator() {
-		return livraisons.iterator();
-	}
-
-	
-
+  /**
+   * @return Iterator<Livraison>
+   */
+  public Iterator<Livraison> getLivraisonIterator() {
+    return livraisons.iterator();
+  }
 
   /**
    * 
@@ -125,126 +119,127 @@ public class Tournee extends Observable {
    * @throws TourneeException
    * @throws GrapheException
    */
-	public void construireCircuit(Graphe carte) throws GrapheException, TourneeException {
+  public void construireCircuit(Graphe carte) throws GrapheException, TourneeException {
 
-		// Création du graphe complet associé à la tournée
-		GrapheComplet grapheComplet = new GrapheComplet(carte, this);
+    // Création du graphe complet associé à la tournée
+    GrapheComplet grapheComplet = new GrapheComplet(carte, this);
 
-		// Calcul du meilleur circuit
-		TSP tsp = new TSPBoundSimple();
-		tsp.searchSolution(60000, grapheComplet);
+    // Calcul du meilleur circuit
+    TSP tsp = new TSPBoundSimple();
+    tsp.searchSolution(60000, grapheComplet);
 
-		// Construction du circuit de segment et recupération des couts
-		Intersection depart, arrive;
-		ArrayList<Chemin> list = new ArrayList<Chemin>();
-		Map<Intersection, Double> temps = new HashMap<Intersection, Double>();
-		Double tempsTotal = 0.0;
-		int i = 0;
-		while ((depart = tsp.getSolution(i)) != null && (arrive = tsp.getSolution(i + 1)) != null) {
-			i++;
+    // Construction du circuit de segment et recupération des couts
+    Intersection depart, arrive;
+    ArrayList<Chemin> list = new ArrayList<Chemin>();
+    Map<Intersection, Double> temps = new HashMap<Intersection, Double>();
+    Double tempsTotal = 0.0;
+    int i = 0;
+    while ((depart = tsp.getSolution(i)) != null && (arrive = tsp.getSolution(i + 1)) != null) {
+      i++;
 
-			Segment seg = new Segment(depart, arrive);
-			list.add(grapheComplet.getChemin(seg));
+      Segment seg = new Segment(depart, arrive);
+      list.add(grapheComplet.getChemin(seg));
 
-			tempsTotal += (grapheComplet.getCost(seg) / 1000.0) / 15.0; // m -> km -> h
-			temps.put(arrive, tempsTotal);
-			tempsTotal += 5.0 / 60.0; // 5 min de battement à ajouter pour faire la livraison
+      tempsTotal += (grapheComplet.getCost(seg) / 1000.0) / 15.0; // m -> km -> h
+      temps.put(arrive, tempsTotal);
+      tempsTotal += 5.0 / 60.0; // 5 min de battement à ajouter pour faire la livraison
 
-		}
+    }
 
-		// Calcul des heures de passage (delta de 5 min à chaque livraison)
-		Double heure;
-		int heureDepart = 8;
-		int[] tab = new int[2];
-		for (Livraison l : livraisons) {
+    // Calcul des heures de passage (delta de 5 min à chaque livraison)
+    Double heure;
+    int heureDepart = 8;
+    int[] tab = new int[2];
+    for (Livraison l : livraisons) {
 
-			if ((heure = temps.get(l.getLieu())) != null) {
+      if ((heure = temps.get(l.getLieu())) != null) {
 
-				// Paramètrage de la livraison
-				tab[0] = heureDepart + heure.intValue();
-				double temp = ((double) heureDepart + heure);
-				tab[1] = (int) ((temp - (int) temp) * 60.0);
+        // Paramètrage de la livraison
+        tab[0] = heureDepart + heure.intValue();
+        double temp = ((double) heureDepart + heure);
+        tab[1] = (int) ((temp - (int) temp) * 60.0);
 
-				l.setHeureEstime(tab[0], tab[1]);
+        l.setHeureEstime(tab[0], tab[1]);
 
-				tab[1] = tab[0] + 1;
-				l.setPlageHoraire(tab[0], tab[1]);
+        tab[1] = tab[0] + 1;
+        l.setPlageHoraire(tab[0], tab[1]);
 
-			}
+      }
 
-			else {
-				throw new TourneeException("Cout d'une livraison inexistant : " + l.getLieu().getId());
-			}
+      else {
+        throw new TourneeException("Cout d'une livraison inexistant : " + l.getLieu().getId());
+      }
 
-		}
+    }
 
-		finTourneeEstime[0] = heureDepart + temps.get(grapheComplet.getEntrepot()).intValue();
-		double temp = ((double) heureDepart + temps.get(grapheComplet.getEntrepot()).intValue());
-		finTourneeEstime[1] = (int) ((temp - (int) temp) * 60.0);
+    finTourneeEstime[0] = heureDepart + temps.get(grapheComplet.getEntrepot()).intValue();
+    double temp = ((double) heureDepart + temps.get(grapheComplet.getEntrepot()).intValue());
+    finTourneeEstime[1] = (int) ((temp - (int) temp) * 60.0);
 
-		circuit = new Circuit(list);
-		circuitCalculer = true;
+    circuit = new Circuit(list);
+    circuitCalculer = true;
 
-		this.notifyObservers(this);
-	}
-	
-	/** 
-	 * @param circuitCalculer
-	 */
-	public void setCircuitCalculer(boolean circuitCalculer) {
-		this.circuitCalculer = circuitCalculer;
-	}
+    this.notifyObservers(this);
+  }
 
-	
-	/** 
-	 * @return Livreur
-	 */
-	public Livreur getLivreur() {
-		return livreur;
-	}
+  /**
+   * @param circuitCalculer
+   */
+  public void setCircuitCalculer(boolean circuitCalculer) {
+    this.circuitCalculer = circuitCalculer;
+  }
 
-	
-	/** 
-	 * @param livreur
-	 */
-	public void setLivreur(Livreur livreur) {
-		this.livreur = livreur;
-	}
+  /**
+   * @return Livreur
+   */
+  public Livreur getLivreur() {
+    return livreur;
+  }
 
-	
-	/** Supprime une livraison de la tournee et notifie les observeurs
-	 * @param intersection
-	 */
-	public void supprimerLivraison(Intersection intersection) {
-		for (Livraison l : livraisons) {
-			System.out.println(l.toString());
-			if (l.getLieu() == intersection) {
-				livraisons.remove(l);
-			}
-		}
-		this.notifyObservers(this);
-	}
+  /**
+   * @param livreur
+   */
+  public void setLivreur(Livreur livreur) {
+    this.livreur = livreur;
+  }
 
-	/** Retourne le circuit calculé s'il est calculé sinon throws une Exception 
-	 * 
-	 * @return le meilleur circuit à prendre pour faire la tournée
-	 * @throws TourneeException
-	 */
-	public Circuit getCircuit() throws TourneeException {
-		if (circuitCalculer) {
-			return circuit;
-		} else {
-			throw new TourneeException("Le circuit n'a pas encore été calculé");
-		}
-	}
+  /**
+   * Supprime une livraison de la tournee et notifie les observeurs
+   * 
+   * @param intersection
+   */
+  public void supprimerLivraison(Intersection intersection) {
+    for (Livraison l : livraisons) {
+      System.out.println(l.toString());
+      if (l.getLieu() == intersection) {
+        livraisons.remove(l);
+      }
+    }
+    this.notifyObservers(this);
+  }
 
-	
-	/** Retourne True si la tournee est calculee
-	 * @return boolean
-	 */
-	public boolean estCalculee() {
-		return circuitCalculer;
-	}
+  /**
+   * Retourne le circuit calculé s'il est calculé sinon throws une Exception
+   * 
+   * @return le meilleur circuit à prendre pour faire la tournée
+   * @throws TourneeException
+   */
+  public Circuit getCircuit() throws TourneeException {
+    if (circuitCalculer) {
+      return circuit;
+    } else {
+      throw new TourneeException("Le circuit n'a pas encore été calculé");
+    }
+  }
+
+  /**
+   * Retourne True si la tournee est calculee
+   * 
+   * @return boolean
+   */
+  public boolean estCalculee() {
+    return circuitCalculer;
+  }
 
   public ArrayList<Segment> getSegments() {
     ArrayList<Segment> segments = new ArrayList<Segment>();
@@ -259,6 +254,10 @@ public class Tournee extends Observable {
       }
     }
     return segments;
+  }
+
+  public boolean getCircuitCalculer() {
+    return circuitCalculer;
   }
 
 }
