@@ -56,6 +56,8 @@ abstract class TemplateTSP implements TSP {
 		bestSol[sizeBestSol - 1] = g.getEntrepot();
 		if(bestSolCost == Double.MAX_VALUE)
 			bestSolCost = -1;
+		
+		System.out.println("Temps searchSolution TSP : " + (System.currentTimeMillis() - startTime));
 	}
 
 	@Override
@@ -86,9 +88,9 @@ abstract class TemplateTSP implements TSP {
 	private void branchAndBound(Intersection sommetCourant, List<Intersection> unvisited, List<Intersection> visited, double currentCost){
 		
 		//Si on depasse le temps
-		if (System.currentTimeMillis() - startTime > timeLimit) {
+		/*if (System.currentTimeMillis() - startTime > timeLimit) {
 			return;
-		}
+		}*/
 		
 		
 		//Si on a visité tout le monde
