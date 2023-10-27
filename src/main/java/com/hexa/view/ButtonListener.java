@@ -13,6 +13,12 @@ public class ButtonListener implements ActionListener {
     this.controller = controller;
   }
 
+  /**
+   * Méthode appelée par le ButtonListener chaque fois qu'un bouton est cliqué
+   * Contient un switch case pour déterminer quel bouton est cliqué
+   * Puis délègue au contrôleur
+   * @param e the event to be processed
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {

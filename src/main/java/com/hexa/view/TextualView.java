@@ -10,6 +10,9 @@ import com.hexa.model.Tournee;
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
 
+/**
+ * Méthode permettant l'affichage textuel de la liste des livraisons
+ */
 public class TextualView extends JLabel implements Observer{
 
 	private static final long serialVersionUID = 1L;
@@ -46,7 +49,8 @@ public class TextualView extends JLabel implements Observer{
 
 	/**
 	 * Affichage d'une livraison sous forme textuelle
-	 */
+     * @param l
+     */
 	public void display(Livraison l) {
 		text = text+"<li>";
 		text = text+"Livraison: " + l.toString();

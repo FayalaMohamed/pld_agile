@@ -88,7 +88,7 @@ public class XMLParser {
       double longitude = Double.parseDouble(attributes.item(2).getNodeValue());
       if (warehouses_list.contains(id)) {
         Entrepot entrepot = new Entrepot(id, longitude, latitude);
-        // TODO Int the files there are only one warehouse, but if scalable entrepot
+        // TODO: Int the files there are only one warehouse, but if scalable entrepot
         // should become a list in Graphe Julien said not
         map.setEntrepot(entrepot);
         mapping_id_intersection.put(id, entrepot);
@@ -140,10 +140,13 @@ public class XMLParser {
       NamedNodeMap attributes = uneLivraison.getAttributes();
 
       if (attributes.getLength() != 8 || attributes.item(0).getNodeName() != "dateHeure"
-              || attributes.item(1).getNodeName() != "dateMinute" || attributes.item(2).getNodeName() != "id" || attributes.item(3).getNodeName() != "latitude"
-              || attributes.item(4).getNodeName() != "livreurId" || attributes.item(5).getNodeName() != "longitude" || attributes.item(6).getNodeName() != "plageDebut"
-              || attributes.item(7).getNodeName() != "plageFin") {
-        throw new Exception("A delivery must have 6 attributes in this order : date, livreurId, id, latitude, longitude");
+          || attributes.item(1).getNodeName() != "dateMinute" || attributes.item(2).getNodeName() != "id"
+          || attributes.item(3).getNodeName() != "latitude"
+          || attributes.item(4).getNodeName() != "livreurId" || attributes.item(5).getNodeName() != "longitude"
+          || attributes.item(6).getNodeName() != "plageDebut"
+          || attributes.item(7).getNodeName() != "plageFin") {
+        throw new Exception(
+            "A delivery must have 6 attributes in this order : date, livreurId, id, latitude, longitude");
       }
       int dateHeure = Integer.parseInt(attributes.item(0).getNodeValue());
       int dateMinute = Integer.parseInt(attributes.item(1).getNodeValue());
@@ -157,8 +160,8 @@ public class XMLParser {
 
       Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
       livraison.setLivreur(new Livreur(livreurId));
-      livraison.setPlageHoraire(plageDebut,plageFin);
-      livraison.setHeureEstime(dateHeure,dateMinute);
+      livraison.setPlageHoraire(plageDebut, plageFin);
+      livraison.setHeureEstime(dateHeure, dateMinute);
 
       listeLivraisons.add(livraison);
 
@@ -167,7 +170,6 @@ public class XMLParser {
     return listeLivraisons;
   }
 
-
   public static void listeLivraisonsToXml(String path, Set<Livraison> liste_livraisons) {
     try {
       PrintWriter writer = new PrintWriter(path, "UTF-8");
@@ -175,11 +177,12 @@ public class XMLParser {
       writer.println("<livraisons>");
       SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
       for (Livraison livraison : liste_livraisons) {
-        writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateMinute=\"" + livraison.getHeureEstime()[1]
-                + "\" livreurId=\"" + livraison.getLivreur().getId()
-                + "\" plageDebut=\"" + livraison.getPlageHoraire()[0] + "\" plageFin=\"" + livraison.getPlageHoraire()[1] + "\" id=\"" + livraison.getLieu().getId() +  "\" latitude=\"" + livraison.getLieu().getLatitude()
-                +  "\" longitude=\"" + livraison.getLieu().getLongitude() +"\"/>");
-
+        writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateMinute=\""
+            + livraison.getHeureEstime()[1]
+            + "\" livreurId=\"" + livraison.getLivreur().getId()
+            + "\" plageDebut=\"" + livraison.getPlageHoraire()[0] + "\" plageFin=\"" + livraison.getPlageHoraire()[1]
+            + "\" id=\"" + livraison.getLieu().getId() + "\" latitude=\"" + livraison.getLieu().getLatitude()
+            + "\" longitude=\"" + livraison.getLieu().getLongitude() + "\"/>");
 
       }
       writer.println("</livraisons>");
@@ -188,7 +191,5 @@ public class XMLParser {
       ex.printStackTrace();
     }
   }
-
-
 
 }
