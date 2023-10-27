@@ -110,7 +110,7 @@ public class GraphicalView extends JPanel implements Observer {
     g.setColor(c);
     if (c == Color.red) {
       Graphics2D g2 = (Graphics2D) g;
-      g2.setStroke(new BasicStroke(10));
+      g2.setStroke(new BasicStroke(3));
       g2.draw(new Line2D.Float(xOrigine, yOrigine, xDestination, yDestination));
     }
     g.drawLine(xOrigine, yOrigine, xDestination, yDestination);
