@@ -66,6 +66,20 @@ public class Controller {
   }
 
   /**
+   * Méthode appelée par la fenêtre après un défilement de la molette de souris
+   */
+  public void zoom() {
+    currentState.zoom();
+  }
+
+   /**
+   * Méthode appelée par la fenêtre après un glissement dépot de la souris
+   */
+  public void glissement() {
+    currentState.glissement();
+  }
+
+  /**
    * Méthode appelée par la fenêtre après un clic droit sur la vue graphique
    */
   public void clicDroit() {

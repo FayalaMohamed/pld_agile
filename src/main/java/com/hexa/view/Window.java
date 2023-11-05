@@ -40,6 +40,7 @@ public class Window extends JFrame {
 
   private MouseListener mouseListener;
   private ButtonListener buttonListener;
+  private ZoomHandler zoomHandler;
 
   private int width;
   private int height;
@@ -89,7 +90,12 @@ public class Window extends JFrame {
     getContentPane().add(messageFrame);
 
     mouseListener = new MouseListener(controller, graphicalView, this);
+    
     addMouseListener(mouseListener);
+    addMouseMotionListener(mouseListener);
+
+    zoomHandler = new ZoomHandler(controller, graphicalView);
+    addMouseWheelListener(zoomHandler);
 
     setWindowSize();
     setVisible(true);

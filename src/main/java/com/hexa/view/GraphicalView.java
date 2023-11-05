@@ -9,6 +9,9 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
 
 import javax.swing.JPanel;
 
@@ -28,6 +31,10 @@ public class GraphicalView extends JPanel implements Observer {
   private int viewWidth;
   private Graphics g;
   private Tournee tournee;
+  private int viewX = 0;
+  private int viewY = 0;
+  private double zoomFactor = 1.0;
+
 
   private Graphe carte;
   private ArrayList<Intersection> intersections;
@@ -37,6 +44,9 @@ public class GraphicalView extends JPanel implements Observer {
   private double latitudeMax;
   private double longitudeMin;
   private double longitudeMax;
+
+  private Coordonnees coordonneesMin;
+  private Coordonnees coordonneesMax;
 
   /**
    * Crée la vue graphique correspondant à une tournée dans une fenêtre
@@ -49,13 +59,46 @@ public class GraphicalView extends JPanel implements Observer {
     tournee.addObserver(this);
     this.tournee = tournee;
 
+
+
     viewWidth = 1000;
     viewHeight = 700;
 
     setSize(viewWidth, viewHeight);
     setBackground(Color.white);
     w.getContentPane().add(this);
+
+    
   }
+
+  public void setZoomFactor(int notches) {
+   
+      double temp = zoomFactor;
+      if (notches < 0) {
+        // Zoom in
+        zoomFactor *= 1.1;
+        if(zoomFactor>4){
+
+          zoomFactor = temp;
+
+        }
+      } else {
+        // Zoom out
+        zoomFactor /= 1.1;
+        if(zoomFactor<1){
+
+          zoomFactor = temp;
+
+        } else {
+
+          viewX = 0;
+          viewY = 0;
+        }
+      }
+      repaint();
+    
+  }
+
 
   /**
    * Méthode appelée par les objets observés par GraphicalView à chaque mise à
@@ -80,6 +123,9 @@ public class GraphicalView extends JPanel implements Observer {
     latitudeMin = 90;
     longitudeMax = -180;
     longitudeMin = 180;
+
+    coordonneesMin = new Coordonnees(0,viewHeight);
+    coordonneesMax = new Coordonnees((int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),(int) (viewHeight - ((latitudeMax - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight)));
     definirExtremesCoordonnees();
 
     repaint();
@@ -159,6 +205,14 @@ public class GraphicalView extends JPanel implements Observer {
 
     super.paintComponent(g);
     this.g = g;
+
+    Graphics2D g2d = (Graphics2D) g;
+
+    g2d.translate(viewX, viewY);
+
+    // Appliquer le facteur de zoom
+    g2d.scale(zoomFactor, zoomFactor);
+
     if (carte != null) {
       display(carte.getEntrepot(), Color.green, -1);
       Iterator<Intersection> iit = intersections.iterator();
@@ -207,8 +261,12 @@ public class GraphicalView extends JPanel implements Observer {
    * @return
    */
   public Coordonnees CoordGPSToViewPos(Intersection i) {
-    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
-    int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
+    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth) ;
+    int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight));
+
+    xpos = (int) (xpos * zoomFactor)+ viewX;
+    ypos = (int) (ypos * zoomFactor)+ viewY;
+    
     return new Coordonnees(xpos, ypos);
   }
 
@@ -219,5 +277,27 @@ public class GraphicalView extends JPanel implements Observer {
   public int getViewWidth() {
     return viewWidth;
   }
+
+  public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
+    if (zoomFactor != 1.0) {
+    
+        int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
+        int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
+  
+     // if (newViewX  <  - (coordonneesMin.getX() + 1000 )  )
+   //    newViewX =  viewX;
+      if (-newViewX  < coordonneesMin.getX() )
+        newViewX =  viewX;
+ //     if (-newViewY  > coordonneesMin.getY() *zoomFactor)
+ //       newViewY = viewX;
+      if (-newViewY  < coordonneesMax.getY() )
+        newViewY = 0;
+        
+        viewX =  newViewX;
+        viewY =  newViewY;
+        
+        repaint();
+    }
+}
 
 }
