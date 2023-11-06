@@ -47,6 +47,19 @@ public interface State {
   public default void creerRequete(Controller c, Window w) {
   }
 
+   /**
+   * Méthode appelée par le contrôleur après un défilement de la molette de souris
+   */
+  public default void zoom() {
+  }
+
+
+   /**
+   * Méthode appelée par le contrôleur après un glissement fait par la souris
+   */
+  public default void glissement() {
+  }
+
   /**
    * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Charger des requêtes"
    * @param c
