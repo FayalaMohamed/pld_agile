@@ -152,6 +152,8 @@ public class GraphicalView extends JPanel implements Observer {
     }
     System.out.println("latitude min : " + latitudeMin + " / latitude max : " + latitudeMax);
     System.out.println("longitude min : " + longitudeMin + " / longitude max : " + longitudeMax);
+    coordonneesMin = new Coordonnees(0,viewHeight);
+    coordonneesMax = new Coordonnees((int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),(int) (viewHeight - ((latitudeMax - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight)));
   }
 
   /**
@@ -268,14 +270,23 @@ public class GraphicalView extends JPanel implements Observer {
         int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
         int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
   
-     // if (newViewX  <  - (coordonneesMin.getX() + 1000 )  )
-   //    newViewX =  viewX;
-      if (-newViewX  < coordonneesMin.getX() )
-        newViewX =  viewX;
- //     if (-newViewY  > coordonneesMin.getY() *zoomFactor)
- //       newViewY = viewX;
-      if (-newViewY  < coordonneesMax.getY() )
-        newViewY = 0;
+      if ( newViewX  <-(coordonneesMax.getX()*(zoomFactor-1))) {
+        newViewX = viewX;
+        System.out.println("Limite A atteinte");
+      }
+
+      if (newViewX  > coordonneesMin.getX()*(zoomFactor-1) ) {
+        newViewX = viewX;
+        System.out.println("Limite B atteinte");
+      }
+      if ( newViewY <-coordonneesMin.getY()*(zoomFactor-1)) {
+        newViewY = viewY;
+        System.out.println("Limite C atteinte");
+      }
+      if (newViewY  > coordonneesMax.getY()*(zoomFactor-1) ) {
+        newViewY = viewY;
+        System.out.println("Limite D atteinte");
+      }
         
         viewX =  newViewX;
         viewY =  newViewY;
