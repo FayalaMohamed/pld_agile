@@ -15,7 +15,7 @@ public class EtatSupprimerRequete implements State {
 
   public void clicDroit(Controller c, Window w) {
     System.out.println("Annuler Supprimer Requête");
-    if (c.getTournee().getLivraisonsSet().isEmpty()) {
+    if (c.getTournee().getNbLivraisons() == 0) {
       c.setCurrentState(c.etatCarteChargee);
     } else {
       c.setCurrentState(c.etatAuMoinsUneRequete);

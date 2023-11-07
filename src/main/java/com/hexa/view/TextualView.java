@@ -39,10 +39,9 @@ public class TextualView extends JLabel implements Observer{
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		Iterator<Livraison> it = tournee.getLivraisonIterator();
 		text = "<html><ul>";
-		while (it.hasNext())
-			display(it.next());
+		for (Livraison l : tournee.getLivraisons())
+			display(l);
 		text = text+"</ul></html>";
 		setText(text);
 	}
