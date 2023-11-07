@@ -15,13 +15,10 @@ import com.hexa.view.Window;
 public class ChargerCarte implements State {
 
   public void entryAction(Controller c, Window w) {
-    // faire un truc comme : XMLParser.serlectfile() -> problème du singleton
     try {
       File xmlFile = XMLfileOpener.getInstance("map").open(true);
       if (xmlFile == null) {
-        // TODO (itération 2) gérer aussi le cas où on charge d'un autre état que
-        // l'initial
-        c.setCurrentState(c.initialState);
+        c.setCurrentState(c.previousState);
       } else {
         Graphe map = XMLParser.xmlToGraphe(xmlFile.getAbsolutePath());
 
@@ -32,7 +29,7 @@ public class ChargerCarte implements State {
       }
     } catch (Exception e) {
       w.afficherMessage("Le fichier sélectionné est invalide - veuillez réessayer");
-      c.setCurrentState(c.initialState);
+      c.setCurrentState(c.previousState);
     }
     w.allow(true);
   }
