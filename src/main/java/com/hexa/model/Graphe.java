@@ -40,6 +40,7 @@ public class Graphe extends Observable {
 
 		segments = new HashMap<Segment, Double>();
 		intersections = new HashSet<Intersection>();
+		nomSegments = new HashMap<Segment, String>();
 
 		listeSuccesseur = new HashMap<Intersection, Set<Intersection>>();
 
