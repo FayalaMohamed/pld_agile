@@ -12,7 +12,7 @@ public class EtatCarteChargee implements State {
 
   public void creerRequete(Controller c, Window w) {
     w.allow(false);
-    w.afficherMessage("Création d'une nouvelle requête, veuillez sélectionner une intersection.");
+    w.afficherMessage("Cliquez sur une intersection pour créer la requête");
     c.setCurrentState(c.etatCreerRequete1);
   }
 

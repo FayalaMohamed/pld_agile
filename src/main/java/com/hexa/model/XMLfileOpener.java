@@ -7,6 +7,9 @@ import javax.swing.filechooser.*;
 public class XMLfileOpener extends FileFilter {// Singleton
 
   private static XMLfileOpener instance = null;
+  private static String dossierMapDefaut = "C:\\Martin\\INSA\\pld_agile\\Map_XML";
+  private static String dossierRequetesDefaut = "C:\\Martin\\INSA\\pld_agile\\Req_Saved";
+  private static String cheminDefaut;
 
   private XMLfileOpener() {
   }
@@ -15,7 +18,22 @@ public class XMLfileOpener extends FileFilter {// Singleton
   /** Retourne la seule instance de la classe
    * @return XMLfileOpener
    */
-  public static XMLfileOpener getInstance() {
+  public static XMLfileOpener getInstance(String action) {
+
+    //chemin par défaut selon l'action voulue
+    switch (action) {
+      case "map":
+        cheminDefaut = dossierMapDefaut;
+        break;
+
+      case "requete":
+        cheminDefaut = dossierRequetesDefaut;
+        break;
+    
+      default:
+        break;
+    }
+
     if (instance == null)
       instance = new XMLfileOpener();
     return instance;
@@ -32,10 +50,12 @@ public class XMLfileOpener extends FileFilter {// Singleton
     JFileChooser jFileChooserXML = new JFileChooser();
     jFileChooserXML.setFileFilter(this);
     jFileChooserXML.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    jFileChooserXML.setCurrentDirectory( new File(cheminDefaut));
     if (read)
       returnVal = jFileChooserXML.showOpenDialog(null);
     else
       returnVal = jFileChooserXML.showSaveDialog(null);
+      
     if (returnVal != JFileChooser.APPROVE_OPTION)
       return null;
     // throw new Exception("Problem when opening file");
