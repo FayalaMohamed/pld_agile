@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 
 import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
@@ -29,6 +30,7 @@ public class TextualView extends JLabel implements Observer{
 		setBorder(BorderFactory.createTitledBorder("Liste des livraisons:"));
 		this.setVerticalTextPosition(TOP);
 		this.setVerticalAlignment(TOP);
+		this.setFont(UIManager.getFont("large.font"));
 		window.getContentPane().add(this);
 		tournee.addObserver(this); // this observes tournee
 		this.tournee = tournee;

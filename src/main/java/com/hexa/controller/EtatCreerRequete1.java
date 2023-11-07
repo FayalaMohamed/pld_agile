@@ -17,10 +17,11 @@ public class EtatCreerRequete1 implements State {
       if (coord.equals(coordonneesSouris)) {
         // TODO: Break when first intersection found, because there could be multiple
         // intersections for one click
-        w.afficherMessage("Intersection sélectionnée pour la livraison");
         c.etatCreerRequete2.entryAction(intersection);
         c.setCurrentState(c.etatCreerRequete2);
-        w.afficherMessage("Sélectionnez un livreur");
+        w.afficherMessage("Intersection sélectionnée pour la livraison : "
+                                  + intersection.toString()
+                                  + "\nSélectionnez un livreur");
       }
     }
   }
@@ -28,7 +29,7 @@ public class EtatCreerRequete1 implements State {
   public void clicDroit(Controller c, Window w) {
     w.afficherMessage("Création de requête annulée");
     System.out.println("Cancelled the creation of new request");
-    c.setCurrentState(c.etatCarteChargee);
+    c.setCurrentState(c.previousState);
     w.allow(true);
   }
 

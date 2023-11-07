@@ -2,7 +2,9 @@ package com.hexa.view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import com.hexa.controller.Controller;
 import com.hexa.model.Graphe;
 import com.hexa.model.Tournee;
@@ -59,6 +61,8 @@ public class Window extends JFrame {
 
     super();
 
+    FlatLightLaf.setup();
+
     setTitle("AGILE H4113");
     setLayout(null);
     initBoutons(controller);
@@ -86,6 +90,7 @@ public class Window extends JFrame {
     graphicalView = new GraphicalView(this, t);
     textualView = new TextualView(this, t);
     messageFrame = new JLabel();
+    messageFrame.setFont(UIManager.getFont("large.font"));
     messageFrame.setBorder(BorderFactory.createTitledBorder(""));
     getContentPane().add(messageFrame);
 

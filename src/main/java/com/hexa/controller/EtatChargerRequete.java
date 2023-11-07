@@ -14,18 +14,29 @@ import static com.hexa.model.XMLParser.xmlToListeLivraison;
 public class EtatChargerRequete implements State {
   public void entryAction(Controller c, Window w) {
     try {
-      File xmlFile = XMLfileOpener.getInstance().open(true);
+      File xmlFile = XMLfileOpener.getInstance("requete").open(true);
 
       if (xmlFile == null) {
-        c.setCurrentState(c.etatCarteChargee);
+        if (c.getTournee().getLivraisons().length == 0)
+          c.setCurrentState(c.etatCarteChargee);
+        else
+          c.setCurrentState(c.etatAuMoinsUneRequete);
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
         c.getTournee().setLivraisons(xmlToListeLivraison(xmlFile.getAbsolutePath()));
-        c.setCurrentState(c.etatAuMoinsUneRequete);
+        if (c.getTournee().getNbLivraisons() == 0) {
+          c.setCurrentState(c.etatCarteChargee);
+        } else {
+          c.setCurrentState(c.etatAuMoinsUneRequete);
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();
-      c.setCurrentState(c.initialState);
+      if (c.getTournee().getNbLivraisons() == 0) {
+        c.setCurrentState(c.etatCarteChargee);
+      } else {
+        c.setCurrentState(c.etatAuMoinsUneRequete);
+      }
     }
     w.allow(true);
   }
