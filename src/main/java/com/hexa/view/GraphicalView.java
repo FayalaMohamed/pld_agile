@@ -35,23 +35,18 @@ public class GraphicalView extends JPanel implements Observer {
 	private ArrayList<Intersection> intersections;
 	private ArrayList<Segment> segments;
 
-<<<<<<< HEAD
-  private double latitudeMin;
-  private double latitudeMax;
-  private double longitudeMin;
-  private double longitudeMax;
+	private double latitudeMin;
+	private double latitudeMax;
+	private double longitudeMin;
+	private double longitudeMax;
+	
+
   private Coordonnees coordonneesMin;
   private Coordonnees coordonneesMax;
 
   private int viewX = 0;
   private int viewY = 0;
   private double zoomFactor = 1.0;
-=======
-	private double latitudeMin;
-	private double latitudeMax;
-	private double longitudeMin;
-	private double longitudeMax;
->>>>>>> refs/heads/le-merge-numerotation-intersections
 
 	/**
 	 * Crée la vue graphique correspondant à une tournée dans une fenêtre
@@ -90,24 +85,15 @@ public class GraphicalView extends JPanel implements Observer {
 		this.intersections = new ArrayList<>(Arrays.asList(carte.getIntersections()));
 		this.segments = new ArrayList<>(Arrays.asList(carte.getSegments()));
 
-<<<<<<< HEAD
-    latitudeMax = -90;
-    latitudeMin = 90;
-    longitudeMax = -180;
-    longitudeMin = 180;
-
-    coordonneesMin = new Coordonnees(0,viewHeight);
-    coordonneesMax = new Coordonnees((int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),(int) (viewHeight - ((latitudeMax - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight)));
-    
-
-    definirExtremesCoordonnees();
-=======
 		latitudeMax = -90;
 		latitudeMin = 90;
 		longitudeMax = -180;
 		longitudeMin = 180;
+		
+		coordonneesMin = new Coordonnees(0,viewHeight);
+	    coordonneesMax = new Coordonnees((int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),(int) (viewHeight - ((latitudeMax - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight)));
+		
 		definirExtremesCoordonnees();
->>>>>>> refs/heads/le-merge-numerotation-intersections
 
 		repaint();
 	}
@@ -123,7 +109,7 @@ public class GraphicalView extends JPanel implements Observer {
 		g.fillOval(xpos - r, ypos - r, 2 * r, 2 * r);
 		if (number != -1) {
 			g.setColor(Color.black);
-			g.setFont(new Font("TimesRoman", Font.BOLD, 25));
+			g.setFont(new Font("TimesRoman", Font.BOLD, (int)(25/zoomFactor +1)));
 			g.drawString(String.valueOf(number), xpos + r, ypos + r);
 		}
 	}
@@ -177,6 +163,9 @@ public class GraphicalView extends JPanel implements Observer {
 		}
 		System.out.println("latitude min : " + latitudeMin + " / latitude max : " + latitudeMax);
 		System.out.println("longitude min : " + longitudeMin + " / longitude max : " + longitudeMax);
+		
+		coordonneesMin = new Coordonnees(0,viewHeight);
+	    coordonneesMax = new Coordonnees((int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),(int) (viewHeight - ((latitudeMax - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight)));
 	}
 
 	/**
@@ -189,6 +178,13 @@ public class GraphicalView extends JPanel implements Observer {
 
 		super.paintComponent(g);
 		this.g = g;
+		
+		Graphics2D g2d = (Graphics2D) g;
+
+	    g2d.translate(viewX, viewY);
+	    // Appliquer le facteur de zoom
+	    g2d.scale(zoomFactor, zoomFactor);
+		
 		if (carte != null) {
 			
 			//Affichage de l'entrepot
@@ -199,33 +195,6 @@ public class GraphicalView extends JPanel implements Observer {
 				display(intersection, Color.blue, -1);
 			}
 
-<<<<<<< HEAD
-    super.paintComponent(g);
-    this.g = g;
-    Graphics2D g2d = (Graphics2D) g;
-
-    g2d.translate(viewX, viewY);
-
-    // Appliquer le facteur de zoom
-    g2d.scale(zoomFactor, zoomFactor);
-    if (carte != null) {
-      display(carte.getEntrepot(), Color.green);
-      Iterator<Intersection> iit = intersections.iterator();
-      while (iit.hasNext()) {
-        Intersection intersection = iit.next();
-        boolean adresseLivraison = false;
-        for (Livraison livraison : tournee.getLivraisons()) {
-          if (livraison.getLieu() == intersection || (livraison.getLieu().getLatitude() == intersection.getLatitude()
-              && livraison.getLieu().getLongitude() == intersection.getLongitude())) {
-            adresseLivraison = true;
-          }
-        }
-        if (adresseLivraison) {
-          display(intersection, Color.red);
-        } else {
-          display(intersection, Color.blue);
-        }
-=======
 			//Affichage de tous les segments
 			for (Segment segment : segments) {
 				display(segment, Color.blue);
@@ -243,11 +212,13 @@ public class GraphicalView extends JPanel implements Observer {
 						Segment seg = circuit.next();
 						Intersection inter = seg.getDestination();
 						
+						display(seg, Color.red);
+						
 						if (tournee.estLieuLivraison(inter)) {
 							display(inter, Color.red, i++);
 						}
 						
-						display(seg, Color.red);
+						
 					}
 					
 				} catch (TourneeException e) {
@@ -259,7 +230,6 @@ public class GraphicalView extends JPanel implements Observer {
 			}
 		}
 	}
->>>>>>> refs/heads/le-merge-numerotation-intersections
 
 	/**
 	 * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
@@ -271,6 +241,9 @@ public class GraphicalView extends JPanel implements Observer {
 	public Coordonnees CoordGPSToViewPos(Intersection i) {
 		int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
 		int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
+		
+		xpos = (int) (xpos * zoomFactor)+ viewX;
+    	ypos = (int) (ypos * zoomFactor)+ viewY;
 		return new Coordonnees(xpos, ypos);
 	}
 
@@ -278,100 +251,68 @@ public class GraphicalView extends JPanel implements Observer {
 		return viewHeight;
 	}
 
-<<<<<<< HEAD
-      // TODO: replace tournee.getSegments with the circuit iterator, but think about
-      // implementing a reset method that sets the iterator's index back to 0 in the
-      // class circuit
-      if (tournee.getCircuitCalculer()) {
-        ArrayList<Segment> segmentsTournee = tournee.getSegments();
-        for (Segment seg : segments) {
-          if (segmentsTournee != null && segmentsTournee.contains(seg)) {
-            display(seg, Color.red);
-          }
-        }
-      }
-    }
-  }
-
-  /**
-   * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
-   * l'affichage graphique
-   * 
-   * @param i
-   * @return
-   */
-  public Coordonnees CoordGPSToViewPos(Intersection i) {
-    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth) ;
-    int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight));
-
-    xpos = (int) (xpos * zoomFactor)+ viewX;
-    ypos = (int) (ypos * zoomFactor)+ viewY;
-    
-    return new Coordonnees(xpos, ypos);
-  }
-
-  public int getViewHeight() {
-    return viewHeight;
-  }
-
-  public int getViewWidth() {
-    return viewWidth;
-  }
-=======
 	public int getViewWidth() {
 		return viewWidth;
 	}
->>>>>>> refs/heads/le-merge-numerotation-intersections
+	
+	public void setZoomFactor(int notches) {
+		   
+	    double temp = zoomFactor;
+	    if (notches < 0) {
+	      // Zoom in
+	      zoomFactor *= 1.1;
+	      if(zoomFactor>4){
 
-  public void setZoomFactor(int notches) {
-   
-    double temp = zoomFactor;
-    if (notches < 0) {
-      // Zoom in
-      zoomFactor *= 1.1;
-      if(zoomFactor>4){
+	        zoomFactor = temp;
 
-        zoomFactor = temp;
+	      }
+	    } else {
+	      // Zoom out
+	      zoomFactor /= 1.1;
+	      if(zoomFactor<0.98){
 
-      }
-    } else {
-      // Zoom out
-      zoomFactor /= 1.1;
-      if(zoomFactor<0.98){
+	        zoomFactor = temp;
 
-        zoomFactor = temp;
+	      } else {
 
-      } else {
-
-        viewX = 0;
-        viewY = 0;
-      }
-    }
-    repaint();
-  
-}
+	        viewX = 0;
+	        viewY = 0;
+	      }
+	    }
+	    repaint();
+	  
+	}
 
 
-  public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
-    if (zoomFactor != 1.0) {
-    
-        int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
-        int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
-  
-     // if (newViewX  <  - (coordonneesMin.getX() + 1000 )  )
-   //    newViewX =  viewX;
-      if (-newViewX  < coordonneesMin.getX() )
-        newViewX =  viewX;
- //     if (-newViewY  > coordonneesMin.getY() *zoomFactor)
- //       newViewY = viewX;
-      if (-newViewY  < coordonneesMax.getY() )
-        newViewY = 0;
-        
-        viewX =  newViewX;
-        viewY =  newViewY;
-        
-        repaint();
-    }
-}
+	  public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
+	    if (zoomFactor != 1.0) {
+	    
+	        int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
+	        int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
+	  
+	      if ( newViewX  <-(coordonneesMax.getX()*(zoomFactor-1))) {
+	        newViewX = viewX;
+	        System.out.println("Limite A atteinte");
+	      }
+
+	      if (newViewX  > coordonneesMin.getX()*(zoomFactor-1) ) {
+	        newViewX = viewX;
+	        System.out.println("Limite B atteinte");
+	      }
+	      if ( newViewY <-coordonneesMin.getY()*(zoomFactor-1)) {
+	        newViewY = viewY;
+	        System.out.println("Limite C atteinte");
+	      }
+	      if (newViewY  > coordonneesMax.getY()*(zoomFactor-1) ) {
+	        newViewY = viewY;
+	        System.out.println("Limite D atteinte");
+	      }
+	        
+	        viewX =  newViewX;
+	        viewY =  newViewY;
+	        
+	        repaint();
+	    }
+	}
 
 }
