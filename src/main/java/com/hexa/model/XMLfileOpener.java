@@ -7,8 +7,8 @@ import javax.swing.filechooser.*;
 public class XMLfileOpener extends FileFilter {// Singleton
 
   private static XMLfileOpener instance = null;
-  private static String dossierMapDefaut = "C:\\Martin\\INSA\\pld_agile\\Map_XML";
-  private static String dossierRequetesDefaut = "C:\\Martin\\INSA\\pld_agile\\Req_Saved";
+  private static String dossierMapDefaut = "./Map_XML";
+  private static String dossierRequetesDefaut = "./Req_Saved";
   private static String cheminDefaut;
 
   private XMLfileOpener() {
