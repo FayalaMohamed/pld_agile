@@ -17,6 +17,7 @@ public class EtatAuMoinsUneRequete implements State {
     w.allow(false);
     w.afficherMessage("création d'une nouvelle requête, veuillez sélectionner une intersection");
     c.setCurrentState(c.etatCreerRequete1);
+    c.setPreviousState(c.etatAuMoinsUneRequete);
   }
 
   // TODO modifier la signature de la fonction pour enelever file
@@ -35,6 +36,7 @@ public class EtatAuMoinsUneRequete implements State {
   public void chargerCarte(Controller c, Window w) {
     w.allow(false);
     c.setCurrentState(c.chargerCarte);
+    c.setPreviousState(c.etatAuMoinsUneRequete);
     c.chargerCarte.entryAction(c, w);
   }
 
@@ -50,7 +52,6 @@ public class EtatAuMoinsUneRequete implements State {
       // w.getGraphicalView().paintComponent(w.getGraphics());
       w.getGraphicalView().repaint();
     } catch (Exception e) {
-      // TODO
       e.printStackTrace();
     }
   }

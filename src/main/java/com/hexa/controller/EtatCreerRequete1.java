@@ -28,7 +28,7 @@ public class EtatCreerRequete1 implements State {
   public void clicDroit(Controller c, Window w) {
     w.afficherMessage("Création de requête annulée");
     System.out.println("Cancelled the creation of new request");
-    c.setCurrentState(c.etatCarteChargee);
+    c.setCurrentState(c.previousState);
     w.allow(true);
   }
 

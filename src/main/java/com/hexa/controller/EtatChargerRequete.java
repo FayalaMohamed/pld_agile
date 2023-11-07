@@ -21,11 +21,19 @@ public class EtatChargerRequete implements State {
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
         c.getTournee().setLivraisons(xmlToListeLivraison(xmlFile.getAbsolutePath()));
-        c.setCurrentState(c.etatAuMoinsUneRequete);
+        if (c.getTournee().getNbLivraisons() == 0) {
+          c.setCurrentState(c.etatCarteChargee);
+        } else {
+          c.setCurrentState(c.etatAuMoinsUneRequete);
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();
-      c.setCurrentState(c.initialState);
+      if (c.getTournee().getNbLivraisons() == 0) {
+        c.setCurrentState(c.etatCarteChargee);
+      } else {
+        c.setCurrentState(c.etatAuMoinsUneRequete);
+      }
     }
     w.allow(true);
   }
