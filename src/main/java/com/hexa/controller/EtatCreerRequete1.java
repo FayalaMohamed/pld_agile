@@ -17,10 +17,11 @@ public class EtatCreerRequete1 implements State {
       if (coord.equals(coordonneesSouris)) {
         // TODO: Break when first intersection found, because there could be multiple
         // intersections for one click
-        w.afficherMessage("Intersection sélectionnée pour la livraison");
         c.etatCreerRequete2.entryAction(intersection);
         c.setCurrentState(c.etatCreerRequete2);
-        w.afficherMessage("Sélectionnez un livreur");
+        w.afficherMessage("Intersection sélectionnée pour la livraison : "
+                                  + intersection.toString()
+                                  + "\nSélectionnez un livreur");
       }
     }
   }
