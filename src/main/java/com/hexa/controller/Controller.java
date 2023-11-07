@@ -8,6 +8,7 @@ import com.hexa.view.Window;
 public class Controller {
 
   private State currentState;
+  protected State previousState;
   private final Window window;
   private Graphe carte;
 
@@ -32,6 +33,7 @@ public class Controller {
     // WARNING: The number of "livreurs" is currently hard coded
     nbLivreurs = 3;
     currentState = initialState;
+    previousState = initialState;
     tournee = new Tournee();
     window = new Window(this, tournee);
     window.afficherMessage("Choisissez une carte à afficher");
@@ -53,8 +55,26 @@ public class Controller {
     currentState = s;
   }
 
+  public void setPreviousState(State s) {
+    previousState = s;
+  }
+
   public void setCarte(Graphe carte) {
     this.carte = carte;
+  }
+
+   /**
+   * Méthode appelée par la fenêtre après un défilement de la molette de souris
+   */
+  public void zoom() {
+    currentState.zoom();
+  }
+
+   /**
+   * Méthode appelée par la fenêtre après un glissement dépot de la souris
+   */
+  public void glissement() {
+    currentState.glissement();
   }
 
   /**
