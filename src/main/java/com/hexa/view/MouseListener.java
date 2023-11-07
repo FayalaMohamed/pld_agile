@@ -55,15 +55,12 @@ public class MouseListener extends MouseAdapter implements MouseMotionListener {
   @Override
   public void mousePressed(MouseEvent evt) {
     dernieresCoordonnees = coordinates(evt);
-     System.out.println("Mouse pressed");
 
   }
 
   @Override
   public void mouseDragged(MouseEvent evt) {
-    // Gérer le glisser-déposer ici pour déplacer la carte
 
-    System.out.println("Mouse dragged");
 
     graphicalView.setDrag(coordinates(evt),this.dernieresCoordonnees);
     controller.glissement();

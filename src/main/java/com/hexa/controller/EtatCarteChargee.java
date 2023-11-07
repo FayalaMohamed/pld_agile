@@ -12,8 +12,9 @@ public class EtatCarteChargee implements State {
 
   public void creerRequete(Controller c, Window w) {
     w.allow(false);
-    w.afficherMessage("Création d'une nouvelle requête, veuillez sélectionner une intersection.");
+    w.afficherMessage("Cliquez sur une intersection pour créer la requête");
     c.setCurrentState(c.etatCreerRequete1);
+    c.setPreviousState(c.etatCarteChargee);
   }
 
   public void chargerRequetes(Controller c, Window w) {
@@ -25,6 +26,7 @@ public class EtatCarteChargee implements State {
   public void chargerCarte(Controller c, Window w) {
     w.allow(false);
     c.setCurrentState(c.chargerCarte);
+    c.setPreviousState(c.etatCarteChargee);
     c.entryAction();
   }
 }

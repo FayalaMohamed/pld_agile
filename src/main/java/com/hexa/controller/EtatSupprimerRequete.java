@@ -39,5 +39,8 @@ public class EtatSupprimerRequete implements State {
     } else {
       c.setCurrentState(c.etatAuMoinsUneRequete);
     }
+    
+    w.allow(true);
   }
+  
 }

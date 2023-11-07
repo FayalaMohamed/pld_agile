@@ -24,7 +24,7 @@ public class EtatCreerRequete2 implements State {
 
   public void choixLivreur(Controller c, Window w, int livreur) {
     if (this.livraison == null) {
-      w.afficherMessage("Vous devez choisir une intersection avant de choisir un livreur");
+      w.afficherMessage("Attention - Vous devez choisir une intersection avant de choisir un livreur");
       return;
     }
     // FIX: This is not good, need to have a list of livreurs somewhere and perform
@@ -53,7 +53,7 @@ public class EtatCreerRequete2 implements State {
 
   public void clicDroit(Controller c, Window w) {
     w.afficherMessage("Création de requête annulée");
-    c.setCurrentState(c.etatCarteChargee);
+    c.setCurrentState(c.previousState);
     w.allow(true);
   }
 }

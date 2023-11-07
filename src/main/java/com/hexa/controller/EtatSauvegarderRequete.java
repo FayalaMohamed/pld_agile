@@ -14,7 +14,7 @@ public class EtatSauvegarderRequete implements State {
 
   public void entryAction(Controller c, Window w) {
     try {
-      File xmlFile = XMLfileOpener.getInstance().open(false);
+      File xmlFile = XMLfileOpener.getInstance("requete").open(false);
       if (xmlFile != null) {
         XMLParser.listeLivraisonsToXml(xmlFile.getAbsolutePath(), (c.getTournee().getLivraisons()));
       }
