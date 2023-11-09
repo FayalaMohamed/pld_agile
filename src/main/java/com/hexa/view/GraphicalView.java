@@ -98,7 +98,7 @@ public class GraphicalView extends JPanel implements Observer {
   public void display(Intersection i, Color c) {
     int r = 2;
     if (c.equals(Color.red) || c.equals(Color.green)) {
-      r = 6;
+      r = 4;
     }
     int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
     int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));

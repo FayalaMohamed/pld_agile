@@ -5,6 +5,7 @@ import com.hexa.model.Livraison;
 import com.hexa.model.Livreur;
 import com.hexa.model.Tournee;
 import com.hexa.view.Window;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 /**
  * Etat de l'application quand on se trouve dans la deuxième étape de la
@@ -18,11 +19,11 @@ public class EtatCreerRequete2 implements State {
 
   private Livraison livraison;
 
-  public void entryAction(Intersection i) {
+  public void entryAction(Intersection i, ListOfCommands l) {
     livraison = new Livraison(i);
   }
 
-  public void choixLivreur(Controller c, Window w, int livreur) {
+  public void choixLivreur(Controller c, Window w, int livreur, ListOfCommands listOfCommands) {
     if (this.livraison == null) {
       w.afficherMessage("Attention - Vous devez choisir une intersection avant de choisir un livreur");
       return;
@@ -49,6 +50,7 @@ public class EtatCreerRequete2 implements State {
     }
     c.setCurrentState(c.etatAuMoinsUneRequete);
     w.allow(true);
+    listOfCommands.add(new RequeteCommande(tournee, livraison));
   }
 
   public void clicDroit(Controller c, Window w) {

@@ -9,7 +9,7 @@ import com.hexa.view.Window;
  */
 public class EtatCreerRequete1 implements State {
 
-  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
     for (Intersection intersection : c.getCarte().getIntersections()) {
       // TODO: When doing graphical view, refactor the method to compute coordinates
       // not to duplicate code
@@ -17,7 +17,7 @@ public class EtatCreerRequete1 implements State {
       if (coord.equals(coordonneesSouris)) {
         // TODO: Break when first intersection found, because there could be multiple
         // intersections for one click
-        c.etatCreerRequete2.entryAction(intersection);
+        c.etatCreerRequete2.entryAction(intersection, l);
         c.setCurrentState(c.etatCreerRequete2);
         w.afficherMessage("Intersection sélectionnée pour la livraison : "
                                   + intersection.toString()

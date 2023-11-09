@@ -57,4 +57,21 @@ public class EtatAuMoinsUneRequete implements State {
       e.printStackTrace();
     }
   }
+
+  @Override
+  public void undo(ListOfCommands listOfCdes,Controller c){
+    listOfCdes.undo();
+    if (c.getTournee().getLivraisons().length == 0) {
+      c.setCurrentState(c.etatCarteChargee);
+    }
+
+  }
+
+  @Override
+  public void redo(ListOfCommands listOfCdes,Controller c){
+    listOfCdes.redo();
+    if (c.getTournee().getLivraisons().length == 0) {
+      c.setCurrentState(c.etatCarteChargee);
+    }
+  }
 }

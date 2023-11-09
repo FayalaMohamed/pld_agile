@@ -29,4 +29,18 @@ public class EtatCarteChargee implements State {
     c.setPreviousState(c.etatCarteChargee);
     c.entryAction();
   }
+
+  public void undo(ListOfCommands listOfCdes,Controller c){
+    listOfCdes.undo();
+    if (c.getTournee().getLivraisons().length != 0) {
+      c.setCurrentState(c.etatAuMoinsUneRequete);
+    }
+  }
+
+  public void redo(ListOfCommands listOfCdes,Controller c){
+    listOfCdes.redo();
+    if (c.getTournee().getLivraisons().length != 0) {
+      c.setCurrentState(c.etatAuMoinsUneRequete);
+    }
+  }
 }

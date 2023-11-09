@@ -35,6 +35,7 @@ public class Controller {
     // WARNING: The number of "livreurs" is currently hard coded
     nbLivreurs = 3;
     currentState = initialState;
+    listOfCommands = new ListOfCommands();
     previousState = initialState;
     tournee = new Tournee();
     window = new Window(this, tournee);
@@ -84,7 +85,7 @@ public class Controller {
    * @param coordonnees les coordonnées du clic gauche
    */
   public void clicGauche(Coordonnees coordonnees) {
-    currentState.clicGauche(this, window, coordonnees);
+    currentState.clicGauche(this, window, coordonnees, listOfCommands);
   }
 
   /**
@@ -113,7 +114,7 @@ public class Controller {
    * Méthode appelée par la fenêtre après une sélection dans le JComboBox "Nombre de livreurs"
    */
   public void choixLivreur(int livreur) {
-    currentState.choixLivreur(this, window, livreur);
+    currentState.choixLivreur(this, window, livreur, listOfCommands);
   }
 
   /**
@@ -157,14 +158,15 @@ public class Controller {
    * Method called by window after a click on the button "Undo"
    */
   public void undo(){
-    currentState.undo(listOfCommands);
+    currentState.undo(listOfCommands,this);
+
   }
 
   /**
    * Method called by window after a click on the button "Redo"
    */
   public void redo(){
-    currentState.redo(listOfCommands);
+    currentState.redo(listOfCommands,this);
   }
 
 }

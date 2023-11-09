@@ -37,10 +37,22 @@ public class ButtonListener implements ActionListener {
         controller.supprimerRequete();
         break;
 
+      case Window.UNDO:
+        System.out.println("Bouton Undo");
+        controller.undo();
+        break;
+
+      case Window.REDO:
+        System.out.println("Bouton Redo");
+        controller.redo();
+        break;
+
       case Window.CALCULER_TOURNEE:
         System.out.println("Bouton Calculer tournée");
         controller.calculerTournee();
         break;
+
+
        case Window.CHARGER_REQUETES:
          System.out.println("Bouton charger requetes");
            controller.chargerRequetes();

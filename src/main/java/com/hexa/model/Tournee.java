@@ -219,6 +219,22 @@ public class Tournee extends Observable {
   }
 
   /**
+   * Retourne une livraison associé à une intersection
+   *
+   * @param intersection
+   *
+   */
+  public Livraison chercherLivraison(Intersection intersection) {
+    Livraison livraison = null;
+    for (Livraison l : livraisons) {
+      if (l.getLieu() == intersection) {
+        livraison = l;
+      }
+    }
+    return livraison;
+  }
+
+  /**
    * Retourne le circuit calculé s'il est calculé sinon throws une Exception
    * 
    * @return le meilleur circuit à prendre pour faire la tournée
