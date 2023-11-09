@@ -12,6 +12,8 @@ public class Controller {
   private final Window window;
   private Graphe carte;
 
+  private ListOfCommands listOfCommands;
+
   private final Tournee tournee;
   int nbLivreurs;
 
@@ -149,6 +151,20 @@ public class Controller {
    */
   public void entryAction() {
     currentState.entryAction(this, window);
+  }
+
+  /**
+   * Method called by window after a click on the button "Undo"
+   */
+  public void undo(){
+    currentState.undo(listOfCommands);
+  }
+
+  /**
+   * Method called by window after a click on the button "Redo"
+   */
+  public void redo(){
+    currentState.redo(listOfCommands);
   }
 
 }

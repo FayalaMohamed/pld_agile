@@ -13,4 +13,14 @@ public class InitialState implements State {
     c.setPreviousState(c.initialState);
     c.chargerCarte.entryAction(c, w);
   }
+
+  @Override
+  public void undo(ListOfCommands listOfCdes){
+    listOfCdes.undo();
+  }
+
+  @Override
+  public void redo(ListOfCommands listOfCdes){
+    listOfCdes.redo();
+  }
 }

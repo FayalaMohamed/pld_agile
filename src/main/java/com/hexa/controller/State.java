@@ -101,5 +101,17 @@ public interface State {
   public default void choixLivreur(Controller c, Window w, int livreur) {
   }
 
+  /**
+   * Method called by the controller after a click on the button "Undo"
+   * @param l the current list of commands
+   */
+  public default void undo(ListOfCommands l){};
+
+  /**
+   * Method called by the controller after a click on the button "Redo"
+   * @param l the current list of commands
+   */
+  public default void redo(ListOfCommands l){};
+
 
 }
