@@ -51,7 +51,7 @@ public class EtatAuMoinsUneRequete implements State {
   public void calculerTournee(Controller c, Window w) {
     try {
       c.getTournee().construireCircuit(c.getCarte());
-      // w.getGraphicalView().paintComponent(w.getGraphics());
+      w.afficherMessage("Tournée calculée");
       w.getGraphicalView().repaint();
     } catch (Exception e) {
       e.printStackTrace();

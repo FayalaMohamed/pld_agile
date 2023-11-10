@@ -1,5 +1,6 @@
 package com.hexa.model;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.hexa.model.algo.TSP;
@@ -179,7 +180,17 @@ public class Tournee extends Observable {
     circuit = new Circuit(list);
     circuitCalculer = true;
 
+    genererFeuilleDeRoute();
+
     this.notifyObservers(this);
+  }
+
+  private void genererFeuilleDeRoute() {
+    String nomFichier = "Feuille_de_route" + new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
+
+    while (circuit.hasNext()) {
+      System.out.println(circuit.next().getNom());
+    }
   }
 
   /**

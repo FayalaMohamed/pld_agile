@@ -50,7 +50,6 @@ public class Segment {
     this.nom = null;
     this.longueur = Double.MAX_VALUE;
   }
-
   
   /** 
    * @return double
@@ -73,6 +72,13 @@ public class Segment {
    */
   public Intersection getDestination() {
     return destination;
+  }
+
+  /**
+   * @return String
+   */
+  public String getNom() {
+    return nom;
   }
 
   
