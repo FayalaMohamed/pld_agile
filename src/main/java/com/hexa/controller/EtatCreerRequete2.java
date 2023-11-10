@@ -44,10 +44,6 @@ public class EtatCreerRequete2 implements State {
     livraison.setLivreur(livreur_obj);
     tournee.ajouterLivraison(livraison);
     w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
-    System.out.println("Livraisons de la tournee : ");
-    for (Livraison livraison : tournee.getLivraisons()) {
-      System.out.println(livraison);
-    }
     c.setCurrentState(c.etatAuMoinsUneRequete);
     w.allow(true);
     listOfCommands.add(new RequeteCommande(tournee, livraison));

@@ -43,6 +43,7 @@ public class GraphicalView extends JPanel implements Observer {
   private double latitudeMax;
   private double longitudeMin;
   private double longitudeMax;
+
   private Coordonnees coordonneesMin;
   private Coordonnees coordonneesMax;
 
@@ -173,6 +174,81 @@ public class GraphicalView extends JPanel implements Observer {
         (int) (viewHeight - ((latitudeMax - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight)));
   }
 
+  private void translateView() {
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.translate(viewX, viewY);
+    // Appliquer le facteur de zoom
+    g2d.scale(zoomFactor, zoomFactor);
+  }
+
+  private boolean isAlreadyVisited(Segment seg, Multimap<Intersection, Intersection> segments_tournee, boolean origin) {
+    boolean already_visited = false;
+    Collection<Intersection> entry_intersections;
+    if (origin) {
+      entry_intersections = segments_tournee.get(seg.getOrigine());
+    } else {
+      entry_intersections = segments_tournee.get(seg.getDestination());
+    }
+    for (Intersection inter_destination : entry_intersections) {
+      Intersection compare;
+      if (origin) {
+        compare = seg.getDestination();
+      } else {
+        compare = seg.getOrigine();
+      }
+      if (inter_destination == compare) {
+        already_visited = true;
+        break;
+      }
+    }
+    return already_visited;
+  }
+
+  private void displayTournee() {
+    Multimap<Intersection, Intersection> segments_tournee = ArrayListMultimap.create();
+    try {
+      Circuit circuit = tournee.getCircuit();
+      int i = 1;
+      while (circuit.hasNext()) {
+        Segment seg = circuit.next();
+        Color color = Color.red;
+        boolean already_visited = isAlreadyVisited(seg, segments_tournee, true);
+        if (!already_visited) {
+          already_visited = isAlreadyVisited(seg, segments_tournee, false);
+        }
+        if (already_visited) {
+          color = Color.green;
+        } else {
+          segments_tournee.put(seg.getOrigine(), seg.getDestination());
+        }
+        Intersection inter = seg.getDestination();
+        display(seg, color);
+        if (tournee.estLieuLivraison(inter)) {
+          display(inter, color, i++);
+        }
+      }
+    } catch (TourneeException e) {
+      for (Livraison livraison : tournee.getLivraisons()) {
+        display(livraison.getLieu(), Color.red, -1);
+      }
+    }
+  }
+
+  private void displayElements() {
+    if (carte != null) {
+      display(carte.getEntrepot(), Color.green, -1);
+      for (Intersection intersection : intersections) {
+        display(intersection, Color.blue, -1);
+      }
+      for (Segment segment : segments) {
+        display(segment, Color.blue);
+      }
+      if (tournee != null && tournee.getNbLivraisons() > 0) {
+        displayTournee();
+      }
+    }
+  }
+
   /**
    * Méthode à appeler à chaque fois que la vue graphique doit être redessinée
    * 
@@ -180,86 +256,10 @@ public class GraphicalView extends JPanel implements Observer {
    */
   @Override
   public void paintComponent(Graphics g) {
-
     super.paintComponent(g);
     this.g = g;
-
-    Graphics2D g2d = (Graphics2D) g;
-
-    g2d.translate(viewX, viewY);
-
-    // Appliquer le facteur de zoom
-    g2d.scale(zoomFactor, zoomFactor);
-
-    if (carte != null) {
-
-      // Affichage de l'entrepot
-      display(carte.getEntrepot(), Color.green, -1);
-
-      // Affichage de toutes les intersections
-      for (Intersection intersection : intersections) {
-        display(intersection, Color.blue, -1);
-      }
-
-      for (Segment segment : segments) {
-        display(segment, Color.blue);
-      }
-
-      // Affichage des lieux de livraisons et segments si calcule
-      if (tournee != null && tournee.getNbLivraisons() > 0) {
-        Multimap<Intersection, Intersection> segments_tournee = ArrayListMultimap.create();
-        try {
-          Circuit circuit = tournee.getCircuit();
-          System.out.println("TOTO");
-
-          int i = 1;
-          while (circuit.hasNext()) {
-            Segment seg = circuit.next();
-            Color color = Color.red;
-            boolean already_visited = false;
-
-            Collection<Intersection> entry_intersections = segments_tournee.get(seg.getOrigine());
-            for (Intersection inter_destination : entry_intersections) {
-              if (inter_destination == seg.getDestination()) {
-                already_visited = true;
-                break;
-              }
-            }
-
-            if (!already_visited) {
-              entry_intersections = segments_tournee.get(seg.getDestination());
-              for (Intersection inter_origine : entry_intersections) {
-                if (inter_origine == seg.getOrigine()) {
-                  already_visited = true;
-                  break;
-                }
-              }
-            }
-
-            if (already_visited) {
-              color = Color.green;
-              System.out.println("Deja present : " + seg.toTag());
-            } else {
-              segments_tournee.put(seg.getOrigine(), seg.getDestination());
-            }
-            Intersection inter = seg.getDestination();
-
-            display(seg, color);
-
-            if (tournee.estLieuLivraison(inter)) {
-              display(inter, color, i++);
-            }
-
-          }
-
-        } catch (TourneeException e) {
-          for (Livraison livraison : tournee.getLivraisons()) {
-            display(livraison.getLieu(), Color.red, -1);
-          }
-        }
-
-      }
-    }
+    translateView();
+    displayElements();
   }
 
   /**
@@ -295,10 +295,10 @@ public class GraphicalView extends JPanel implements Observer {
     if (notches < 0) {
       // Zoom in
       zoomFactor *= 1.1;
+      if (zoomFactor > 4) {
       if(zoomFactor>4){
 
         zoomFactor = temp;
-
       }
     } else {
       // Zoom out
@@ -332,6 +332,7 @@ public class GraphicalView extends JPanel implements Observer {
     }
     repaint();
 
+  }
   }
 
   /**
