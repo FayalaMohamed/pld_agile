@@ -71,11 +71,4 @@ public class Circuit implements Iterator<Segment> {
 	public Chemin[] getChemins() {
 		return sequence;
 	}
-
-	public void reset() {
-		index = 0;
-		for (Chemin c : sequence) {
-			c.reset();
-		}
-	}
 }

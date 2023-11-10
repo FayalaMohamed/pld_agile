@@ -29,11 +29,12 @@ public class EtatCreerRequete3 implements State {
      * @param w
      * @param coordonneesSouris
      */
-    public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {
+    public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
         ArrayList<Intersection> intersectionsEtEntrepot = new ArrayList<>(Arrays
                 .asList(c.getCarte().getIntersections()));
         Intersection entrepot = c.getCarte().getEntrepot();
         intersectionsEtEntrepot.add(entrepot);
+        System.out.println("etat requete 3");
         for (Intersection intersection : intersectionsEtEntrepot) {
             // TODO: When doing graphical view, refactor the method to compute coordinates
             // not to duplicate code

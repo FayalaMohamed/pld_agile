@@ -474,7 +474,8 @@ public class Tournee extends Observable {
       }
     }
     return segments;
-}
+  }
+  
   public boolean estLieuLivraison(Intersection inter) {
     return livraisons.contains(new Livraison(inter));
   }
