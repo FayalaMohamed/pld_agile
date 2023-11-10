@@ -156,6 +156,7 @@ public class App {
     Long end = System.currentTimeMillis();
     System.out.println("Time : " + (double) (end - start) / 1000);
 
+    /*
     XMLParser.listeLivraisonsToXml("/tmp/listeLivraison.xml", testParserDeLivraison());
 
     Set<Livraison> listeLivraisons= XMLParser.xmlToListeLivraison("/tmp/listeLivraison.xml");
@@ -167,6 +168,7 @@ public class App {
       System.out.println(l.toString());
 
     }
+    */
   }
 
 

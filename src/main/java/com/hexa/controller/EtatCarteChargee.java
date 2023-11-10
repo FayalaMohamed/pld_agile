@@ -12,7 +12,7 @@ public class EtatCarteChargee implements State {
 
   public void creerRequete(Controller c, Window w) {
     w.allow(false);
-    w.afficherMessage("Cliquez sur une intersection pour créer la requête");
+    w.afficherMessage("Cliquez sur une intersection pour créer la requête - Clic droit pour annuler");
     c.setCurrentState(c.etatCreerRequete1);
     c.setPreviousState(c.etatCarteChargee);
   }
@@ -28,5 +28,19 @@ public class EtatCarteChargee implements State {
     c.setCurrentState(c.chargerCarte);
     c.setPreviousState(c.etatCarteChargee);
     c.entryAction();
+  }
+
+  public void undo(ListOfCommands listOfCdes,Controller c){
+    listOfCdes.undo();
+    if (c.getTournee().getLivraisons().length != 0) {
+      c.setCurrentState(c.etatAuMoinsUneRequete);
+    }
+  }
+
+  public void redo(ListOfCommands listOfCdes,Controller c){
+    listOfCdes.redo();
+    if (c.getTournee().getLivraisons().length != 0) {
+      c.setCurrentState(c.etatAuMoinsUneRequete);
+    }
   }
 }

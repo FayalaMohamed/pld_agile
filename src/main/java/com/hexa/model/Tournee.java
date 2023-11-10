@@ -1,5 +1,16 @@
 package com.hexa.model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.hexa.model.algo.ShortestPath;
@@ -36,7 +47,7 @@ public class Tournee extends Observable {
 
   /**
    * Default constructor
-   * 
+   *
    * Initialise les attributs
    */
   public Tournee() {
@@ -51,10 +62,10 @@ public class Tournee extends Observable {
 
   /**
    * Ajoute une livraisons et notifie les observeurs
-   * 
+   *
    * Définit l'état du circuit à non calculé => A FAIRE : décider si on doit
    * recalculer ou si on interdit l'ajout après calcul
-   * 
+   *
    * @param l une livraison à ajouter à cette tournée
    * @return true si la livraison n'était pas déjà présente
    */
@@ -209,13 +220,6 @@ public class Tournee extends Observable {
   }
 
   /**
-   * @return Set<Livraison>
-   */
-  public Set<Livraison> getLivraisonsSet() {
-    return livraisons;
-  }
-
-  /**
    * @param livraisons
    */
   public void setLivraisons(Set<Livraison> livraisons) {
@@ -276,7 +280,7 @@ public class Tournee extends Observable {
   /**
    * 
    * Construit le meilleur circuit pour réaliser la tournée à partir de la carte
-   * 
+   *
    * @param carte
    * @throws TourneeException
    * @throws GrapheException
@@ -313,7 +317,67 @@ public class Tournee extends Observable {
     circuit = new Circuit(list);
     circuitCalculer = true;
 
+    genererFeuilleDeRoute(carte);
+
     this.notifyObservers(this);
+  }
+
+  /**
+   * Génère la feuille de route correspondant à la tournée calculée
+   * 
+   * @param carte
+   */
+  private void genererFeuilleDeRoute(Graphe carte) {
+    String nomFichier = "Feuille_de_route" + new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
+    String text = "Tournée calculée le " + new SimpleDateFormat("dd/MM/yyyy").format(new Date())
+        + " - Livreur " + livreur + "\n\n";
+
+    ArrayList<String> nomsVisites = new ArrayList<String>();
+    String nomPremierSegment = carte.getNomSegment(circuit.next());
+    nomsVisites.add(nomPremierSegment);
+    text += "Prendre sur " + nomPremierSegment + "\n";
+
+    while (circuit.hasNext()) {
+      String nomSegment = carte.getNomSegment(circuit.next());
+      if (!nomsVisites.get(nomsVisites.size() - 1).equals(nomSegment)) {
+
+        nomsVisites.add(nomSegment);
+
+        if (nomsVisites.size() == 1) {
+          text = text + "Prendre ";
+        } else {
+          int rand = (int) (Math.random() * 10);
+          if (rand > 5)
+            text = text + "Continuer sur ";
+          else
+            text = text + "Tourner sur ";
+        }
+
+        text += nomSegment + "\n";
+      }
+    }
+
+    sauvegarderFeuilleDeRoute(text, nomFichier);
+  }
+
+  /**
+   * Sauvegarde la feuille de route créé précédemment dans le projet
+   * 
+   * @param feuilleDeRoute
+   * @param nomFichier
+   */
+  private void sauvegarderFeuilleDeRoute(String feuilleDeRoute, String nomFichier) {
+
+    try {
+      String path = "./Feuilles_Route/" + nomFichier;
+      BufferedWriter bw = new BufferedWriter(
+          new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
+      bw.write(feuilleDeRoute);
+      bw.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -346,19 +410,38 @@ public class Tournee extends Observable {
     for (Livraison l : livraisons) {
       if (l.getLieu() == intersection) {
         livraisons.remove(l);
+        break;
       }
     }
     this.notifyObservers(this);
   }
 
   /**
+   * Retourne une livraison associé à une intersection
+   *
+   * @param intersection
+   *
+   */
+  public Livraison chercherLivraison(Intersection intersection) {
+    Livraison livraison = null;
+    for (Livraison l : livraisons) {
+      if (l.getLieu() == intersection) {
+        livraison = l;
+        break;
+      }
+    }
+    return livraison;
+  }
+
+  /**
    * Retourne le circuit calculé s'il est calculé sinon throws une Exception
-   * 
+   *
    * @return le meilleur circuit à prendre pour faire la tournée
    * @throws TourneeException
    */
   public Circuit getCircuit() throws TourneeException {
     if (circuitCalculer) {
+      circuit.reset();
       return circuit;
     } else {
       throw new TourneeException("Le circuit n'a pas encore été calculé");
@@ -367,7 +450,7 @@ public class Tournee extends Observable {
 
   /**
    * Retourne True si la tournee est calculee
-   * 
+   *
    * @return boolean
    */
   public boolean estCalculee() {
@@ -391,10 +474,24 @@ public class Tournee extends Observable {
       }
     }
     return segments;
+}
+  public boolean estLieuLivraison(Intersection inter) {
+    return livraisons.contains(new Livraison(inter));
   }
 
-  public boolean getCircuitCalculer() {
-    return circuitCalculer;
+  /**
+   * Attribut un circuit à une tournée
+   * Méthode utile pour la fonctionnalité undo redo
+   * Permet de mettre le booleen circuitCalculer à true ou false
+   * Selon si le circuit c est null ou pas
+   * 
+   * @param c le meilleur circuit à prendre pour faire la tournée
+   *
+   */
+  public void setCircuit(Circuit c) {
+    circuit = c;
+    circuitCalculer = circuit != null;
+    this.notifyObservers(this);
   }
 
   

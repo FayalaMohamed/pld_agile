@@ -30,7 +30,7 @@ public class EtatCreerRequete2 implements State {
     livraisonPrecedente = new Livraison(intersectionPrecedente);
   }
 
-  public void choixLivreur(Controller c, Window w, int livreur) throws TourneeException, GrapheException {
+  public void choixLivreur(Controller c, Window w, int livreur, ListOfCommands listOfCommands) throws TourneeException, GrapheException {
     if (this.livraison == null) {
       w.afficherMessage("Attention - Vous devez choisir une intersection avant de choisir un livreur");
       return;
@@ -55,12 +55,9 @@ public class EtatCreerRequete2 implements State {
       tournee.ajouterLivraison(livraison);      
     }
     w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
-    System.out.println("Livraisons de la tournee : ");
-    for (Livraison livraison : tournee.getLivraisons()) {
-      System.out.println(livraison);
-    }
     c.setCurrentState(c.etatAuMoinsUneRequete);
     w.allow(true);
+    listOfCommands.add(new RequeteCommande(tournee, livraison));
   }
 
   /**

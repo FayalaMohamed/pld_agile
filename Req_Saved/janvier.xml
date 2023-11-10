@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <livraisons>
-<livraison dateHeure="0" dateMinute="0" livreurId="1" plageDebut="0" plageFin="0" id="25495335" latitude="45.775463" longitude="4.846889"/>
+<livraison dateHeure="0" dateMinute="0" livreurId="0" plageDebut="0" plageFin="0" id="252502656" latitude="45.77755" longitude="4.838841"/>
+<livraison dateHeure="0" dateMinute="0" livreurId="0" plageDebut="0" plageFin="0" id="26035131" latitude="45.76624" longitude="4.8595066"/>
+<livraison dateHeure="0" dateMinute="0" livreurId="0" plageDebut="0" plageFin="0" id="230047442" latitude="45.775883" longitude="4.8380537"/>
+<livraison dateHeure="0" dateMinute="0" livreurId="0" plageDebut="0" plageFin="0" id="9214708" latitude="45.743465" longitude="4.8472195"/>
 </livraisons>

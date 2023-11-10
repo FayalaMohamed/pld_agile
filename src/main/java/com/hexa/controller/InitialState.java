@@ -13,4 +13,6 @@ public class InitialState implements State {
     c.setPreviousState(c.initialState);
     c.chargerCarte.entryAction(c, w);
   }
+
+
 }
