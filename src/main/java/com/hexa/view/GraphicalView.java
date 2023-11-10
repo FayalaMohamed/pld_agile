@@ -178,7 +178,8 @@ public class GraphicalView extends JPanel implements Observer {
     Graphics2D g2d = (Graphics2D) g;
     g2d.translate(viewX, viewY);
     // Appliquer le facteur de zoom
-    g2d.scale(zoomFactor, zoomFactor);
+    g2d.scale(zoomFactor,zoomFactor);
+
   }
 
   private boolean isAlreadyVisited(Segment seg, Multimap<Intersection, Intersection> segments_tournee, boolean origin) {
@@ -287,7 +288,7 @@ public class GraphicalView extends JPanel implements Observer {
   }
 
   public void setZoomFactor(int notches) {
-   
+
     double temp = zoomFactor;
     double tempViewX = viewX;
     double tempViewY = viewY;
@@ -295,10 +296,10 @@ public class GraphicalView extends JPanel implements Observer {
     if (notches < 0) {
       // Zoom in
       zoomFactor *= 1.1;
-      if (zoomFactor > 4) {
       if(zoomFactor>4){
 
         zoomFactor = temp;
+
       }
     } else {
       // Zoom out
@@ -326,14 +327,14 @@ public class GraphicalView extends JPanel implements Observer {
         }
 
 
-       // viewX += (tempViewX - viewX) * 0.01;
-       // viewY += (tempViewY - viewY) * 0.01;
+        // viewX += (tempViewX - viewX) * 0.01;
+        // viewY += (tempViewY - viewY) * 0.01;
       }
     }
     repaint();
 
   }
-  }
+
 
   /**
    * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour

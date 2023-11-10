@@ -1,6 +1,6 @@
 package com.hexa.view;
 
-import javafx.scene.paint.Color;
+import java.awt.Color;
 
 public class VueEntrepot {
 
