@@ -12,7 +12,6 @@ import java.util.List;
 public class EtatCreerRequete1 implements State {
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
-    System.out.println("HEYYYYYY");
     List<Intersection> intersectionsSelectionnees = new ArrayList<>();
 
     for (Intersection intersection : c.getCarte().getIntersections()) {
@@ -21,7 +20,6 @@ public class EtatCreerRequete1 implements State {
         intersectionsSelectionnees.add(intersection);
       }
     }
-    System.out.println(intersectionsSelectionnees);
 
     Intersection intersectionChoisie = null;
     if (intersectionsSelectionnees.isEmpty()) {

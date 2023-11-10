@@ -112,7 +112,6 @@ public class App {
   }
 
   public static void main(String[] args) throws Exception {
-    System.out.println("\n\n\n\n\n\n\n\nTEEEEEEEEEEEESTETSETESTSETS\n\n\n\n\n\n\n\n");
     Controller controller = new Controller();
     // String inputFile =
     // "C:\\Users\\marti\\OneDrive\\Bureau\\fichiersXML2022\\largeMap.xml";
