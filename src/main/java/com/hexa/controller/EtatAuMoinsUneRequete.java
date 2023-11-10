@@ -1,6 +1,5 @@
 package com.hexa.controller;
 
-import com.hexa.model.Intersection;
 import com.hexa.view.Window;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Livraison;
