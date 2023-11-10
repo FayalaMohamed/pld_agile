@@ -99,7 +99,7 @@ public class Intersection {
     String returnString = "";
     Segment[] segments = g.getSegmentsFromIntersection(this);
 
-    returnString += segments[0].getNom();
+    returnString += printNomSegment(segments[0]);
     for (int i = 1; i < segments.length; i++) {
       boolean found = false;
       for (int j = 0; j < i; j++) {
@@ -111,11 +111,15 @@ public class Intersection {
       }
       if (!found) {
         returnString += ", ";
-        returnString += (segments[i].getNom());
+        returnString += (printNomSegment(segments[i]));
       }
     }
 
     return returnString + ".";
+  }
+
+  private String printNomSegment(Segment s) {
+    return s.getNom().equals("") ? "Rue sans nom" : s.getNom();
   }
 
   /**
