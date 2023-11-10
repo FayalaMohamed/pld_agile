@@ -8,11 +8,11 @@ import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 import javax.swing.JPanel;
 
@@ -133,7 +133,7 @@ public class GraphicalView extends JPanel implements Observer {
         - ((destination.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
 
     g.setColor(c);
-    if (c == Color.red) {
+    if (c == Color.red || c == Color.green) {
       Graphics2D g2 = (Graphics2D) g;
       g2.setStroke(new BasicStroke(3));
       g2.draw(new Line2D.Float(xOrigine, yOrigine, xDestination, yDestination));
@@ -208,7 +208,7 @@ public class GraphicalView extends JPanel implements Observer {
 
       // Affichage des lieux de livraisons et segments si calcule
       if (tournee != null && tournee.getNbLivraisons() > 0) {
-        Set<Segment> segments_tournee = new HashSet<Segment>();
+        Multimap<Intersection, Intersection> segments_tournee = ArrayListMultimap.create();
         try {
           Circuit circuit = tournee.getCircuit();
           System.out.println("TOTO");
@@ -217,9 +217,31 @@ public class GraphicalView extends JPanel implements Observer {
           while (circuit.hasNext()) {
             Segment seg = circuit.next();
             Color color = Color.red;
-            if (!segments_tournee.add(seg)) {
+            boolean already_visited = false;
+
+            Collection<Intersection> entry_intersections = segments_tournee.get(seg.getOrigine());
+            for (Intersection inter_destination : entry_intersections) {
+              if (inter_destination == seg.getDestination()) {
+                already_visited = true;
+                break;
+              }
+            }
+
+            if (!already_visited) {
+              entry_intersections = segments_tournee.get(seg.getDestination());
+              for (Intersection inter_origine : entry_intersections) {
+                if (inter_origine == seg.getOrigine()) {
+                  already_visited = true;
+                  break;
+                }
+              }
+            }
+
+            if (already_visited) {
               color = Color.green;
               System.out.println("Deja present : " + seg.toTag());
+            } else {
+              segments_tournee.put(seg.getOrigine(), seg.getDestination());
             }
             Intersection inter = seg.getDestination();
 
