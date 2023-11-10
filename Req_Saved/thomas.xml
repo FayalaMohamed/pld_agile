@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<livraisons>
+<livraison dateHeure="8" dateMinute="23" livreurId="0" plageDebut="8" plageFin="9" id="254580798" latitude="45.76097" longitude="4.855664"/>
+<livraison dateHeure="8" dateMinute="35" livreurId="0" plageDebut="8" plageFin="9" id="3370328152" latitude="45.76138" longitude="4.8620934"/>
+<livraison dateHeure="0" dateMinute="0" livreurId="0" plageDebut="0" plageFin="0" id="230047442" latitude="45.775883" longitude="4.8380537"/>
+<livraison dateHeure="0" dateMinute="0" livreurId="0" plageDebut="0" plageFin="0" id="26035127" latitude="45.763664" longitude="4.85963"/>
+<livraison dateHeure="0" dateMinute="0" livreurId="0" plageDebut="0" plageFin="0" id="26289662" latitude="45.733887" longitude="4.842719"/>
+<livraison dateHeure="8" dateMinute="11" livreurId="0" plageDebut="8" plageFin="9" id="195262" latitude="45.74992" longitude="4.8604593"/>
+<livraison dateHeure="8" dateMinute="3" livreurId="0" plageDebut="8" plageFin="9" id="25321358" latitude="45.746075" longitude="4.86974"/>
+</livraisons>
