@@ -1,5 +1,6 @@
 package com.hexa.view;
 
+import java.util.stream.*;
 import com.hexa.model.Intersection;
 import java.util.List;
 import javax.swing.JFrame;
@@ -164,8 +165,28 @@ public class Window extends JFrame {
   }
 
   public Intersection popupChoixIntersections(List<Intersection> choixPossibles) {
-    Object[] possibilities = choixPossibles.toArray();
-    Intersection choix = (Intersection) JOptionPane.showInputDialog(
+    class IntersectionWrapper {
+      Intersection intersection;
+      String desc;
+
+      public IntersectionWrapper(Intersection i) {
+        intersection = i;
+      }
+
+      public String toString() {
+        if (desc == null) {
+          desc = intersection.toStringNomSegments(graphicalView.getGraphe());
+        }
+        return desc;
+      }
+    }
+
+    List<IntersectionWrapper> choixPossiblesWrapped = choixPossibles.stream().map(IntersectionWrapper::new)
+        .collect(Collectors.toList());
+    System.out.println("window joption:" + choixPossibles);
+    System.out.println("window joption:" + choixPossiblesWrapped);
+    Object[] possibilities = choixPossiblesWrapped.toArray();
+    IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(
         this,
         "Plusieurs intersections sont possibles.\n"
             + "Veuillez choisir une intersection :",
@@ -175,7 +196,7 @@ public class Window extends JFrame {
         possibilities,
         null);
 
-    return choix;
+    return choix == null ? null : choix.intersection;
   }
 
   /**

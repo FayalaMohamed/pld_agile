@@ -51,32 +51,34 @@ public class Segment {
     this.longueur = Double.MAX_VALUE;
   }
 
-  
-  /** 
+  /**
    * @return double
    */
   public double getLongueur() {
     return longueur;
   }
 
-  
-  /** 
+  /**
    * @return Intersection
    */
   public Intersection getOrigine() {
     return origine;
   }
 
-  
-  /** 
+  /**
    * @return Intersection
    */
   public Intersection getDestination() {
     return destination;
   }
 
-  
-  /** Retourn le hash du Segment (à partir de l'origine et la destination)
+  public String getNom() {
+    return nom;
+  }
+
+  /**
+   * Retourn le hash du Segment (à partir de l'origine et la destination)
+   * 
    * @return int
    */
   @Override
@@ -84,10 +86,10 @@ public class Segment {
     return Objects.hash(destination, origine);
   }
 
-  
   /**
    * Retourne True si le Segment et l'Object donné en paramètre sont égaux :
-   * égaux si l'objet est de la classe Segment et a la même origine et destination que
+   * égaux si l'objet est de la classe Segment et a la même origine et destination
+   * que
    * le Segment appelant
    * 
    * @param obj
@@ -105,7 +107,6 @@ public class Segment {
     return Objects.equals(destination, other.destination) && Objects.equals(origine, other.origine);
   }
 
-  
   /**
    * Retourne le tag XML correspondant au Segment
    * 

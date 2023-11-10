@@ -86,9 +86,9 @@ public class GraphicalView extends JPanel implements Observer {
     longitudeMax = -180;
     longitudeMin = 180;
 
-    coordonneesMin = new Coordonnees(0,viewHeight);
-    coordonneesMax = new Coordonnees((int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),(int) (viewHeight - ((latitudeMax - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight)));
-    
+    coordonneesMin = new Coordonnees(0, viewHeight);
+    coordonneesMax = new Coordonnees((int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),
+        (int) (viewHeight - ((latitudeMax - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight)));
 
     definirExtremesCoordonnees();
 
@@ -216,12 +216,12 @@ public class GraphicalView extends JPanel implements Observer {
    * @return
    */
   public Coordonnees CoordGPSToViewPos(Intersection i) {
-    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth) ;
-    int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin ) / (latitudeMax - latitudeMin) * viewHeight));
+    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
+    int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
 
-    xpos = (int) (xpos * zoomFactor)+ viewX;
-    ypos = (int) (ypos * zoomFactor)+ viewY;
-    
+    xpos = (int) (xpos * zoomFactor) + viewX;
+    ypos = (int) (ypos * zoomFactor) + viewY;
+
     return new Coordonnees(xpos, ypos);
   }
 
@@ -234,12 +234,12 @@ public class GraphicalView extends JPanel implements Observer {
   }
 
   public void setZoomFactor(int notches) {
-   
+
     double temp = zoomFactor;
     if (notches < 0) {
       // Zoom in
       zoomFactor *= 1.1;
-      if(zoomFactor>4){
+      if (zoomFactor > 4) {
 
         zoomFactor = temp;
 
@@ -247,7 +247,7 @@ public class GraphicalView extends JPanel implements Observer {
     } else {
       // Zoom out
       zoomFactor /= 1.1;
-      if(zoomFactor<0.98){
+      if (zoomFactor < 0.98) {
 
         zoomFactor = temp;
 
@@ -258,30 +258,33 @@ public class GraphicalView extends JPanel implements Observer {
       }
     }
     repaint();
-  
-}
 
+  }
 
   public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
     if (zoomFactor != 1.0) {
-    
-        int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
-        int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
-  
-     // if (newViewX  <  - (coordonneesMin.getX() + 1000 )  )
-   //    newViewX =  viewX;
-      if (-newViewX  < coordonneesMin.getX() )
-        newViewX =  viewX;
- //     if (-newViewY  > coordonneesMin.getY() *zoomFactor)
- //       newViewY = viewX;
-      if (-newViewY  < coordonneesMax.getY() )
+
+      int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
+      int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
+
+      // if (newViewX < - (coordonneesMin.getX() + 1000 ) )
+      // newViewX = viewX;
+      if (-newViewX < coordonneesMin.getX())
+        newViewX = viewX;
+      // if (-newViewY > coordonneesMin.getY() *zoomFactor)
+      // newViewY = viewX;
+      if (-newViewY < coordonneesMax.getY())
         newViewY = 0;
-        
-        viewX =  newViewX;
-        viewY =  newViewY;
-        
-        repaint();
+
+      viewX = newViewX;
+      viewY = newViewY;
+
+      repaint();
     }
-}
+  }
+
+  public Graphe getGraphe() {
+    return carte;
+  }
 
 }
