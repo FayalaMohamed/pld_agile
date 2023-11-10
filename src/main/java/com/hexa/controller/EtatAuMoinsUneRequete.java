@@ -48,13 +48,31 @@ public class EtatAuMoinsUneRequete implements State {
     c.entryAction();
   }
 
-  public void calculerTournee(Controller c, Window w) {
+  public void calculerTournee(Controller c, Window w, ListOfCommands listOfCdes) {
     try {
       c.getTournee().construireCircuit(c.getCarte());
       w.afficherMessage("Tournée calculée");
       w.getGraphicalView().repaint();
+      listOfCdes.add(new CircuitCommande(c.getTournee(),c.getTournee().getCircuit()));
     } catch (Exception e) {
       e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void undo(ListOfCommands listOfCdes,Controller c){
+    listOfCdes.undo();
+    if (c.getTournee().getLivraisons().length == 0) {
+      c.setCurrentState(c.etatCarteChargee);
+    }
+
+  }
+
+  @Override
+  public void redo(ListOfCommands listOfCdes,Controller c){
+    listOfCdes.redo();
+    if (c.getTournee().getLivraisons().length == 0) {
+      c.setCurrentState(c.etatCarteChargee);
     }
   }
 }

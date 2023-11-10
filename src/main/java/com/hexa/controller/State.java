@@ -20,7 +20,7 @@ public interface State {
    * @param w
    * @param Coordonnees
    */
-  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees) {
+  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees, ListOfCommands l) {
   }
 
   /**
@@ -89,7 +89,7 @@ public interface State {
    * @param c
    * @param w
    */
-  public default void calculerTournee(Controller c, Window w) {
+  public default void calculerTournee(Controller c, Window w, ListOfCommands listOfCdes) {
   }
 
   /**
@@ -98,8 +98,20 @@ public interface State {
    * @param w
    * @param livreur
    */
-  public default void choixLivreur(Controller c, Window w, int livreur) {
+  public default void choixLivreur(Controller c, Window w, int livreur, ListOfCommands l) {
   }
+
+  /**
+   * Method called by the controller after a click on the button "Undo"
+   * @param l the current list of commands
+   */
+  public default void undo(ListOfCommands l, Controller c){};
+
+  /**
+   * Method called by the controller after a click on the button "Redo"
+   * @param l the current list of commands
+   */
+  public default void redo(ListOfCommands l, Controller c){};
 
 
 }

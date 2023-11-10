@@ -36,7 +36,7 @@ public class Tournee extends Observable {
 
 	/**
 	 * Default constructor
-	 * 
+	 *
 	 * Initialise les attributs
 	 */
 	public Tournee() {
@@ -51,10 +51,10 @@ public class Tournee extends Observable {
 
 	/**
 	 * Ajoute une livraisons et notifie les observeurs
-	 * 
+	 *
 	 * Définit l'état du circuit à non calculé => A FAIRE : décider si on doit
 	 * recalculer ou si on interdit l'ajout après calcul
-	 * 
+	 *
 	 * @param l une livraison à ajouter à cette tournée
 	 * @return true si la livraison n'était pas déjà présente
 	 */
@@ -93,9 +93,9 @@ public class Tournee extends Observable {
 
 
 	/**
-	 * 
+	 *
 	 * Construit le meilleur circuit pour réaliser la tournée à partir de la carte
-	 * 
+	 *
 	 * @param carte
 	 * @throws TourneeException
 	 * @throws GrapheException
@@ -194,39 +194,57 @@ public class Tournee extends Observable {
 		this.livreur = livreur;
 	}
 
-	/**
-	 * Supprime une livraison de la tournee et notifie les observeurs
-	 * 
-	 * @param intersection
-	 */
-	public void supprimerLivraison(Intersection intersection) {
-		for (Livraison l : livraisons) {
-			System.out.println(l.toString());
-			if (l.getLieu() == intersection) {
-				livraisons.remove(l);
-			}
-		}
-		this.notifyObservers(this);
-	}
+  /**
+   * Supprime une livraison de la tournee et notifie les observeurs
+   * 
+   * @param intersection
+   */
+  public void supprimerLivraison(Intersection intersection) {
+    for (Livraison l : livraisons) {
+      //System.out.println(l.toString());
+      if (l.getLieu() == intersection) {
+        livraisons.remove(l);
+        break;
+      }
+    }
+    this.notifyObservers(this);
+  }
 
-	/**
-	 * Retourne le circuit calculé s'il est calculé sinon throws une Exception
-	 * 
-	 * @return le meilleur circuit à prendre pour faire la tournée
-	 * @throws TourneeException
-	 */
-	public Circuit getCircuit() throws TourneeException {
-		if (circuitCalculer) {
-			circuit.reset();
-			return circuit;
-		} else {
-			throw new TourneeException("Le circuit n'a pas encore été calculé");
-		}
-	}
+    /**
+     * Retourne une livraison associé à une intersection
+     *
+     * @param intersection
+     *
+     */
+    public Livraison chercherLivraison(Intersection intersection) {
+        Livraison livraison = null;
+        for (Livraison l : livraisons) {
+            if (l.getLieu() == intersection) {
+                livraison = l;
+                break;
+            }
+        }
+        return livraison;
+    }
+
+    /**
+     * Retourne le circuit calculé s'il est calculé sinon throws une Exception
+     *
+     * @return le meilleur circuit à prendre pour faire la tournée
+     * @throws TourneeException
+     */
+    public Circuit getCircuit() throws TourneeException {
+        if (circuitCalculer) {
+            circuit.reset();
+            return circuit;
+        } else {
+            throw new TourneeException("Le circuit n'a pas encore été calculée");
+        }
+    }
 
 	/**
 	 * Retourne True si la tournee est calculee
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public boolean estCalculee() {
@@ -234,7 +252,7 @@ public class Tournee extends Observable {
 	}
 
 
-	
+
 	public boolean estLieuLivraison(Intersection inter) {
 		return livraisons.contains(new Livraison(inter));
 	}

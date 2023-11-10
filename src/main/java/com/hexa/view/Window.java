@@ -25,8 +25,12 @@ public class Window extends JFrame {
   protected static final String SAUVEGARDER_REQUETES = "Sauvegarder des requêtes";
   protected static final String CALCULER_TOURNEE = "Calculer la tournée";
 
+  protected static final String REDO = "Redo";
+  protected static final String UNDO = "Undo";
+
+
   private final String texteBoutons[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
-      SAUVEGARDER_REQUETES,
+      SAUVEGARDER_REQUETES, REDO, UNDO,
       CALCULER_TOURNEE };
 
   private ArrayList<JButton> boutons;
