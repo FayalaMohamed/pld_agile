@@ -62,7 +62,7 @@ public class EtatAuMoinsUneRequete implements State {
   }
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {
-    for (Livraison livraison : c.getTournee().getLivraisons() {
+    for (Livraison livraison : c.getTournee().getLivraisons()) {
       Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(livraison.getLieu());
       if (coord.equals(coordonneesSouris)) {
         w.getTextualView().highlight(livraison);
