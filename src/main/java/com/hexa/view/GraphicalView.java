@@ -39,6 +39,9 @@ public class GraphicalView extends JPanel implements Observer {
   private ArrayList<Intersection> intersections;
   private ArrayList<Segment> segments;
 
+  private ArrayList<VueIntersection> vuesIntersections;
+  private VueEntrepot vueEntrepot;
+
   private double latitudeMin;
   private double latitudeMax;
   private double longitudeMin;
@@ -85,6 +88,8 @@ public class GraphicalView extends JPanel implements Observer {
   public void ajouterCarte(Graphe carte) {
 
     this.carte = carte;
+
+	initialiserVues(carte);
     this.intersections = new ArrayList<>(Arrays.asList(carte.getIntersections()));
     this.segments = new ArrayList<>(Arrays.asList(carte.getSegments()));
 
@@ -101,6 +106,21 @@ public class GraphicalView extends JPanel implements Observer {
     definirExtremesCoordonnees();
 
     repaint();
+  }
+
+  /**
+   * Crée toutes les vues pour les objets de la carte (segments, intersections, entrepôt...)
+   * @param carte
+   */
+  public void initialiserVues(Graphe carte) {
+
+	//entrepot
+	vueEntrepot = new VueEntrepot(carte.getEntrepot());
+
+	//intersections
+	for(Intersection i : carte.getIntersections()) {
+		vuesIntersections.add(new VueIntersection(i));
+	}
   }
 
   public void display(Intersection i, Color c, int number) {
@@ -229,16 +249,16 @@ public class GraphicalView extends JPanel implements Observer {
 
   private void displayElements() {
     if (carte != null) {
-      display(carte.getEntrepot(), Color.green, -1);
-      for (Intersection intersection : intersections) {
-        display(intersection, Color.blue, -1);
+      vueEntrepot.dessinerVue(this);
+      for (VueIntersection vi : vuesIntersections) {
+        vi.dessinerVue(this);
       }
-      for (Segment segment : segments) {
-        display(segment, Color.blue);
-      }
-      if (tournee != null && tournee.getNbLivraisons() > 0) {
-        displayTournee();
-      }
+    //   for (Segment segment : segments) {
+    //     display(segment, Color.blue);
+    //   }
+    //   if (tournee != null && tournee.getNbLivraisons() > 0) {
+    //     displayTournee();
+    //   }
     }
   }
 
@@ -324,6 +344,26 @@ public class GraphicalView extends JPanel implements Observer {
       viewY = newViewY;
       repaint();
     }
+  }
+
+  public Graphics getGraphics() {
+	return g;
+  }
+
+  public double getLongitudeMax() {
+	return longitudeMax;
+  }
+
+  public double getLongitudeMin() {
+	return longitudeMin;
+  }
+
+  public double getLatitudeMax() {
+	return latitudeMax;
+  }
+
+  public double getLatitudeMin() {
+	return latitudeMin;
   }
 
 }
