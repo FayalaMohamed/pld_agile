@@ -212,8 +212,8 @@ public class GraphicalView extends JPanel implements Observer {
 
   /**
    * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
-   * l'affichage graphique
-   * 
+   * l'affichage graphique selon le facteur de zoom ZoomFactor
+   * ainsi que le décalage effectué selon viewX, viewY
    * @param i
    * @return
    */
@@ -238,6 +238,9 @@ public class GraphicalView extends JPanel implements Observer {
   public void setZoomFactor(int notches) {
    
     double temp = zoomFactor;
+    double tempViewX = viewX;
+    double tempViewY = viewY;
+
     if (notches < 0) {
       // Zoom in
       zoomFactor *= 1.1;
@@ -249,45 +252,60 @@ public class GraphicalView extends JPanel implements Observer {
     } else {
       // Zoom out
       zoomFactor /= 1.1;
-      if(zoomFactor<0.98){
+      if(zoomFactor<1){
 
         zoomFactor = temp;
 
       } else {
 
-        viewX = 0;
-        viewY = 0;
+        if ( viewX  <-(coordonneesMax.getX()*(zoomFactor-1)) ) {
+          viewX = (int)(-(coordonneesMax.getX()*(zoomFactor-1)));
+          // System.out.println("Limite A atteinte");
+        } else if (viewX  > coordonneesMin.getX()*(zoomFactor-1)) {
+          viewX = (int)(coordonneesMin.getX()*(zoomFactor-1));
+
+        }
+
+        if ( viewY <-coordonneesMin.getY()*(zoomFactor-1) ) {
+          viewY = (int)(-coordonneesMin.getY()*(zoomFactor-1));
+          // System.out.println("Limite A atteinte");
+        } else if (viewY  > coordonneesMin.getX()*(zoomFactor-1)) {
+          viewY = (int)(coordonneesMin.getX()*(zoomFactor-1));
+
+        }
+
+
+       // viewX += (tempViewX - viewX) * 0.01;
+       // viewY += (tempViewY - viewY) * 0.01;
       }
     }
     repaint();
   
 }
 
-
+  /**
+   * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
+   * l'affichage graphique selon le facteur de zoom ZoomFactor
+   * ainsi que le décalage effectué selon viewX, viewY
+   * @param coordonnees correspond à la position actuel de la souris
+   * @param dernieresCoordonnees correspond à la position de la souris
+   * @return
+   */
   public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
     if (zoomFactor != 1.0) {
     
         int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
         int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
   
-      if ( newViewX  <-(coordonneesMax.getX()*(zoomFactor-1))) {
+      if ( (newViewX  <-(coordonneesMax.getX()*(zoomFactor-1)) || (newViewX  > coordonneesMin.getX()*(zoomFactor-1)))) {
         newViewX = viewX;
-        System.out.println("Limite A atteinte");
+       // System.out.println("Limite A atteinte");
+      }
+      if ( newViewY <-coordonneesMin.getY()*(zoomFactor-1) || (newViewY  > coordonneesMax.getY()*(zoomFactor-1))) {
+        newViewY = viewY;
+       // System.out.println("Limite C atteinte");
       }
 
-      if (newViewX  > coordonneesMin.getX()*(zoomFactor-1) ) {
-        newViewX = viewX;
-        System.out.println("Limite B atteinte");
-      }
-      if ( newViewY <-coordonneesMin.getY()*(zoomFactor-1)) {
-        newViewY = viewY;
-        System.out.println("Limite C atteinte");
-      }
-      if (newViewY  > coordonneesMax.getY()*(zoomFactor-1) ) {
-        newViewY = viewY;
-        System.out.println("Limite D atteinte");
-      }
-        
         viewX =  newViewX;
         viewY =  newViewY;
         

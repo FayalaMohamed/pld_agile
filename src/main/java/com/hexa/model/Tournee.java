@@ -210,9 +210,10 @@ public class Tournee extends Observable {
    */
   public void supprimerLivraison(Intersection intersection) {
     for (Livraison l : livraisons) {
-      System.out.println(l.toString());
+      //System.out.println(l.toString());
       if (l.getLieu() == intersection) {
         livraisons.remove(l);
+        break;
       }
     }
     this.notifyObservers(this);
@@ -229,6 +230,7 @@ public class Tournee extends Observable {
     for (Livraison l : livraisons) {
       if (l.getLieu() == intersection) {
         livraison = l;
+        break;
       }
     }
     return livraison;
@@ -244,7 +246,7 @@ public class Tournee extends Observable {
     if (circuitCalculer) {
       return circuit;
     } else {
-      throw new TourneeException("Le circuit n'a pas encore été calculé");
+      throw new TourneeException("Le circuit n'a pas encore été calculée");
     }
   }
 
@@ -274,6 +276,21 @@ public class Tournee extends Observable {
 
   public boolean getCircuitCalculer() {
     return circuitCalculer;
+  }
+
+
+  /**
+   * Attribut un circuit à une tournée
+   * Méthode utile pour la fonctionnalité undo redo
+   * Permet de mettre le booleen circuitCalculer à true ou false
+   * Selon si le circuit c est null ou pas
+   * @param c le meilleur circuit à prendre pour faire la tournée
+   *
+   */
+  public void setCircuit(Circuit c){
+    circuit = c;
+      circuitCalculer= circuit != null;
+    this.notifyObservers(this);
   }
 
 }

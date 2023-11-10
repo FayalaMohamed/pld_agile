@@ -121,7 +121,7 @@ public class Controller {
    * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la tournée"
    */
   public void calculerTournee() {
-    currentState.calculerTournee(this, window);
+    currentState.calculerTournee(this, window, listOfCommands);
   }
 
   /**

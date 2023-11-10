@@ -89,7 +89,7 @@ public interface State {
    * @param c
    * @param w
    */
-  public default void calculerTournee(Controller c, Window w) {
+  public default void calculerTournee(Controller c, Window w, ListOfCommands listOfCdes) {
   }
 
   /**
