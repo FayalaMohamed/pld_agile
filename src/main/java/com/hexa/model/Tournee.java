@@ -1,5 +1,15 @@
 package com.hexa.model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -160,16 +170,63 @@ public class Tournee extends Observable {
 		circuit = new Circuit(list);
 		circuitCalculer = true;
 
-    genererFeuilleDeRoute();
+    genererFeuilleDeRoute(carte);
 
     this.notifyObservers(this);
   }
 
-  private void genererFeuilleDeRoute() {
+  /**
+   * Génère la feuille de route correspondant à la tournée calculée
+   * @param carte
+   */
+  private void genererFeuilleDeRoute(Graphe carte) {
     String nomFichier = "Feuille_de_route" + new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
+    String text = "Tournée calculée le " + new SimpleDateFormat("dd/MM/yyyy").format(new Date())
+                  + " - Livreur " + livreur + "\n\n";
+
+    ArrayList<String> nomsVisites = new ArrayList<String>();
+    String nomPremierSegment = carte.getNomSegment(circuit.next()); 
+    nomsVisites.add(nomPremierSegment);
+    text += "Prendre sur " + nomPremierSegment + "\n";
 
     while (circuit.hasNext()) {
-      System.out.println(circuit.next().getNom());
+      String nomSegment = carte.getNomSegment(circuit.next());
+      if (!nomsVisites.get(nomsVisites.size()-1).equals(nomSegment)) {
+
+        nomsVisites.add(nomSegment);
+
+        if (nomsVisites.size() == 1) {
+          text = text + "Prendre ";
+        } else {
+          int rand = (int)(Math.random()*10);
+          if (rand > 5)
+            text = text + "Continuer sur ";
+          else
+            text = text + "Tourner sur ";
+        }
+
+        text += nomSegment + "\n";
+      }
+    }
+
+    sauvegarderFeuilleDeRoute(text, nomFichier);
+  }
+
+  /**
+   * Sauvegarde la feuille de route créé précédemment dans le projet
+   * @param feuilleDeRoute
+   * @param nomFichier
+   */
+  private void sauvegarderFeuilleDeRoute(String feuilleDeRoute, String nomFichier) {
+    
+    try {
+      String path = "./Feuilles_Route/" + nomFichier;
+      BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
+      bw.write(feuilleDeRoute);
+      bw.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
