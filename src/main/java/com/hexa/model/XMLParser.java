@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 
 public class XMLParser {
 
-  public static void printEntrepot(PrintWriter writer, Graphe graphe) throws Exception {
+  private static void printEntrepot(PrintWriter writer, Graphe graphe) throws Exception {
     Entrepot entrepot = graphe.getEntrepot();
     if (entrepot != null) {
       writer.println(entrepot.toTag());
@@ -36,7 +36,7 @@ public class XMLParser {
     }
   }
 
-  public static void printSegments(PrintWriter writer, Graphe graphe) throws Exception {
+  private static void printSegments(PrintWriter writer, Graphe graphe) throws Exception {
     Segment[] segments = graphe.getSegments();
     for (Segment segment : segments) {
       writer.println(segment.toTag());
@@ -67,7 +67,7 @@ public class XMLParser {
     }
   }
 
-  public static ArrayList<Long> getWarehouseList(Document doc, String path) throws Exception {
+  private static ArrayList<Long> getWarehouseList(Document doc, String path) throws Exception {
     ArrayList<Long> warehouses_list = new ArrayList<Long>();
     NodeList warehouses = doc.getElementsByTagName("warehouse");
     if (warehouses.getLength() < 1) {
@@ -88,7 +88,7 @@ public class XMLParser {
     return warehouses_list;
   }
 
-  public static HashMap<Long, Intersection> getMappingIdIntersection(Document doc, ArrayList<Long> warehouses_list,
+  private static HashMap<Long, Intersection> getMappingIdIntersection(Document doc, ArrayList<Long> warehouses_list,
       Graphe map) throws Exception {
     HashMap<Long, Intersection> mapping_id_intersection = new HashMap<Long, Intersection>();
     NodeList intersections = doc.getElementsByTagName("intersection");
@@ -115,7 +115,7 @@ public class XMLParser {
     return mapping_id_intersection;
   }
 
-  public static void addSegmentsToMap(Document doc, HashMap<Long, Intersection> mapping_id_intersection, Graphe map)
+  private static void addSegmentsToMap(Document doc, HashMap<Long, Intersection> mapping_id_intersection, Graphe map)
       throws Exception {
     NodeList segments = doc.getElementsByTagName("segment");
     for (int i = 0; i < segments.getLength(); i++) {
