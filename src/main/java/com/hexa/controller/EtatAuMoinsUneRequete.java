@@ -1,6 +1,9 @@
 package com.hexa.controller;
 
+import com.hexa.model.Intersection;
 import com.hexa.view.Window;
+import com.hexa.model.Coordonnees;
+import com.hexa.model.Livraison;
 
 /**
  * Etat correspondant au cas où une carte est chargée et au moins une requête
@@ -19,7 +22,7 @@ public class EtatAuMoinsUneRequete implements State {
     c.setCurrentState(c.etatCreerRequete1);
     c.setPreviousState(c.etatAuMoinsUneRequete);
   }
-  
+
   public void chargerRequetes(Controller c, Window w) {
     w.allow(false);
     c.setCurrentState(c.etatChargerRequete);
@@ -56,5 +59,15 @@ public class EtatAuMoinsUneRequete implements State {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {
+    for (Livraison livraison : c.getTournee().getLivraisons() {
+      Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(livraison.getLieu());
+      if (coord.equals(coordonneesSouris)) {
+        w.getTextualView().highlight(livraison);
+      }
+    }
+
   }
 }

@@ -185,4 +185,8 @@ public class Window extends JFrame {
   public GraphicalView getGraphicalView() {
     return graphicalView;
   }
+
+  public TextualView getTextualView() {
+    return textualView;
+  }
 }
