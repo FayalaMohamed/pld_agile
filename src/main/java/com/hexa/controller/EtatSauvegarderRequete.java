@@ -16,7 +16,7 @@ public class EtatSauvegarderRequete implements State {
     try {
       File xmlFile = XMLfileOpener.getInstance("requete").open(false);
       if (xmlFile != null) {
-        XMLParser.listeLivraisonsToXml(xmlFile.getAbsolutePath(), (c.getTournee().getLivraisonsSet()));
+        XMLParser.listeLivraisonsToXml(xmlFile.getAbsolutePath(), (c.getTournee().getLivraisons()));
       }
     } catch (Exception e) {
       e.printStackTrace();

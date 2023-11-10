@@ -60,10 +60,14 @@ public class Circuit implements Iterator<Segment>{
 			return null;
 		}
 	}
+	
+	public void reset() {
+		index = 0;
+		
+		for (Chemin c : sequence) {
+			c.reset();
+		}
+	}
 
-
-  public Chemin[] getChemins() {
-    return sequence;
-  }
 
 }

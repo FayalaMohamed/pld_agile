@@ -122,4 +122,10 @@ public class Segment {
         + "\" origin=\"" + origine.getId() + "\"/>";
   }
 
+	public String getNom() {
+		return nom;
+	}
+	  
+  
+
 }

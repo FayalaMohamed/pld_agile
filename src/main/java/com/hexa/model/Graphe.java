@@ -12,6 +12,8 @@ public class Graphe extends Observable {
 	 * en valeur
 	 */
 	protected Map<Segment, Double> segments;
+	
+	protected Map<Segment, String> nomSegments;
 
 	/**
 	 * Ensemble d'intersections (= sommets du graphe)
@@ -38,6 +40,7 @@ public class Graphe extends Observable {
 
 		segments = new HashMap<Segment, Double>();
 		intersections = new HashSet<Intersection>();
+		nomSegments = new HashMap<Segment, String>();
 
 		listeSuccesseur = new HashMap<Intersection, Set<Intersection>>();
 
@@ -91,6 +94,8 @@ public class Graphe extends Observable {
 		if (segments.putIfAbsent(seg, seg.getLongueur()) == null) {
 
 			listeSuccesseur.get(seg.getOrigine()).add(seg.getDestination());
+			
+			nomSegments.putIfAbsent(seg, seg.getNom());
 
 			return true;
 		} else {
@@ -145,6 +150,10 @@ public class Graphe extends Observable {
 	 */
 	public double getCost(Segment s) {
 		return segments.containsKey(s) ? segments.get(s) : Double.MAX_VALUE;
+	}
+	
+	public String getNomSegment(Segment s) {
+		return nomSegments.get(s);
 	}
 
 	/** Retourne la liste des Intersections successeurs à l'Intersection en paramètre
