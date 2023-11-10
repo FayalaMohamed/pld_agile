@@ -1,6 +1,8 @@
 package com.hexa.controller;
 
 import com.hexa.model.Coordonnees;
+import com.hexa.model.GrapheException;
+import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
 
 public interface State {
@@ -98,7 +100,7 @@ public interface State {
    * @param w
    * @param livreur
    */
-  public default void choixLivreur(Controller c, Window w, int livreur) {
+  public default void choixLivreur(Controller c, Window w, int livreur) throws TourneeException, GrapheException {
   }
 
 

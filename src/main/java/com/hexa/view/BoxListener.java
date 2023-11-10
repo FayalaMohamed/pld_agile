@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
 import com.hexa.controller.Controller;
+import com.hexa.model.GrapheException;
+import com.hexa.model.TourneeException;
 
 public class BoxListener implements ActionListener {
 
@@ -25,6 +27,10 @@ public class BoxListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     JComboBox<String> box = (JComboBox<String>) e.getSource();
     System.out.println("COMBO BOX " + box.getSelectedItem());
-    controller.choixLivreur(Integer.valueOf((String) box.getSelectedItem()));
+    try {
+      controller.choixLivreur(Integer.valueOf((String) box.getSelectedItem()));
+    } catch (NumberFormatException | GrapheException | TourneeException e1) {
+      e1.printStackTrace();
+    }
   }
 }

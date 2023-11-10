@@ -48,4 +48,8 @@ public class Chemin implements Iterator<Segment> {
 		return sequence;
 	}
 
+	public void reset() {
+		index = 0;
+	}
+
 }
