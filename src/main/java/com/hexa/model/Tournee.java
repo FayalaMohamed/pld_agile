@@ -257,4 +257,18 @@ public class Tournee extends Observable {
 		return livraisons.contains(new Livraison(inter));
 	}
 
+	/**
+	 * Attribut un circuit à une tournée
+	 * Méthode utile pour la fonctionnalité undo redo
+	 * Permet de mettre le booleen circuitCalculer à true ou false
+	 * Selon si le circuit c est null ou pas
+	 * @param c le meilleur circuit à prendre pour faire la tournée
+	 *
+	 */
+	public void setCircuit(Circuit c){
+		circuit = c;
+		circuitCalculer= circuit != null;
+		this.notifyObservers(this);
+	}
+
 }
