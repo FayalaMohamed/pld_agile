@@ -78,33 +78,31 @@ public class App {
     }
 
   }
+
   public static Set<Livraison> testParserDeLivraison() throws ParseException {
 
     Set<Livraison> listeLivraisons = new HashSet<>();
 
-    for(int i = 0; i<5;i++){
+    for (int i = 0; i < 5; i++) {
 
-      int dateHeure = 11+i;
-      int dateMinute= 59;
+      int dateHeure = 11 + i;
+      int dateMinute = 59;
       int livreur_id = 55;
-      int plageDebut= 10;
+      int plageDebut = 10;
       int plageFin = 11;
-      Long id =  25175791L +i;
-      double latitude = 45.75406+i;
-      double longitude = 4.857418+i;
+      Long id = 25175791L + i;
+      double latitude = 45.75406 + i;
+      double longitude = 4.857418 + i;
 
       Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
       livraison.setLivreur(new Livreur(livreur_id));
-      livraison.setPlageHoraire(plageDebut,plageFin);
-      livraison.setHeureEstime(dateHeure,dateMinute);
+      livraison.setPlageHoraire(plageDebut, plageFin);
+      livraison.setHeureEstime(dateHeure, dateMinute);
 
       listeLivraisons.add(livraison);
 
-
-
-
     }
-    for(Livraison l :  listeLivraisons){
+    for (Livraison l : listeLivraisons) {
 
       System.out.println(l.toString());
 
@@ -113,9 +111,8 @@ public class App {
     return listeLivraisons;
   }
 
-
   public static void main(String[] args) throws Exception {
-
+    System.out.println("\n\n\n\n\n\n\n\nTEEEEEEEEEEEESTETSETESTSETS\n\n\n\n\n\n\n\n");
     Controller controller = new Controller();
     // String inputFile =
     // "C:\\Users\\marti\\OneDrive\\Bureau\\fichiersXML2022\\largeMap.xml";
@@ -157,23 +154,20 @@ public class App {
     System.out.println("Time : " + (double) (end - start) / 1000);
 
     /*
-    XMLParser.listeLivraisonsToXml("/tmp/listeLivraison.xml", testParserDeLivraison());
-
-    Set<Livraison> listeLivraisons= XMLParser.xmlToListeLivraison("/tmp/listeLivraison.xml");
-
-    XMLParser.listeLivraisonsToXml("/tmp/listeLivraison2.xml", listeLivraisons);
-
-    for(Livraison l :  listeLivraisons){
-
-      System.out.println(l.toString());
-
-    }
-    */
+     * XMLParser.listeLivraisonsToXml("/tmp/listeLivraison.xml",
+     * testParserDeLivraison());
+     * 
+     * Set<Livraison> listeLivraisons=
+     * XMLParser.xmlToListeLivraison("/tmp/listeLivraison.xml");
+     * 
+     * XMLParser.listeLivraisonsToXml("/tmp/listeLivraison2.xml", listeLivraisons);
+     * 
+     * for(Livraison l : listeLivraisons){
+     * 
+     * System.out.println(l.toString());
+     * 
+     * }
+     */
   }
-
-
-
-
-
 
 }

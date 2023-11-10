@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 import com.hexa.controller.Controller;
 import com.hexa.model.Coordonnees;
 
-public class MouseListener extends MouseAdapter implements MouseMotionListener {
+public class MouseListener extends MouseAdapter {
 
   private Controller controller;
   private GraphicalView graphicalView;
@@ -30,13 +30,15 @@ public class MouseListener extends MouseAdapter implements MouseMotionListener {
   }
 
   /**
-   * Méthode appelée par le MouseListener chaque fois qu'un clic de souris est effectué
+   * Méthode appelée par le MouseListener chaque fois qu'un clic de souris est
+   * effectué
+   * 
    * @param evt the event to be processed
    */
   @Override
   public void mouseClicked(MouseEvent evt) {
     switch (evt.getButton()) {
-      case MouseEvent.BUTTON1:     
+      case MouseEvent.BUTTON1:
         controller.clicGauche(coordinates(evt));
         break;
       case MouseEvent.BUTTON3:
@@ -48,9 +50,8 @@ public class MouseListener extends MouseAdapter implements MouseMotionListener {
   }
 
   public void mouseMoved(MouseEvent evt) {
-    
-  }
 
+  }
 
   @Override
   public void mousePressed(MouseEvent evt) {
@@ -61,11 +62,10 @@ public class MouseListener extends MouseAdapter implements MouseMotionListener {
   @Override
   public void mouseDragged(MouseEvent evt) {
 
-
-    graphicalView.setDrag(coordinates(evt),this.dernieresCoordonnees);
+    graphicalView.setDrag(coordinates(evt), this.dernieresCoordonnees);
     controller.glissement();
     dernieresCoordonnees = coordinates(evt);
-    
-}
+
+  }
 
 }

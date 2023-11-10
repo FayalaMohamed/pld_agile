@@ -3,14 +3,18 @@ package com.hexa.view;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
+import java.util.stream.*;
+import javax.swing.JOptionPane;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.hexa.controller.Controller;
 import com.hexa.model.Graphe;
 import com.hexa.model.Tournee;
+import com.hexa.model.Intersection;
 
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,7 +31,6 @@ public class Window extends JFrame {
 
   protected static final String REDO = "Redo";
   protected static final String UNDO = "Undo";
-
 
   private final String texteBoutons[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
       SAUVEGARDER_REQUETES, REDO, UNDO,
@@ -189,4 +192,40 @@ public class Window extends JFrame {
   public GraphicalView getGraphicalView() {
     return graphicalView;
   }
+
+  public Intersection popupChoixIntersections(List<Intersection> choixPossibles) {
+    class IntersectionWrapper {
+      Intersection intersection;
+      String desc;
+
+      public IntersectionWrapper(Intersection i) {
+        intersection = i;
+      }
+
+      public String toString() {
+        if (desc == null) {
+          desc = intersection.toStringNomSegments(graphicalView.getGraphe());
+        }
+        return desc;
+      }
+    }
+
+    List<IntersectionWrapper> choixPossiblesWrapped = choixPossibles.stream().map(IntersectionWrapper::new)
+        .collect(Collectors.toList());
+    System.out.println("window joption:" + choixPossibles);
+    System.out.println("window joption:" + choixPossiblesWrapped);
+    Object[] possibilities = choixPossiblesWrapped.toArray();
+    IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(
+        this,
+        "Plusieurs intersections sont possibles.\n"
+            + "Veuillez choisir une intersection :",
+        "Customized Dialog",
+        JOptionPane.PLAIN_MESSAGE,
+        null,
+        possibilities,
+        null);
+
+    return choix == null ? null : choix.intersection;
+  }
+
 }
