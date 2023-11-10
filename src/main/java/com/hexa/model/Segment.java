@@ -119,5 +119,4 @@ public class Segment {
     return "<segment destination=\"" + destination.getId() + "\" length=\"" + longueur + "\" name=\"" + nom
         + "\" origin=\"" + origine.getId() + "\"/>";
   }
-
 }
