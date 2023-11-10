@@ -5,7 +5,6 @@ import com.hexa.model.Livraison;
 import com.hexa.model.Livreur;
 import com.hexa.model.Tournee;
 import com.hexa.view.Window;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 /**
  * Etat de l'application quand on se trouve dans la deuxième étape de la
