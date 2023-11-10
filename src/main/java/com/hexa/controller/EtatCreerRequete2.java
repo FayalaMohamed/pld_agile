@@ -1,9 +1,11 @@
 package com.hexa.controller;
 
+import com.hexa.model.GrapheException;
 import com.hexa.model.Intersection;
 import com.hexa.model.Livraison;
 import com.hexa.model.Livreur;
 import com.hexa.model.Tournee;
+import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
 
 /**
@@ -17,12 +19,18 @@ import com.hexa.view.Window;
 public class EtatCreerRequete2 implements State {
 
   private Livraison livraison;
+  private Livraison livraisonPrecedente = null;
 
-  public void entryAction(Intersection i, ListOfCommands l) {
-    livraison = new Livraison(i);
+  public void entryAction(Intersection intersection) {
+    livraison = new Livraison(intersection);
   }
 
-  public void choixLivreur(Controller c, Window w, int livreur, ListOfCommands listOfCommands) {
+  public void entryAction(Intersection intersectionAjouter, Intersection intersectionPrecedente) {
+    livraison = new Livraison(intersectionAjouter);
+    livraisonPrecedente = new Livraison(intersectionPrecedente);
+  }
+
+  public void choixLivreur(Controller c, Window w, int livreur, ListOfCommands listOfCommands) throws TourneeException, GrapheException {
     if (this.livraison == null) {
       w.afficherMessage("Attention - Vous devez choisir une intersection avant de choisir un livreur");
       return;
@@ -41,13 +49,23 @@ public class EtatCreerRequete2 implements State {
       return;
     }
     livraison.setLivreur(livreur_obj);
-    tournee.ajouterLivraison(livraison);
+    if (c.getTournee().estCalculee()) {
+      tournee.ajouterLivraisonApresCalcul(c.getCarte(),livraison,livraisonPrecedente);
+    } else {
+      tournee.ajouterLivraison(livraison);      
+    }
     w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
     c.setCurrentState(c.etatAuMoinsUneRequete);
     w.allow(true);
     listOfCommands.add(new RequeteCommande(tournee, livraison));
   }
 
+  /**
+   * Reset le state du controlleur au previousState
+   * 
+   * @param c
+   * @param w
+   */
   public void clicDroit(Controller c, Window w) {
     w.afficherMessage("Création de requête annulée");
     c.setCurrentState(c.previousState);

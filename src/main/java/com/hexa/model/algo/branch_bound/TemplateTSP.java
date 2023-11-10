@@ -185,15 +185,15 @@ abstract class TemplateTSP implements TSP {
 	 * @param l
 	 * @return true si l'arc (i,j) croise l'arc (k,l) 
 	 */
-	private boolean croiser (Intersection i, Intersection j, Intersection k, Intersection l) {
-		
-		Segment a = new Segment (i, j);
-		Segment b = new Segment (k, l);
-		Segment c = new Segment (i, k);
-		Segment d = new Segment (j, l);
-		
+	private boolean croiser(Intersection i, Intersection j, Intersection k, Intersection l) {
+
+		Segment a = new Segment(i, j);
+		Segment b = new Segment(k, l);
+		Segment c = new Segment(i, k);
+		Segment d = new Segment(j, l);
+
 		return (g.getCost(a) + g.getCost(b) > g.getCost(c) + g.getCost(d));
-		
+
 	}
 	
 }

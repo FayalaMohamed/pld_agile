@@ -2,7 +2,9 @@ package com.hexa.controller;
 
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
+import com.hexa.model.GrapheException;
 import com.hexa.model.Tournee;
+import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
 
 public class Controller {
@@ -21,6 +23,7 @@ public class Controller {
   protected final InitialState initialState = new InitialState();
   protected final EtatCreerRequete1 etatCreerRequete1 = new EtatCreerRequete1();
   protected final EtatCreerRequete2 etatCreerRequete2 = new EtatCreerRequete2();
+  protected final EtatCreerRequete3 etatCreerRequete3 = new EtatCreerRequete3();
   protected final EtatCarteChargee etatCarteChargee = new EtatCarteChargee();
   protected final EtatAuMoinsUneRequete etatAuMoinsUneRequete = new EtatAuMoinsUneRequete();
   protected final ChargerCarte chargerCarte = new ChargerCarte();
@@ -112,8 +115,9 @@ public class Controller {
 
   /**
    * Méthode appelée par la fenêtre après une sélection dans le JComboBox "Nombre de livreurs"
+   * @throws TourneeException
    */
-  public void choixLivreur(int livreur) {
+  public void choixLivreur(int livreur) throws TourneeException, GrapheException {
     currentState.choixLivreur(this, window, livreur, listOfCommands);
   }
 
