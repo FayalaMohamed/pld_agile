@@ -1,6 +1,7 @@
 package com.hexa.view;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import com.hexa.model.Entrepot;
 
