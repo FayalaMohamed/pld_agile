@@ -39,7 +39,7 @@ public class VueLivraison extends Observable {
 
         coord = this.gv.CoordGPSToViewPos(livraison.getLieu());
 
-        Graphics g = gv.getGraphics();
+        Graphics g = gv.getGraphics2();
         g.setColor(color);
         g.fillOval(coord.getX() - rayon, coord.getY() - rayon, 2 * rayon, 2 * rayon);
 

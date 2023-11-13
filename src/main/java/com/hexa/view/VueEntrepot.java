@@ -26,7 +26,7 @@ public class VueEntrepot {
 
         coord = this.gv.CoordGPSToViewPos(entrepot);
 
-        gv.getGraphics().setColor(color);
-        gv.getGraphics().fillOval(coord.getX() - rayon, coord.getY() - rayon, 2 * rayon, 2 * rayon);
+        gv.getGraphics2().setColor(color);
+        gv.getGraphics2().fillOval(coord.getX() - rayon, coord.getY() - rayon, 2 * rayon, 2 * rayon);
     }
 }

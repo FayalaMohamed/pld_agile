@@ -25,8 +25,8 @@ public class VueIntersection extends Observable {
 
         coord = this.gv.CoordGPSToViewPos(intersection);
 
-        gv.getGraphics().setColor(color);
-        gv.getGraphics().fillOval(coord.getX() - rayon, coord.getY() - rayon, 2 * rayon, 2 * rayon);
+        gv.getGraphics2().setColor(color);
+        gv.getGraphics2().fillOval(coord.getX() - rayon, coord.getY() - rayon, 2 * rayon, 2 * rayon);
     }
 
     public boolean estCliquee(Coordonnees coordonneesSouris) {

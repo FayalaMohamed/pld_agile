@@ -50,7 +50,7 @@ public class VueSegment {
         coordOrigine = this.gv.CoordGPSToViewPos(origine);
         coordDestination = this.gv.CoordGPSToViewPos(destination);
 
-        Graphics2D g2 = (Graphics2D) gv.getGraphics();
+        Graphics2D g2 = (Graphics2D) gv.getGraphics2();
         g2.setColor(color);
         g2.setStroke(stroke);
         g2.draw(new Line2D.Float(coordOrigine.getX(), coordOrigine.getY(), coordDestination.getX(), coordDestination.getY()));

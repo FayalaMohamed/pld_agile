@@ -375,7 +375,7 @@ public class GraphicalView extends JPanel implements Observer {
     }
   }
 
-  public Graphics getGraphics() {
+  public Graphics getGraphics2() {
 	  return g;
   }
 
