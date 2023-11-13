@@ -1,27 +1,16 @@
 package com.hexa.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.BasicStroke;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.Collection;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-
 import javax.swing.JPanel;
 
-import com.hexa.model.Circuit;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
-import com.hexa.model.Livraison;
 import com.hexa.model.Segment;
 import com.hexa.model.Tournee;
-import com.hexa.model.TourneeException;
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
 
@@ -36,7 +25,9 @@ public class GraphicalView extends JPanel implements Observer {
   private Graphe carte;
 
   private ArrayList<VueIntersection> vuesIntersections = new ArrayList<VueIntersection>();
+  private ArrayList<VueSegment> vuesSegments = new ArrayList<VueSegment>();
   private VueEntrepot vueEntrepot;
+  private VueTournee vueTournee;
 
   private double latitudeMin;
   private double latitudeMax;
@@ -78,7 +69,10 @@ public class GraphicalView extends JPanel implements Observer {
    */
   @Override
   public void update(Observable o, Object arg) {
-    // repaint();
+    
+    vueTournee = new VueTournee(tournee, this, Color.RED);
+    
+    repaint();
   }
 
   public void ajouterCarte(Graphe carte) {
@@ -108,14 +102,39 @@ public class GraphicalView extends JPanel implements Observer {
   public void initialiserVues(Graphe carte) {
 
     //entrepot
-    vueEntrepot = new VueEntrepot(carte.getEntrepot());
-    System.out.println("init entrepot ok");
+    vueEntrepot = new VueEntrepot(carte.getEntrepot(), this);
 
     //intersections
     for(Intersection i : carte.getIntersections()) {
-      vuesIntersections.add(new VueIntersection(i));
+      vuesIntersections.add(new VueIntersection(i, this));
     }
-    System.out.println("init intersections ok");
+
+    //segments
+    for(Segment s : carte.getSegments()) {
+      vuesSegments.add(new VueSegment(s, this, Color.BLUE));
+    }
+  }
+
+  /**
+   * Retourne l'intersection sélectionnée par le clic souris
+   * Met à jour la vue de cette intersection
+   * @param coordonneesSouris
+   * @return
+   */
+  public Intersection getIntersectionSelectionnee(Coordonnees coordonneesSouris) {
+
+    Intersection intersectionSelec = null;
+
+    for (VueIntersection vi : vuesIntersections) {
+      if (vi.estCliquee(coordonneesSouris)) {
+        vi.afficherSelectionnee();
+        intersectionSelec = vi.getIntersection();
+      } else {
+        vi.afficherNonSelectionnee();
+      }
+    }
+
+    return intersectionSelec;
   }
 
   // public void display(Intersection i, Color c, int number) {
@@ -270,17 +289,18 @@ public class GraphicalView extends JPanel implements Observer {
     translateView();
 
     if (carte != null) {
-      vueEntrepot.dessinerVue(this);
-      for (VueIntersection vi : vuesIntersections) {
-        vi.dessinerVue(this);
-      }
+      vueEntrepot.dessinerVue();
       
-    //   for (Segment segment : segments) {
-    //     display(segment, Color.blue);
-    //   }
-    //   if (tournee != null && tournee.getNbLivraisons() > 0) {
-    //     displayTournee();
-    //   }
+      for (VueIntersection vi : vuesIntersections) {
+        vi.dessinerVue();
+      }
+
+      for (VueSegment vs : vuesSegments) {
+        vs.dessinerVue();
+      }
+
+      if (vueTournee != null)
+        vueTournee.dessinerVue();
     }
   }
 
@@ -356,23 +376,11 @@ public class GraphicalView extends JPanel implements Observer {
   }
 
   public Graphics getGraphics() {
-	return g;
+	  return g;
   }
 
-  public double getLongitudeMax() {
-	return longitudeMax;
-  }
-
-  public double getLongitudeMin() {
-	return longitudeMin;
-  }
-
-  public double getLatitudeMax() {
-	return latitudeMax;
-  }
-
-  public double getLatitudeMin() {
-	return latitudeMin;
+  public double getZoomFactor() {
+    return zoomFactor;
   }
 
 }

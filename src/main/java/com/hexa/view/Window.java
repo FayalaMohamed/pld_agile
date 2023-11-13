@@ -6,7 +6,9 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.hexa.controller.Controller;
+import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
+import com.hexa.model.Intersection;
 import com.hexa.model.Tournee;
 
 import java.util.ArrayList;
@@ -143,6 +145,16 @@ public class Window extends JFrame {
       bouton.addActionListener(buttonListener);
       getContentPane().add(bouton);
     }
+  }
+
+  /**
+   * Retourne l'intersection sur laquelle l'utilisateur a cliqué.
+   * Dékègue le traitement à la graphicalView
+   * @param coordonneesSouris
+   * @return
+   */
+  public Intersection getIntersectionSelectionnee(Coordonnees coordonneesSouris) {
+    return graphicalView.getIntersectionSelectionnee(coordonneesSouris);
   }
 
   /**

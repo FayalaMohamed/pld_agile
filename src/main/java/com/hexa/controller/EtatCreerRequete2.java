@@ -27,6 +27,7 @@ public class EtatCreerRequete2 implements State {
       w.afficherMessage("Attention - Vous devez choisir une intersection avant de choisir un livreur");
       return;
     }
+
     // FIX: This is not good, need to have a list of livreurs somewhere and perform
     // a getLivreurById (create the livreur and append it to the list if it does not
     // exist yet)
@@ -40,6 +41,7 @@ public class EtatCreerRequete2 implements State {
           "Le livreur demandé n'est pas le livreur affecté à la tournée, on est dans l'itération 1 monsieur, une seule tournée !");
       return;
     }
+    
     livraison.setLivreur(livreur_obj);
     tournee.ajouterLivraison(livraison);
     w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
