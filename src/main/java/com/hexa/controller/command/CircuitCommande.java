@@ -1,7 +1,6 @@
-package com.hexa.controller;
+package com.hexa.controller.command;
 
 import com.hexa.model.Circuit;
-import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
 
 public class CircuitCommande implements Command{

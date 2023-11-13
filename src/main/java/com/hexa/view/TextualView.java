@@ -1,6 +1,5 @@
 package com.hexa.view;
 
-import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -14,18 +13,24 @@ import com.hexa.observer.Observer;
 /**
  * Méthode permettant l'affichage textuel de la liste des livraisons
  */
-public class TextualView extends JLabel implements Observer{
+public class TextualView extends JLabel implements Observer {
+
+//-------------------------------------------------------------------------------------------------
 
 	private static final long serialVersionUID = 1L;
+
 	private String text;
-    private Tournee tournee;
+	private Tournee tournee;
+
+//-------------------------------------------------------------------------------------------------
 
 	/**
 	 * Crée la vue textuelle des livraisons
+	 * 
 	 * @param tournee la tournée
-	 * @param window la fenêtre
+	 * @param window  la fenêtre
 	 */
-	public TextualView(Window window, Tournee tournee){
+	public TextualView(Window window, Tournee tournee) {
 		super();
 		setBorder(BorderFactory.createTitledBorder("Liste des livraisons:"));
 		this.setVerticalTextPosition(TOP);
@@ -35,7 +40,9 @@ public class TextualView extends JLabel implements Observer{
 		tournee.addObserver(this); // this observes tournee
 		this.tournee = tournee;
 	}
-	
+
+//-------------------------------------------------------------------------------------------------
+
 	/**
 	 * Appelé à chaque modification des objets observés
 	 */
@@ -44,20 +51,21 @@ public class TextualView extends JLabel implements Observer{
 		text = "<html><ul>";
 		for (Livraison l : tournee.getLivraisons())
 			display(l);
-		text = text+"</ul></html>";
+		text = text + "</ul></html>";
 		setText(text);
 	}
 
 	/**
 	 * Affichage d'une livraison sous forme textuelle
-     * @param l
-     */
+	 * 
+	 * @param l
+	 */
 	public void display(Livraison l) {
-		text = text+"<li>";
-		text = text+"Livraison: " + l.toString();
+		text = text + "<li>";
+		text = text + "Livraison: " + l.toString();
 		if (tournee.estCalculee()) {
-			text = text+ " Plage horaire : " + l.getPlageHoraire()[0] + "h - " + l.getPlageHoraire()[1] + "h";
+			text = text + " Plage horaire : " + l.getPlageHoraire()[0] + "h - " + l.getPlageHoraire()[1] + "h";
 		}
-		text = text+"</li>";
+		text = text + "</li>";
 	}
 }

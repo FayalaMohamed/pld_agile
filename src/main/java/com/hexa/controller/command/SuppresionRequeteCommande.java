@@ -1,4 +1,4 @@
-package com.hexa.controller;
+package com.hexa.controller.command;
 
 import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;

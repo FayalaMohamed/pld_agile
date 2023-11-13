@@ -52,7 +52,7 @@ public class GrapheCompletTest {
 
         try {
             GrapheComplet grapheComplet = new GrapheComplet(graphe, tournee);
-            grapheComplet.afficher();
+            //grapheComplet.afficher();
             assert (grapheComplet.getCost(new Segment(inters[0], inters[3])) == 6);
             assert (grapheComplet.getCost(new Segment(inters[0], inters[4])) == 10);
             assert (grapheComplet.getCost(new Segment(inters[3], inters[0])) == 29);

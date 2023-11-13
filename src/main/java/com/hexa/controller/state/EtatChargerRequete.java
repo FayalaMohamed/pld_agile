@@ -1,5 +1,6 @@
-package com.hexa.controller;
+package com.hexa.controller.state;
 
+import com.hexa.controller.Controller;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
 import java.io.File;
@@ -18,24 +19,24 @@ public class EtatChargerRequete implements State {
 
       if (xmlFile == null) {
         if (c.getTournee().getLivraisons().length == 0)
-          c.setCurrentState(c.etatCarteChargee);
+          c.setCurrentState(c.getEtatCarteChargee());
         else
-          c.setCurrentState(c.etatAuMoinsUneRequete);
+          c.setCurrentState(c.getEtatAuMoinsUneRequete());
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
         c.getTournee().setLivraisons(xmlToListeLivraison(xmlFile.getAbsolutePath()));
         if (c.getTournee().getNbLivraisons() == 0) {
-          c.setCurrentState(c.etatCarteChargee);
+          c.setCurrentState(c.getEtatCarteChargee());
         } else {
-          c.setCurrentState(c.etatAuMoinsUneRequete);
+          c.setCurrentState(c.getEtatAuMoinsUneRequete());
         }
       }
     } catch (Exception e) {
       e.printStackTrace();
       if (c.getTournee().getNbLivraisons() == 0) {
-        c.setCurrentState(c.etatCarteChargee);
+        c.setCurrentState(c.getEtatCarteChargee());
       } else {
-        c.setCurrentState(c.etatAuMoinsUneRequete);
+        c.setCurrentState(c.getEtatAuMoinsUneRequete());
       }
     }
     w.allow(true);

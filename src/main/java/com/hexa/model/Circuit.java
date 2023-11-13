@@ -4,10 +4,14 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Circuit implements Iterator<Segment> {
+	
+//------------------------------------------------------------------------------------------------------------------
 
 	private Chemin[] sequence;
 	private int size;
 	private int index;
+	
+//------------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Constructor :
@@ -23,10 +27,10 @@ public class Circuit implements Iterator<Segment> {
 		index = 0;
 	}
 
+//------------------------------------------------------------------------------------------------------------------
+	
 	/**
-	 * Retourne True s'il existe au moins un autre Segment à parcourir
-	 * 
-	 * @return boolean
+	 * @return true s'il existe au moins un autre Segment à parcourir
 	 */
 	@Override
 	public boolean hasNext() {
@@ -46,9 +50,7 @@ public class Circuit implements Iterator<Segment> {
 	}
 
 	/**
-	 * Retourne le prochain Segment parcouru
-	 * 
-	 * @return Segment
+	 * @return le prochain Segment parcouru
 	 */
 	@Override
 	public Segment next() {
@@ -68,7 +70,4 @@ public class Circuit implements Iterator<Segment> {
 		}
 	}
 
-	public Chemin[] getChemins() {
-		return sequence;
-	}
 }

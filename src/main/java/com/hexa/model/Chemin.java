@@ -5,10 +5,13 @@ import java.util.List;
 
 public class Chemin implements Iterator<Segment> {
 
+//-------------------------------------------------------------------------------------------------------------------------------
 
 	private Segment[] sequence;
 	private int size;
 	private int index;
+	
+//-------------------------------------------------------------------------------------------------------------------------------
 	
 	/** Constructor :
 	 * un chemin est un iterator sur les Segments donnés en paramètre au constructeur
@@ -22,9 +25,11 @@ public class Chemin implements Iterator<Segment> {
 		index = 0;		
 	}
 	
+//-------------------------------------------------------------------------------------------------------------------------------
 	
-	/** Retourne True s'il existe encore un Segment à parcourir 
-	 * @return boolean
+	
+	/**
+	 * @return true s'il existe encore un Segment à parcourir 
 	 */
 	@Override
 	public boolean hasNext() {
@@ -36,8 +41,8 @@ public class Chemin implements Iterator<Segment> {
 	}
 
 	
-	/** Retourne le prochain Segment parcouru
-	 * @return Segment
+	/**
+	 * @return le prochain Segment parcouru
 	 */
 	@Override
 	public Segment next() {
@@ -49,9 +54,5 @@ public class Chemin implements Iterator<Segment> {
 		index = 0;
 	}
 
-
-	public Segment[] getSegments(){
-		return sequence;
-	}
 
 }
