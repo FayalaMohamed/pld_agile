@@ -70,7 +70,12 @@ public class GraphicalView extends JPanel implements Observer {
   @Override
   public void update(Observable o, Object arg) {
     
-    vueTournee = new VueTournee(tournee, this, Color.RED);
+    vueTournee = new VueTournee((Tournee)arg, this, Color.RED);
+
+    //aucun requête ne peut plus être sélectionnée fonctionnellement
+    for(VueIntersection vi : vuesIntersections) {
+      vi.afficherNonSelectionnee();
+    }
     
     repaint();
   }
@@ -134,45 +139,10 @@ public class GraphicalView extends JPanel implements Observer {
       }
     }
 
+    repaint();
+
     return intersectionSelec;
   }
-
-  // public void display(Intersection i, Color c, int number) {
-  //   int r = 2;
-  //   if (c.equals(Color.red) || c.equals(Color.green)) {
-  //     r = 6;
-  //   }
-  //   int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
-  //   int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
-  //   g.setColor(c);
-  //   g.fillOval(xpos - r, ypos - r, 2 * r, 2 * r);
-  //   if (number != -1) {
-  //     g.setColor(Color.black);
-  //     g.setFont(new Font("TimesRoman", Font.BOLD, (int) (25 / zoomFactor + 1)));
-  //     g.drawString(String.valueOf(number), xpos + r, ypos + r);
-  //   }
-  // }
-
-  // public void display(Segment s, Color c) {
-  //   Intersection origine = s.getOrigine();
-  //   Intersection destination = s.getDestination();
-  //   int xOrigine = (int) ((origine.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
-  //   int yOrigine = (int) (viewHeight
-  //       - ((origine.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
-  //   int xDestination = (int) ((destination.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin)
-  //       * viewWidth);
-  //   int yDestination = (int) (viewHeight
-  //       - ((destination.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
-
-  //   g.setColor(c);
-  //   if (c == Color.red || c == Color.green) {
-  //     Graphics2D g2 = (Graphics2D) g;
-  //     g2.setStroke(new BasicStroke(3));
-  //     g2.draw(new Line2D.Float(xOrigine, yOrigine, xDestination, yDestination));
-  //   } else {
-  //     g.drawLine(xOrigine, yOrigine, xDestination, yDestination);
-  //   }
-  // }
 
   /**
    * Méthode déterminant les plus grandes coordonnées de la carte choisie Permet
@@ -207,75 +177,6 @@ public class GraphicalView extends JPanel implements Observer {
     // Appliquer le facteur de zoom
     g2d.scale(zoomFactor, zoomFactor);
   }
-
-  // private boolean isAlreadyVisited(Segment seg, Multimap<Intersection, Intersection> segments_tournee, boolean origin) {
-  //   boolean already_visited = false;
-  //   Collection<Intersection> entry_intersections;
-  //   if (origin) {
-  //     entry_intersections = segments_tournee.get(seg.getOrigine());
-  //   } else {
-  //     entry_intersections = segments_tournee.get(seg.getDestination());
-  //   }
-  //   for (Intersection inter_destination : entry_intersections) {
-  //     Intersection compare;
-  //     if (origin) {
-  //       compare = seg.getDestination();
-  //     } else {
-  //       compare = seg.getOrigine();
-  //     }
-  //     if (inter_destination == compare) {
-  //       already_visited = true;
-  //       break;
-  //     }
-  //   }
-  //   return already_visited;
-  // }
-
-  // private void displayTournee() {
-  //   Multimap<Intersection, Intersection> segments_tournee = ArrayListMultimap.create();
-  //   try {
-  //     Circuit circuit = tournee.getCircuit();
-  //     int i = 1;
-  //     while (circuit.hasNext()) {
-  //       Segment seg = circuit.next();
-  //       Color color = Color.red;
-  //       boolean already_visited = isAlreadyVisited(seg, segments_tournee, true);
-  //       if (!already_visited) {
-  //         already_visited = isAlreadyVisited(seg, segments_tournee, false);
-  //       }
-  //       if (already_visited) {
-  //         color = Color.green;
-  //       } else {
-  //         segments_tournee.put(seg.getOrigine(), seg.getDestination());
-  //       }
-  //       Intersection inter = seg.getDestination();
-  //       display(seg, color);
-  //       if (tournee.estLieuLivraison(inter)) {
-  //         display(inter, color, i++);
-  //       }
-  //     }
-  //   } catch (TourneeException e) {
-  //     for (Livraison livraison : tournee.getLivraisons()) {
-  //       display(livraison.getLieu(), Color.red, -1);
-  //     }
-  //   }
-  // }
-
-  // private void displayElements() {
-  //   if (carte != null) {
-  //     vueEntrepot.dessinerVue(this);
-  //     for (VueIntersection vi : vuesIntersections) {
-  //       vi.dessinerVue(this);
-  //     }
-  //     g.fillOval(700, 500, 10, 10);
-  //   //   for (Segment segment : segments) {
-  //   //     display(segment, Color.blue);
-  //   //   }
-  //   //   if (tournee != null && tournee.getNbLivraisons() > 0) {
-  //   //     displayTournee();
-  //   //   }
-  //   }
-  // }
 
   /**
    * Méthode à appeler à chaque fois que la vue graphique doit être redessinée

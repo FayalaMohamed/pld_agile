@@ -12,10 +12,12 @@ import static com.hexa.model.XMLParser.xmlToListeLivraison;
  * --> entryAction charge un fichier de requêtes dans le controller
  */
 public class EtatChargerRequete implements State {
+
   public void entryAction(Controller c, Window w) {
     try {
       File xmlFile = XMLfileOpener.getInstance("requete").open(true);
 
+      //si l'utilisateur annule
       if (xmlFile == null) {
         if (c.getTournee().getLivraisons().length == 0)
           c.setCurrentState(c.etatCarteChargee);
@@ -24,11 +26,8 @@ public class EtatChargerRequete implements State {
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
         c.getTournee().setLivraisons(xmlToListeLivraison(xmlFile.getAbsolutePath()));
-        if (c.getTournee().getNbLivraisons() == 0) {
-          c.setCurrentState(c.etatCarteChargee);
-        } else {
-          c.setCurrentState(c.etatAuMoinsUneRequete);
-        }
+        //seul état possible : on ne peut pas sauvegarder 0 requêtes
+        c.setCurrentState(c.etatAuMoinsUneRequete);
       }
     } catch (Exception e) {
       e.printStackTrace();

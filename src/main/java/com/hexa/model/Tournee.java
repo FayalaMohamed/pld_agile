@@ -96,7 +96,6 @@ public class Tournee extends Observable {
 		this.notifyObservers(this);
 	}
 
-
 	/**
 	 * 
 	 * Construit le meilleur circuit pour réaliser la tournée à partir de la carte
@@ -252,12 +251,15 @@ public class Tournee extends Observable {
 	 * @param intersection
 	 */
 	public void supprimerLivraison(Intersection intersection) {
-		for (Livraison l : livraisons) {
-			System.out.println(l.toString());
-			if (l.getLieu() == intersection) {
-				livraisons.remove(l);
+		
+		Iterator<Livraison> it = livraisons.iterator();
+		while( it.hasNext()) {
+			Livraison livraison = it.next();
+			if (livraison.getLieu().equals(intersection)) {
+				it.remove();
 			}
 		}
+		
 		this.notifyObservers(this);
 	}
 

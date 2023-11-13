@@ -13,7 +13,7 @@ public class VueIntersection extends Observable {
     private Intersection intersection;
 
     private Color color = Color.BLUE;
-    private int rayon = 6;
+    private int rayon = 3;
     private Coordonnees coord;
 
     public VueIntersection(Intersection i, GraphicalView gv){
@@ -38,12 +38,12 @@ public class VueIntersection extends Observable {
     }
 
     public void afficherSelectionnee() {
-        color = Color.ORANGE;
-        dessinerVue();
+        rayon = 6;
+        color = Color.PINK;
     }
 
     public void afficherNonSelectionnee() {
+        rayon = 3;
         color = Color.BLUE;
-        dessinerVue();
     }
 }
