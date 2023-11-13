@@ -341,7 +341,6 @@ public class GraphicalView extends JPanel implements Observer {
    * 
    * @param coordonnees          correspond à la position actuel de la souris
    * @param dernieresCoordonnees correspond à la position de la souris
-   * @return
    */
   public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
     if (zoomFactor != 1.0) {

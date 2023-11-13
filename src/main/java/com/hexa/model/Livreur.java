@@ -36,9 +36,10 @@ public class Livreur {
     return id;
   }
 
-  
-  /** 
-   * @return Set<Tournee>
+
+  /**
+   *
+   * @return les tournées
    */
   public Set<Tournee> getTournees() {
     return tournees;

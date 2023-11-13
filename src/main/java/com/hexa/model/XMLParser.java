@@ -179,7 +179,7 @@ public class XMLParser {
    * throws une Exception.
    * 
    * @param path
-   * @return Set<Livraison>
+   * @return un set des livraisons
    * @throws Exception
    */
   public static Set<Livraison> xmlToListeLivraison(String path) throws Exception {

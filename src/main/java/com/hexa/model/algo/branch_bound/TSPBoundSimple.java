@@ -81,7 +81,7 @@ public class TSPBoundSimple extends TemplateTSP {
 	 * 
 	 * @param sommetCourant
 	 * @param unvisited
-	 * @return Iterator<Intersection>
+	 * @return un itérateur sur les intersections
 	 */
 	@Override
 	protected Iterator<Intersection> iterator(Intersection sommetCourant, List<Intersection> unvisited) {

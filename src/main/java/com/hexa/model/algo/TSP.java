@@ -5,11 +5,11 @@ import com.hexa.model.GrapheComplet;
 import com.hexa.model.Intersection;
 
 public interface TSP {
-	
+
 	/**
 	 * Recherche le circuit hamiltonien de cout minimal du graphe complet <code>g</code> en <code>timeLimit</code> millisecondes.
 	 * (retourne le meilleur circuit trouvé même si le temps limite est atteint)
-	 * @param limitTime
+	 * @param timeLimit
 	 * @param g
 	 */
 	public void searchSolution(int timeLimit, GrapheComplet g);
@@ -17,7 +17,7 @@ public interface TSP {
 	
 	/**
 	 * Retourne la iéme Intersection de la meilleure tournée possible
-	 * (null si i < 0 ou i >= nombre de sommets du graphe ou si le graphe de départ
+	 * (null si i est inférieur à  0 ou i ets supérieur ou égal au nombre de sommets du graphe ou si le graphe de départ
 	 * est null)
 	 * 
 	 * @param i

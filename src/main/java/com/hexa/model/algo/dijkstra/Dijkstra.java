@@ -142,7 +142,7 @@ public class Dijkstra implements ShortestPath {
 	/** Retourne la liste des Segments correspondant au chemin le plus court pour arriver 
 	 * à l'Intersection souhaitée à partir de l'Intersection de départ choisie pour faire le calcul
 	 * @param dest
-	 * @return List<Segment>
+	 * @return une liste de segments
 	 */
 	@Override
 	public List<Segment> getSolPath(Intersection dest) {

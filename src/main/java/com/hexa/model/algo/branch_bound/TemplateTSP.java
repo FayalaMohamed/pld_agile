@@ -69,7 +69,7 @@ abstract class TemplateTSP implements TSP {
 	
 	/**
 	 * Retourne la iéme Intersection de la meilleure tournée possible
-	 * (null si  i < 0 ou i >= nombre de sommets du graphe ou si le graphe de départ est null)
+	 * (null si  i est inférieur à  0 ou i supérieur ou égal au nombre de sommets du graphe ou si le graphe de départ est null)
 	 * 
 	 * @param i
 	 * @return Intersection

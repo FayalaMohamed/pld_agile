@@ -80,9 +80,10 @@ public class Tournee extends Observable {
 
   /**
    * Ajoute une intersection à la tournée après le calcul du plus court chemin
-   * 
-   * @param l
-   * @return boolean
+   * @param carte
+   * @param livraisonAjouter
+   * @param livraisonPrecedente
+   * @return
    * @throws TourneeException
    * @throws GrapheException
    */
@@ -228,7 +229,7 @@ public class Tournee extends Observable {
   }
 
   /**
-   * @return Iterator<Livraison>
+   * @return un itérateur sur les livraisons de la tournée
    */
   public Iterator<Livraison> getLivraisonIterator() {
     return livraisons.iterator();
@@ -238,7 +239,7 @@ public class Tournee extends Observable {
    * Met à jour les horaires de livraison et les plages horaires de tous les
    * points de livraison
    * 
-   * @param carte
+   * @param entrepot
    * @throws TourneeException
    */
   private void updateHeuresLivraison(Intersection entrepot) throws TourneeException {
@@ -459,7 +460,7 @@ public class Tournee extends Observable {
 
   
   /** 
-   * @return ArrayList<Segment>
+   * @return la liste des segments de la tournée
    */
   public ArrayList<Segment> getSegments() {
     ArrayList<Segment> segments = new ArrayList<Segment>();
