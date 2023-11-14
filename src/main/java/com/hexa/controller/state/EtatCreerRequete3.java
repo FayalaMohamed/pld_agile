@@ -26,6 +26,10 @@ public class EtatCreerRequete3 implements State {
     this.tournee = tournee;
   }
 
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
+
   /**
    * Parcourt les intersections de la carte du controlleur et si ça correspond à
    * une intersection qui appartient à la tournée (ou à l'entrepôt) passage à
@@ -52,9 +56,8 @@ public class EtatCreerRequete3 implements State {
         } catch (Exception ex) {
           ex.printStackTrace();
         }
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
+        c.switchToState(c.getEtatAuMoinsUneRequete());
         w.afficherMessage("Livraison Insérée !");
-        w.allow(true);
       }
     }
   }
@@ -67,7 +70,6 @@ public class EtatCreerRequete3 implements State {
    */
   public void clicDroit(Controller c, Window w) {
     w.afficherMessage("Création de requête annulée");
-    c.setCurrentState(c.getPreviousState());
-    w.allow(true);
+    c.switchToState(c.getPreviousState());
   }
 }

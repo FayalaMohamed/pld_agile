@@ -18,40 +18,39 @@ import com.hexa.view.Window;
  */
 public class EtatAuMoinsUneRequete implements State {
 
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
+
   public void creerRequete(Controller c, Window w) {
-    w.allow(false);
     w.afficherMessage("Cliquez sur une intersection pour créer la requête");
-    c.setCurrentState(c.getEtatCreerRequete1());
+    c.switchToState(c.getEtatCreerRequete1());
     c.setPreviousState(c.getEtatAuMoinsUneRequete());
   }
 
   public void chargerRequetes(Controller c, Window w) {
-    w.allow(false);
-    c.setCurrentState(c.getEtatChargerRequete());
+    c.switchToState(c.getEtatChargerRequete());
     c.entryAction();
   }
 
   public void supprimerRequete(Controller c, Window w) {
-    w.allow(false);
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
-        c.setCurrentState(c.getEtatSupprimerRequete());
+        c.switchToState(c.getEtatSupprimerRequete());
         return;
       }
     }
-    c.setCurrentState(c.getEtatCarteChargee());
+    c.switchToState(c.getEtatCarteChargee());
   }
 
   public void chargerCarte(Controller c, Window w) {
-    w.allow(false);
-    c.setCurrentState(c.getChargerCarte());
+    c.switchToState(c.getChargerCarte());
     c.setPreviousState(c.getEtatAuMoinsUneRequete());
     c.getChargerCarte().entryAction(c, w);
   }
 
   public void sauvegarderRequetes(Controller c, Window w) {
-    w.allow(false);
-    c.setCurrentState(c.getEtatSauvegarderRequete());
+    c.switchToState(c.getEtatSauvegarderRequete());
     c.entryAction();
   }
 
@@ -79,8 +78,9 @@ public class EtatAuMoinsUneRequete implements State {
       if (tournee.getLivraisons().length != 0) {
         return;
       }
+      c.switchToState(c.getEtatCarteChargee());
     }
-    c.setCurrentState(c.getEtatCarteChargee());
+
   }
 
   @Override
@@ -90,7 +90,7 @@ public class EtatAuMoinsUneRequete implements State {
       if (tournee.getLivraisons().length != 0) {
         return;
       }
+      c.switchToState(c.getEtatCarteChargee());
     }
-    c.setCurrentState(c.getEtatCarteChargee());
   }
 }

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.hexa.controller.Controller;
+import com.hexa.controller.command.ListOfCommands;
 import com.hexa.model.Graphe;
 import com.hexa.model.Tournee;
 import com.hexa.view.listener.BoxListener;
@@ -20,12 +21,18 @@ import com.hexa.model.Segment;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.hexa.controller.state.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class Window extends JFrame {
+import com.hexa.observer.Observable;
+import com.hexa.observer.Observer;
+
+public class Window extends JFrame implements Observer {
 
   // -------------------------------------------------------------------------------------------------
 
@@ -43,7 +50,8 @@ public class Window extends JFrame {
   private final String texteBoutons[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
       SAUVEGARDER_REQUETES, REDO, UNDO, CALCULER_TOURNEE };
 
-  private ArrayList<JButton> boutons;
+  // Une map qui associe à chaque indice de texteBoutons un bouton de l'IHM
+  private Map<String, JButton> boutons;
   private final int buttonHeight = 40;
   private final int buttonWidth = 250;
   private final int messageFrameHeight = 110;
@@ -56,13 +64,15 @@ public class Window extends JFrame {
 
   private MouseListener mouseListener;
   private ButtonListener buttonListener;
-  private ZoomHandler zoomHandler;
   private KeyboardListener keyboardListener;
+  private ZoomHandler zoomHandler;
 
   private int width;
   private int height;
 
   private Controller controller;
+  private boolean undoEnabled;
+  private boolean redoEnabled;
 
   // -------------------------------------------------------------------------------------------------
 
@@ -75,7 +85,7 @@ public class Window extends JFrame {
    * @param controller
    * @param t
    */
-  public Window(Controller controller) {
+  public Window(Controller controller, ListOfCommands listOfCommands) {
 
     super();
 
@@ -120,10 +130,12 @@ public class Window extends JFrame {
     addMouseMotionListener(mouseListener);
 
     keyboardListener = new KeyboardListener(controller);
-	addKeyListener(keyboardListener);
+    addKeyListener(keyboardListener);
 
     zoomHandler = new ZoomHandler(controller, graphicalView);
     addMouseWheelListener(zoomHandler);
+
+    listOfCommands.addObserver(this);
 
     setWindowSize();
     setVisible(true);
@@ -158,15 +170,68 @@ public class Window extends JFrame {
     messageFrame.setText(message);
   }
 
-  /**
-   * Activate buttons if b = true, unable them otherwise
-   * 
-   * @param b
-   */
-  public void allow(Boolean b) {
-    System.out.println("Buttons have been enabled : " + b);
-    for (JButton bouton : boutons)
-      bouton.setEnabled(b);
+  private final String texteBoutonss[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
+      SAUVEGARDER_REQUETES, REDO, UNDO, CALCULER_TOURNEE };
+
+  public void hideButtons(ChargerCarte etatChargerCarte) {
+    toggleAllButtons(false);
+  }
+
+  public void hideButtons(EtatAuMoinsUneRequete etatAuMoinsUneRequete) {
+    toggleAllButtons(true);
+  }
+
+  public void hideButtons(EtatCarteChargee etatCarteChargee) {
+    toggleAllButtons(true);
+    boutons.get(SUPPRIMER_REQUETES).setEnabled(false);
+    boutons.get(CALCULER_TOURNEE).setEnabled(false);
+    boutons.get(SAUVEGARDER_REQUETES).setEnabled(false);
+  }
+
+  public void hideButtons(EtatChargerRequete etatChargerRequete) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatCreerRequete1 etatCreerRequete1) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatCreerRequete2 etatCreerRequete2) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatCreerRequete3 etatCreerRequete3) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatSauvegarderRequete etatSauvegarderRequete) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatSupprimerRequete etatSupprimerRequete) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(InitialState InitialState) {
+    toggleAllButtons(false);
+    boutons.get(CHARGER_CARTE).setEnabled(true);
+  }
+
+  private void toggleAllButtons(boolean shown) {
+    for (JButton button : boutons.values()) {
+      button.setEnabled(shown);
+    }
+    System.out.println("UNDO : " + undoEnabled + " || REDO : " + redoEnabled);
+    if (shown) {
+      boutons.get(UNDO).setEnabled(undoEnabled);
+      boutons.get(REDO).setEnabled(redoEnabled);
+    }
   }
 
   /**
@@ -179,75 +244,75 @@ public class Window extends JFrame {
   }
 
   /**
-	 * En cas de clique à des coordonnées où plusieurs intersections sont possibles,
-	 * affiche une popup demandant de choisir.
-	 * 
-	 * @param choixPossibles
-	 * @return l'intersection choisi
-	 */
-	public Intersection popupChoixIntersections(List<Intersection> choixPossibles) {
-		class IntersectionWrapper {
-			Intersection intersection;
-			String desc;
+   * En cas de clique à des coordonnées où plusieurs intersections sont possibles,
+   * affiche une popup demandant de choisir.
+   * 
+   * @param choixPossibles
+   * @return l'intersection choisi
+   */
+  public Intersection popupChoixIntersections(List<Intersection> choixPossibles) {
+    class IntersectionWrapper {
+      Intersection intersection;
+      String desc;
 
-			public IntersectionWrapper(Intersection i) {
-				intersection = i;
-				buildDescription();
-			}
+      public IntersectionWrapper(Intersection i) {
+        intersection = i;
+        buildDescription();
+      }
 
-			private void buildDescription() {
-				Graphe carte = graphicalView.getGraphe();
+      private void buildDescription() {
+        Graphe carte = graphicalView.getGraphe();
 
-				Intersection[] successeurs = carte.getSuccesseur(intersection);
-				Intersection[] predecesseurs = carte.getPredecesseur(intersection);
+        Intersection[] successeurs = carte.getSuccesseur(intersection);
+        Intersection[] predecesseurs = carte.getPredecesseur(intersection);
 
-				desc = "";
-				boolean first = true;
-				for (Intersection succ : successeurs) {
+        desc = "";
+        boolean first = true;
+        for (Intersection succ : successeurs) {
 
-					addToDesc(intersection, succ, carte, first);
-					first = false;
+          addToDesc(intersection, succ, carte, first);
+          first = false;
 
-				}
+        }
 
-				for (Intersection pred : predecesseurs) {
+        for (Intersection pred : predecesseurs) {
 
-					addToDesc(pred, intersection, carte, first);
-					first = false;
+          addToDesc(pred, intersection, carte, first);
+          first = false;
 
-				}
+        }
 
-				desc += ".";
+        desc += ".";
 
-			}
+      }
 
-			private void addToDesc(Intersection origine, Intersection destination, Graphe carte, boolean first) {
-				String nom = carte.getNomSegment(new Segment(origine, destination));
+      private void addToDesc(Intersection origine, Intersection destination, Graphe carte, boolean first) {
+        String nom = carte.getNomSegment(new Segment(origine, destination));
 
-				if (!desc.contains(nom) || nom.equals("")) {
-					if (!first) {
-						desc += ", ";
-					}
-					desc += (nom.equals("") ? "Rue sans nom" : nom);
-				}
-			}
+        if (!desc.contains(nom) || nom.equals("")) {
+          if (!first) {
+            desc += ", ";
+          }
+          desc += (nom.equals("") ? "Rue sans nom" : nom);
+        }
+      }
 
-			public String toString() {
-				return desc;
-			}
-		}
+      public String toString() {
+        return desc;
+      }
+    }
 
-		List<IntersectionWrapper> choixPossiblesWrapped = choixPossibles.stream().map(IntersectionWrapper::new)
-				.collect(Collectors.toList());
-		System.out.println("window joption:" + choixPossibles);
-		System.out.println("window joption:" + choixPossiblesWrapped);
-		Object[] possibilities = choixPossiblesWrapped.toArray();
-		IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(this,
-				"Plusieurs intersections sont possibles.\n" + "Veuillez choisir une intersection :",
-				"Customized Dialog", JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
+    List<IntersectionWrapper> choixPossiblesWrapped = choixPossibles.stream().map(IntersectionWrapper::new)
+        .collect(Collectors.toList());
+    System.out.println("window joption:" + choixPossibles);
+    System.out.println("window joption:" + choixPossiblesWrapped);
+    Object[] possibilities = choixPossiblesWrapped.toArray();
+    IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(this,
+        "Plusieurs intersections sont possibles.\n" + "Veuillez choisir une intersection :",
+        "Customized Dialog", JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
 
-		return choix == null ? null : choix.intersection;
-	}
+    return choix == null ? null : choix.intersection;
+  }
 
   // -----------------------------------------------------------------------------------------------------------------------
 
@@ -276,11 +341,11 @@ public class Window extends JFrame {
   private void initBoutons(Controller controller) {
 
     buttonListener = new ButtonListener(controller);
-    boutons = new ArrayList<JButton>();
+    boutons = new TreeMap<String, JButton>();
 
     for (String text : texteBoutons) {
       JButton bouton = new JButton(text);
-      boutons.add(bouton);
+      boutons.put(text, bouton);
       bouton.setSize(buttonWidth, buttonHeight);
       bouton.setLocation(5, (boutons.size() - 1) * buttonHeight);
       bouton.setFocusable(false);
@@ -288,6 +353,13 @@ public class Window extends JFrame {
       bouton.addActionListener(buttonListener);
       getContentPane().add(bouton);
     }
+  }
+
+  public void update(Observable o, Object arg) {
+    undoEnabled = ((ListOfCommands) o).canUndo();
+    redoEnabled = ((ListOfCommands) o).canRedo();
+    boutons.get(UNDO).setEnabled(undoEnabled);
+    boutons.get(REDO).setEnabled(redoEnabled);
   }
 
 }

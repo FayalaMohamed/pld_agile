@@ -11,6 +11,9 @@ import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
+import java.io.File;
+
+import static com.hexa.model.XMLParser.xmlToListeLivraison;
 
 /**
  * Etat dans lequel se trouve l'application quand le chargement d'un ensemble de
@@ -18,64 +21,67 @@ import com.hexa.view.Window;
  * controller
  */
 public class EtatChargerRequete implements State {
-	public void entryAction(Controller c, Window w) {
-		try {
-			File xmlFile = XMLfileOpener.getInstance("requete").open(true);
 
-			if (xmlFile == null) {
-				for (Tournee tournee : c.getTournees()) {
-					if (tournee.getLivraisons().length != 0) {
-						c.setCurrentState(c.getEtatAuMoinsUneRequete());
-						break;
-					}
-					c.setCurrentState(c.getEtatCarteChargee());
-				}
-			} else {
-				// TODO c.getTournee().setCircuitCalculer(true);
-				int livreur = -1;
-				Set<Livraison> livraisons = xmlToListeLivraison(xmlFile.getAbsolutePath());
-				for (Livraison livraison : livraisons) {
-					livreur = livraison.getLivreur().getId();
-					break;
-				}
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
 
-				boolean livreurFound = false;
-				for (Tournee tournee : c.getTournees()) {
-					if (tournee.getLivreur().getId() == livreur) {
-						livreurFound = true;
-						tournee.setLivraisons(livraisons);
-						if (tournee.getNbLivraisons() == 0) {
-							c.setCurrentState(c.getEtatCarteChargee());
-						} else {
-							c.setCurrentState(c.getEtatAuMoinsUneRequete());
-						}
-						break;
-					}
-				}
-				if (!livreurFound) {
-					System.out.println("TOTO");
-					Tournee tournee = new Tournee();
-					tournee.setLivreur(new Livreur(livreur));
-					c.addTournee(tournee);
-					tournee.setLivraisons(livraisons);
-					if (tournee.getNbLivraisons() == 0) {
-						c.setCurrentState(c.getEtatCarteChargee());
-					} else {
-						c.setCurrentState(c.getEtatAuMoinsUneRequete());
-					}
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			for (Tournee tournee : c.getTournees()) {
-				if (tournee.getNbLivraisons() != 0) {
-					c.setCurrentState(c.getEtatAuMoinsUneRequete());
-					w.allow(true);
-					return;
-				}
-			}
-			c.setCurrentState(c.getEtatCarteChargee());
-		}
-		w.allow(true);
-	}
+  public void entryAction(Controller c, Window w) {
+    try {
+      File xmlFile = XMLfileOpener.getInstance("requete").open(true);
+
+      if (xmlFile == null) {
+        for (Tournee tournee : c.getTournees()) {
+          if (tournee.getLivraisons().length != 0) {
+            c.switchToState(c.getEtatAuMoinsUneRequete());
+            break;
+          }
+          c.switchToState(c.getEtatCarteChargee()); // TODO pourquoi ?
+        }
+      } else {
+        // TODO c.getTournee().setCircuitCalculer(true);
+        int livreur = -1;
+        Set<Livraison> livraisons = xmlToListeLivraison(xmlFile.getAbsolutePath());
+        for (Livraison livraison : livraisons) {
+          livreur = livraison.getLivreur().getId();
+          break;
+        }
+
+        boolean livreurFound = false;
+        for (Tournee tournee : c.getTournees()) {
+          if (tournee.getLivreur().getId() == livreur) {
+            livreurFound = true;
+            tournee.setLivraisons(livraisons);
+            if (tournee.getNbLivraisons() == 0) {
+              c.switchToState(c.getEtatCarteChargee());
+            } else {
+              c.switchToState(c.getEtatAuMoinsUneRequete());
+            }
+            break;
+          }
+        }
+        if (!livreurFound) {
+          System.out.println("TOTO");
+          Tournee tournee = new Tournee();
+          tournee.setLivreur(new Livreur(livreur));
+          c.addTournee(tournee);
+          tournee.setLivraisons(livraisons);
+          if (tournee.getNbLivraisons() == 0) {
+            c.switchToState(c.getEtatCarteChargee());
+          } else {
+            c.switchToState(c.getEtatAuMoinsUneRequete());
+          }
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      for (Tournee tournee : c.getTournees()) {
+        if (tournee.getNbLivraisons() != 0) {
+          c.switchToState(c.getEtatAuMoinsUneRequete());
+          return;
+        }
+      }
+      c.switchToState(c.getEtatCarteChargee());
+    }
+  }
 }

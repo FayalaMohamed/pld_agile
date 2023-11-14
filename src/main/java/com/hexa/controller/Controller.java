@@ -67,7 +67,7 @@ public class Controller {
 
     listOfCommands = new ListOfCommands();
 
-    window = new Window(this);
+    window = new Window(this, listOfCommands);
     window.afficherMessage("Choisissez une carte à afficher");
   }
 
@@ -87,8 +87,8 @@ public class Controller {
   }
 
   public ListOfCommands getListOfCommands() {
-		return listOfCommands;
-	}
+    return listOfCommands;
+  }
 
   public Graphe getCarte() {
     return carte;
@@ -140,10 +140,6 @@ public class Controller {
 
   // -----------------------------------------------------------------------------------------------------
 
-  public void setCurrentState(State s) {
-    currentState = s;
-  }
-
   public void setPreviousState(State s) {
     previousState = s;
   }
@@ -151,8 +147,6 @@ public class Controller {
   public void setCarte(Graphe carte) {
     this.carte = carte;
   }
-
-  // -----------------------------------------------------------------------------------------------------
 
   /**
    * Méthode appelée par la fenêtre après un défilement de la molette de souris
@@ -172,7 +166,7 @@ public class Controller {
    * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
    * 
    * @param coordonnees les coordonnées du clic gauche
- * @throws TourneeException 
+   * @throws TourneeException
    */
   public void clicGauche(Coordonnees coordonnees) throws TourneeException {
     currentState.clicGauche(this, window, coordonnees, listOfCommands);
@@ -213,22 +207,6 @@ public class Controller {
   }
 
   /**
-   * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la
-   * tournée"
-   */
-  public void calculerTournee() {
-    currentState.calculerTournee(this, window, listOfCommands);
-  }
-
-  /**
-   * Méthode appelée par la fenêtre après un clic sur le bouton "Créer une
-   * requête"
-   */
-  public void creerRequete() {
-    currentState.creerRequete(this, window);
-  }
-
-  /**
    * Méthode appelée par la fenêtre après un clic sur le bouton "Supprimer une
    * requête"
    */
@@ -237,11 +215,27 @@ public class Controller {
   }
 
   /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la
+   * tournée"
+   */
+  public void calculerTournee() {
+    currentState.calculerTournee(this, window, listOfCommands);
+  }
+
+  /**
    * Méthode appelée par la fenêtre après un clic sur le bouton "Sauvegarder les
    * requêtes"
    */
   public void sauvegarderRequetes() {
     currentState.sauvegarderRequetes(this, window);
+  }
+
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Créer une
+   * requête"
+   */
+  public void creerRequete() {
+    currentState.creerRequete(this, window);
   }
 
   /**
@@ -266,6 +260,15 @@ public class Controller {
    */
   public void redo() {
     currentState.redo(listOfCommands, this);
+  }
+
+  /**
+   * Switches to the state newState and executes the entry action of the new state
+   */
+  public void switchToState(State newState) {
+    currentState = newState;
+    System.out.println("[[|- NEW STATE : " + currentState);
+    currentState.entryAction(window);
   }
 
 }

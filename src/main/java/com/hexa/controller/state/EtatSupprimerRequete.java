@@ -1,5 +1,7 @@
 package com.hexa.controller.state;
 
+import com.hexa.model.Livraison;
+import com.hexa.view.Window;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.controller.command.SuppresionRequeteCommande;
@@ -23,12 +25,11 @@ public class EtatSupprimerRequete implements State {
     System.out.println("Annuler Supprimer Requête");
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getNbLivraisons() != 0) {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
-        w.allow(true);
+        c.switchToState(c.getEtatAuMoinsUneRequete());
         return;
       }
     }
-    c.setCurrentState(c.getEtatCarteChargee());
+    c.switchToState(c.getEtatCarteChargee());
   }
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) throws TourneeException {
@@ -58,14 +59,12 @@ public class EtatSupprimerRequete implements State {
 
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
-        w.allow(true);
+        c.switchToState(c.getEtatAuMoinsUneRequete());
         return;
       }
     }
 
-    c.setCurrentState(c.getEtatCarteChargee());
-    w.allow(true);
+    c.switchToState(c.getEtatCarteChargee());
 
   }
 
