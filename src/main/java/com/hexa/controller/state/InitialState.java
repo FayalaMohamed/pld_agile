@@ -1,5 +1,6 @@
-package com.hexa.controller;
+package com.hexa.controller.state;
 
+import com.hexa.controller.Controller;
 import com.hexa.view.Window;
 
 /**
@@ -9,9 +10,9 @@ public class InitialState implements State {
 
   public void chargerCarte(Controller c, Window w) {
     w.allow(false);
-    c.setCurrentState(c.chargerCarte);
-    c.setPreviousState(c.initialState);
-    c.chargerCarte.entryAction(c, w);
+    c.setCurrentState(c.getChargerCarte());
+    c.setPreviousState(c.getInitialState());
+    c.getChargerCarte().entryAction(c, w);
   }
 
 

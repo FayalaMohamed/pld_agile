@@ -8,21 +8,23 @@ import com.hexa.model.algo.dijkstra.Dijkstra;
 
 public class GrapheComplet extends Graphe {
 
+//------------------------------------------------------------------------------------------------------------------
+
 	/**
 	 * Table associant chaque segment du graphe complet avec le chemin emprunté pour
 	 * le créer
 	 */
 	private Map<Segment, Chemin> cheminsPlusCourt;
 
+//------------------------------------------------------------------------------------------------------------------
+
 	/**
 	 * Construit un graphe complet ayant pour sommet l'ensemble des lieux de
-	 * livraisons de la tournée.
-	 * Un segment entre deux intersections du graphe complet est le plus court
-	 * chemin entre ces deux intersections dans le graphe en paramètre du
-	 * constructeur
-	 * Chaque segment est calculé avec l'algorithme de Dijkstra.
-	 * Le chemin calculé pour aller d'un sommet à un autre est mémorisé dans une
-	 * table.
+	 * livraisons de la tournée. Un segment entre deux intersections du graphe
+	 * complet est le plus court chemin entre ces deux intersections dans le graphe
+	 * en paramètre du constructeur Chaque segment est calculé avec l'algorithme de
+	 * Dijkstra. Le chemin calculé pour aller d'un sommet à un autre est mémorisé
+	 * dans une table.
 	 * 
 	 * UnGrapheComplet hérite de Graphe
 	 * 
@@ -74,37 +76,42 @@ public class GrapheComplet extends Graphe {
 			sp.searchShortestPath(carte, depart, null);
 
 			s = new Segment(depart, entrepot, sp.getCost(entrepot), null);
-			
-			
 
 			super.ajouterSegment(s);
 
 			this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(entrepot)));
 
 			for (Intersection arrive : intersections) {
-				if (! arrive.equals(depart)) {
+				if (!arrive.equals(depart)) {
 					s = new Segment(depart, arrive, sp.getCost(arrive), null);
-					
+
 					if (sp.getCost(arrive) == Double.MAX_VALUE) {
 						System.out.println(depart.getId() + " " + arrive.getId());
 					}
-					
+
 					super.ajouterSegment(s);
 					this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(arrive)));
 				}
 			}
 		}
-		
+
 	}
 
-	/** Retourne le chemin (la liste des segments du graphe d'origine) correspondant un segment du graphe complet
+//------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Retourne le chemin (la liste des segments du graphe d'origine) correspondant
+	 * un segment du graphe complet
 	 * 
 	 * @param s un segment du graphe complet
-	 * @return le chemin le plus court pour aller de l'origine à la destination du Segment en paramètre
+	 * @return le chemin le plus court pour aller de l'origine à la destination du
+	 *         Segment en paramètre
 	 */
 	public Chemin getChemin(Segment s) {
 		return cheminsPlusCourt.get(s);
 	}
+
+//------------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Surcharge de la méthode de graphe afin de l'interdire pour un graphe complet
@@ -117,7 +124,9 @@ public class GrapheComplet extends Graphe {
 		throw new GrapheException("Impossible d'ajouter une intersection à un graphe complet");
 	}
 
-	/** Surcharge de la méthode de graphe afin de l'interdire pour un graphe complet
+	/**
+	 * Surcharge de la méthode de graphe afin de l'interdire pour un graphe complet
+	 * 
 	 * @param seg
 	 * @return true si n'est pas déjà présent dans le graphe
 	 */

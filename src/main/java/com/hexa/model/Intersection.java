@@ -2,133 +2,138 @@ package com.hexa.model;
 
 import java.util.*;
 
-/**
- * 
- */
 public class Intersection {
 
-  /**
-   * latitude réel fourni par le fichier XML
-   */
-  private double latitude;
+//-------------------------------------------------------------------------------------------------------------------------
 
-  /**
-   * longitude réel fourni par le fichier XML
-   */
-  private double longitude;
+	/**
+	 * latitude réel fourni par le fichier XML
+	 */
+	private double latitude;
 
-  /**
-   * identifient
-   */
-  protected Long id;
+	/**
+	 * longitude réel fourni par le fichier XML
+	 */
+	private double longitude;
 
-  /**
-   * @return double
-   */
-  public double getLatitude() {
-    return latitude;
-  }
+	/**
+	 * identifient
+	 */
+	protected Long id;
 
-  /**
-   * @return double
-   */
-  public double getLongitude() {
-    return longitude;
-  }
+//-------------------------------------------------------------------------------------------------------------------------
 
-  /**
-   * Une intersection est caractérisée par son id, sa longitude et sa latitude
-   * 
-   * @param id
-   * @param longitude
-   * @param latitude
-   */
-  public Intersection(Long id, double longitude, double latitude) {
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.id = id;
-  }
+	/**
+	 * Une intersection est caractérisée par son id, sa longitude et sa latitude
+	 * 
+	 * @param id
+	 * @param longitude
+	 * @param latitude
+	 */
+	public Intersection(Long id, double longitude, double latitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.id = id;
+	}
 
-  /**
-   * @return Long
-   */
-  public Long getId() {
-    return id;
-  }
+//-------------------------------------------------------------------------------------------------------------------------
 
-  /**
-   * Retourne le hash de l'id de l'intersection
-   * 
-   * @return int
-   */
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
+	/**
+	 * @return Long
+	 */
+	public Long getId() {
+		return id;
+	}
 
-  /**
-   * Retourne True si l'Intersection et l'Object donné en paramètre sont égaux :
-   * égaux si l'objet est de la classe Intersection et a le même id que
-   * l'Intersection appelante
-   * 
-   * @param obj
-   * @return boolean
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Intersection other = (Intersection) obj;
-    return id.equals(other.id);
-  }
+	/**
+	 * @return double
+	 */
+	public double getLatitude() {
+		return latitude;
+	}
 
-  /**
-   * Retourne une description textuelle correspondant à l'Intersection
-   * 
-   * @return String
-   */
-  public String toString() {
-    return ("id : " + id + " latitude : " + latitude + " longitude : " + longitude);
-  }
+	/**
+	 * @return double
+	 */
+	public double getLongitude() {
+		return longitude;
+	}
 
-  /**
-   * Retourne le tag XML correspondant à l'Intersection
-   * 
-   * @return String
-   */
-  public String toTag() {
-    return "<intersection id=\"" + id + "\" latitude=\"" + latitude + "\" longitude=\"" + longitude + "\"/>";
-  }
+//-------------------------------------------------------------------------------------------------------------------------
 
-  public String toStringNomSegments(Graphe g) {
-    String returnString = "";
-    Segment[] segments = g.getSegmentsFromIntersection(this);
+	/**
+	 * Retourne le hash de l'id de l'intersection
+	 * 
+	 * @return int
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 
-    returnString += printNomSegment(segments[0]);
-    for (int i = 1; i < segments.length; i++) {
-      boolean found = false;
-      for (int j = 0; j < i; j++) {
-        // Eviter les doublons
-        if (segments[i].getNom().strip().equals(segments[j].getNom().strip())) {
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        returnString += ", ";
-        returnString += (printNomSegment(segments[i]));
-      }
-    }
+	/**
+	 * Retourne True si l'Intersection et l'Object donné en paramètre sont égaux :
+	 * égaux si l'objet est de la classe Intersection et a le même id que
+	 * l'Intersection appelante
+	 * 
+	 * @param obj
+	 * @return boolean
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Intersection other = (Intersection) obj;
+		return id.equals(other.id);
+	}
 
-    return returnString + ".";
-  }
+	/**
+	 * Retourne une description textuelle correspondant à l'Intersection
+	 * 
+	 * @return String
+	 */
+	public String toString() {
+		return ("id : " + id + " latitude : " + latitude + " longitude : " + longitude);
+	}
 
-  private String printNomSegment(Segment s) {
-    return s.getNom().equals("") ? "Rue sans nom" : s.getNom();
-  }
+	/**
+	 * Retourne le tag XML correspondant à l'Intersection
+	 * 
+	 * @return String
+	 */
+	public String toTag() {
+		return "<intersection id=\"" + id + "\" latitude=\"" + latitude + "\" longitude=\"" + longitude + "\"/>";
+	}
+
+	public String toStringNomSegments(Graphe g) {
+		String returnString = "";
+		Segment[] segments = g.getSegmentsFromIntersection(this);
+
+		returnString += printNomSegment(segments[0]);
+		for (int i = 1; i < segments.length; i++) {
+			boolean found = false;
+			for (int j = 0; j < i; j++) {
+				// Eviter les doublons
+				if (segments[i].getNom().strip().equals(segments[j].getNom().strip())) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				returnString += ", ";
+				returnString += (printNomSegment(segments[i]));
+			}
+		}
+
+		return returnString + ".";
+	}
+
+	private String printNomSegment(Segment s) {
+		return s.getNom().equals("") ? "Rue sans nom" : s.getNom();
+	}
 
 }

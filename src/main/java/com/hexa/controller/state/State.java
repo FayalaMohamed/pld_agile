@@ -1,5 +1,7 @@
-package com.hexa.controller;
+package com.hexa.controller.state;
 
+import com.hexa.controller.Controller;
+import com.hexa.controller.command.ListOfCommands;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.GrapheException;
 import com.hexa.model.TourneeException;
@@ -21,8 +23,9 @@ public interface State {
    * @param c
    * @param w
    * @param Coordonnees
+ * @throws TourneeException
    */
-  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees, ListOfCommands l) {
+  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees, ListOfCommands l) throws TourneeException {
   }
 
   /**

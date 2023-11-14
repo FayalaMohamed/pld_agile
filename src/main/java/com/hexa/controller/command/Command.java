@@ -1,4 +1,4 @@
-package com.hexa.controller;
+package com.hexa.controller.command;
 
 public interface Command {
 
