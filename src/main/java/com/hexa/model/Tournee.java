@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.hexa.model.algo.AlgoException;
 import com.hexa.model.algo.ShortestPath;
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
@@ -135,12 +136,15 @@ public class Tournee extends Observable {
   }
 
   /**
-   * @param livraisons
-   */
-  public void setLivraisons(Set<Livraison> livraisons) {
-    this.livraisons = livraisons;
-    this.notifyObservers(this);
-  }
+
+	 * @param livraisons
+	 */
+	public void setLivraisons(Set<Livraison> livraisons) {
+		//this.livraisons = livraisons;
+		this.livraisons = new HashSet<Livraison>();
+		this.livraisons.addAll(livraisons);
+		this.notifyObservers(this);
+	}
 
   /**
    * Attribut un circuit à une tournée Méthode utile pour la fonctionnalité undo
@@ -190,17 +194,91 @@ public class Tournee extends Observable {
   }
 
   /**
+   * Supprime une livraison de la tournee et notifie les observeurs
+   * 
+   * @param livraison
+   * @throws TourneeException
+   */
+  public boolean supprimerLivraisonApresCalcul(Livraison livraison, Graphe carte) throws TourneeException {
+    if (!circuitCalculer
+        || !livraisons.contains(livraison)) {
+      return false;
+    }
+
+    livraisons.remove(livraison);
+    if (livraisons.size() == 0) {
+      circuit = null;
+      circuitCalculer = false;
+      finTourneeEstime = new int[2];
+      return true;
+    }
+
+    Intersection entrepot = carte.getEntrepot();
+
+    // Recherche de l'intersection précédente et suivante le lieu de livraison à
+    // supprimer dans le circuit original
+    circuit.reset();
+    boolean trouve = false;
+    Intersection intersectionDeLivraisonPrecedente = null;
+    Intersection intersectionDeLivraisonSuivante = null;
+    Segment iterator = null;
+    while (circuit.hasNext()) {
+      iterator = circuit.next();
+      if ((estLieuLivraison(iterator.getOrigine()) || iterator.getDestination() == entrepot) && !trouve) {
+        intersectionDeLivraisonPrecedente = iterator.getOrigine();
+      } else if (trouve && estLieuLivraison(iterator.getOrigine())) {
+        intersectionDeLivraisonSuivante = iterator.getOrigine();
+        break;
+      } else if (trouve && iterator.getDestination() == entrepot) {
+        intersectionDeLivraisonSuivante = iterator.getDestination();
+        break;
+      }
+      if (iterator.getOrigine() == livraison.getLieu()) {
+        trouve = true;
+      }
+    }
+
+    // calcul des temps et du delta à propager
+    ShortestPath dijkstra = new Dijkstra();
+    dijkstra.searchShortestPath(carte, intersectionDeLivraisonPrecedente, null);
+    Chemin cheminPreToSuiv = new Chemin(dijkstra.getSolPath(intersectionDeLivraisonSuivante));
+    double delta = temps.get(intersectionDeLivraisonSuivante) - temps.get(intersectionDeLivraisonPrecedente)
+        - dijkstra.getCost(intersectionDeLivraisonSuivante) / 1000.0 / 15.0 - 5.0 / 60.0;
+
+    temps.put(intersectionDeLivraisonSuivante, temps.get(intersectionDeLivraisonSuivante) - delta);
+    while (circuit.hasNext()) { // on reset pas le circuit mais on repart de là où on s'est arrété
+      iterator = circuit.next();
+      if (livraisons.contains(new Livraison(iterator.getOrigine()))) {
+        temps.put(iterator.getOrigine(), temps.get(iterator.getOrigine()) - delta);
+      }
+    }
+    temps.put(carte.getEntrepot(), temps.get(carte.getEntrepot()) - delta);
+    updateHeuresLivraison(carte.getEntrepot());
+
+    // MAJ du circuit en ajoutant le chemin calculé au bon endroit
+    MAJCircuitSuppressionApresCalcul(carte.getEntrepot(), intersectionDeLivraisonPrecedente,
+        intersectionDeLivraisonSuivante, cheminPreToSuiv);
+
+    // On notifie les observeurs que la tournée à changer
+    notifyObservers(this);
+
+    return true;
+  }
+
+  /**
    * 
    * Construit le meilleur circuit pour réaliser la tournée à partir de la carte
    *
    * @param carte
    * @throws TourneeException
    * @throws GrapheException
+ * @throws AlgoException 
    */
-  public void construireCircuit(Graphe carte) throws GrapheException, TourneeException {
+  public void construireCircuit(Graphe carte) throws GrapheException, TourneeException, AlgoException {
     if (circuitCalculer) {
       return;
     }
+
     // Création du graphe complet associé à la tournée
     GrapheComplet grapheComplet = new GrapheComplet(carte, this);
     TSP tsp = new TSPBoundSimple();
@@ -231,8 +309,6 @@ public class Tournee extends Observable {
     circuit = new Circuit(list);
     circuitCalculer = true;
 
-    genererFeuilleDeRoute(carte);
-
     this.notifyObservers(this);
   }
 
@@ -250,7 +326,7 @@ public class Tournee extends Observable {
    */
   public boolean ajouterLivraisonApresCalcul(Graphe carte, Livraison livraisonAjouter, Livraison livraisonPrecedente)
       throws TourneeException, GrapheException {
-    
+
     if (!circuitCalculer
         || (!livraisons.contains(livraisonPrecedente)
             && !carte.getEntrepot().equals(livraisonPrecedente.getLieu()))
@@ -315,10 +391,6 @@ public class Tournee extends Observable {
 
     // On notifie les observeurs que la tournée à changer
     notifyObservers(this);
-
-    // Regenerer feuille de route
-    genererFeuilleDeRoute(carte);
-
     return true;
   }
 
@@ -372,6 +444,49 @@ public class Tournee extends Observable {
         listSeg.add(seg);
       }
 
+    }
+
+    circuit = new Circuit(listChemin);
+  }
+
+  /**
+   * Rajoute au circuit une bifurcation après intersectionPrecedente (afin
+   * d'ajouter une livraison après calcul)
+   * 
+   * @param entrepot
+   * @param intersectionPrecedente
+   * @param cheminPreToNew
+   * @param cheminNewtoNext
+   */
+  private void MAJCircuitSuppressionApresCalcul(Intersection entrepot, Intersection intersectionPrecedente,
+      Intersection intersectionSuivante,
+      Chemin cheminPreToSuiv) {
+    ArrayList<Chemin> listChemin = new ArrayList<Chemin>();
+    ArrayList<Segment> listSeg = new ArrayList<Segment>();
+
+    circuit.reset();
+    boolean ignore = false;
+    while (circuit.hasNext()) {
+      Segment seg = circuit.next();
+
+      if (!ignore) {
+        listSeg.add(seg);
+      }
+
+      if (!ignore && livraisons.contains(new Livraison(seg.getDestination())) || entrepot.equals(seg.getDestination())) {
+        listChemin.add(new Chemin(listSeg));
+        listSeg.clear();
+      }
+
+      if (seg.getDestination() == intersectionPrecedente) {
+        listChemin.add(cheminPreToSuiv);
+
+        ignore = true;
+      }
+
+      if (seg.getDestination() == intersectionSuivante) {
+        ignore = false;
+      }
     }
 
     circuit = new Circuit(listChemin);

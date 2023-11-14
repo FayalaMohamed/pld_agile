@@ -2,8 +2,8 @@ package com.hexa.controller.state;
 
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
-import com.hexa.model.Tournee;
 import com.hexa.view.Window;
+import com.hexa.model.Tournee;
 
 /**
  * Etat dans lequel une carte est chargée mais aucune requête n'existe
@@ -13,22 +13,23 @@ import com.hexa.view.Window;
  */
 public class EtatCarteChargee implements State {
 
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
+
   public void creerRequete(Controller c, Window w) {
-    w.allow(false);
     w.afficherMessage("Cliquez sur une intersection pour créer la requête - Clic droit pour annuler");
-    c.setCurrentState(c.getEtatCreerRequete1());
+    c.switchToState(c.getEtatCreerRequete1());
     c.setPreviousState(c.getEtatCarteChargee());
   }
 
   public void chargerRequetes(Controller c, Window w) {
-    w.allow(false);
-    c.setCurrentState(c.getEtatChargerRequete());
+    c.switchToState(c.getEtatChargerRequete());
     c.entryAction();
   }
 
   public void chargerCarte(Controller c, Window w) {
-    w.allow(false);
-    c.setCurrentState(c.getChargerCarte());
+    c.switchToState(c.getChargerCarte());
     c.setPreviousState(c.getEtatCarteChargee());
     c.entryAction();
   }
@@ -37,7 +38,7 @@ public class EtatCarteChargee implements State {
     listOfCdes.undo();
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
+        c.switchToState(c.getEtatAuMoinsUneRequete());
         break;
       }
     }
@@ -47,7 +48,7 @@ public class EtatCarteChargee implements State {
     listOfCdes.redo();
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
+        c.switchToState(c.getEtatAuMoinsUneRequete());
         break;
       }
     }

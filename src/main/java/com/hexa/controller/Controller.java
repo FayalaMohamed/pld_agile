@@ -12,6 +12,7 @@ import com.hexa.controller.state.EtatCreerRequete2;
 import com.hexa.controller.state.EtatCreerRequete3;
 import com.hexa.controller.state.EtatSauvegarderRequete;
 import com.hexa.controller.state.EtatSupprimerRequete;
+import com.hexa.controller.state.EtatTourneeCalculee;
 import com.hexa.controller.state.InitialState;
 import com.hexa.controller.state.State;
 import com.hexa.model.Coordonnees;
@@ -50,9 +51,11 @@ public class Controller {
   // Undo - Redo
   private ListOfCommands listOfCommands;
 
-  private int nbLivreurs;
+  int nbLivreurs;
 
-  // -----------------------------------------------------------------------------------------------------
+  //Instances associées avec chacuns des états possibles pour le controlleur
+  
+  protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
   /**
    * Crée le controlleur de l'application
@@ -67,7 +70,7 @@ public class Controller {
 
     listOfCommands = new ListOfCommands();
 
-    window = new Window(this);
+    window = new Window(this, listOfCommands);
     window.afficherMessage("Choisissez une carte à afficher");
   }
 
@@ -88,6 +91,10 @@ public class Controller {
   public void addTournee(Tournee tournee) {
     tournee.addObserver(window.getGraphicalView());
     tournees.add(tournee);
+  }
+
+  public ListOfCommands getListOfCommands() {
+    return listOfCommands;
   }
 
   public Graphe getCarte() {
@@ -140,10 +147,6 @@ public class Controller {
 
   // -----------------------------------------------------------------------------------------------------
 
-  public void setCurrentState(State s) {
-    currentState = s;
-  }
-
   public void setPreviousState(State s) {
     previousState = s;
   }
@@ -151,8 +154,6 @@ public class Controller {
   public void setCarte(Graphe carte) {
     this.carte = carte;
   }
-
-  // -----------------------------------------------------------------------------------------------------
 
   /**
    * Méthode appelée par la fenêtre après un défilement de la molette de souris
@@ -170,10 +171,10 @@ public class Controller {
 
   /**
    * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
-   * 
    * @param coordonnees les coordonnées du clic gauche
+   * @throws TourneeException
    */
-  public void clicGauche(Coordonnees coordonnees) {
+  public void clicGauche(Coordonnees coordonnees) throws TourneeException {
     currentState.clicGauche(this, window, coordonnees, listOfCommands);
   }
 
@@ -206,25 +207,10 @@ public class Controller {
    * de livreurs"
    * 
    * @throws TourneeException
+ * @throws GrapheException 
    */
   public void choixLivreur(int livreur) throws TourneeException, GrapheException {
     currentState.choixLivreur(this, window, livreur, listOfCommands);
-  }
-
-  /**
-   * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la
-   * tournée"
-   */
-  public void calculerTournee() {
-    currentState.calculerTournee(this, window, listOfCommands);
-  }
-
-  /**
-   * Méthode appelée par la fenêtre après un clic sur le bouton "Créer une
-   * requête"
-   */
-  public void creerRequete() {
-    currentState.creerRequete(this, window);
   }
 
   /**
@@ -236,11 +222,27 @@ public class Controller {
   }
 
   /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la
+   * tournée"
+   */
+  public void calculerTournee() {
+    currentState.calculerTournee(this, window, listOfCommands);
+  }
+
+  /**
    * Méthode appelée par la fenêtre après un clic sur le bouton "Sauvegarder les
    * requêtes"
    */
   public void sauvegarderRequetes() {
     currentState.sauvegarderRequetes(this, window);
+  }
+
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Créer une
+   * requête"
+   */
+  public void creerRequete() {
+    currentState.creerRequete(this, window);
   }
 
   /**
@@ -261,10 +263,28 @@ public class Controller {
   }
 
   /**
-   * Method called by window after a click on the button "Redo"
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Générer la feuille de route"
+   */
+  public void genererFeuilleDeRoute() {
+    currentState.genererFeuilleDeRoute(this, window);
+  }
+
+  /**
+   * Méthode appelée par un état a lorsqu'il passe à un autre état b
+   * (après être passé dans l'état b)
+   * Correspond à la première action qui doit être effectuée quand on entre dans l'état
    */
   public void redo() {
     currentState.redo(listOfCommands, this);
+  }
+
+  /**
+   * Switches to the state newState and executes the entry action of the new state
+   */
+  public void switchToState(State newState) {
+    currentState = newState;
+    System.out.println("[[|- NEW STATE : " + currentState);
+    currentState.entryAction(window);
   }
 
 }

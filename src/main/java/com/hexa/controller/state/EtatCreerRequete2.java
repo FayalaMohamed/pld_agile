@@ -1,7 +1,5 @@
 package com.hexa.controller.state;
 
-import java.util.ArrayList;
-
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.controller.command.RequeteCommande;
@@ -12,6 +10,7 @@ import com.hexa.model.Livreur;
 import com.hexa.model.Tournee;
 import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
+import java.util.ArrayList;
 
 /**
  * Etat de l'application quand on se trouve dans la deuxième étape de la
@@ -24,9 +23,19 @@ import com.hexa.view.Window;
 public class EtatCreerRequete2 implements State {
 
   private Livraison livraison;
+  private Livraison livraisonPrecedente = null;
+
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
 
   public void entryAction(Intersection intersection) {
     livraison = new Livraison(intersection);
+  }
+
+  public void entryAction(Intersection intersectionAjouter, Intersection intersectionPrecedente) {
+    livraison = new Livraison(intersectionAjouter);
+    livraisonPrecedente = new Livraison(intersectionPrecedente);
   }
 
   public void choixLivreur(Controller c, Window w, int livreur, ListOfCommands listOfCommands)
@@ -55,15 +64,14 @@ public class EtatCreerRequete2 implements State {
     }
 
     if (tournee != null && tournee.estCalculee()) {
-      c.setCurrentState(c.getEtatCreerRequete3());
+      c.switchToState(c.getEtatCreerRequete3());
       c.getEtatCreerRequete3().entryAction(livraison, tournee);
       w.afficherMessage("Selectionnez la livraison après laquelle la nouvelle livraison sera insérée");
     } else if (tournee != null) {
       tournee.ajouterLivraison(livraison);
-      c.setCurrentState(c.getEtatAuMoinsUneRequete());
       w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
-      w.allow(true);
       listOfCommands.add(new RequeteCommande(tournee, livraison));
+      c.switchToState(c.getEtatAuMoinsUneRequete());
     }
   }
 
@@ -75,7 +83,6 @@ public class EtatCreerRequete2 implements State {
    */
   public void clicDroit(Controller c, Window w) {
     w.afficherMessage("Création de requête annulée");
-    c.setCurrentState(c.getPreviousState());
-    w.allow(true);
+    c.switchToState(c.getPreviousState());
   }
 }

@@ -1,5 +1,7 @@
 package com.hexa.controller.state;
 
+import com.hexa.model.Livraison;
+import com.hexa.view.Window;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.controller.command.SuppresionRequeteCommande;
@@ -7,6 +9,7 @@ import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
+import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
 
 /**
@@ -22,15 +25,14 @@ public class EtatSupprimerRequete implements State {
     System.out.println("Annuler Supprimer Requête");
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getNbLivraisons() != 0) {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
-        w.allow(true);
+        c.switchToState(c.getEtatAuMoinsUneRequete());
         return;
       }
     }
-    c.setCurrentState(c.getEtatCarteChargee());
+    c.switchToState(c.getEtatCarteChargee());
   }
 
-  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) {
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) throws TourneeException {
 
     for (Intersection intersection : c.getCarte().getIntersections()) {
       // TODO: When doing graphical view, refactor the method to compute coordinates
@@ -43,7 +45,13 @@ public class EtatSupprimerRequete implements State {
             continue;
           }
           System.out.println("Livraison supprimée");
-          tournee.supprimerLivraison(intersection);
+          
+          if (tournee.estCalculee()) {
+        	  tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+          }
+          else {
+        	  tournee.supprimerLivraison(intersection);
+          }
           listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
         }
       }
@@ -51,14 +59,12 @@ public class EtatSupprimerRequete implements State {
 
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
-        w.allow(true);
+        c.switchToState(c.getEtatAuMoinsUneRequete());
         return;
       }
     }
 
-    c.setCurrentState(c.getEtatCarteChargee());
-    w.allow(true);
+    c.switchToState(c.getEtatCarteChargee());
 
   }
 
