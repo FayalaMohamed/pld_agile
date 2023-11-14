@@ -8,55 +8,57 @@ import com.hexa.view.Window;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class EtatCreerRequete1 implements State {
 
-	public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
-		List<Intersection> intersectionsSelectionnees = new ArrayList<>();
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
 
-		for (Intersection intersection : c.getCarte().getIntersections()) {
-			Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
-			if (coord.equals(coordonneesSouris)) {
-				intersectionsSelectionnees.add(intersection);
-			}
-		}
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
+    List<Intersection> intersectionsSelectionnees = new ArrayList<>();
 
-		Intersection intersectionChoisie = null;
-		if (intersectionsSelectionnees.isEmpty()) {
-			w.afficherMessage("Veuillez cliquer sur une intersections valide.");
-		} else if (intersectionsSelectionnees.size() == 1) {
-			intersectionChoisie = intersectionsSelectionnees.get(0);
-		} else {
-			intersectionChoisie = w.popupChoixIntersections(intersectionsSelectionnees);
-			if (intersectionChoisie == null) {
-				w.afficherMessage("Vous n'avez pas choisi d'intersection.");
-				return;
-			}
-		}
-		if (!c.getTournee().estCalculee()) {
-			w.afficherMessage("Intersection sélectionnée pour la livraison : " + intersectionChoisie.toString()
-					+ "\nSélectionnez un livreur");
-			c.setCurrentState(c.getEtatCreerRequete2());
-			c.getEtatCreerRequete2().entryAction(intersectionChoisie);
-		} else if (c.getTournee().estCalculee()) {
-			w.afficherMessage("Intersection sélectionnée pour la livraison : " + intersectionChoisie.toString()
-					+ "\nSélectionnez la livraison après laquelle vous voulez l'insérer car vous avez déjà calculé la tournée");
-			c.getEtatCreerRequete3().entryAction(intersectionChoisie);
-			c.setCurrentState(c.getEtatCreerRequete3());
-		}
+    for (Intersection intersection : c.getCarte().getIntersections()) {
+      Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
+      if (coord.equals(coordonneesSouris)) {
+        intersectionsSelectionnees.add(intersection);
+      }
+    }
 
-	}
+    Intersection intersectionChoisie = null;
+    if (intersectionsSelectionnees.isEmpty()) {
+      w.afficherMessage("Veuillez cliquer sur une intersections valide.");
+    } else if (intersectionsSelectionnees.size() == 1) {
+      intersectionChoisie = intersectionsSelectionnees.get(0);
+    } else {
+      intersectionChoisie = w.popupChoixIntersections(intersectionsSelectionnees);
+      if (intersectionChoisie == null) {
+        w.afficherMessage("Vous n'avez pas choisi d'intersection.");
+        return;
+      }
+    }
+    if (!c.getTournee().estCalculee()) {
+      w.afficherMessage("Intersection sélectionnée pour la livraison : " + intersectionChoisie.toString()
+          + "\nSélectionnez un livreur");
+      c.switchToState(c.getEtatCreerRequete2());
+      c.getEtatCreerRequete2().entryAction(intersectionChoisie);
+    } else if (c.getTournee().estCalculee()) {
+      w.afficherMessage("Intersection sélectionnée pour la livraison : " + intersectionChoisie.toString()
+          + "\nSélectionnez la livraison après laquelle vous voulez l'insérer car vous avez déjà calculé la tournée");
+      c.getEtatCreerRequete3().entryAction(intersectionChoisie);
+      c.switchToState(c.getEtatCreerRequete3());
+    }
 
-	/**
-	 * Reset le state du controlleur au previousState
-	 * 
-	 * @param c
-	 * @param w
-	 */
-	public void clicDroit(Controller c, Window w) {
-		w.afficherMessage("Création de requête annulée");
-		c.setCurrentState(c.getPreviousState());
-		w.allow(true);
-	}
+  }
+
+  /**
+   * Reset le state du controlleur au previousState
+   * 
+   * @param c
+   * @param w
+   */
+  public void clicDroit(Controller c, Window w) {
+    w.afficherMessage("Création de requête annulée");
+    c.switchToState(c.getPreviousState());
+  }
 
 }

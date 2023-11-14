@@ -17,38 +17,35 @@ import com.hexa.model.Intersection;
  */
 public class EtatSupprimerRequete implements State {
 
-	public void clicDroit(Controller c, Window w) {
-		System.out.println("Annuler Supprimer Requête");
-		if (c.getTournee().getNbLivraisons() == 0) {
-			c.setCurrentState(c.getEtatCarteChargee());
-		} else {
-			c.setCurrentState(c.getEtatAuMoinsUneRequete());
-		}
-		w.allow(true);
-	}
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
 
-	public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) {
+  public void clicDroit(Controller c, Window w) {
+    if (c.getTournee().getNbLivraisons() == 0) {
+      c.switchToState(c.getEtatCarteChargee());
+    } else {
+      c.switchToState(c.getEtatAuMoinsUneRequete());
+    }
+  }
 
-		for (Intersection intersection : c.getCarte().getIntersections()) {
-			// TODO: When doing graphical view, refactor the method to compute coordinates
-			// not to duplicate code
-			Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
-			if (coord.equals(coordonneesSouris)) {
-				Livraison livraison = c.getTournee().getLivraison(intersection);
-				c.getTournee().supprimerLivraison(intersection);
-				listOfCommands.add(new SuppresionRequeteCommande(c.getTournee(), livraison));
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) {
 
-			}
-		}
+    for (Intersection intersection : c.getCarte().getIntersections()) {
+      Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
+      if (coord.equals(coordonneesSouris)) {
+        Livraison livraison = c.getTournee().getLivraison(intersection);
+        c.getTournee().supprimerLivraison(intersection);
+        listOfCommands.add(new SuppresionRequeteCommande(c.getTournee(), livraison));
 
-		if (c.getTournee().getLivraisons().length == 0) {
-			c.setCurrentState(c.getEtatCarteChargee());
-		} else {
-			c.setCurrentState(c.getEtatAuMoinsUneRequete());
-		}
+      }
+    }
 
-		w.allow(true);
-
-	}
+    if (c.getTournee().getLivraisons().length == 0) {
+      c.switchToState(c.getEtatCarteChargee());
+    } else {
+      c.switchToState(c.getEtatAuMoinsUneRequete());
+    }
+  }
 
 }

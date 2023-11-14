@@ -13,17 +13,20 @@ import java.io.File;
  */
 public class EtatSauvegarderRequete implements State {
 
-	public void entryAction(Controller c, Window w) {
-		try {
-			File xmlFile = XMLfileOpener.getInstance("requete").open(false);
-			if (xmlFile != null) {
-				XMLParser.listeLivraisonsToXml(xmlFile.getAbsolutePath(), (c.getTournee().getLivraisons()));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			c.setCurrentState(c.getEtatAuMoinsUneRequete());
-		}
-		w.allow(true);
-	}
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
+
+  public void entryAction(Controller c, Window w) {
+    try {
+      File xmlFile = XMLfileOpener.getInstance("requete").open(false);
+      if (xmlFile != null) {
+        XMLParser.listeLivraisonsToXml(xmlFile.getAbsolutePath(), (c.getTournee().getLivraisons()));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      c.switchToState(c.getEtatAuMoinsUneRequete());
+    }
+  }
 }

@@ -17,12 +17,14 @@ import com.hexa.view.listener.KeyboardListener;
 import com.hexa.view.listener.ZoomHandler;
 import com.hexa.model.Intersection;
 
-import java.util.ArrayList;
 import java.util.List;
+import com.hexa.controller.state.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Window extends JFrame {
 
@@ -42,7 +44,8 @@ public class Window extends JFrame {
   private final String texteBoutons[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
       SAUVEGARDER_REQUETES, REDO, UNDO, CALCULER_TOURNEE };
 
-  private ArrayList<JButton> boutons;
+  // Une map qui associe à chaque indice de texteBoutons un bouton de l'IHM
+  private Map<String, JButton> boutons;
   private final int buttonHeight = 40;
   private final int buttonWidth = 250;
   private final int messageFrameHeight = 110;
@@ -149,15 +152,63 @@ public class Window extends JFrame {
     messageFrame.setText(message);
   }
 
-  /**
-   * Activate buttons if b = true, unable them otherwise
-   * 
-   * @param b
-   */
-  public void allow(Boolean b) {
-    System.out.println("Buttons have been enabled : " + b);
-    for (JButton bouton : boutons)
-      bouton.setEnabled(b);
+  private final String texteBoutonss[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
+      SAUVEGARDER_REQUETES, REDO, UNDO, CALCULER_TOURNEE };
+
+  public void hideButtons(ChargerCarte etatChargerCarte) {
+    toggleAllButtons(false);
+  }
+
+  public void hideButtons(EtatAuMoinsUneRequete etatAuMoinsUneRequete) {
+    toggleAllButtons(true);
+  }
+
+  public void hideButtons(EtatCarteChargee etatCarteChargee) {
+    toggleAllButtons(true);
+    boutons.get(SUPPRIMER_REQUETES).setEnabled(false);
+    boutons.get(CALCULER_TOURNEE).setEnabled(false);
+    boutons.get(SAUVEGARDER_REQUETES).setEnabled(false);
+  }
+
+  public void hideButtons(EtatChargerRequete etatChargerRequete) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatCreerRequete1 etatCreerRequete1) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatCreerRequete2 etatCreerRequete2) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatCreerRequete3 etatCreerRequete3) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatSauvegarderRequete etatSauvegarderRequete) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(EtatSupprimerRequete etatSupprimerRequete) {
+    toggleAllButtons(false);
+
+  }
+
+  public void hideButtons(InitialState InitialState) {
+    toggleAllButtons(false);
+    boutons.get(CHARGER_CARTE).setEnabled(true);
+  }
+
+  private void toggleAllButtons(boolean shown) {
+    for (JButton button : boutons.values()) {
+      button.setEnabled(shown);
+    }
   }
 
   /**
@@ -232,11 +283,11 @@ public class Window extends JFrame {
   private void initBoutons(Controller controller) {
 
     buttonListener = new ButtonListener(controller);
-    boutons = new ArrayList<JButton>();
+    boutons = new TreeMap<String, JButton>();
 
     for (String text : texteBoutons) {
       JButton bouton = new JButton(text);
-      boutons.add(bouton);
+      boutons.put(text, bouton);
       bouton.setSize(buttonWidth, buttonHeight);
       bouton.setLocation(5, (boutons.size() - 1) * buttonHeight);
       bouton.setFocusable(false);

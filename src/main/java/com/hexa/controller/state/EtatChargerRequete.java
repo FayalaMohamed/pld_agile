@@ -13,32 +13,36 @@ import static com.hexa.model.XMLParser.xmlToListeLivraison;
  * --> entryAction charge un fichier de requêtes dans le controller
  */
 public class EtatChargerRequete implements State {
+
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
+
   public void entryAction(Controller c, Window w) {
     try {
       File xmlFile = XMLfileOpener.getInstance("requete").open(true);
 
       if (xmlFile == null) {
         if (c.getTournee().getLivraisons().length == 0)
-          c.setCurrentState(c.getEtatCarteChargee());
+          c.switchToState(c.getEtatCarteChargee());
         else
-          c.setCurrentState(c.getEtatAuMoinsUneRequete());
+          c.switchToState(c.getEtatAuMoinsUneRequete());
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
         c.getTournee().setLivraisons(xmlToListeLivraison(xmlFile.getAbsolutePath()));
         if (c.getTournee().getNbLivraisons() == 0) {
-          c.setCurrentState(c.getEtatCarteChargee());
+          c.switchToState(c.getEtatCarteChargee());
         } else {
-          c.setCurrentState(c.getEtatAuMoinsUneRequete());
+          c.switchToState(c.getEtatAuMoinsUneRequete());
         }
       }
     } catch (Exception e) {
       e.printStackTrace();
       if (c.getTournee().getNbLivraisons() == 0) {
-        c.setCurrentState(c.getEtatCarteChargee());
+        c.switchToState(c.getEtatCarteChargee());
       } else {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
+        c.switchToState(c.getEtatAuMoinsUneRequete());
       }
     }
-    w.allow(true);
   }
 }
