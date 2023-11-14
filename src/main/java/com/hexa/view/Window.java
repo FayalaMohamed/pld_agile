@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.hexa.controller.Controller;
+import com.hexa.controller.command.ListOfCommands;
 import com.hexa.model.Graphe;
 import com.hexa.model.Tournee;
 import com.hexa.view.listener.BoxListener;
@@ -26,7 +27,10 @@ import javax.swing.JComboBox;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Window extends JFrame {
+import com.hexa.observer.Observable;
+import com.hexa.observer.Observer;
+
+public class Window extends JFrame implements Observer {
 
   // -------------------------------------------------------------------------------------------------
 
@@ -64,6 +68,9 @@ public class Window extends JFrame {
   private int width;
   private int height;
 
+  private boolean undoEnabled;
+  private boolean redoEnabled;
+
   // -------------------------------------------------------------------------------------------------
 
   /**
@@ -75,7 +82,7 @@ public class Window extends JFrame {
    * @param controller
    * @param t
    */
-  public Window(Controller controller, Tournee t) {
+  public Window(Controller controller, Tournee t, ListOfCommands listOfCommands) {
 
     super();
 
@@ -122,6 +129,8 @@ public class Window extends JFrame {
 
     zoomHandler = new ZoomHandler(controller, graphicalView);
     addMouseWheelListener(zoomHandler);
+
+    listOfCommands.addObserver(this);
 
     setWindowSize();
     setVisible(true);
@@ -209,6 +218,11 @@ public class Window extends JFrame {
     for (JButton button : boutons.values()) {
       button.setEnabled(shown);
     }
+    System.out.println("UNDO : " + undoEnabled + " || REDO : " + redoEnabled);
+    if (shown) {
+      boutons.get(UNDO).setEnabled(undoEnabled);
+      boutons.get(REDO).setEnabled(redoEnabled);
+    }
   }
 
   /**
@@ -294,6 +308,14 @@ public class Window extends JFrame {
       bouton.setFocusPainted(false);
       bouton.addActionListener(buttonListener);
       getContentPane().add(bouton);
+    }
+  }
+
+  public void update(Observable o, Object arg) {
+    undoEnabled = ((ListOfCommands) o).canUndo();
+    redoEnabled = ((ListOfCommands) o).canRedo();
+    if (!redoEnabled) {
+      boutons.get(REDO).setEnabled(false);
     }
   }
 

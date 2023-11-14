@@ -62,7 +62,7 @@ public class Controller {
 
     listOfCommands = new ListOfCommands();
 
-    window = new Window(this, tournee);
+    window = new Window(this, tournee, listOfCommands);
 
     switchToState(initialState);
     previousState = initialState;

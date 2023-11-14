@@ -60,8 +60,8 @@ public class EtatCreerRequete2 implements State {
       tournee.ajouterLivraison(livraison);
     }
     w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
-    c.switchToState(c.getEtatAuMoinsUneRequete());
     listOfCommands.add(new RequeteCommande(tournee, livraison));
+    c.switchToState(c.getEtatAuMoinsUneRequete());
   }
 
   /**
