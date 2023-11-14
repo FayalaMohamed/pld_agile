@@ -8,7 +8,12 @@ import com.hexa.view.Window;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class EtatCreerRequete1 implements State {
+
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
     List<Intersection> intersectionsSelectionnees = new ArrayList<>();
@@ -34,14 +39,14 @@ public class EtatCreerRequete1 implements State {
     }
     w.afficherMessage("Intersection sélectionnée pour la livraison : " + intersectionChoisie.toString()
         + "\nSélectionnez un livreur");
-    c.setCurrentState(c.getEtatCreerRequete2());
+    c.switchToState(c.getEtatCreerRequete2());
     c.getEtatCreerRequete2().entryAction(intersectionChoisie);
 
     // if (!c.getTournee().estCalculee()) {
     // w.afficherMessage("Intersection sélectionnée pour la livraison : " +
     // intersectionChoisie.toString()
     // + "\nSélectionnez un livreur");
-    // c.setCurrentState(c.getEtatCreerRequete2());
+    // c.switchToState(c.getEtatCreerRequete2());
     // c.getEtatCreerRequete2().entryAction(intersectionChoisie);
     // } else if (c.getTournee().estCalculee()) {
     // w.afficherMessage("Intersection sélectionnée pour la livraison : " +
@@ -49,7 +54,7 @@ public class EtatCreerRequete1 implements State {
     // + "\nSélectionnez la livraison après laquelle vous voulez l'insérer car vous
     // avez déjà calculé la tournée");
     // c.getEtatCreerRequete3().entryAction(intersectionChoisie);
-    // c.setCurrentState(c.getEtatCreerRequete3());
+    // c.switchToState(c.getEtatCreerRequete3());
     // }
 
   }
@@ -62,8 +67,7 @@ public class EtatCreerRequete1 implements State {
    */
   public void clicDroit(Controller c, Window w) {
     w.afficherMessage("Création de requête annulée");
-    c.setCurrentState(c.getPreviousState());
-    w.allow(true);
+    c.switchToState(c.getPreviousState());
   }
 
 }

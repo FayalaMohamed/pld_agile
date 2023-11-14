@@ -11,6 +11,9 @@ import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
+import java.io.File;
+
+import static com.hexa.model.XMLParser.xmlToListeLivraison;
 
 /**
  * Etat dans lequel se trouve l'application quand le chargement d'un ensemble de
@@ -18,6 +21,11 @@ import com.hexa.view.Window;
  * --> entryAction charge un fichier de requêtes dans le controller
  */
 public class EtatChargerRequete implements State {
+
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
+
   public void entryAction(Controller c, Window w) {
     try {
       File xmlFile = XMLfileOpener.getInstance("requete").open(true);
@@ -25,11 +33,10 @@ public class EtatChargerRequete implements State {
       if (xmlFile == null) {
         for (Tournee tournee : c.getTournees()) {
           if (tournee.getLivraisons().length != 0) {
-            c.setCurrentState(c.getEtatAuMoinsUneRequete());
+            c.switchToState(c.getEtatAuMoinsUneRequete());
             break;
           }
-          c.setCurrentState(c.getEtatCarteChargee());
-        }
+          c.switchToState(c.getEtatCarteChargee());
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
         int livreur = -1;
@@ -45,9 +52,9 @@ public class EtatChargerRequete implements State {
             livreurFound = true;
             tournee.setLivraisons(livraisons);
             if (tournee.getNbLivraisons() == 0) {
-              c.setCurrentState(c.getEtatCarteChargee());
+              c.switchToState(c.getEtatCarteChargee());
             } else {
-              c.setCurrentState(c.getEtatAuMoinsUneRequete());
+              c.switchToState(c.getEtatAuMoinsUneRequete());
             }
             break;
           }
@@ -59,9 +66,9 @@ public class EtatChargerRequete implements State {
           c.addTournee(tournee);
           tournee.setLivraisons(livraisons);
           if (tournee.getNbLivraisons() == 0) {
-            c.setCurrentState(c.getEtatCarteChargee());
+            c.switchToState(c.getEtatCarteChargee());
           } else {
-            c.setCurrentState(c.getEtatAuMoinsUneRequete());
+            c.switchToState(c.getEtatAuMoinsUneRequete());
           }
         }
       }
@@ -69,13 +76,12 @@ public class EtatChargerRequete implements State {
       e.printStackTrace();
       for (Tournee tournee : c.getTournees()) {
         if (tournee.getNbLivraisons() != 0) {
-          c.setCurrentState(c.getEtatAuMoinsUneRequete());
+          c.switchToState(c.getEtatAuMoinsUneRequete());
           w.allow(true);
           return;
         }
       }
-      c.setCurrentState(c.getEtatCarteChargee());
+      c.switchToState(c.getEtatCarteChargee());
     }
-    w.allow(true);
   }
 }

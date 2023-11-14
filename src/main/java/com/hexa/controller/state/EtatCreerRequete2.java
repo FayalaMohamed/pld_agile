@@ -1,7 +1,5 @@
 package com.hexa.controller.state;
 
-import java.util.ArrayList;
-
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.controller.command.RequeteCommande;
@@ -16,18 +14,27 @@ import com.hexa.view.Window;
 /**
  * Etat de l'application quand on se trouve dans la deuxième étape de la
  * création d'une requête
- * --> entryAction initialise la livraison avec l'intersection choisie à l'étape
- * 1
+ * --> entryAction initialise la livraison avec l'intersection choisie à l'étape 1
  * --> choixLivreur complète la nouvelle livraison en lui assignant un livreur
  * --> clicDroit annule la création de requête et revient à etatCarteChargee
  */
 public class EtatCreerRequete2 implements State {
 
-  private Livraison livraison;
+	private Livraison livraison;
+	private Livraison livraisonPrecedente = null;
 
-  public void entryAction(Intersection intersection) {
-    livraison = new Livraison(intersection);
+  public void entryAction(Window w) {
+    w.hideButtons(this);
   }
+
+	public void entryAction(Intersection intersection) {
+		livraison = new Livraison(intersection);
+	}
+
+	public void entryAction(Intersection intersectionAjouter, Intersection intersectionPrecedente) {
+		livraison = new Livraison(intersectionAjouter);
+		livraisonPrecedente = new Livraison(intersectionPrecedente);
+	}
 
   public void choixLivreur(Controller c, Window w, int livreur, ListOfCommands listOfCommands)
       throws TourneeException, GrapheException {
@@ -55,27 +62,25 @@ public class EtatCreerRequete2 implements State {
     }
 
     if (tournee != null && tournee.estCalculee()) {
-      c.setCurrentState(c.getEtatCreerRequete3());
+      c.switchToState(c.getEtatCreerRequete3());
       c.getEtatCreerRequete3().entryAction(livraison, tournee);
       w.afficherMessage("Selectionnez la livraison après laquelle la nouvelle livraison sera insérée");
     } else if (tournee != null) {
       tournee.ajouterLivraison(livraison);
-      c.setCurrentState(c.getEtatAuMoinsUneRequete());
       w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
-      w.allow(true);
       listOfCommands.add(new RequeteCommande(tournee, livraison));
+      c.switchToState(c.getEtatAuMoinsUneRequete());
     }
   }
 
-  /**
-   * Reset le state du controlleur au previousState
-   * 
-   * @param c
-   * @param w
-   */
-  public void clicDroit(Controller c, Window w) {
-    w.afficherMessage("Création de requête annulée");
-    c.setCurrentState(c.getPreviousState());
-    w.allow(true);
-  }
+	/**
+	 * Reset le state du controlleur au previousState
+	 * 
+	 * @param c
+	 * @param w
+	 */
+	public void clicDroit(Controller c, Window w) {
+		w.afficherMessage("Création de requête annulée");
+		c.switchToState(c.getPreviousState());
+	}
 }

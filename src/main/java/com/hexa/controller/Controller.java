@@ -138,11 +138,11 @@ public class Controller {
     return etatSauvegarderRequete;
   }
 
-  // -----------------------------------------------------------------------------------------------------
+	public void setCarte(Graphe carte) {
+		this.carte = carte;
+	}
 
-  public void setCurrentState(State s) {
-    currentState = s;
-  }
+// -----------------------------------------------------------------------------------------------------
 
   public void setPreviousState(State s) {
     previousState = s;
@@ -152,7 +152,14 @@ public class Controller {
     this.carte = carte;
   }
 
-  // -----------------------------------------------------------------------------------------------------
+	/**
+	 * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
+	 * 
+	 * @param coordonnees les coordonnées du clic gauche
+	 */
+	public void clicGauche(Coordonnees coordonnees) {
+		currentState.clicGauche(this, window, coordonnees, listOfCommands);
+	}
 
   /**
    * Méthode appelée par la fenêtre après un défilement de la molette de souris
@@ -213,27 +220,19 @@ public class Controller {
   }
 
   /**
-   * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la
-   * tournée"
-   */
-  public void calculerTournee() {
-    currentState.calculerTournee(this, window, listOfCommands);
-  }
-
-  /**
-   * Méthode appelée par la fenêtre après un clic sur le bouton "Créer une
-   * requête"
-   */
-  public void creerRequete() {
-    currentState.creerRequete(this, window);
-  }
-
-  /**
    * Méthode appelée par la fenêtre après un clic sur le bouton "Supprimer une
    * requête"
    */
   public void supprimerRequete() {
     currentState.supprimerRequete(this, window);
+  }
+
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la
+   * tournée"
+   */
+  public void calculerTournee() {
+    currentState.calculerTournee(this, window, listOfCommands);
   }
 
   /**
@@ -245,13 +244,19 @@ public class Controller {
   }
 
   /**
-   * Méthode appelée par un état a lorsqu'il passe à un autre état b (après être
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Créer une
+   * requête"
+   */
+  public void creerRequete() {
+    currentState.creerRequete(this, window);
+  }
+
+* Méthode appelée par un état a lorsqu'il passe à un autre état b (après être
    * passé dans l'état b) Correspond à la première action qui doit être effectuée
    * quand on entre dans l'état
    */
   public void entryAction() {
     currentState.entryAction(this, window);
-  }
 
   /**
    * Method called by window after a click on the button "Undo"
@@ -266,6 +271,15 @@ public class Controller {
    */
   public void redo() {
     currentState.redo(listOfCommands, this);
+  }
+
+  /**
+   * Switches to the state newState and executes the entry action of the new state
+   */
+  public void switchToState(State newState) {
+    currentState = newState;
+    System.out.println("[[|- NEW STATE : " + currentState);
+    currentState.entryAction(window);
   }
 
 }
