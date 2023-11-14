@@ -1,9 +1,13 @@
 package com.hexa.controller.state;
 
 import com.hexa.controller.Controller;
+import com.hexa.controller.command.ChargementRequetesCommande;
+import com.hexa.controller.command.ListOfCommands;
+import com.hexa.model.Livraison;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
 import java.io.File;
+import java.util.Set;
 
 import static com.hexa.model.XMLParser.xmlToListeLivraison;
 
@@ -24,7 +28,9 @@ public class EtatChargerRequete implements State {
           c.setCurrentState(c.getEtatAuMoinsUneRequete());
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
-        c.getTournee().setLivraisons(xmlToListeLivraison(xmlFile.getAbsolutePath()));
+        Set<Livraison> livraisons = xmlToListeLivraison(xmlFile.getAbsolutePath());
+        c.getTournee().setLivraisons(livraisons);
+        c.getListOfCommands().add(new ChargementRequetesCommande(c.getTournee(),livraisons));
         if (c.getTournee().getNbLivraisons() == 0) {
           c.setCurrentState(c.getEtatCarteChargee());
         } else {

@@ -1,19 +1,22 @@
 package com.hexa.controller.command;
 
 import com.hexa.model.Circuit;
+import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
 
-public class CircuitCommande implements Command{
+public class AjoutRequeteApresCircuit implements Command{
 
     private Tournee tournee;
 
-   private Circuit circuit;
+    private Circuit circuit;
+
+    private Livraison livraison;
 
     /**
      * Cree une commande qui ajoute une Livraison livraison dans une Tournee tournee
      * @param tournee correspond à la tourné où on ajoute une livraison
      */
-    public CircuitCommande(Tournee tournee,Circuit circuit) {
+    public AjoutRequeteApresCircuit(Tournee tournee, Circuit circuit, Livraison livraison) {
         this.tournee = tournee;
         this.circuit = circuit;
     }

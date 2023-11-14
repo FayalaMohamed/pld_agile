@@ -82,8 +82,11 @@ public class Controller {
 	public Graphe getCarte() {
 		return carte;
 	}
-	
-	
+
+	public ListOfCommands getListOfCommands() {
+		return listOfCommands;
+	}
+
 	public State getPreviousState() {
 		return previousState;
 	}
