@@ -36,6 +36,11 @@ public class EtatCreerRequete1 implements State {
         return;
       }
     }
+
+    if (intersectionChoisie == null) {
+      return;
+    }
+
     if (!c.getTournee().estCalculee()) {
       w.afficherMessage("Intersection sélectionnée pour la livraison : " + intersectionChoisie.toString()
           + "\nSélectionnez un livreur");
