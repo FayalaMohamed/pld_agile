@@ -55,10 +55,10 @@ public class EtatAuMoinsUneRequete implements State {
 		try {
 			c.getTournee().construireCircuit(c.getCarte());
 			w.afficherMessage("Tournée calculée");
-			w.getGraphicalView().repaint();
 			listOfCdes.add(new CircuitCommande(c.getTournee(), c.getTournee().getCircuit()));
 		} catch (Exception e) {
 			e.printStackTrace();
+			w.afficherMessage(e.getMessage());
 		}
 	}
 

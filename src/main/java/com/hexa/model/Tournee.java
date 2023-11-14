@@ -313,6 +313,9 @@ public class Tournee extends Observable {
 
 		// On notifie les observeurs que la tournée à changer
 		notifyObservers(this);
+		
+		//Regenerer feuille de route
+		genererFeuilleDeRoute(carte);
 
 		return true;
 	}
