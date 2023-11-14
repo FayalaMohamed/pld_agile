@@ -70,6 +70,11 @@ public class Tournee extends Observable {
 		return circuitCalculer;
 	}
 
+	public void setCircuitCalculer(boolean circuitCalculer) {
+		this.circuitCalculer = circuitCalculer;
+		this.notifyObservers(this);
+	}
+
 	/**
 	 * 
 	 * @param inter
@@ -139,7 +144,9 @@ public class Tournee extends Observable {
 	 * @param livraisons
 	 */
 	public void setLivraisons(Set<Livraison> livraisons) {
-		this.livraisons = livraisons;
+		//this.livraisons = livraisons;
+		this.livraisons = new HashSet<Livraison>();
+		this.livraisons.addAll(livraisons);
 		this.notifyObservers(this);
 	}
 
