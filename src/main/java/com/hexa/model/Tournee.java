@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.hexa.model.algo.AlgoException;
 import com.hexa.model.algo.ShortestPath;
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
@@ -270,8 +271,9 @@ public class Tournee extends Observable {
    * @param carte
    * @throws TourneeException
    * @throws GrapheException
+ * @throws AlgoException 
    */
-  public void construireCircuit(Graphe carte) throws GrapheException, TourneeException {
+  public void construireCircuit(Graphe carte) throws GrapheException, TourneeException, AlgoException {
     if (circuitCalculer) {
       return;
     }
