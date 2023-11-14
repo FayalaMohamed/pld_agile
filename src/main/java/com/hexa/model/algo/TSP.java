@@ -11,8 +11,9 @@ public interface TSP {
 	 * (retourne le meilleur circuit trouvé même si le temps limite est atteint)
 	 * @param timeLimit
 	 * @param g
+	 * @throws AlgoException 
 	 */
-	public void searchSolution(int timeLimit, GrapheComplet g);
+	public void searchSolution(int timeLimit, GrapheComplet g) throws AlgoException;
 	
 	
 	/**
