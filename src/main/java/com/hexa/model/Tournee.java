@@ -198,7 +198,9 @@ public class Tournee extends Observable {
    * @throws GrapheException
    */
   public void construireCircuit(Graphe carte) throws GrapheException, TourneeException {
-
+    if (circuitCalculer) {
+      return;
+    }
     // Création du graphe complet associé à la tournée
     GrapheComplet grapheComplet = new GrapheComplet(carte, this);
     TSP tsp = new TSPBoundSimple();
