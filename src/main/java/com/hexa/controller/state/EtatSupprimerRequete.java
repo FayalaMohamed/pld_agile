@@ -1,6 +1,7 @@
 package com.hexa.controller.state;
 
 import com.hexa.model.Livraison;
+import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
@@ -27,17 +28,21 @@ public class EtatSupprimerRequete implements State {
 		w.allow(true);
 	}
 
-	public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) {
+	public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) throws TourneeException {
 
 		for (Intersection intersection : c.getCarte().getIntersections()) {
-			// TODO: When doing graphical view, refactor the method to compute coordinates
-			// not to duplicate code
 			Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
 			if (coord.equals(coordonneesSouris)) {
 				Livraison livraison = c.getTournee().getLivraison(intersection);
-				c.getTournee().supprimerLivraison(intersection);
-				listOfCommands.add(new SuppresionRequeteCommande(c.getTournee(), livraison));
+				if (livraison == null)
+					continue;
 
+				if (c.getTournee().estCalculee()) {
+					c.getTournee().supprimerLivraisonApresCalcul(livraison, c.getCarte());
+				} else {
+					c.getTournee().supprimerLivraison(intersection);
+				}
+				listOfCommands.add(new SuppresionRequeteCommande(c.getTournee(), livraison));
 			}
 		}
 
@@ -48,7 +53,6 @@ public class EtatSupprimerRequete implements State {
 		}
 
 		w.allow(true);
-
 	}
 
 }
