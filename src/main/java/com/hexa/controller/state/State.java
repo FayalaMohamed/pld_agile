@@ -25,7 +25,7 @@ public interface State {
    * @param Coordonnees
  * @throws TourneeException
    */
-  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees, ListOfCommands l) {
+  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees, ListOfCommands l) throws TourneeException {
   }
 
   /**

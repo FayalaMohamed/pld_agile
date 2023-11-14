@@ -172,8 +172,9 @@ public class Controller {
    * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
    * 
    * @param coordonnees les coordonnées du clic gauche
+ * @throws TourneeException 
    */
-  public void clicGauche(Coordonnees coordonnees) {
+  public void clicGauche(Coordonnees coordonnees) throws TourneeException {
     currentState.clicGauche(this, window, coordonnees, listOfCommands);
   }
 

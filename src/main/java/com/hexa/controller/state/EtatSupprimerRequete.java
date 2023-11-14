@@ -7,6 +7,7 @@ import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
+import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
 
 /**
@@ -30,7 +31,7 @@ public class EtatSupprimerRequete implements State {
     c.setCurrentState(c.getEtatCarteChargee());
   }
 
-  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) {
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) throws TourneeException {
 
     for (Intersection intersection : c.getCarte().getIntersections()) {
       // TODO: When doing graphical view, refactor the method to compute coordinates
@@ -43,7 +44,13 @@ public class EtatSupprimerRequete implements State {
             continue;
           }
           System.out.println("Livraison supprimée");
-          tournee.supprimerLivraison(intersection);
+          
+          if (tournee.estCalculee()) {
+        	  tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+          }
+          else {
+        	  tournee.supprimerLivraison(intersection);
+          }
           listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
         }
       }
