@@ -16,7 +16,6 @@ import com.hexa.controller.state.InitialState;
 import com.hexa.controller.state.State;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
-import com.hexa.model.GrapheException;
 import com.hexa.model.Tournee;
 import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
@@ -50,9 +49,11 @@ public class Controller {
   // Undo - Redo
   private ListOfCommands listOfCommands;
 
-  private int nbLivreurs;
+  int nbLivreurs;
 
-  // -----------------------------------------------------------------------------------------------------
+  //Instances associées avec chacuns des états possibles pour le controlleur
+  
+  protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
   /**
    * Crée le controlleur de l'application
@@ -164,7 +165,6 @@ public class Controller {
 
   /**
    * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
-   * 
    * @param coordonnees les coordonnées du clic gauche
    * @throws TourneeException
    */
@@ -256,7 +256,16 @@ public class Controller {
   }
 
   /**
-   * Method called by window after a click on the button "Redo"
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Générer la feuille de route"
+   */
+  public void genererFeuilleDeRoute() {
+    currentState.genererFeuilleDeRoute(this, window);
+  }
+
+  /**
+   * Méthode appelée par un état a lorsqu'il passe à un autre état b
+   * (après être passé dans l'état b)
+   * Correspond à la première action qui doit être effectuée quand on entre dans l'état
    */
   public void redo() {
     currentState.redo(listOfCommands, this);

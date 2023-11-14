@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
+import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Tournee;
 import com.hexa.view.listener.BoxListener;
@@ -47,15 +48,19 @@ public class Window extends JFrame implements Observer {
   public static final String REDO = "Redo";
   public static final String UNDO = "Undo";
 
+  
+  public static final String GENERER_FEUILLE_DE_ROUTE = "Générer la feuille de route";
+
   private final String texteBoutons[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
-      SAUVEGARDER_REQUETES, REDO, UNDO, CALCULER_TOURNEE };
+      SAUVEGARDER_REQUETES,
+      CALCULER_TOURNEE, REDO, UNDO, GENERER_FEUILLE_DE_ROUTE };
 
   // Une map qui associe à chaque indice de texteBoutons un bouton de l'IHM
   private Map<String, JButton> boutons;
   private final int buttonHeight = 40;
   private final int buttonWidth = 250;
   private final int messageFrameHeight = 110;
-  private final int textualViewWidth = 400;
+  private final int textualViewWidth;
 
   private GraphicalView graphicalView;
   private TextualView textualView;
@@ -77,8 +82,9 @@ public class Window extends JFrame implements Observer {
   // -------------------------------------------------------------------------------------------------
 
   /**
-   * Crée une fenêtre avec des boutons, une zone graphique contenant un plan, une
-   * zone de texte dédiée aux messages, une zone de texte dédiée aux livraisons,
+   * Crée une fenêtre avec des boutons, une zone graphique contenant un plan,
+   * une zone de texte dédiée aux messages, une zone de texte dédiée aux
+   * livraisons,
    * et les listeners associés aux différents éléments (boutons, comboBox, vue
    * graphique)
    * 
@@ -109,16 +115,18 @@ public class Window extends JFrame implements Observer {
     label.setSize(buttonWidth, buttonHeight);
     label.setLocation(5, boutons.size() * buttonHeight);
     getContentPane().add(label);
-    livreurMenu = new JComboBox<String>(liste_livreurs);
-    livreurMenu.setSize(buttonWidth, buttonHeight);
-    livreurMenu.setLocation(5, (boutons.size() + 1) * buttonHeight);
-    livreurMenu.setFocusable(false);
+    livreurMenue = new JComboBox<String>(liste_livreurs);
+    
     BoxListener boxListener = new BoxListener(controller);
-    livreurMenu.addActionListener(boxListener);
-    getContentPane().add(livreurMenu);
+    livreurMenue.addActionListener(boxListener);
+    livreurMenue.setFocusable(false);
+    getContentPane().add(livreurMenue);
 
-    graphicalView = new GraphicalView(this);
-    textualView = new TextualView(this);
+    graphicalView = new GraphicalView(this, t);
+
+    textualView = new TextualView(this, t);
+    textualViewWidth = textualView.getViewWidth();
+
     messageFrame = new JLabel();
     messageFrame.setFont(UIManager.getFont("large.font"));
     messageFrame.setBorder(BorderFactory.createTitledBorder(""));
@@ -324,11 +332,18 @@ public class Window extends JFrame implements Observer {
     height = Math.max(graphicalView.getViewHeight(), allButtonHeight) + messageFrameHeight;
     width = graphicalView.getViewWidth() + buttonWidth + 10 + textualViewWidth;
     setSize(width, height);
+
     graphicalView.setLocation(buttonWidth + 10, 0);
+
     messageFrame.setSize(width, messageFrameHeight);
     messageFrame.setLocation(0, height - messageFrameHeight);
+
     textualView.setSize(textualViewWidth, height - messageFrameHeight);
     textualView.setLocation(10 + graphicalView.getViewWidth() + buttonWidth, 0);
+
+    livreurMenue.setSize(buttonWidth, buttonHeight);
+    livreurMenue.setLocation(5, (boutons.size() + 1) * buttonHeight);
+
     setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     setLocationRelativeTo(null);
   }
@@ -360,6 +375,23 @@ public class Window extends JFrame implements Observer {
     redoEnabled = ((ListOfCommands) o).canRedo();
     boutons.get(UNDO).setEnabled(undoEnabled);
     boutons.get(REDO).setEnabled(redoEnabled);
+
   }
 
+  /**
+   * Retourne l'intersection sur laquelle l'utilisateur a cliqué.
+   * Dékègue le traitement à la graphicalView
+   * @param coordonneesSouris
+   * @return
+   */
+  public Intersection getIntersectionSelectionnee(Coordonnees coordonneesSouris) {
+    return graphicalView.getIntersectionSelectionnee(coordonneesSouris);
+  }
+
+  
+
+
+  public GraphicalView getGraphicalView() {
+    return graphicalView;
+  }
 }

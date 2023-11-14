@@ -534,13 +534,10 @@ public class Tournee extends Observable {
    * 
    * @param carte
    */
-  private void genererFeuilleDeRoute(Graphe carte) {
-
-    circuit.reset();
-
+  public void genererFeuilleDeRoute(Graphe carte) {
     String nomFichier = "Feuille_de_route" + new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
-    String text = "Tournée calculée le " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + " - Livreur "
-        + livreur + "\n\n";
+    String text = "Tournée calculée le " + new SimpleDateFormat("dd/MM/yyyy").format(new Date())
+                  + " - Livreur " + livreur + "\n\n";
 
     ArrayList<String> nomsVisites = new ArrayList<String>();
     String nomPremierSegment = carte.getNomSegment(circuit.next());

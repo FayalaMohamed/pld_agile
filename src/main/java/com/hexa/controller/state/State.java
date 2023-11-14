@@ -142,5 +142,12 @@ public interface State {
    */
   public default void redo(ListOfCommands l, Controller c) {
   };
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Générer la feuille de route"
+   * @param c
+   * @param w
+   */
+  public default void genererFeuilleDeRoute(Controller c, Window w) {
+  }
+
 
 }
