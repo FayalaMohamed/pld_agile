@@ -8,12 +8,13 @@ import com.hexa.view.Window;
  */
 public class InitialState implements State {
 
-  public void chargerCarte(Controller c, Window w) {
-    w.allow(false);
-    c.setCurrentState(c.getChargerCarte());
-    c.setPreviousState(c.getInitialState());
-    c.getChargerCarte().entryAction(c, w);
+  public void entryAction(Window w) {
+    w.hideButtons(this);
   }
 
-
+  public void chargerCarte(Controller c, Window w) {
+    c.setPreviousState(c.getInitialState());
+    c.switchToState(c.getChargerCarte());
+    c.entryAction();
+  }
 }

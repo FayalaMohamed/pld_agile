@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.hexa.model.algo.AlgoException;
 import com.hexa.model.algo.ShortestPath;
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
@@ -135,12 +136,15 @@ public class Tournee extends Observable {
   }
 
   /**
-   * @param livraisons
-   */
-  public void setLivraisons(Set<Livraison> livraisons) {
-    this.livraisons = livraisons;
-    this.notifyObservers(this);
-  }
+
+	 * @param livraisons
+	 */
+	public void setLivraisons(Set<Livraison> livraisons) {
+		//this.livraisons = livraisons;
+		this.livraisons = new HashSet<Livraison>();
+		this.livraisons.addAll(livraisons);
+		this.notifyObservers(this);
+	}
 
   /**
    * Attribut un circuit à une tournée Méthode utile pour la fonctionnalité undo
@@ -322,8 +326,9 @@ public class Tournee extends Observable {
    * @param carte
    * @throws TourneeException
    * @throws GrapheException
+ * @throws AlgoException 
    */
-  public void construireCircuit(Graphe carte) throws GrapheException, TourneeException {
+  public void construireCircuit(Graphe carte) throws GrapheException, TourneeException, AlgoException {
     if (circuitCalculer) {
       return;
     }
@@ -441,7 +446,6 @@ public class Tournee extends Observable {
 
     // On notifie les observeurs que la tournée à changer
     notifyObservers(this);
-
     return true;
   }
 

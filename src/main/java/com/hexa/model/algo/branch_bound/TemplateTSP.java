@@ -8,6 +8,7 @@ import com.hexa.model.Graphe;
 import com.hexa.model.GrapheComplet;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
+import com.hexa.model.algo.AlgoException;
 import com.hexa.model.algo.TSP;
 
 abstract class TemplateTSP implements TSP {
@@ -24,9 +25,10 @@ abstract class TemplateTSP implements TSP {
 	 *  tous les sommet du graphe complet et retournant à l'entrepôt
 	 * @param timeLimit
 	 * @param g
+	 * @throws AlgoException 
 	 */
 	@Override
-	public void searchSolution(int timeLimit, GrapheComplet g) {
+	public void searchSolution(int timeLimit, GrapheComplet g) throws AlgoException {
 		
 		//Def. limite de temps 
 		if (timeLimit <= 0 ) return;
@@ -60,8 +62,12 @@ abstract class TemplateTSP implements TSP {
 
 		//Rajout de l'entrepot à la fin de la solution
 		bestSol[sizeBestSol - 1] = g.getEntrepot();
-		if(bestSolCost == Double.MAX_VALUE)
+		if(bestSolCost == Double.MAX_VALUE) {
 			bestSolCost = -1;
+			
+			throw new AlgoException("Circuit impossible à calculer");
+		}
+			
 		
 		System.out.println("Temps searchSolution TSP : " + (System.currentTimeMillis() - startTime));
 	}
@@ -102,13 +108,38 @@ abstract class TemplateTSP implements TSP {
 	 * @param unvisited la liste des sommets qui n'ont pas encore été visités
 	 * @param visited la séquence de sommet qui a déjà été visitée (incluant sommetCourant)
 	 * @param currentCost le cout du chemin correspondant à visited
+	 * @throws AlgoException 
 	 */	
-	private void branchAndBound(Intersection sommetCourant, List<Intersection> unvisited, List<Intersection> visited, double currentCost){
+	private void branchAndBound(Intersection sommetCourant, List<Intersection> unvisited, List<Intersection> visited, double currentCost) throws AlgoException{
 		
 		//Si on depasse le temps
-		/*if (System.currentTimeMillis() - startTime > timeLimit) {
-			return;
-		}*/
+		if (System.currentTimeMillis() - startTime > timeLimit) {
+			
+			//on enregistre le debut de circuit calculé même s'il n'est pas optimale si aucune solution n'avait été trouvé
+			if (bestSolCost == Double.MAX_VALUE) {
+			
+				if (unvisited.size() != 0) {
+					Segment s = new Segment (sommetCourant, unvisited.get(0));
+					visited.add(unvisited.get(0));
+					currentCost += g.getCost(s);
+					for (int i = 1; i < unvisited.size(); i++) {
+						s = new Segment(unvisited.get(i-1), unvisited.get(i));
+						currentCost += g.getCost(s);
+						visited.add(unvisited.get(i));
+					}
+				}
+				
+				Segment s = new Segment(visited.get(visited.size() -1), g.getEntrepot());
+				currentCost += g.getCost(s);
+				visited.add(g.getEntrepot());
+				
+				visited.toArray(bestSol);
+				bestSolCost = currentCost;
+			}
+			
+			
+			throw new AlgoException("Temps limite de searchSolution du TSP atteint : le circuit calculé n'est pas forcement optimale");
+		}
 		
 		
 		//Si on a visité tout le monde

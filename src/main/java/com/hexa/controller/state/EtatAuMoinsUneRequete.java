@@ -3,6 +3,8 @@ package com.hexa.controller.state;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.CircuitCommande;
 import com.hexa.controller.command.ListOfCommands;
+import com.hexa.model.Tournee;
+import com.hexa.model.Livraison;
 import com.hexa.view.Window;
 
 /**
@@ -16,66 +18,79 @@ import com.hexa.view.Window;
  */
 public class EtatAuMoinsUneRequete implements State {
 
-	public void creerRequete(Controller c, Window w) {
-		w.allow(false);
-		w.afficherMessage("Cliquez sur une intersection pour créer la requête");
-		c.setCurrentState(c.getEtatCreerRequete1());
-		c.setPreviousState(c.getEtatAuMoinsUneRequete());
-	}
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
 
-	public void chargerRequetes(Controller c, Window w) {
-		w.allow(false);
-		c.setCurrentState(c.getEtatChargerRequete());
-		c.entryAction();
-	}
+  public void creerRequete(Controller c, Window w) {
+    w.afficherMessage("Cliquez sur une intersection pour créer la requête");
+    c.switchToState(c.getEtatCreerRequete1());
+    c.setPreviousState(c.getEtatAuMoinsUneRequete());
+  }
 
-	public void supprimerRequete(Controller c, Window w) {
-		w.allow(false);
-		if (c.getTournee().getLivraisons().length == 0) {
-			c.setCurrentState(c.getEtatCarteChargee());
-			return;
-		}
-		c.setCurrentState(c.getEtatSupprimerRequete());
-	}
+  public void chargerRequetes(Controller c, Window w) {
+    c.switchToState(c.getEtatChargerRequete());
+    c.entryAction();
+  }
 
-	public void chargerCarte(Controller c, Window w) {
-		w.allow(false);
-		c.setCurrentState(c.getChargerCarte());
-		c.setPreviousState(c.getEtatAuMoinsUneRequete());
-		c.getChargerCarte().entryAction(c, w);
-	}
+  public void supprimerRequete(Controller c, Window w) {
+    for (Tournee tournee : c.getTournees()) {
+      if (tournee.getLivraisons().length != 0) {
+        c.switchToState(c.getEtatSupprimerRequete());
+        return;
+      }
+    }
+    c.switchToState(c.getEtatCarteChargee());
+  }
 
-	public void sauvegarderRequetes(Controller c, Window w) {
-		w.allow(false);
-		c.setCurrentState(c.getEtatSauvegarderRequete());
-		c.entryAction();
-	}
+  public void chargerCarte(Controller c, Window w) {
+    c.switchToState(c.getChargerCarte());
+    c.setPreviousState(c.getEtatAuMoinsUneRequete());
+    c.getChargerCarte().entryAction(c, w);
+  }
 
-	public void calculerTournee(Controller c, Window w, ListOfCommands listOfCdes) {
-		try {
-			c.getTournee().construireCircuit(c.getCarte());
-			w.afficherMessage("Tournée calculée");
-			listOfCdes.add(new CircuitCommande(c.getTournee(), c.getTournee().getCircuit()));
-		} catch (Exception e) {
-			e.printStackTrace();
-			w.afficherMessage(e.getMessage());
-		}
-	}
+  public void sauvegarderRequetes(Controller c, Window w) {
+    c.switchToState(c.getEtatSauvegarderRequete());
+    c.entryAction();
+  }
 
-	@Override
-	public void undo(ListOfCommands listOfCdes, Controller c) {
-		listOfCdes.undo();
-		if (c.getTournee().getLivraisons().length == 0) {
-			c.setCurrentState(c.getEtatCarteChargee());
-		}
+  public void calculerTournee(Controller c, Window w, ListOfCommands listOfCdes) {
+    try {
+      for (Tournee tournee : c.getTournees()) {
+        System.out.println("TOURNEE  :  ");
+        for (Livraison livraison : tournee.getLivraisons()) {
+          System.out.println(livraison);
+        }
+        tournee.construireCircuit(c.getCarte());
+        w.afficherMessage("Tournée calculée");
+        listOfCdes.add(new CircuitCommande(tournee, tournee.getCircuit()));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      w.afficherMessage(e.getMessage());
+    }
+  }
 
-	}
+  @Override
+  public void undo(ListOfCommands listOfCdes, Controller c) {
+    listOfCdes.undo();
+    for (Tournee tournee : c.getTournees()) {
+      if (tournee.getLivraisons().length != 0) {
+        return;
+      }
+      c.switchToState(c.getEtatCarteChargee());
+    }
 
-	@Override
-	public void redo(ListOfCommands listOfCdes, Controller c) {
-		listOfCdes.redo();
-		if (c.getTournee().getLivraisons().length == 0) {
-			c.setCurrentState(c.getEtatCarteChargee());
-		}
-	}
+  }
+
+  @Override
+  public void redo(ListOfCommands listOfCdes, Controller c) {
+    listOfCdes.redo();
+    for (Tournee tournee : c.getTournees()) {
+      if (tournee.getLivraisons().length != 0) {
+        return;
+      }
+      c.switchToState(c.getEtatCarteChargee());
+    }
+  }
 }

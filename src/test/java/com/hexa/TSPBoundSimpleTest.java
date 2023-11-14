@@ -11,6 +11,7 @@ import com.hexa.model.Livraison;
 import com.hexa.model.Segment;
 import com.hexa.model.Tournee;
 import com.hexa.model.TourneeException;
+import com.hexa.model.algo.AlgoException;
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
 
@@ -25,7 +26,11 @@ public class TSPBoundSimpleTest {
         grapheComplet= null;
         TSP tsp = new TSPBoundSimple();
 
-        tsp.searchSolution(20000,grapheComplet);
+        try {
+			tsp.searchSolution(20000,grapheComplet);
+		} catch (AlgoException e) {
+			e.printStackTrace();
+		}
         assert (tsp.getSolutionCost() == -1);
         for (int i = 0; i < 10; i++)
             assert (tsp.getSolution(i) == null);
@@ -36,7 +41,11 @@ public class TSPBoundSimpleTest {
         grapheComplet = new GrapheComplet(graphe, new Tournee());
         TSP tsp = new TSPBoundSimple();
 
-        tsp.searchSolution(20000,grapheComplet);
+        try {
+			tsp.searchSolution(20000,grapheComplet);
+		} catch (AlgoException e) {
+			e.printStackTrace();
+		}
         assert (tsp.getSolutionCost() == -1);
         for (int i = 0; i < 10; i++)
             assert (tsp.getSolution(i) == null);
@@ -92,7 +101,11 @@ public class TSPBoundSimpleTest {
             e.printStackTrace();
         }
         TSP tsp = new TSPBoundSimple();
-        tsp.searchSolution(20000, grapheComplet);
+        try {
+			tsp.searchSolution(20000, grapheComplet);
+		} catch (AlgoException e) {
+			e.printStackTrace();
+		}
         
         double expectedBestSol = 0;
         // g.afficher();

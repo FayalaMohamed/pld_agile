@@ -1,6 +1,14 @@
 package com.hexa.controller.state;
 
+import static com.hexa.model.XMLParser.xmlToListeLivraison;
+
+import java.io.File;
+import java.util.Set;
+
+import com.hexa.model.Livreur;
 import com.hexa.controller.Controller;
+import com.hexa.model.Livraison;
+import com.hexa.model.Tournee;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
 import java.io.File;
@@ -9,36 +17,71 @@ import static com.hexa.model.XMLParser.xmlToListeLivraison;
 
 /**
  * Etat dans lequel se trouve l'application quand le chargement d'un ensemble de
- * requêtes est en cours
- * --> entryAction charge un fichier de requêtes dans le controller
+ * requêtes est en cours --> entryAction charge un fichier de requêtes dans le
+ * controller
  */
 public class EtatChargerRequete implements State {
+
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
+
   public void entryAction(Controller c, Window w) {
     try {
       File xmlFile = XMLfileOpener.getInstance("requete").open(true);
 
       if (xmlFile == null) {
-        if (c.getTournee().getLivraisons().length == 0)
-          c.setCurrentState(c.getEtatCarteChargee());
-        else
-          c.setCurrentState(c.getEtatAuMoinsUneRequete());
+        for (Tournee tournee : c.getTournees()) {
+          if (tournee.getLivraisons().length != 0) {
+            c.switchToState(c.getEtatAuMoinsUneRequete());
+            break;
+          }
+          c.switchToState(c.getEtatCarteChargee()); // TODO pourquoi ?
+        }
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
-        c.getTournee().setLivraisons(xmlToListeLivraison(xmlFile.getAbsolutePath()));
-        if (c.getTournee().getNbLivraisons() == 0) {
-          c.setCurrentState(c.getEtatCarteChargee());
-        } else {
-          c.setCurrentState(c.getEtatAuMoinsUneRequete());
+        int livreur = -1;
+        Set<Livraison> livraisons = xmlToListeLivraison(xmlFile.getAbsolutePath());
+        for (Livraison livraison : livraisons) {
+          livreur = livraison.getLivreur().getId();
+          break;
+        }
+
+        boolean livreurFound = false;
+        for (Tournee tournee : c.getTournees()) {
+          if (tournee.getLivreur().getId() == livreur) {
+            livreurFound = true;
+            tournee.setLivraisons(livraisons);
+            if (tournee.getNbLivraisons() == 0) {
+              c.switchToState(c.getEtatCarteChargee());
+            } else {
+              c.switchToState(c.getEtatAuMoinsUneRequete());
+            }
+            break;
+          }
+        }
+        if (!livreurFound) {
+          System.out.println("TOTO");
+          Tournee tournee = new Tournee();
+          tournee.setLivreur(new Livreur(livreur));
+          c.addTournee(tournee);
+          tournee.setLivraisons(livraisons);
+          if (tournee.getNbLivraisons() == 0) {
+            c.switchToState(c.getEtatCarteChargee());
+          } else {
+            c.switchToState(c.getEtatAuMoinsUneRequete());
+          }
         }
       }
     } catch (Exception e) {
       e.printStackTrace();
-      if (c.getTournee().getNbLivraisons() == 0) {
-        c.setCurrentState(c.getEtatCarteChargee());
-      } else {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
+      for (Tournee tournee : c.getTournees()) {
+        if (tournee.getNbLivraisons() != 0) {
+          c.switchToState(c.getEtatAuMoinsUneRequete());
+          return;
+        }
       }
+      c.switchToState(c.getEtatCarteChargee());
     }
-    w.allow(true);
   }
 }
