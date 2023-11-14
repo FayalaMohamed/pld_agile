@@ -57,6 +57,7 @@ public class Window extends JFrame {
   private MouseListener mouseListener;
   private ButtonListener buttonListener;
   private ZoomHandler zoomHandler;
+  private KeyboardListener keyboardListener;
 
   private int width;
   private int height;

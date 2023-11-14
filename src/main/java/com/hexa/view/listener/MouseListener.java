@@ -42,11 +42,7 @@ public class MouseListener extends MouseAdapter {
 	public void mouseClicked(MouseEvent evt) {
 		switch (evt.getButton()) {
 		case MouseEvent.BUTTON1:
-				try {
-					controller.clicGauche(coordinates(evt));
-				} catch (TourneeException e) {
-					e.printStackTrace();
-				}
+			controller.clicGauche(coordinates(evt));
 			break;
 		case MouseEvent.BUTTON3:
 			System.out.println("Right click pressed");
