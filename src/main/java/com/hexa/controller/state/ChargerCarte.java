@@ -26,6 +26,7 @@ public class ChargerCarte implements State {
 				w.afficherMessage("");
 				c.setCarte(map);
 				c.setCurrentState(c.getEtatCarteChargee());
+				c.initTournees();
 			}
 		} catch (Exception e) {
 			w.afficherMessage("Le fichier sélectionné est invalide - veuillez réessayer");
