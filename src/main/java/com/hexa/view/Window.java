@@ -124,7 +124,7 @@ public class Window extends JFrame implements Observer {
 
     graphicalView = new GraphicalView(this);
 
-    textualView = new TextualView(this, controller.getTournees().get(0)); // A MODIFIER
+    textualView = new TextualView(this, new Tournee()); // A MODIFIER
     textualViewWidth = textualView.getViewWidth();
 
     messageFrame = new JLabel();
