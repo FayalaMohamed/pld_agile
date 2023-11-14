@@ -57,6 +57,7 @@ public class EtatCreerRequete2 implements State {
     if (tournee != null && tournee.estCalculee()) {
       c.setCurrentState(c.getEtatCreerRequete3());
       c.getEtatCreerRequete3().entryAction(livraison, tournee);
+      w.afficherMessage("Selectionnez la livraison après laquelle la nouvelle livraison sera insérée");
     } else if (tournee != null) {
       tournee.ajouterLivraison(livraison);
       c.setCurrentState(c.getEtatAuMoinsUneRequete());

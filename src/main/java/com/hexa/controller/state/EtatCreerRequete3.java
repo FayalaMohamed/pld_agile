@@ -47,14 +47,14 @@ public class EtatCreerRequete3 implements State {
       Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
       if (coord.equals(coordonneesSouris)
           && (tournee.estLieuLivraison(intersection) || entrepot.equals(intersection))) {
-        c.setCurrentState(c.getEtatAuMoinsUneRequete());
         try {
           tournee.ajouterLivraisonApresCalcul(c.getCarte(), livraison, new Livraison(intersection));
         } catch (Exception ex) {
           ex.printStackTrace();
         }
-        w.afficherMessage("Intersection sélectionnée pour la livraison : " + livraison.getLieu().toString()
-            + "\nSélectionnez un livreur");
+        c.setCurrentState(c.getEtatAuMoinsUneRequete());
+        w.afficherMessage("Livraison Insérée !");
+        w.allow(true);
       }
     }
   }
