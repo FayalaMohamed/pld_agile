@@ -29,374 +29,379 @@ import com.hexa.observer.Observer;
 
 public class GraphicalView extends JPanel implements Observer {
 
-//-------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private int viewHeight;
-	private int viewWidth;
+  private int viewHeight;
+  private int viewWidth;
 
-	private Graphics g;
+  private Graphics g;
 
-	private Tournee tournee;
-	private Graphe carte;
+  private Graphe carte;
 
-	private ArrayList<Intersection> intersections;
-	private ArrayList<Segment> segments;
+  private ArrayList<Intersection> intersections;
+  private ArrayList<Segment> segments;
 
-	private double latitudeMin;
-	private double latitudeMax;
-	private double longitudeMin;
-	private double longitudeMax;
+  private double latitudeMin;
+  private double latitudeMax;
+  private double longitudeMin;
+  private double longitudeMax;
 
-	private Coordonnees coordonneesMin;
-	private Coordonnees coordonneesMax;
+  private Coordonnees coordonneesMin;
+  private Coordonnees coordonneesMax;
 
-	private int viewX = 0;
-	private int viewY = 0;
-	private double zoomFactor = 1.0;
+  private int viewX = 0;
+  private int viewY = 0;
+  private double zoomFactor = 1.0;
 
-//-------------------------------------------------------------------------------------------------
+  private Window window;
 
-	/**
-	 * Crée la vue graphique correspondant à une tournée dans une fenêtre
-	 * 
-	 * @param w
-	 * @param tournee
-	 */
-	public GraphicalView(Window w, Tournee tournee) {
-		super();
+  // -------------------------------------------------------------------------------------------------
 
-		tournee.addObserver(this);
-		this.tournee = tournee;
+  /**
+   * Crée la vue graphique correspondant à une tournée dans une fenêtre
+   * 
+   * @param w
+   * @param tournee
+   */
+  public GraphicalView(Window w) {
+    super();
 
-		viewWidth = 1000;
-		viewHeight = 700;
+    this.window = w;
+    for (Tournee tournee : w.getController().getTournees()) {
+      tournee.addObserver(this);
+    }
 
-		setSize(viewWidth, viewHeight);
-		setBackground(Color.white);
-		w.getContentPane().add(this);
-	}
+    viewWidth = 1000;
+    viewHeight = 700;
 
-//-------------------------------------------------------------------------------------------------
+    setSize(viewWidth, viewHeight);
+    setBackground(Color.white);
+    w.getContentPane().add(this);
+  }
 
-	public int getViewHeight() {
-		return viewHeight;
-	}
+  // -------------------------------------------------------------------------------------------------
 
-	public int getViewWidth() {
-		return viewWidth;
-	}
+  public int getViewHeight() {
+    return viewHeight;
+  }
 
-	public Graphe getGraphe() {
-		return carte;
-	}
+  public int getViewWidth() {
+    return viewWidth;
+  }
 
-//-------------------------------------------------------------------------------------------------
+  public Graphe getGraphe() {
+    return carte;
+  }
 
-	/**
-	 * Méthode appelée par les objets observés par GraphicalView à chaque mise à
-	 * jour de ces derniers
-	 * 
-	 * @param o
-	 * @param arg
-	 */
-	@Override
-	public void update(Observable o, Object arg) {
-		repaint();
-	}
+  // -------------------------------------------------------------------------------------------------
 
-	/**
-	 * Ajoute une carte à la vue
-	 * 
-	 * @param carte
-	 */
-	public void ajouterCarte(Graphe carte) {
+  /**
+   * Méthode appelée par les objets observés par GraphicalView à chaque mise à
+   * jour de ces derniers
+   * 
+   * @param o
+   * @param arg
+   */
+  @Override
+  public void update(Observable o, Object arg) {
+    repaint();
+  }
 
-		this.carte = carte;
-		this.intersections = new ArrayList<>(Arrays.asList(carte.getIntersections()));
-		this.segments = new ArrayList<>(Arrays.asList(carte.getSegments()));
+  /**
+   * Ajoute une carte à la vue
+   * 
+   * @param carte
+   */
+  public void ajouterCarte(Graphe carte) {
 
-		latitudeMax = -90;
-		latitudeMin = 90;
-		longitudeMax = -180;
-		longitudeMin = 180;
+    this.carte = carte;
+    this.intersections = new ArrayList<>(Arrays.asList(carte.getIntersections()));
+    this.segments = new ArrayList<>(Arrays.asList(carte.getSegments()));
 
-		coordonneesMin = new Coordonnees(0, viewHeight);
-		coordonneesMax = new Coordonnees(
-				(int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),
-				(int) (viewHeight - ((latitudeMax - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight)));
+    latitudeMax = -90;
+    latitudeMin = 90;
+    longitudeMax = -180;
+    longitudeMin = 180;
 
-		definirExtremesCoordonnees();
+    coordonneesMin = new Coordonnees(0, viewHeight);
+    coordonneesMax = new Coordonnees(
+        (int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),
+        (int) (viewHeight - ((latitudeMax - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight)));
 
-		repaint();
-	}
+    definirExtremesCoordonnees();
 
-	/**
-	 * Méthode à appeler à chaque fois que la vue graphique doit être redessinée
-	 * 
-	 * @param g the <code>Graphics</code> object to protect
-	 */
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		this.g = g;
-		translateView();
-		displayElements();
-	}
+    repaint();
+  }
 
-	/**
-	 * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
-	 * l'affichage graphique
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Coordonnees CoordGPSToViewPos(Intersection i) {
-		int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
-		int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
+  /**
+   * Méthode à appeler à chaque fois que la vue graphique doit être redessinée
+   * 
+   * @param g the <code>Graphics</code> object to protect
+   */
+  @Override
+  public void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    this.g = g;
+    translateView();
+    displayElements();
+  }
 
-		xpos = (int) (xpos * zoomFactor) + viewX;
-		ypos = (int) (ypos * zoomFactor) + viewY;
-		return new Coordonnees(xpos, ypos);
-	}
+  /**
+   * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
+   * l'affichage graphique
+   * 
+   * @param i
+   * @return
+   */
+  public Coordonnees CoordGPSToViewPos(Intersection i) {
+    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
+    int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
 
-	public void setZoomFactor(int notches) {
+    xpos = (int) (xpos * zoomFactor) + viewX;
+    ypos = (int) (ypos * zoomFactor) + viewY;
+    return new Coordonnees(xpos, ypos);
+  }
 
-		double temp = zoomFactor;
+  public void setZoomFactor(int notches) {
 
-		if (notches < 0) {
-			// Zoom in
-			zoomFactor *= 1.1;
-			if (zoomFactor > 4) {
+    double temp = zoomFactor;
 
-				zoomFactor = temp;
+    if (notches < 0) {
+      // Zoom in
+      zoomFactor *= 1.1;
+      if (zoomFactor > 4) {
 
-			}
-		} else {
-			// Zoom out
-			zoomFactor /= 1.1;
-			if (zoomFactor < 1) {
+        zoomFactor = temp;
 
-				zoomFactor = temp;
+      }
+    } else {
+      // Zoom out
+      zoomFactor /= 1.1;
+      if (zoomFactor < 1) {
 
-			} else {
+        zoomFactor = temp;
 
-				if (viewX < -(coordonneesMax.getX() * (zoomFactor - 1))) {
-					viewX = (int) (-(coordonneesMax.getX() * (zoomFactor - 1)));
-					// System.out.println("Limite A atteinte");
-				} else if (viewX > coordonneesMin.getX() * (zoomFactor - 1)) {
-					viewX = (int) (coordonneesMin.getX() * (zoomFactor - 1));
+      } else {
 
-				}
+        if (viewX < -(coordonneesMax.getX() * (zoomFactor - 1))) {
+          viewX = (int) (-(coordonneesMax.getX() * (zoomFactor - 1)));
+          // System.out.println("Limite A atteinte");
+        } else if (viewX > coordonneesMin.getX() * (zoomFactor - 1)) {
+          viewX = (int) (coordonneesMin.getX() * (zoomFactor - 1));
 
-				if (viewY < -coordonneesMin.getY() * (zoomFactor - 1)) {
-					viewY = (int) (-coordonneesMin.getY() * (zoomFactor - 1));
-					// System.out.println("Limite A atteinte");
-				} else if (viewY > coordonneesMin.getX() * (zoomFactor - 1)) {
-					viewY = (int) (coordonneesMin.getX() * (zoomFactor - 1));
+        }
 
-				}
-			}
-		}
-		repaint();
+        if (viewY < -coordonneesMin.getY() * (zoomFactor - 1)) {
+          viewY = (int) (-coordonneesMin.getY() * (zoomFactor - 1));
+          // System.out.println("Limite A atteinte");
+        } else if (viewY > coordonneesMin.getX() * (zoomFactor - 1)) {
+          viewY = (int) (coordonneesMin.getX() * (zoomFactor - 1));
 
-	}
+        }
+      }
+    }
+    repaint();
 
-	/**
-	 * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
-	 * l'affichage graphique selon le facteur de zoom ZoomFactor ainsi que le
-	 * décalage effectué selon viewX, viewY
-	 * 
-	 * @param coordonnees          correspond à la position actuel de la souris
-	 * @param dernieresCoordonnees correspond à la position de la souris
-	 */
-	public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
-		if (zoomFactor != 1.0) {
+  }
 
-			int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
-			int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
+  /**
+   * Méthode traduisant des coordonnées GPS en coordonnées en pixels pour
+   * l'affichage graphique selon le facteur de zoom ZoomFactor ainsi que le
+   * décalage effectué selon viewX, viewY
+   * 
+   * @param coordonnees          correspond à la position actuel de la souris
+   * @param dernieresCoordonnees correspond à la position de la souris
+   */
+  public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
+    if (zoomFactor != 1.0) {
 
-			if ((newViewX < -(coordonneesMax.getX() * (zoomFactor - 1))
-					|| (newViewX > coordonneesMin.getX() * (zoomFactor - 1)))) {
-				newViewX = viewX;
-				// System.out.println("Limite A atteinte");
-			}
-			if (newViewY < -coordonneesMin.getY() * (zoomFactor - 1)
-					|| (newViewY > coordonneesMax.getY() * (zoomFactor - 1))) {
-				newViewY = viewY;
-				// System.out.println("Limite C atteinte");
-			}
+      int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
+      int newViewY = viewY + coordonnees.getY() - dernieresCoordonnees.getY();
 
-			viewX = newViewX;
-			viewY = newViewY;
+      if ((newViewX < -(coordonneesMax.getX() * (zoomFactor - 1))
+          || (newViewX > coordonneesMin.getX() * (zoomFactor - 1)))) {
+        newViewX = viewX;
+        // System.out.println("Limite A atteinte");
+      }
+      if (newViewY < -coordonneesMin.getY() * (zoomFactor - 1)
+          || (newViewY > coordonneesMax.getY() * (zoomFactor - 1))) {
+        newViewY = viewY;
+        // System.out.println("Limite C atteinte");
+      }
 
-			repaint();
-		}
-	}
+      viewX = newViewX;
+      viewY = newViewY;
 
-//-------------------------------------------------------------------------------------------------
+      repaint();
+    }
+  }
 
-	/**
-	 * Méthode déterminant les plus grandes coordonnées de la carte choisie Permet
-	 * de définir l'échelle de la vue graphique
-	 */
-	private void definirExtremesCoordonnees() {
+  // -------------------------------------------------------------------------------------------------
 
-		Iterator<Intersection> it = intersections.iterator();
-		while (it.hasNext()) {
+  /**
+   * Méthode déterminant les plus grandes coordonnées de la carte choisie Permet
+   * de définir l'échelle de la vue graphique
+   */
+  private void definirExtremesCoordonnees() {
 
-			Intersection i = it.next();
+    Iterator<Intersection> it = intersections.iterator();
+    while (it.hasNext()) {
 
-			double latitude = i.getLatitude();
-			double longitude = i.getLongitude();
+      Intersection i = it.next();
 
-			if (latitude > latitudeMax)
-				latitudeMax = latitude;
-			if (latitude < latitudeMin)
-				latitudeMin = latitude;
-			if (longitude > longitudeMax)
-				longitudeMax = longitude;
-			if (longitude < longitudeMin)
-				longitudeMin = longitude;
-		}
-		System.out.println("latitude min : " + latitudeMin + " / latitude max : " + latitudeMax);
-		System.out.println("longitude min : " + longitudeMin + " / longitude max : " + longitudeMax);
+      double latitude = i.getLatitude();
+      double longitude = i.getLongitude();
 
-		coordonneesMin = new Coordonnees(0, viewHeight);
-		coordonneesMax = new Coordonnees(
-				(int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),
-				(int) (viewHeight - ((latitudeMax - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight)));
-	}
+      if (latitude > latitudeMax)
+        latitudeMax = latitude;
+      if (latitude < latitudeMin)
+        latitudeMin = latitude;
+      if (longitude > longitudeMax)
+        longitudeMax = longitude;
+      if (longitude < longitudeMin)
+        longitudeMin = longitude;
+    }
+    System.out.println("latitude min : " + latitudeMin + " / latitude max : " + latitudeMax);
+    System.out.println("longitude min : " + longitudeMin + " / longitude max : " + longitudeMax);
 
-	private void translateView() {
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.translate(viewX, viewY);
-		// Appliquer le facteur de zoom
-		g2d.scale(zoomFactor, zoomFactor);
+    coordonneesMin = new Coordonnees(0, viewHeight);
+    coordonneesMax = new Coordonnees(
+        (int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),
+        (int) (viewHeight - ((latitudeMax - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight)));
+  }
 
-	}
+  private void translateView() {
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.translate(viewX, viewY);
+    // Appliquer le facteur de zoom
+    g2d.scale(zoomFactor, zoomFactor);
 
-	private boolean isAlreadyVisited(Segment seg, Multimap<Intersection, Intersection> segments_tournee,
-			boolean origin) {
-		boolean already_visited = false;
-		Collection<Intersection> entry_intersections;
-		if (origin) {
-			entry_intersections = segments_tournee.get(seg.getOrigine());
-		} else {
-			entry_intersections = segments_tournee.get(seg.getDestination());
-		}
-		for (Intersection inter_destination : entry_intersections) {
-			Intersection compare;
-			if (origin) {
-				compare = seg.getDestination();
-			} else {
-				compare = seg.getOrigine();
-			}
-			if (inter_destination == compare) {
-				already_visited = true;
-				break;
-			}
-		}
-		return already_visited;
-	}
+  }
 
-	private void displayTournee() {
-		Multimap<Intersection, Intersection> segments_tournee = ArrayListMultimap.create();
-		try {
-			Circuit circuit = tournee.getCircuit();
-			int i = 1;
-			while (circuit.hasNext()) {
-				Segment seg = circuit.next();
-				Color color = Color.red;
-				boolean already_visited = isAlreadyVisited(seg, segments_tournee, true);
-				if (!already_visited) {
-					already_visited = isAlreadyVisited(seg, segments_tournee, false);
-				}
-				if (already_visited) {
-					color = Color.green;
-				} else {
-					segments_tournee.put(seg.getOrigine(), seg.getDestination());
-				}
-				Intersection inter = seg.getDestination();
-				display(seg, color);
-				if (tournee.estLieuLivraison(inter)) {
-					display(inter, color, i++);
-				}
-			}
-		} catch (TourneeException e) {
-			for (Livraison livraison : tournee.getLivraisons()) {
-				display(livraison.getLieu(), Color.red, -1);
-			}
-		}
-	}
+  private boolean isAlreadyVisited(Segment seg, Multimap<Intersection, Intersection> segments_tournee,
+      boolean origin) {
+    boolean already_visited = false;
+    Collection<Intersection> entry_intersections;
+    if (origin) {
+      entry_intersections = segments_tournee.get(seg.getOrigine());
+    } else {
+      entry_intersections = segments_tournee.get(seg.getDestination());
+    }
+    for (Intersection inter_destination : entry_intersections) {
+      Intersection compare;
+      if (origin) {
+        compare = seg.getDestination();
+      } else {
+        compare = seg.getOrigine();
+      }
+      if (inter_destination == compare) {
+        already_visited = true;
+        break;
+      }
+    }
+    return already_visited;
+  }
 
-	/**
-	 * Dessine une intersection i avec la couleur c. Si number != -1 , affiche aussi
-	 * à côté du point le numéro number.
-	 * 
-	 * @param i
-	 * @param c
-	 * @param number
-	 */
-	private void display(Intersection i, Color c, int number) {
-		int r = 2;
-		if (c.equals(Color.red) || c.equals(Color.green)) {
-			r = 4;
-		}
-		int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
-		int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
-		g.setColor(c);
-		g.fillOval(xpos - r, ypos - r, 2 * r, 2 * r);
-		if (number != -1) {
-			g.setColor(Color.black);
-			g.setFont(new Font("TimesRoman", Font.BOLD, (int) (25 / zoomFactor + 1)));
-			g.drawString(String.valueOf(number), xpos + r, ypos + r);
-		}
-	}
+  private void displayTournee(Tournee tournee) {
+    Multimap<Intersection, Intersection> segments_tournee = ArrayListMultimap.create();
+    try {
+      Circuit circuit = tournee.getCircuit();
+      int i = 1;
+      while (circuit.hasNext()) {
+        Segment seg = circuit.next();
+        Color color = Color.red;
+        boolean already_visited = isAlreadyVisited(seg, segments_tournee, true);
+        if (!already_visited) {
+          already_visited = isAlreadyVisited(seg, segments_tournee, false);
+        }
+        if (already_visited) {
+          color = Color.green;
+        } else {
+          segments_tournee.put(seg.getOrigine(), seg.getDestination());
+        }
+        Intersection inter = seg.getDestination();
+        display(seg, color);
+        if (tournee.estLieuLivraison(inter)) {
+          display(inter, color, i++);
+        }
+      }
+    } catch (TourneeException e) {
+      for (Livraison livraison : tournee.getLivraisons()) {
+        display(livraison.getLieu(), Color.red, -1);
+      }
+    }
+  }
 
-	/**
-	 * Dessine un segment s avec la couleur c.
-	 * 
-	 * @param s
-	 * @param c
-	 */
-	private void display(Segment s, Color c) {
+  /**
+   * Dessine une intersection i avec la couleur c. Si number != -1 , affiche aussi
+   * à côté du point le numéro number.
+   * 
+   * @param i
+   * @param c
+   * @param number
+   */
+  private void display(Intersection i, Color c, int number) {
+    int r = 2;
+    if (c.equals(Color.red) || c.equals(Color.green)) {
+      r = 4;
+    }
+    int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
+    int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
+    g.setColor(c);
+    g.fillOval(xpos - r, ypos - r, 2 * r, 2 * r);
+    if (number != -1) {
+      g.setColor(Color.black);
+      g.setFont(new Font("TimesRoman", Font.BOLD, (int) (25 / zoomFactor + 1)));
+      g.drawString(String.valueOf(number), xpos + r, ypos + r);
+    }
+  }
 
-		Intersection origine = s.getOrigine();
-		Intersection destination = s.getDestination();
+  /**
+   * Dessine un segment s avec la couleur c.
+   * 
+   * @param s
+   * @param c
+   */
+  private void display(Segment s, Color c) {
 
-		int xOrigine = (int) ((origine.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
-		int yOrigine = (int) (viewHeight
-				- ((origine.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
-		int xDestination = (int) ((destination.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin)
-				* viewWidth);
-		int yDestination = (int) (viewHeight
-				- ((destination.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
+    Intersection origine = s.getOrigine();
+    Intersection destination = s.getDestination();
 
-		g.setColor(c);
-		if (c == Color.red || c == Color.green) {
-			Graphics2D g2 = (Graphics2D) g;
-			g2.setStroke(new BasicStroke(3));
-			g2.draw(new Line2D.Float(xOrigine, yOrigine, xDestination, yDestination));
-		} else {
-			g.drawLine(xOrigine, yOrigine, xDestination, yDestination);
-		}
-	}
+    int xOrigine = (int) ((origine.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
+    int yOrigine = (int) (viewHeight
+        - ((origine.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
+    int xDestination = (int) ((destination.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin)
+        * viewWidth);
+    int yDestination = (int) (viewHeight
+        - ((destination.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
 
-	private void displayElements() {
-		if (carte != null) {
-			display(carte.getEntrepot(), Color.green, -1);
-			for (Intersection intersection : intersections) {
-				display(intersection, Color.blue, -1);
-			}
-			for (Segment segment : segments) {
-				display(segment, Color.blue);
-			}
-			if (tournee != null && tournee.getNbLivraisons() > 0) {
-				displayTournee();
-			}
-		}
-	}
+    g.setColor(c);
+    if (c == Color.red || c == Color.green) {
+      Graphics2D g2 = (Graphics2D) g;
+      g2.setStroke(new BasicStroke(3));
+      g2.draw(new Line2D.Float(xOrigine, yOrigine, xDestination, yDestination));
+    } else {
+      g.drawLine(xOrigine, yOrigine, xDestination, yDestination);
+    }
+  }
+
+  private void displayElements() {
+    if (carte != null) {
+      display(carte.getEntrepot(), Color.green, -1);
+      for (Intersection intersection : intersections) {
+        display(intersection, Color.blue, -1);
+      }
+      for (Segment segment : segments) {
+        display(segment, Color.blue);
+      }
+      for (Tournee tournee : window.getController().getTournees()) {
+        if (tournee != null && tournee.getNbLivraisons() > 0) {
+          displayTournee(tournee);
+        }
+      }
+    }
+  }
 
 }
