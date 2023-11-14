@@ -224,16 +224,16 @@ public class Tournee extends Observable {
     Segment iterator = null;
     while (circuit.hasNext()) {
       iterator = circuit.next();
-      if ((estLieuLivraison(iterator.getOrigine()) || iterator.getDestination() == entrepot) && !trouve) {
+      if ((estLieuLivraison(iterator.getOrigine()) || iterator.getOrigine().equals(entrepot)) && !trouve) {
         intersectionDeLivraisonPrecedente = iterator.getOrigine();
       } else if (trouve && estLieuLivraison(iterator.getOrigine())) {
         intersectionDeLivraisonSuivante = iterator.getOrigine();
         break;
-      } else if (trouve && iterator.getDestination() == entrepot) {
+      } else if (trouve && iterator.getDestination().equals(entrepot)) {
         intersectionDeLivraisonSuivante = iterator.getDestination();
         break;
       }
-      if (iterator.getOrigine() == livraison.getLieu()) {
+      if (iterator.getOrigine().equals(livraison.getLieu())) {
         trouve = true;
       }
     }
@@ -242,18 +242,29 @@ public class Tournee extends Observable {
     ShortestPath dijkstra = new Dijkstra();
     dijkstra.searchShortestPath(carte, intersectionDeLivraisonPrecedente, null);
     Chemin cheminPreToSuiv = new Chemin(dijkstra.getSolPath(intersectionDeLivraisonSuivante));
-    double delta = temps.get(intersectionDeLivraisonSuivante) - temps.get(intersectionDeLivraisonPrecedente)
+    double delta = temps.get(intersectionDeLivraisonSuivante) - (intersectionDeLivraisonPrecedente.equals(carte.getEntrepot()) ? 0 :temps.get(intersectionDeLivraisonPrecedente))
         - dijkstra.getCost(intersectionDeLivraisonSuivante) / 1000.0 / 15.0 - 5.0 / 60.0;
 
-    temps.put(intersectionDeLivraisonSuivante, temps.get(intersectionDeLivraisonSuivante) - delta);
+    for (Livraison liv : livraisons) {
+      System.out.println(liv.getLieu().getId()+" -> "+liv.getHeureEstime()[0]+":"+liv.getHeureEstime()[1]+" plage -> "+liv.getPlageHoraire()[0]+"-"+liv.getPlageHoraire()[1]);
+    }
+    double attente = 0;
+    //temps.put(intersectionDeLivraisonSuivante, temps.get(intersectionDeLivraisonSuivante) - delta);
+    attente += updateHeureLivraisonPourSuppression(intersectionDeLivraisonSuivante, delta, attente);
     while (circuit.hasNext()) { // on reset pas le circuit mais on repart de là où on s'est arrété
       iterator = circuit.next();
       if (livraisons.contains(new Livraison(iterator.getOrigine()))) {
-        temps.put(iterator.getOrigine(), temps.get(iterator.getOrigine()) - delta);
+        // Pour toutes les livraisons suivantes on modifie le temps
+        // temps.put(iterator.getOrigine(), temps.get(iterator.getOrigine()) - delta);
+        attente += updateHeureLivraisonPourSuppression(iterator.getOrigine(), delta, attente);
       }
     }
-    temps.put(carte.getEntrepot(), temps.get(carte.getEntrepot()) - delta);
-    updateHeuresLivraison(carte.getEntrepot());
+    temps.put(carte.getEntrepot(), temps.get(carte.getEntrepot()) - delta + attente);
+    updateFinTourneeEstimee(carte.getEntrepot());
+    //updateHeuresLivraisonApresSuppression(carte.getEntrepot());
+    for (Livraison liv : livraisons) {
+      System.out.println(liv.getLieu().getId()+" -> "+liv.getHeureEstime()[0]+":"+liv.getHeureEstime()[1]+" plage -> "+liv.getPlageHoraire()[0]+"-"+liv.getPlageHoraire()[1]);
+    }
 
     // MAJ du circuit en ajoutant le chemin calculé au bon endroit
     MAJCircuitSuppressionApresCalcul(carte.getEntrepot(), intersectionDeLivraisonPrecedente,
@@ -263,6 +274,49 @@ public class Tournee extends Observable {
     notifyObservers(this);
 
     return true;
+  }
+
+  private void updateFinTourneeEstimee(Intersection entrepot) {
+    int heureDepart = 8;
+    finTourneeEstime[0] = heureDepart + temps.get(entrepot).intValue();
+    double temp = ((double) heureDepart + temps.get(entrepot));
+    finTourneeEstime[1] = (int) ((temp - (int) temp) * 60.0);
+  }
+
+  private double updateHeureLivraisonPourSuppression(Intersection intersection, double delta, double attente){
+    if (!temps.containsKey(intersection)) {
+      return 0;
+    }
+    double res = 0;
+
+    temps.put(intersection, temps.get(intersection) - delta);
+
+    Livraison livraison = null;
+    for (Livraison l : livraisons) {
+      if (intersection.equals(l.getLieu())) {
+        livraison = l;
+        break;
+      }
+    }
+    if (livraison == null) {
+      return 0;
+    }
+
+    Double heure;
+    int heureDepart = 8;
+    int[] tab = new int[2];
+    heure = temps.get(livraison.getLieu()) + attente;
+    tab[0] = heureDepart + heure.intValue();
+    double temp = ((double) heureDepart + heure);
+    tab[1] = (int) ((temp - (int) temp) * 60.0);
+    livraison.setHeureEstime(tab[0], tab[1]);
+
+    if (tab[0] < livraison.getPlageHoraire()[0]) {
+      res += 60 - tab[1];
+      res += (livraison.getPlageHoraire()[0] - tab[0] - 1) * 60;
+    }
+    res = res / 60; 
+    return res;
   }
 
   /**
@@ -292,10 +346,11 @@ public class Tournee extends Observable {
     temps = new HashMap<Intersection, Double>();
     Double tempsTotal = 0.0;
     int i = 0;
+    Segment seg = null;
     while ((depart = tsp.getSolution(i)) != null && (arrive = tsp.getSolution(i + 1)) != null) {
       i++;
 
-      Segment seg = new Segment(depart, arrive);
+      seg = new Segment(depart, arrive);
       list.add(grapheComplet.getChemin(seg));
 
       tempsTotal += (grapheComplet.getCost(seg) / 1000.0) / 15.0; // m -> km -> h
@@ -412,13 +467,16 @@ public class Tournee extends Observable {
 
     circuit.reset();
     boolean ignore = false;
+    Segment seg = null;
     while (circuit.hasNext()) {
 
-      Segment seg = circuit.next();
+      seg = circuit.next();
 
       if (seg.getOrigine().equals(intersectionPrecedente)) {
-        listChemin.add(new Chemin(listSeg));
-        listSeg.clear();
+        if (!intersectionPrecedente.equals(entrepot)) {
+          listChemin.add(new Chemin(listSeg));
+          listSeg.clear();  
+        }
 
         listChemin.add(cheminPreToNew);
         listChemin.add(cheminNewtoNext);
@@ -466,8 +524,9 @@ public class Tournee extends Observable {
 
     circuit.reset();
     boolean ignore = false;
+    Segment seg = null;
     while (circuit.hasNext()) {
-      Segment seg = circuit.next();
+       seg = circuit.next();
 
       if (!ignore) {
         listSeg.add(seg);
@@ -478,13 +537,13 @@ public class Tournee extends Observable {
         listSeg.clear();
       }
 
-      if (seg.getDestination() == intersectionPrecedente) {
+      if (seg.getDestination().equals(intersectionPrecedente)) {
         listChemin.add(cheminPreToSuiv);
 
         ignore = true;
       }
 
-      if (seg.getDestination() == intersectionSuivante) {
+      if (seg.getDestination().equals(intersectionSuivante)) {
         ignore = false;
       }
     }
