@@ -13,6 +13,7 @@ import com.hexa.model.Tournee;
 import com.hexa.view.listener.BoxListener;
 import com.hexa.view.listener.ButtonListener;
 import com.hexa.view.listener.MouseListener;
+import com.hexa.view.listener.KeyboardListener;
 import com.hexa.view.listener.ZoomHandler;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
@@ -26,10 +27,10 @@ import javax.swing.JComboBox;
 
 public class Window extends JFrame {
 
-//-------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String CHARGER_CARTE = "Charger une carte";
 	public static final String CREER_REQUETE = "Créer une requête";
 	public static final String SUPPRIMER_REQUETES = "Supprimer une requête";
@@ -55,12 +56,13 @@ public class Window extends JFrame {
 
 	private MouseListener mouseListener;
 	private ButtonListener buttonListener;
+	private KeyboardListener keyboardListener;
 	private ZoomHandler zoomHandler;
 
 	private int width;
 	private int height;
 
-//-------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------
 
 	/**
 	 * Crée une fenêtre avec des boutons, une zone graphique contenant un plan, une
@@ -113,6 +115,9 @@ public class Window extends JFrame {
 
 		addMouseMotionListener(mouseListener);
 
+		keyboardListener = new KeyboardListener(controller);
+		addKeyListener(keyboardListener);
+
 		zoomHandler = new ZoomHandler(controller, graphicalView);
 		addMouseWheelListener(zoomHandler);
 
@@ -120,7 +125,7 @@ public class Window extends JFrame {
 		setVisible(true);
 	}
 
-//-----------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------
 
 	public int getWidth() {
 		return width;
@@ -134,7 +139,7 @@ public class Window extends JFrame {
 		return graphicalView;
 	}
 
-//-----------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Affiche le message message
@@ -181,36 +186,36 @@ public class Window extends JFrame {
 				intersection = i;
 				buildDescription();
 			}
-			
+
 			private void buildDescription() {
 				Graphe carte = graphicalView.getGraphe();
-				
+
 				Intersection[] successeurs = carte.getSuccesseur(intersection);
 				Intersection[] predecesseurs = carte.getPredecesseur(intersection);
-				
+
 				desc = "";
 				boolean first = true;
 				for (Intersection succ : successeurs) {
-					
+
 					addToDesc(intersection, succ, carte, first);
 					first = false;
-					
+
 				}
-				
+
 				for (Intersection pred : predecesseurs) {
-					
+
 					addToDesc(pred, intersection, carte, first);
 					first = false;
-					
+
 				}
-				
+
 				desc += ".";
-				
+
 			}
-			
+
 			private void addToDesc(Intersection origine, Intersection destination, Graphe carte, boolean first) {
 				String nom = carte.getNomSegment(new Segment(origine, destination));
-				
+
 				if (!desc.contains(nom) || nom.equals("")) {
 					if (!first) {
 						desc += ", ";
@@ -219,7 +224,7 @@ public class Window extends JFrame {
 				}
 			}
 
-			public String toString() {				
+			public String toString() {
 				return desc;
 			}
 		}
@@ -236,7 +241,7 @@ public class Window extends JFrame {
 		return choix == null ? null : choix.intersection;
 	}
 
-//-----------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Définit la taille de la fenêtre et de ses éléments
