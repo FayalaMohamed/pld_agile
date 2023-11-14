@@ -8,7 +8,6 @@ import com.hexa.view.Window;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class EtatCreerRequete1 implements State {
 
   public void entryAction(Window w) {
@@ -34,6 +33,7 @@ public class EtatCreerRequete1 implements State {
       intersectionChoisie = w.popupChoixIntersections(intersectionsSelectionnees);
       if (intersectionChoisie == null) {
         w.afficherMessage("Vous n'avez pas choisi d'intersection.");
+        c.switchToState(c.getPreviousState());
         return;
       }
     }

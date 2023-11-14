@@ -58,7 +58,6 @@ public class EtatCreerRequete3 implements State {
         }
         c.switchToState(c.getEtatAuMoinsUneRequete());
         w.afficherMessage("Livraison Insérée !");
-        w.allow(true);
       }
     }
   }

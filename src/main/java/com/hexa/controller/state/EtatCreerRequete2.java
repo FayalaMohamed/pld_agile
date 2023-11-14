@@ -10,31 +10,33 @@ import com.hexa.model.Livreur;
 import com.hexa.model.Tournee;
 import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
+import java.util.ArrayList;
 
 /**
  * Etat de l'application quand on se trouve dans la deuxième étape de la
  * création d'une requête
- * --> entryAction initialise la livraison avec l'intersection choisie à l'étape 1
+ * --> entryAction initialise la livraison avec l'intersection choisie à l'étape
+ * 1
  * --> choixLivreur complète la nouvelle livraison en lui assignant un livreur
  * --> clicDroit annule la création de requête et revient à etatCarteChargee
  */
 public class EtatCreerRequete2 implements State {
 
-	private Livraison livraison;
-	private Livraison livraisonPrecedente = null;
+  private Livraison livraison;
+  private Livraison livraisonPrecedente = null;
 
   public void entryAction(Window w) {
     w.hideButtons(this);
   }
 
-	public void entryAction(Intersection intersection) {
-		livraison = new Livraison(intersection);
-	}
+  public void entryAction(Intersection intersection) {
+    livraison = new Livraison(intersection);
+  }
 
-	public void entryAction(Intersection intersectionAjouter, Intersection intersectionPrecedente) {
-		livraison = new Livraison(intersectionAjouter);
-		livraisonPrecedente = new Livraison(intersectionPrecedente);
-	}
+  public void entryAction(Intersection intersectionAjouter, Intersection intersectionPrecedente) {
+    livraison = new Livraison(intersectionAjouter);
+    livraisonPrecedente = new Livraison(intersectionPrecedente);
+  }
 
   public void choixLivreur(Controller c, Window w, int livreur, ListOfCommands listOfCommands)
       throws TourneeException, GrapheException {
@@ -73,14 +75,14 @@ public class EtatCreerRequete2 implements State {
     }
   }
 
-	/**
-	 * Reset le state du controlleur au previousState
-	 * 
-	 * @param c
-	 * @param w
-	 */
-	public void clicDroit(Controller c, Window w) {
-		w.afficherMessage("Création de requête annulée");
-		c.switchToState(c.getPreviousState());
-	}
+  /**
+   * Reset le state du controlleur au previousState
+   * 
+   * @param c
+   * @param w
+   */
+  public void clicDroit(Controller c, Window w) {
+    w.afficherMessage("Création de requête annulée");
+    c.switchToState(c.getPreviousState());
+  }
 }

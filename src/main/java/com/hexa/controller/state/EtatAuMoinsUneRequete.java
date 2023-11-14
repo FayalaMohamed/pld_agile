@@ -36,9 +36,9 @@ public class EtatAuMoinsUneRequete implements State {
   public void supprimerRequete(Controller c, Window w) {
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
-      	c.switchToState(c.getEtatSupprimerRequete());
-      	return;
-	}
+        c.switchToState(c.getEtatSupprimerRequete());
+        return;
+      }
     }
     c.switchToState(c.getEtatCarteChargee());
   }
@@ -56,16 +56,16 @@ public class EtatAuMoinsUneRequete implements State {
 
   public void calculerTournee(Controller c, Window w, ListOfCommands listOfCdes) {
     try {
- for (Tournee tournee : c.getTournees()) {
-System.out.println("TOURNEE  :  ");
+      for (Tournee tournee : c.getTournees()) {
+        System.out.println("TOURNEE  :  ");
         for (Livraison livraison : tournee.getLivraisons()) {
           System.out.println(livraison);
         }
-      tournee.construireCircuit(c.getCarte());
-      w.afficherMessage("Tournée calculée");
-      listOfCdes.add(new CircuitCommande(tournee, tournee.getCircuit()));
-    }
-} catch (Exception e) {
+        tournee.construireCircuit(c.getCarte());
+        w.afficherMessage("Tournée calculée");
+        listOfCdes.add(new CircuitCommande(tournee, tournee.getCircuit()));
+      }
+    } catch (Exception e) {
       e.printStackTrace();
       w.afficherMessage(e.getMessage());
     }
@@ -74,11 +74,12 @@ System.out.println("TOURNEE  :  ");
   @Override
   public void undo(ListOfCommands listOfCdes, Controller c) {
     listOfCdes.undo();
-for (Tournee tournee : c.getTournees()) {
+    for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
         return;
       }
       c.switchToState(c.getEtatCarteChargee());
+    }
 
   }
 
@@ -90,5 +91,6 @@ for (Tournee tournee : c.getTournees()) {
         return;
       }
       c.switchToState(c.getEtatCarteChargee());
+    }
   }
 }

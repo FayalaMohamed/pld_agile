@@ -36,7 +36,8 @@ public class EtatChargerRequete implements State {
             c.switchToState(c.getEtatAuMoinsUneRequete());
             break;
           }
-          c.switchToState(c.getEtatCarteChargee());
+          c.switchToState(c.getEtatCarteChargee()); // TODO pourquoi ?
+        }
       } else {
         // TODO c.getTournee().setCircuitCalculer(true);
         int livreur = -1;
@@ -77,7 +78,6 @@ public class EtatChargerRequete implements State {
       for (Tournee tournee : c.getTournees()) {
         if (tournee.getNbLivraisons() != 0) {
           c.switchToState(c.getEtatAuMoinsUneRequete());
-          w.allow(true);
           return;
         }
       }

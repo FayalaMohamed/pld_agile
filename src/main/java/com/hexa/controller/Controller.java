@@ -67,7 +67,7 @@ public class Controller {
 
     listOfCommands = new ListOfCommands();
 
-    window = new Window(this);
+    window = new Window(this, listOfCommands);
     window.afficherMessage("Choisissez une carte à afficher");
   }
 
@@ -87,8 +87,8 @@ public class Controller {
   }
 
   public ListOfCommands getListOfCommands() {
-		return listOfCommands;
-	}
+    return listOfCommands;
+  }
 
   public Graphe getCarte() {
     return carte;
@@ -138,11 +138,7 @@ public class Controller {
     return etatSauvegarderRequete;
   }
 
-	public void setCarte(Graphe carte) {
-		this.carte = carte;
-	}
-
-// -----------------------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------------------
 
   public void setPreviousState(State s) {
     previousState = s;
@@ -151,15 +147,6 @@ public class Controller {
   public void setCarte(Graphe carte) {
     this.carte = carte;
   }
-
-	/**
-	 * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
-	 * 
-	 * @param coordonnees les coordonnées du clic gauche
-	 */
-	public void clicGauche(Coordonnees coordonnees) {
-		currentState.clicGauche(this, window, coordonnees, listOfCommands);
-	}
 
   /**
    * Méthode appelée par la fenêtre après un défilement de la molette de souris
@@ -179,7 +166,7 @@ public class Controller {
    * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
    * 
    * @param coordonnees les coordonnées du clic gauche
- * @throws TourneeException 
+   * @throws TourneeException
    */
   public void clicGauche(Coordonnees coordonnees) throws TourneeException {
     currentState.clicGauche(this, window, coordonnees, listOfCommands);
@@ -251,12 +238,14 @@ public class Controller {
     currentState.creerRequete(this, window);
   }
 
-* Méthode appelée par un état a lorsqu'il passe à un autre état b (après être
+  /**
+   * Méthode appelée par un état a lorsqu'il passe à un autre état b (après être
    * passé dans l'état b) Correspond à la première action qui doit être effectuée
    * quand on entre dans l'état
    */
   public void entryAction() {
     currentState.entryAction(this, window);
+  }
 
   /**
    * Method called by window after a click on the button "Undo"

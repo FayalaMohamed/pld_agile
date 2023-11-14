@@ -85,7 +85,7 @@ public class Window extends JFrame implements Observer {
    * @param controller
    * @param t
    */
-  public Window(Controller controller, Tournee t, ListOfCommands listOfCommands) {
+  public Window(Controller controller, ListOfCommands listOfCommands) {
 
     super();
 
@@ -244,75 +244,75 @@ public class Window extends JFrame implements Observer {
   }
 
   /**
-	 * En cas de clique à des coordonnées où plusieurs intersections sont possibles,
-	 * affiche une popup demandant de choisir.
-	 * 
-	 * @param choixPossibles
-	 * @return l'intersection choisi
-	 */
-	public Intersection popupChoixIntersections(List<Intersection> choixPossibles) {
-		class IntersectionWrapper {
-			Intersection intersection;
-			String desc;
+   * En cas de clique à des coordonnées où plusieurs intersections sont possibles,
+   * affiche une popup demandant de choisir.
+   * 
+   * @param choixPossibles
+   * @return l'intersection choisi
+   */
+  public Intersection popupChoixIntersections(List<Intersection> choixPossibles) {
+    class IntersectionWrapper {
+      Intersection intersection;
+      String desc;
 
-			public IntersectionWrapper(Intersection i) {
-				intersection = i;
-				buildDescription();
-			}
+      public IntersectionWrapper(Intersection i) {
+        intersection = i;
+        buildDescription();
+      }
 
-			private void buildDescription() {
-				Graphe carte = graphicalView.getGraphe();
+      private void buildDescription() {
+        Graphe carte = graphicalView.getGraphe();
 
-				Intersection[] successeurs = carte.getSuccesseur(intersection);
-				Intersection[] predecesseurs = carte.getPredecesseur(intersection);
+        Intersection[] successeurs = carte.getSuccesseur(intersection);
+        Intersection[] predecesseurs = carte.getPredecesseur(intersection);
 
-				desc = "";
-				boolean first = true;
-				for (Intersection succ : successeurs) {
+        desc = "";
+        boolean first = true;
+        for (Intersection succ : successeurs) {
 
-					addToDesc(intersection, succ, carte, first);
-					first = false;
+          addToDesc(intersection, succ, carte, first);
+          first = false;
 
-				}
+        }
 
-				for (Intersection pred : predecesseurs) {
+        for (Intersection pred : predecesseurs) {
 
-					addToDesc(pred, intersection, carte, first);
-					first = false;
+          addToDesc(pred, intersection, carte, first);
+          first = false;
 
-				}
+        }
 
-				desc += ".";
+        desc += ".";
 
-			}
+      }
 
-			private void addToDesc(Intersection origine, Intersection destination, Graphe carte, boolean first) {
-				String nom = carte.getNomSegment(new Segment(origine, destination));
+      private void addToDesc(Intersection origine, Intersection destination, Graphe carte, boolean first) {
+        String nom = carte.getNomSegment(new Segment(origine, destination));
 
-				if (!desc.contains(nom) || nom.equals("")) {
-					if (!first) {
-						desc += ", ";
-					}
-					desc += (nom.equals("") ? "Rue sans nom" : nom);
-				}
-			}
+        if (!desc.contains(nom) || nom.equals("")) {
+          if (!first) {
+            desc += ", ";
+          }
+          desc += (nom.equals("") ? "Rue sans nom" : nom);
+        }
+      }
 
-			public String toString() {
-				return desc;
-			}
-		}
+      public String toString() {
+        return desc;
+      }
+    }
 
-		List<IntersectionWrapper> choixPossiblesWrapped = choixPossibles.stream().map(IntersectionWrapper::new)
-				.collect(Collectors.toList());
-		System.out.println("window joption:" + choixPossibles);
-		System.out.println("window joption:" + choixPossiblesWrapped);
-		Object[] possibilities = choixPossiblesWrapped.toArray();
-		IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(this,
-				"Plusieurs intersections sont possibles.\n" + "Veuillez choisir une intersection :",
-				"Customized Dialog", JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
+    List<IntersectionWrapper> choixPossiblesWrapped = choixPossibles.stream().map(IntersectionWrapper::new)
+        .collect(Collectors.toList());
+    System.out.println("window joption:" + choixPossibles);
+    System.out.println("window joption:" + choixPossiblesWrapped);
+    Object[] possibilities = choixPossiblesWrapped.toArray();
+    IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(this,
+        "Plusieurs intersections sont possibles.\n" + "Veuillez choisir une intersection :",
+        "Customized Dialog", JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
 
-		return choix == null ? null : choix.intersection;
-	}
+    return choix == null ? null : choix.intersection;
+  }
 
   // -----------------------------------------------------------------------------------------------------------------------
 
@@ -358,9 +358,8 @@ public class Window extends JFrame implements Observer {
   public void update(Observable o, Object arg) {
     undoEnabled = ((ListOfCommands) o).canUndo();
     redoEnabled = ((ListOfCommands) o).canRedo();
-    if (!redoEnabled) {
-      boutons.get(REDO).setEnabled(false);
-    }
+    boutons.get(UNDO).setEnabled(undoEnabled);
+    boutons.get(REDO).setEnabled(redoEnabled);
   }
 
 }

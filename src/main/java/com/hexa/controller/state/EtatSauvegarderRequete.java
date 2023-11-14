@@ -5,6 +5,7 @@ import com.hexa.model.XMLParser;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
 import java.io.File;
+import com.hexa.model.Tournee;
 
 /**
  * Etat de l'application permettant la sauvegarde des requêtes
@@ -28,7 +29,7 @@ public class EtatSauvegarderRequete implements State {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      c.setCurrentState(c.getEtatAuMoinsUneRequete());
+      c.switchToState(c.getEtatAuMoinsUneRequete());
     }
   }
 }

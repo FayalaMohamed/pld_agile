@@ -3,11 +3,12 @@ package com.hexa.controller.state;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.view.Window;
+import com.hexa.model.Tournee;
 
 /**
- * Etat dans lequel une carte est chargée mais aucune requête n'existe 
- * --> creerRequete rentre dans l'état etatCreerRequete1 
- * --> chargerRequetes rentre dans l'état etatChargerRequetes 
+ * Etat dans lequel une carte est chargée mais aucune requête n'existe
+ * --> creerRequete rentre dans l'état etatCreerRequete1
+ * --> chargerRequetes rentre dans l'état etatChargerRequetes
  * --> chargerCarte rentre dans l'état etatChargerCarte
  */
 public class EtatCarteChargee implements State {
@@ -37,19 +38,19 @@ public class EtatCarteChargee implements State {
     listOfCdes.undo();
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
-      c.switchToState(c.getEtatAuMoinsUneRequete());
-	break;
-	}
+        c.switchToState(c.getEtatAuMoinsUneRequete());
+        break;
+      }
     }
   }
 
   public void redo(ListOfCommands listOfCdes, Controller c) {
     listOfCdes.redo();
-        for (Tournee tournee : c.getTournees()) {
+    for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
-      	c.switchToState(c.getEtatAuMoinsUneRequete());
-	break;
-	}
+        c.switchToState(c.getEtatAuMoinsUneRequete());
+        break;
+      }
     }
   }
 }
