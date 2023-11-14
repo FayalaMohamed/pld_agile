@@ -10,7 +10,6 @@ public class Coordonnees {
     this.y = y;
   }
 
-  
   /** 
    * @return x
    */
@@ -18,14 +17,12 @@ public class Coordonnees {
     return x;
   }
 
-  
   /** 
    * @return y
    */
   public int getY() {
     return y;
   }
-
   
   /** Retourne True si les deux paires de Coordonnées sont égales en comparant les x et y
    * @param autresCoordonnees
@@ -35,5 +32,9 @@ public class Coordonnees {
     int floue = 5;
     return (this.x <= autresCoordonnees.x + floue && this.x >= autresCoordonnees.x - floue
         && this.y <= autresCoordonnees.y + floue && this.y >= autresCoordonnees.y - floue);
+  }
+
+  public String toString() {
+    return "xpos=" + x + " / ypos=" + y;
   }
 }

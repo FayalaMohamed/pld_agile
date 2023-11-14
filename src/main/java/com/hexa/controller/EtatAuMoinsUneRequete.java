@@ -52,7 +52,7 @@ public class EtatAuMoinsUneRequete implements State {
     try {
       c.getTournee().construireCircuit(c.getCarte());
       w.afficherMessage("Tournée calculée");
-      w.getGraphicalView().repaint();
+      c.setCurrentState(c.etatTourneeCalculee);
     } catch (Exception e) {
       e.printStackTrace();
     }

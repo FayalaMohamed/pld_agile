@@ -171,12 +171,12 @@ public class GraphicalView extends JPanel implements Observer {
         (int) (viewHeight - ((latitudeMax - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight)));
   }
 
-  private void translateView() {
-    Graphics2D g2d = (Graphics2D) g;
-    g2d.translate(viewX, viewY);
-    // Appliquer le facteur de zoom
-    g2d.scale(zoomFactor, zoomFactor);
-  }
+  // private void translateView() {
+  //   Graphics2D g2d = (Graphics2D) g;
+  //   g2d.translate(viewX, viewY);
+  //   // Appliquer le facteur de zoom
+  //   g2d.scale(zoomFactor, zoomFactor);
+  // }
 
   /**
    * Méthode à appeler à chaque fois que la vue graphique doit être redessinée
@@ -187,7 +187,7 @@ public class GraphicalView extends JPanel implements Observer {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     this.g = g;
-    translateView();
+    // translateView();
 
     if (carte != null) {
       vueEntrepot.dessinerVue();
@@ -216,8 +216,13 @@ public class GraphicalView extends JPanel implements Observer {
     int xpos = (int) ((i.getLongitude() - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth);
     int ypos = (int) (viewHeight - ((i.getLatitude() - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight));
 
+    // System.out.println("xpos=" + xpos + " / ypos=" + ypos);
+
     xpos = (int) (xpos * zoomFactor) + viewX;
     ypos = (int) (ypos * zoomFactor) + viewY;
+
+    // System.out.println("xpos=" + xpos + " / ypos=" + ypos);
+
     return new Coordonnees(xpos, ypos);
   }
 

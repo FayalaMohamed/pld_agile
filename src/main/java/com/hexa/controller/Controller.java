@@ -25,6 +25,7 @@ public class Controller {
   protected final EtatSupprimerRequete etatSupprimerRequete = new EtatSupprimerRequete();
   protected final EtatChargerRequete etatChargerRequete = new EtatChargerRequete();
   protected final EtatSauvegarderRequete etatSauvegarderRequete = new EtatSauvegarderRequete();
+  protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
   /**
    * Crée le controlleur de l'application
@@ -140,6 +141,13 @@ public class Controller {
    */
   public void sauvegarderRequetes() {
     currentState.sauvegarderRequetes(this,window);
+  }
+
+  /**
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Générer la feuille de route"
+   */
+  public void genererFeuilleDeRoute() {
+    currentState.genererFeuilleDeRoute(this, window);
   }
 
   /**

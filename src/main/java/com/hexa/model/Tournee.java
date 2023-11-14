@@ -164,8 +164,6 @@ public class Tournee extends Observable {
 		circuit = new Circuit(list);
 		circuitCalculer = true;
 
-    genererFeuilleDeRoute(carte);
-
     this.notifyObservers(this);
   }
 
@@ -173,7 +171,7 @@ public class Tournee extends Observable {
    * Génère la feuille de route correspondant à la tournée calculée
    * @param carte
    */
-  private void genererFeuilleDeRoute(Graphe carte) {
+  public void genererFeuilleDeRoute(Graphe carte) {
     String nomFichier = "Feuille_de_route" + new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
     String text = "Tournée calculée le " + new SimpleDateFormat("dd/MM/yyyy").format(new Date())
                   + " - Livreur " + livreur + "\n\n";

@@ -101,5 +101,13 @@ public interface State {
   public default void choixLivreur(Controller c, Window w, int livreur) {
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Générer la feuille de route"
+   * @param c
+   * @param w
+   */
+  public default void genererFeuilleDeRoute(Controller c, Window w) {
+  }
+
 
 }

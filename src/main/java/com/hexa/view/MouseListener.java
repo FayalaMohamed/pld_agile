@@ -61,7 +61,6 @@ public class MouseListener extends MouseAdapter implements MouseMotionListener {
   @Override
   public void mouseDragged(MouseEvent evt) {
 
-
     graphicalView.setDrag(coordinates(evt),this.dernieresCoordonnees);
     controller.glissement();
     dernieresCoordonnees = coordinates(evt);
