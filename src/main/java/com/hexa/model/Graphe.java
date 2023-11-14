@@ -24,6 +24,11 @@ public class Graphe {
 	 * Table associant à chaque sommet, sa liste de successeur
 	 */
 	protected Map<Intersection, Set<Intersection>> listeSuccesseur;
+	
+	/**
+	 * Table associant à chaque sommet, sa liste de predecesseur
+	 */
+	protected Map<Intersection, Set<Intersection>> listePredecesseur;
 
 	/**
 	 * Entrepot
@@ -45,6 +50,7 @@ public class Graphe {
 		nomSegments = new HashMap<Segment, String>();
 
 		listeSuccesseur = new HashMap<Intersection, Set<Intersection>>();
+		listePredecesseur = new HashMap<Intersection, Set<Intersection>>();
 
 		entrepotDefinit = false;
 
@@ -120,6 +126,16 @@ public class Graphe {
 	public Intersection[] getSuccesseur(Intersection inter) {
 		return listeSuccesseur.get(inter).toArray(new Intersection[0]);
 	}
+	
+	/**
+	 * Retourne la liste des Intersections predecesseur à l'Intersection en paramètre
+	 * 
+	 * @param inter une intersection du graphe
+	 * @return la liste des successeur de inter
+	 */
+	public Intersection[] getPredecesseur(Intersection inter) {
+		return listePredecesseur.get(inter).toArray(new Intersection[0]);
+	}
 
 	/**
 	 * @return un tableau de tous les segments du graphe
@@ -159,6 +175,7 @@ public class Graphe {
 	public boolean ajouterIntersection(Intersection inter) throws GrapheException {
 		if (intersections.add(inter)) {
 			listeSuccesseur.put(inter, new HashSet<Intersection>());
+			listePredecesseur.put(inter, new HashSet<Intersection>());
 			return true;
 		}
 		return false;
@@ -174,6 +191,12 @@ public class Graphe {
 		if (segments.putIfAbsent(seg, seg.getLongueur()) == null) {
 
 			listeSuccesseur.get(seg.getOrigine()).add(seg.getDestination());
+			
+			if (listePredecesseur.get(seg.getDestination()) == null) {
+				listePredecesseur.put(seg.getDestination(), new HashSet<Intersection>());
+			}
+			listePredecesseur.get(seg.getDestination()).add(seg.getOrigine());
+			
 
 			nomSegments.putIfAbsent(seg, seg.getNom());
 
@@ -184,31 +207,5 @@ public class Graphe {
 	}
 
 	
-
-	
-
-	
-
-	
-	
-	public Segment[] getSegmentsFromIntersection(Intersection i) {
-		Set<Segment> setSegments = segments.keySet();
-		List<Segment> SegmentsFromIntersection = new ArrayList<>();
-
-		int nbSegments = getSuccesseur(i).length;
-		int curNbSegments = 0;
-
-		for (Segment s : setSegments) {
-			if (s.getDestination().equals(i) || s.getOrigine().equals(i)) {
-				SegmentsFromIntersection.add(s);
-				curNbSegments++;
-			}
-			if (curNbSegments == nbSegments) {
-				break;
-			}
-		}
-
-		return SegmentsFromIntersection.toArray(new Segment[0]);
-	}
 
 }

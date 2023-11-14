@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import com.hexa.model.*;
 import com.hexa.model.Livraison;
+import com.hexa.model.algo.AlgoException;
 
 public class TourneeTest {
     Tournee tournee;
@@ -44,7 +45,18 @@ public class TourneeTest {
 
         tournee.ajouterLivraison(new Livraison(inters[3]));
         tournee.ajouterLivraison(new Livraison(inters[4]));
-        tournee.construireCircuit(graphe);
+        try {
+			tournee.construireCircuit(graphe);
+		} catch (GrapheException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TourneeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AlgoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @Test

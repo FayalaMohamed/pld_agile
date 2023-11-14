@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.hexa.model.algo.AlgoException;
 import com.hexa.model.algo.ShortestPath;
 import com.hexa.model.algo.TSP;
 import com.hexa.model.algo.branch_bound.TSPBoundSimple;
@@ -196,15 +197,16 @@ public class Tournee extends Observable {
 	 * @param carte
 	 * @throws TourneeException
 	 * @throws GrapheException
+	 * @throws AlgoException 
 	 */
-	public void construireCircuit(Graphe carte) throws GrapheException, TourneeException {
+	public void construireCircuit(Graphe carte) throws GrapheException, TourneeException, AlgoException {
 
 		// Création du graphe complet associé à la tournée
 		GrapheComplet grapheComplet = new GrapheComplet(carte, this);
 		TSP tsp = new TSPBoundSimple();
 
 		// Calcul du meilleur circuit
-		tsp.searchSolution(60000, grapheComplet);
+		tsp.searchSolution(20000, grapheComplet);
 
 		// Construction du circuit de segment et recupération des couts
 		Intersection depart, arrive;

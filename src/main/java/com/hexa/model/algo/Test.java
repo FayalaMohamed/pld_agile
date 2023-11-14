@@ -63,11 +63,16 @@ public class Test {
    * 
    * @param g
    */
-  public static void computeSolutionTSP(Graphe g) {
+  public static void computeSolutionTSP(GrapheComplet g) {
     TSP tsp = new TSPBoundSimple();
 
     long startTime = System.currentTimeMillis();
-    //tsp.searchSolution(20000, g);
+    try {
+		tsp.searchSolution(20000, g);
+	} catch (AlgoException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
     System.out.print("Solution of cost " + tsp.getSolutionCost() + " found in "
         + (System.currentTimeMillis() - startTime) + "ms : ");
     for (int i = 0; i < g.getNbIntersections() + 2; i++)
@@ -175,42 +180,54 @@ public class Test {
   public static void main(String[] args) {
     System.out.println("Bonjour");
 
-    /*
-     * //Test algo TSP
-     * Graphe g = createCompleteGraph(20);
-     * 
-     * g.afficher();
-     * 
-     * computeSolutionTSP(g);
-     */
+    
+//	  //Test algo TSP
+//	  Graphe g;
+//	try {
+//		g = createCompleteGraph(20);
+//		
+//		computeSolutionTSP(g);
+//		
+//	} catch (GrapheException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+	  
+	  
+	  
+     
 
     
 	try {
 		Graphe g2 = createMap();
-		Tournee tournee = createTournee(5, g2);
-		//tournee.afficher();
+		Tournee tournee = createTournee(7, g2);
 	    tournee.construireCircuit(g2);
 	    
 	    //Affichage du circuit
-	    /*
 	    Circuit circuit = tournee.getCircuit();
 	    Segment seg;
 	    while (circuit.hasNext()) {
 	    	seg = circuit.next();
 	    	System.out.println(seg.getOrigine().getId() + " -> " + seg.getDestination().getId());
 	    }
-	    */
-	    System.out.println("\nLivraisons avec heure estime : ");
 	    
-	    for (Livraison l : tournee.getLivraisons()) {
-	    	System.out.println ("Lieu : " + l.getLieu().getId() + " -> Heure : " + l.getHeureEstime()[0] + " Minutes : " + l.getHeureEstime()[1]);
-	    }
+	    
+//	    System.out.println("\nLivraisons avec heure estime : ");
+//	    
+//	    for (Livraison l : tournee.getLivraisons()) {
+//	    	System.out.println ("Lieu : " + l.getLieu().getId() + " -> Heure : " + l.getHeureEstime()[0] + " Minutes : " + l.getHeureEstime()[1]);
+//	    }
 
 	} catch (GrapheException e) {
 		e.printStackTrace();
 	} catch (TourneeException e) {
 		e.printStackTrace();
+	} catch (AlgoException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
+	
+	
     
   }
 

@@ -109,31 +109,5 @@ public class Intersection {
 		return "<intersection id=\"" + id + "\" latitude=\"" + latitude + "\" longitude=\"" + longitude + "\"/>";
 	}
 
-	public String toStringNomSegments(Graphe g) {
-		String returnString = "";
-		Segment[] segments = g.getSegmentsFromIntersection(this);
-
-		returnString += printNomSegment(segments[0]);
-		for (int i = 1; i < segments.length; i++) {
-			boolean found = false;
-			for (int j = 0; j < i; j++) {
-				// Eviter les doublons
-				if (segments[i].getNom().strip().equals(segments[j].getNom().strip())) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				returnString += ", ";
-				returnString += (printNomSegment(segments[i]));
-			}
-		}
-
-		return returnString + ".";
-	}
-
-	private String printNomSegment(Segment s) {
-		return s.getNom().equals("") ? "Rue sans nom" : s.getNom();
-	}
-
+	
 }
