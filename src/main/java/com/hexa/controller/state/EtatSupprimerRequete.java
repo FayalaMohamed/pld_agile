@@ -39,6 +39,10 @@ public class EtatSupprimerRequete implements State {
       if (coord.equals(coordonneesSouris)) {
         for (Tournee tournee : c.getTournees()) {
           Livraison livraison = tournee.getLivraison(intersection);
+          if (livraison == null) {
+            continue;
+          }
+          System.out.println("Livraison supprimée");
           tournee.supprimerLivraison(intersection);
           listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
         }
