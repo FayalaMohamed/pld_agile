@@ -12,10 +12,12 @@ import com.hexa.controller.state.EtatCreerRequete2;
 import com.hexa.controller.state.EtatCreerRequete3;
 import com.hexa.controller.state.EtatSauvegarderRequete;
 import com.hexa.controller.state.EtatSupprimerRequete;
+import com.hexa.controller.state.EtatTourneeCalculee;
 import com.hexa.controller.state.InitialState;
 import com.hexa.controller.state.State;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
+import com.hexa.model.GrapheException;
 import com.hexa.model.Tournee;
 import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
@@ -201,6 +203,7 @@ public class Controller {
    * de livreurs"
    * 
    * @throws TourneeException
+ * @throws GrapheException 
    */
   public void choixLivreur(int livreur) throws TourneeException, GrapheException {
     currentState.choixLivreur(this, window, livreur, listOfCommands);

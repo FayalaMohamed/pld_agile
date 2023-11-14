@@ -115,16 +115,16 @@ public class Window extends JFrame implements Observer {
     label.setSize(buttonWidth, buttonHeight);
     label.setLocation(5, boutons.size() * buttonHeight);
     getContentPane().add(label);
-    livreurMenue = new JComboBox<String>(liste_livreurs);
+    livreurMenu = new JComboBox<String>(liste_livreurs);
     
     BoxListener boxListener = new BoxListener(controller);
-    livreurMenue.addActionListener(boxListener);
-    livreurMenue.setFocusable(false);
-    getContentPane().add(livreurMenue);
+    livreurMenu.addActionListener(boxListener);
+    livreurMenu.setFocusable(false);
+    getContentPane().add(livreurMenu);
 
-    graphicalView = new GraphicalView(this, t);
+    graphicalView = new GraphicalView(this);
 
-    textualView = new TextualView(this, t);
+    textualView = new TextualView(this, controller.getTournees().get(0)); // A MODIFIER
     textualViewWidth = textualView.getViewWidth();
 
     messageFrame = new JLabel();
@@ -269,7 +269,7 @@ public class Window extends JFrame implements Observer {
       }
 
       private void buildDescription() {
-        Graphe carte = graphicalView.getGraphe();
+        Graphe carte = controller.getCarte();
 
         Intersection[] successeurs = carte.getSuccesseur(intersection);
         Intersection[] predecesseurs = carte.getPredecesseur(intersection);
@@ -341,8 +341,8 @@ public class Window extends JFrame implements Observer {
     textualView.setSize(textualViewWidth, height - messageFrameHeight);
     textualView.setLocation(10 + graphicalView.getViewWidth() + buttonWidth, 0);
 
-    livreurMenue.setSize(buttonWidth, buttonHeight);
-    livreurMenue.setLocation(5, (boutons.size() + 1) * buttonHeight);
+    livreurMenu.setSize(buttonWidth, buttonHeight);
+    livreurMenu.setLocation(5, (boutons.size() + 1) * buttonHeight);
 
     setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     setLocationRelativeTo(null);
@@ -389,9 +389,4 @@ public class Window extends JFrame implements Observer {
   }
 
   
-
-
-  public GraphicalView getGraphicalView() {
-    return graphicalView;
-  }
 }

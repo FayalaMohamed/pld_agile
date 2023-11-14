@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 
 import com.hexa.controller.Controller;
 import com.hexa.model.Coordonnees;
+import com.hexa.model.TourneeException;
 
 public class MouseListener extends MouseAdapter implements MouseMotionListener {
 
@@ -37,7 +38,11 @@ public class MouseListener extends MouseAdapter implements MouseMotionListener {
   public void mouseClicked(MouseEvent evt) {
     switch (evt.getButton()) {
       case MouseEvent.BUTTON1:     
-        controller.clicGauche(coordinates(evt));
+        try {
+			controller.clicGauche(coordinates(evt));
+		} catch (TourneeException e) {
+			e.printStackTrace();
+		}
         break;
       case MouseEvent.BUTTON3:
         System.out.println("Right click pressed");

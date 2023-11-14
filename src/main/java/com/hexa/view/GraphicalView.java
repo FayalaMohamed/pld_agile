@@ -295,5 +295,7 @@ public class GraphicalView extends JPanel implements Observer {
   public double getZoomFactor() {
     return zoomFactor;
   }
+  
+  
 
 }
