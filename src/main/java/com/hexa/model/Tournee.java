@@ -88,7 +88,7 @@ public class Tournee extends Observable {
   public Livraison getLivraison(Intersection intersection) {
     Livraison livraison = null;
     for (Livraison l : livraisons) {
-      if (l.getLieu() == intersection) {
+      if (l.getLieu().equals(intersection)) {
         livraison = l;
         break;
       }
@@ -136,6 +136,7 @@ public class Tournee extends Observable {
   }
 
   /**
+
 	 * @param livraisons
 	 */
 	public void setLivraisons(Set<Livraison> livraisons) {
@@ -184,7 +185,7 @@ public class Tournee extends Observable {
    */
   public void supprimerLivraison(Intersection intersection) {
     for (Livraison l : livraisons) {
-      if (l.getLieu() == intersection) {
+      if (l.getLieu().equals(intersection)) {
         livraisons.remove(l);
         break;
       }
@@ -343,7 +344,7 @@ public class Tournee extends Observable {
 
     while (circuit.hasNext()) {
       intersectionSuivante = circuit.next().getOrigine();
-      if (intersectionSuivante == livraisonPrecedente.getLieu()) {
+      if (intersectionSuivante.equals(livraisonPrecedente.getLieu())) {
         save = true;
         continue;
       }
@@ -390,7 +391,6 @@ public class Tournee extends Observable {
 
     // On notifie les observeurs que la tournée à changer
     notifyObservers(this);
-
     return true;
   }
 
@@ -416,7 +416,7 @@ public class Tournee extends Observable {
 
       Segment seg = circuit.next();
 
-      if (seg.getOrigine() == intersectionPrecedente) {
+      if (seg.getOrigine().equals(intersectionPrecedente)) {
         listChemin.add(new Chemin(listSeg));
         listSeg.clear();
 
@@ -534,10 +534,13 @@ public class Tournee extends Observable {
    * 
    * @param carte
    */
-  public void genererFeuilleDeRoute(Graphe carte) {
+  private void genererFeuilleDeRoute(Graphe carte) {
+
+    circuit.reset();
+
     String nomFichier = "Feuille_de_route" + new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
-    String text = "Tournée calculée le " + new SimpleDateFormat("dd/MM/yyyy").format(new Date())
-                  + " - Livreur " + livreur + "\n\n";
+    String text = "Tournée calculée le " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + " - Livreur "
+        + livreur + "\n\n";
 
     ArrayList<String> nomsVisites = new ArrayList<String>();
     String nomPremierSegment = carte.getNomSegment(circuit.next());

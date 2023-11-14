@@ -84,6 +84,10 @@ public class Controller {
     return tournees;
   }
 
+  public void initTournees() {
+    tournees = new ArrayList<Tournee>();
+  }
+
   public void addTournee(Tournee tournee) {
     tournee.addObserver(window.getGraphicalView());
     tournees.add(tournee);
