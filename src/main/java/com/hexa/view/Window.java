@@ -15,6 +15,7 @@ import com.hexa.view.listener.ButtonListener;
 import com.hexa.view.listener.MouseListener;
 import com.hexa.view.listener.ZoomHandler;
 import com.hexa.model.Intersection;
+import com.hexa.model.Segment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,12 +179,47 @@ public class Window extends JFrame {
 
 			public IntersectionWrapper(Intersection i) {
 				intersection = i;
+				buildDescription();
+			}
+			
+			private void buildDescription() {
+				Graphe carte = graphicalView.getGraphe();
+				
+				Intersection[] successeurs = carte.getSuccesseur(intersection);
+				Intersection[] predecesseurs = carte.getPredecesseur(intersection);
+				
+				desc = "";
+				boolean first = true;
+				for (Intersection succ : successeurs) {
+					
+					addToDesc(intersection, succ, carte, first);
+					first = false;
+					
+				}
+				
+				for (Intersection pred : predecesseurs) {
+					
+					addToDesc(pred, intersection, carte, first);
+					first = false;
+					
+				}
+				
+				desc += ".";
+				
+			}
+			
+			private void addToDesc(Intersection origine, Intersection destination, Graphe carte, boolean first) {
+				String nom = carte.getNomSegment(new Segment(origine, destination));
+				
+				if (!desc.contains(nom) || nom.equals("")) {
+					if (!first) {
+						desc += ", ";
+					}
+					desc += (nom.equals("") ? "Rue sans nom" : nom);
+				}
 			}
 
-			public String toString() {
-				if (desc == null) {
-					desc = intersection.toStringNomSegments(graphicalView.getGraphe());
-				}
+			public String toString() {				
 				return desc;
 			}
 		}
