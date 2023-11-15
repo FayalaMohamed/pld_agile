@@ -53,7 +53,7 @@ public class TextualView extends JPanel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 
-		System.out.println("update textual view");
+		System.out.println("\nupdate textual view\n");
 
 		boolean tourneeDejaExistante = false;
 		for (VueTexteTournee vtt : vuesTournees) {
