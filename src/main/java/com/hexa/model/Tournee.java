@@ -227,6 +227,7 @@ public class Tournee extends Observable {
       circuit = null;
       circuitCalculer = false;
       finTourneeEstime = new int[2];
+      notifyObservers(this);
       return true;
     }
 
@@ -610,11 +611,14 @@ public class Tournee extends Observable {
    * 
    * @param carte
    */
-  private void genererFeuilleDeRoute(Graphe carte) {
+  public void genererFeuilleDeRoute(Graphe carte) {
+    if (!circuitCalculer) {
+      return;
+    }
 
     circuit.reset();
 
-    String nomFichier = "Feuille_de_route" + new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
+    String nomFichier = "Feuille_de_route_livreur_"+livreur.getId()+"_" + new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
     String text = "Tournée calculée le " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + " - Livreur "
         + livreur + "\n\n";
 
@@ -624,8 +628,21 @@ public class Tournee extends Observable {
     text += "Prendre sur " + nomPremierSegment + "\n";
 
     String nomSegment;
+    Segment segment = null;
+    Livraison livraison = null;
+    
     while (circuit.hasNext()) {
-      nomSegment = carte.getNomSegment(circuit.next());
+      segment = circuit.next();
+      nomSegment = carte.getNomSegment(segment);
+      if ((livraison = getLivraison(segment.getDestination())) != null) {
+        text += "Livraison à " + nomSegment + " : heure estimée d'arrivée: " + livraison.getHeureEstime()[0] + "h"
+            + livraison.getHeureEstime()[1];
+        if (livraison.getNbMinutesAttente() != 0) {
+          text += " et attendez " + livraison.getNbMinutesAttente() + " minutes car";
+        }
+        text += " la plage horaire est : " + livraison.getPlageHoraire()[0] + "h->" + livraison.getPlageHoraire()[1]
+            + "h\n";
+      }
       if (!nomsVisites.get(nomsVisites.size() - 1).equals(nomSegment)) {
 
         nomsVisites.add(nomSegment);
@@ -643,6 +660,7 @@ public class Tournee extends Observable {
         text += nomSegment + "\n";
       }
     }
+    text += "Heure estimée de fin de la tournée : " + finTourneeEstime[0] + "h" + finTourneeEstime[1]+"\n";
 
     sauvegarderFeuilleDeRoute(text, nomFichier);
   }

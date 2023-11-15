@@ -69,6 +69,10 @@ public class ButtonListener implements ActionListener {
 			System.out.println("Bouton sauvegarder requetes");
 			controller.sauvegarderRequetes();
 			break;
+		case Window.GENERER_FEUILLE_DE_ROUTE:
+			System.out.println("Bouton Générer feuille de route");
+			controller.genererFeuilleDeRoute();
+			break;
 		}
 	}
 }

@@ -12,7 +12,6 @@ import com.hexa.controller.state.EtatCreerRequete2;
 import com.hexa.controller.state.EtatCreerRequete3;
 import com.hexa.controller.state.EtatSauvegarderRequete;
 import com.hexa.controller.state.EtatSupprimerRequete;
-import com.hexa.controller.state.EtatTourneeCalculee;
 import com.hexa.controller.state.InitialState;
 import com.hexa.controller.state.State;
 import com.hexa.model.Coordonnees;
@@ -52,10 +51,6 @@ public class Controller {
   private ListOfCommands listOfCommands;
 
   int nbLivreurs;
-
-  // Instances associées avec chacuns des états possibles pour le controlleur
-
-  protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
   /**
    * Crée le controlleur de l'application
@@ -276,7 +271,7 @@ public class Controller {
    * feuille de route"
    */
   public void genererFeuilleDeRoute() {
-    currentState.genererFeuilleDeRoute(this, window);
+    currentState.genererFeuilleDeRoute(this);
   }
 
   /**
