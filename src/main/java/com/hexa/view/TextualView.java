@@ -67,17 +67,17 @@ public class TextualView extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 
 		//on génère le texte correspondant aux livraisons chargées
-		text = "<html><ul>";
-		for (Livraison l : tournee.getLivraisons())
-			display(l);
-		text = text+"</ul></html>";
+		// text = "<html><ul>";
+		// for (Livraison l : tournee.getLivraisons())
+		// 	display(l);
+		// text = text+"</ul></html>";
 
-		texteTournees.setText(text);
-		removeAll();
-		createScrollPane(texteTournees);
-		add(scrollPane);
-		revalidate();
-		repaint();
+		// texteTournees.setText(text);
+		// removeAll();
+		// createScrollPane(texteTournees);
+		// add(scrollPane);
+		// revalidate();
+		// repaint();
 	}
 
 	/**

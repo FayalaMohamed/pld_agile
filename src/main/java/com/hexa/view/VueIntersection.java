@@ -39,7 +39,7 @@ public class VueIntersection extends Observable {
 
     public void afficherSelectionnee() {
         rayon = 6;
-        color = Color.PINK;
+        color = Color.ORANGE;
     }
 
     public void afficherNonSelectionnee() {

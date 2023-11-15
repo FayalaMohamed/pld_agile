@@ -384,8 +384,16 @@ public class Window extends JFrame implements Observer {
    * @param coordonneesSouris
    * @return
    */
-  public Intersection getIntersectionSelectionnee(Coordonnees coordonneesSouris) {
+  public List<Intersection> getIntersectionSelectionnee(Coordonnees coordonneesSouris) {
     return graphicalView.getIntersectionSelectionnee(coordonneesSouris);
+  }
+
+  /**
+   * Demande à la vue graphique d'afficher l'intersection en mode sélectionnée
+   * @param intersection
+   */
+  public void afficherIntersectionSelectionnee(Intersection intersection) {
+    graphicalView.setSelectionnee(intersection);
   }
 
   
