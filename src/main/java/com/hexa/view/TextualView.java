@@ -32,13 +32,13 @@ public class TextualView extends JPanel implements Observer{
 
 	/**
 	 * Crée la vue textuelle des livraisons
-	 * @param tournee la tournée
 	 * @param window la fenêtre
+	 * @param textualViewWidth
 	 */
-	public TextualView(Window window){
+	public TextualView(Window window, int textualViewWidth){
 		super();
 
-		this.viewWidth = 400;
+		this.viewWidth = textualViewWidth;
 		this.viewHeight = window.getHeight();
 
 		setBackground(Color.WHITE);

@@ -2,7 +2,7 @@ package com.hexa.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,13 +50,13 @@ public class GraphicalView extends JPanel implements Observer {
    * Crée la vue graphique correspondant à une tournée dans une fenêtre
    * 
    * @param w
-   * @param tournee
+   * @param size
    */
-  public GraphicalView(Window w) {
+  public GraphicalView(Window w, Dimension size) {
     super();
 
-    viewWidth = 1000;
-    viewHeight = 700;
+    viewWidth = size.width; //1000
+    viewHeight = size.height; //700
 
     setSize(viewWidth, viewHeight);
     setBackground(Color.white);

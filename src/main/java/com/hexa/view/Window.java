@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.stream.*;
 import javax.swing.JOptionPane;
 
@@ -56,10 +57,10 @@ public class Window extends JFrame implements Observer {
 
   // Une map qui associe à chaque indice de texteBoutons un bouton de l'IHM
   private Map<String, JButton> boutons;
-  private final int buttonHeight = 40;
-  private final int buttonWidth = 250;
-  private final int messageFrameHeight = 110;
-  private int textualViewWidth;
+  private int buttonHeight = 40;
+  private int buttonWidth = 250;
+  private int messageFrameHeight = 110;
+  private int textualViewWidth = 400;
 
   private GraphicalView graphicalView;
   private TextualView textualView;
@@ -102,13 +103,24 @@ public class Window extends JFrame implements Observer {
 
     FlatLightLaf.setup();
 
-    setTitle("AGILE H4113");
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+    float coeff = (float)screenSize.width/(float)(1500+buttonWidth+textualViewWidth);
+    buttonHeight = (int)(40*coeff);
+    buttonWidth = (int)(250*coeff);
+    messageFrameHeight =(int)(110*coeff);
+    textualViewWidth = (int)(400*coeff);
+
+    int allButtonHeight = buttonHeight * texteBoutons.length;
+    screenSize.height = Math.max(screenSize.height, allButtonHeight) - messageFrameHeight;
+    screenSize.width = screenSize.width - buttonWidth - 10 - textualViewWidth;
+
+    setTitle("AGILE H4103");
     setLayout(null);
     initBoutons(controller);
-    // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setResizable(false);
+    setResizable(true);
 
     String[] liste_livreurs = new String[controller.getNbLivreurs()];
     for (int i = 0; i < controller.getNbLivreurs(); ++i) {
@@ -125,9 +137,9 @@ public class Window extends JFrame implements Observer {
     livreurMenu.setFocusable(false);
     getContentPane().add(livreurMenu);
 
-    graphicalView = new GraphicalView(this);
+    graphicalView = new GraphicalView(this, screenSize);
 
-    textualView = new TextualView(this); // A MODIFIER
+    textualView = new TextualView(this, textualViewWidth); // A MODIFIER
     textualViewWidth = textualView.getViewWidth();
 
     messageFrame = new JLabel();
@@ -194,7 +206,7 @@ public class Window extends JFrame implements Observer {
   public void hideButtons(EtatAuMoinsUneRequete etatAuMoinsUneRequete) {
     toggleAllButtons(true);
     // TODO update avec EtatTourneeCalculee
-    boolean auMoinsUneTourneeCalculee = false; // a changer en false
+    boolean auMoinsUneTourneeCalculee =true; // a changer en false
     for (Tournee tournee : controller.getTournees()) {
       if (tournee.estCalculee()) {
         auMoinsUneTourneeCalculee = true;
