@@ -261,4 +261,95 @@ public class XMLParser {
 		}
 	}
 
+	public static ArrayList<Tournee> xmlToListeLivraison2(String path) throws Exception {
+		File stocks = new File(path);
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(stocks);
+		doc.getDocumentElement().normalize();
+		boolean trouvee = false;
+
+		Set<Livraison> listeLivraisons = new HashSet<Livraison>();
+
+		ArrayList<Tournee> tournees = new ArrayList<Tournee>();
+
+		NodeList livraisons = doc.getElementsByTagName("livraison");
+		for (int i = 0; i < livraisons.getLength(); i++) {
+			Node uneLivraison = livraisons.item(i);
+			NamedNodeMap attributes = uneLivraison.getAttributes();
+
+			if (attributes.getLength() != 8 || attributes.item(0).getNodeName() != "dateHeure"
+					|| attributes.item(1).getNodeName() != "dateMinute" || attributes.item(2).getNodeName() != "id"
+					|| attributes.item(3).getNodeName() != "latitude" || attributes.item(4).getNodeName() != "livreurId"
+					|| attributes.item(5).getNodeName() != "longitude"
+					|| attributes.item(6).getNodeName() != "plageDebut"
+					|| attributes.item(7).getNodeName() != "plageFin") {
+				throw new Exception(
+						"A delivery must have 6 attributes in this order : date, livreurId, id, latitude, longitude");
+			}
+			int dateHeure = Integer.parseInt(attributes.item(0).getNodeValue());
+			int dateMinute = Integer.parseInt(attributes.item(1).getNodeValue());
+
+			int livreurId = Integer.parseInt(attributes.item(4).getNodeValue());
+			int plageDebut = Integer.parseInt(attributes.item(6).getNodeValue());
+			int plageFin = Integer.parseInt(attributes.item(7).getNodeValue());
+			Long id = Long.parseLong(attributes.item(2).getNodeValue());
+			double latitude = Double.parseDouble(attributes.item(3).getNodeValue());
+			double longitude = Double.parseDouble(attributes.item(5).getNodeValue());
+
+			Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
+			livraison.setLivreur(new Livreur(livreurId));
+			livraison.setPlageHoraire(plageDebut, plageFin);
+			livraison.setHeureEstime(dateHeure, dateMinute);
+
+			if(tournees.size()== 0){
+				Tournee t = new Tournee();
+				t.setLivreur(new Livreur(livreurId));
+				t.ajouterLivraison(livraison);
+				tournees.add(t);
+			}else{
+				for(Tournee t : tournees) {
+					if(livreurId == t.getLivreur().getId()){
+						t.ajouterLivraison(livraison);
+						trouvee = true;
+						break;
+					}
+				}
+				if(!trouvee){
+					Tournee t = new Tournee();
+					t.setLivreur(new Livreur(livreurId));
+					t.ajouterLivraison(livraison);
+					tournees.add(t);
+				}
+			}
+			trouvee = false;
+
+		}
+
+		return tournees;
+	}
+
+	public static void listeLivraisonsToXml2(String path, ArrayList<Tournee> tournees) {
+		try {
+			PrintWriter writer = new PrintWriter(path, "UTF-8");
+			writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
+			writer.println("<livraisons>");
+			for(Tournee t : tournees) {
+				for (Livraison livraison : t.getLivraisons()) {
+					writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateMinute=\""
+							+ livraison.getHeureEstime()[1] + "\" livreurId=\"" + t.getLivreur().getId()
+							+ "\" plageDebut=\"" + livraison.getPlageHoraire()[0] + "\" plageFin=\""
+							+ livraison.getPlageHoraire()[1] + "\" id=\"" + livraison.getLieu().getId() + "\" latitude=\""
+							+ livraison.getLieu().getLatitude() + "\" longitude=\"" + livraison.getLieu().getLongitude()
+							+ "\"/>");
+
+				}
+			}
+			writer.println("</livraisons>");
+			writer.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 }

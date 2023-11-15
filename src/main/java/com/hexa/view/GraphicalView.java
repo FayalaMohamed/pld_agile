@@ -176,6 +176,8 @@ public class GraphicalView extends JPanel implements Observer {
 
   public void clearTournees() {
     this.vuesTournees.clear();
+    nbTournees = 0;
+    repaint();
   }
 
   /**
@@ -280,11 +282,24 @@ public class GraphicalView extends JPanel implements Observer {
     } else {
       // Zoom out
       zoomFactor /= 1.1;
-      if (zoomFactor < 0.98) {
+      if (zoomFactor < 1) {
         zoomFactor = temp;
       } else {
-        viewX = 0;
-        viewY = 0;
+        if ( viewX  <-(coordonneesMax.getX()*(zoomFactor-1)) ) {
+          viewX = (int)(-(coordonneesMax.getX()*(zoomFactor-1)));
+          // System.out.println("Limite A atteinte");
+        } else if (viewX  > coordonneesMin.getX()*(zoomFactor-1)) {
+          viewX = (int)(coordonneesMin.getX()*(zoomFactor-1));
+
+        }
+
+        if ( viewY <-coordonneesMin.getY()*(zoomFactor-1) ) {
+          viewY = (int)(-coordonneesMin.getY()*(zoomFactor-1));
+          // System.out.println("Limite A atteinte");
+        } else if (viewY  > coordonneesMin.getX()*(zoomFactor-1)) {
+          viewY = (int)(coordonneesMin.getX()*(zoomFactor-1));
+
+        }
       }
     }
     repaint();

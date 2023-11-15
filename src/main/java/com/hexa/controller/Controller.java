@@ -1,6 +1,8 @@
 package com.hexa.controller;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.controller.state.ChargerCarte;
@@ -14,11 +16,7 @@ import com.hexa.controller.state.EtatSauvegarderRequete;
 import com.hexa.controller.state.EtatSupprimerRequete;
 import com.hexa.controller.state.InitialState;
 import com.hexa.controller.state.State;
-import com.hexa.model.Coordonnees;
-import com.hexa.model.Graphe;
-import com.hexa.model.GrapheException;
-import com.hexa.model.Tournee;
-import com.hexa.model.TourneeException;
+import com.hexa.model.*;
 import com.hexa.view.Window;
 
 public class Controller {
@@ -87,7 +85,10 @@ public class Controller {
 
   public void addTournee(Tournee tournee) {
     tournee.addObserver(window.getGraphicalView());
+    tournee.notifyObservers(window.getGraphicalView());
+
     tournee.addObserver(window.getTextualView());
+    //tournee.notifyObservers(window.getTextualView());
     tournees.add(tournee);
   }
 
@@ -293,4 +294,16 @@ public class Controller {
     currentState.entryAction(window);
   }
 
+  public void setTournee(ArrayList<Tournee> tournees) {
+    this.supprimerTournees();
+    for(Tournee tournee : tournees){
+      this.addTournee(tournee);
+    }
+  }
+
+  public void resetTournee() {
+    this.tournees = new ArrayList<Tournee>();
+    System.out.println("Tournées reset");
+
+  }
 }
