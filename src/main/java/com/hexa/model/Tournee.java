@@ -442,10 +442,16 @@ public class Tournee extends Observable {
     dijkstra.searchShortestPath(carte, livraisonAjouter.getLieu(), null);
     double t2 = dijkstra.getCost(intersectionSuivante) / 1000.0 / 15.0;
     Chemin cheminNewtoNext = new Chemin(dijkstra.getSolPath(intersectionSuivante));
-    temps.put(livraisonAjouter.getLieu(), temps.get(livraisonPrecedente.getLieu()) + 5.0 / 60.0 + t1);
-
-    double oldTime = temps.get(intersectionSuivante) - temps.get(livraisonPrecedente.getLieu()) - 5.0 / 60.0;
-    double delta = t1 + t2 - oldTime;
+    
+    double oldTime = 0;
+    if (carte.getEntrepot().equals(livraisonPrecedente.getLieu())) {
+      oldTime = temps.get(intersectionSuivante);
+      temps.put(livraisonAjouter.getLieu(),  t1);
+    } else {
+      temps.put(livraisonAjouter.getLieu(), temps.get(livraisonPrecedente.getLieu()) + 5.0 / 60.0 + t1);
+      oldTime = temps.get(intersectionSuivante) - temps.get(livraisonPrecedente.getLieu()) - 5.0 / 60.0;
+    }
+    double delta = t1 + t2 - oldTime + 5.0 / 60.0;
 
     // MAJ des temps avec le delta pour chaque livraisons suivante
     temps.put(intersectionSuivante, temps.get(intersectionSuivante) + delta);
@@ -457,19 +463,12 @@ public class Tournee extends Observable {
     }
     temps.put(carte.getEntrepot(), temps.get(carte.getEntrepot()) + delta);
 
-        System.out.println("delta = " + delta);
-
     // MAJ des heures d'arrivées et des plages horaires pour chaque objet Livraison
     // en utilisant la map temps à jour
     updateHeuresLivraison(carte.getEntrepot());
 
     // MAJ du circuit en ajoutant les 2 chemins calculés au bonne endroit
     MAJCircuitAjoutApresCalcul(carte.getEntrepot(), livraisonPrecedente.getLieu(), cheminPreToNew, cheminNewtoNext);
-
-    for (Livraison liv : livraisons) {
-      System.out.println(liv.getLieu().getId() + " -> " + liv.getHeureEstime()[0] + ":" + liv.getHeureEstime()[1]
-          + " plage -> " + liv.getPlageHoraire()[0] + "-" + liv.getPlageHoraire()[1]);
-    }
     
     // On notifie les observeurs que la tournée à changer
     notifyObservers(this);
