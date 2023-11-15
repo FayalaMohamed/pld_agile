@@ -1,10 +1,13 @@
 package com.hexa.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -22,9 +25,7 @@ public class TextualView extends JPanel implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	private String text;
-    private Tournee tournee;
-	private JScrollPane scrollPane;
-	private JLabel texteTournees;
+    private ArrayList<VueTexteTournee> vuesTournees = new ArrayList<VueTexteTournee>();
 
 	private int viewWidth;
 	private int viewHeight;
@@ -34,30 +35,16 @@ public class TextualView extends JPanel implements Observer{
 	 * @param tournee la tournée
 	 * @param window la fenêtre
 	 */
-	public TextualView(Window window, Tournee tournee){
+	public TextualView(Window window){
 		super();
 
-		this.viewHeight = window.getHeight();
 		this.viewWidth = 400;
+		this.viewHeight = window.getHeight();
 
-		this.texteTournees = new JLabel();
-		Dimension dimensions = texteTournees.getSize();
-		dimensions.width = 200;
-		texteTournees.setSize(dimensions);
-
-		setBorder(BorderFactory.createTitledBorder("Liste des livraisons:"));
-		this.texteTournees.setVerticalTextPosition(JLabel.TOP);
-		this.texteTournees.setVerticalAlignment(JLabel.TOP);
-		this.texteTournees.setFont(UIManager.getFont("large.font"));
-		this.texteTournees.setText("test addichage");
-
-		this.scrollPane = new JScrollPane(texteTournees);
-		add(scrollPane);
+		setBackground(Color.WHITE);
+		setBorder(BorderFactory.createTitledBorder("Liste des livraisons :"));
 
 		window.getContentPane().add(this);
-
-		tournee.addObserver(this); // this observes tournee
-		this.tournee = tournee;
 	}
 	
 	/**
@@ -66,18 +53,32 @@ public class TextualView extends JPanel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 
-		//on génère le texte correspondant aux livraisons chargées
-		// text = "<html><ul>";
-		// for (Livraison l : tournee.getLivraisons())
-		// 	display(l);
-		// text = text+"</ul></html>";
+		System.out.println("update textual view");
 
-		// texteTournees.setText(text);
-		// removeAll();
-		// createScrollPane(texteTournees);
-		// add(scrollPane);
-		// revalidate();
-		// repaint();
+		boolean tourneeDejaExistante = false;
+		for (VueTexteTournee vtt : vuesTournees) {
+			if (vtt.getTournee().equals((Tournee)arg)) {
+				tourneeDejaExistante = true;
+				System.out.println("textual view : tournée déjà existante");
+				vtt.setTournee((Tournee)arg);
+			}
+		}
+
+		if (!tourneeDejaExistante) {
+			System.out.println("textual view : nouvelle tournée");
+			vuesTournees.add(new VueTexteTournee((Tournee)arg, this));
+		}
+		genererVue();
+	}
+
+	public void genererVue() {
+
+		System.out.println("textual view : générer vue / nb de tournées : " + vuesTournees.size());
+		for (VueTexteTournee vueTournee : vuesTournees) {
+			System.out.println("largeur vue : "+vueTournee.getWidth()+" / hauteur vue : " + vueTournee.getHeight());
+			this.add(vueTournee.dessinerVue());
+		}
+
 	}
 
 	/**
@@ -85,20 +86,12 @@ public class TextualView extends JPanel implements Observer{
      * @param l
      */
 	public void display(Livraison l) {
-		text = text+"<li>";
-		text = text+"Livraison: " + l.toString();
-		if (tournee.estCalculee()) {
-			text = text + " Plage horaire : " + l.getPlageHoraire()[0] + "h - " + l.getPlageHoraire()[1] + "h";
-		}
-		text = text+"</li>";
-	}
-
-	private void createScrollPane(JLabel zoneTexte) {
-
-		scrollPane = new JScrollPane(zoneTexte,
-										ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,  
-   										ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setWheelScrollingEnabled(true);
+		// text = text+"<li>";
+		// text = text+"Livraison: " + l.toString();
+		// if (tournee.estCalculee()) {
+		// 	text = text + " Plage horaire : " + l.getPlageHoraire()[0] + "h - " + l.getPlageHoraire()[1] + "h";
+		// }
+		// text = text+"</li>";
 	}
 
 	public int getViewWidth() {

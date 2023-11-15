@@ -90,6 +90,7 @@ public class Controller {
 
   public void addTournee(Tournee tournee) {
     tournee.addObserver(window.getGraphicalView());
+    tournee.addObserver(window.getTextualView());
     tournees.add(tournee);
   }
 

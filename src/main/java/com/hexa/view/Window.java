@@ -124,7 +124,7 @@ public class Window extends JFrame implements Observer {
 
     graphicalView = new GraphicalView(this);
 
-    textualView = new TextualView(this, new Tournee()); // A MODIFIER
+    textualView = new TextualView(this); // A MODIFIER
     textualViewWidth = textualView.getViewWidth();
 
     messageFrame = new JLabel();
@@ -165,6 +165,10 @@ public class Window extends JFrame implements Observer {
     return graphicalView;
   }
 
+  public TextualView getTextualView() {
+    return textualView;
+  }
+
   public Controller getController() {
     return controller;
   }
@@ -186,8 +190,8 @@ public class Window extends JFrame implements Observer {
 
   public void hideButtons(EtatAuMoinsUneRequete etatAuMoinsUneRequete) {
     toggleAllButtons(true);
-    // TODO ne marche pas car etats bizarres
-    boolean auMoinsUneTourneeCalculee = true; // a changer en false
+    // TODO update avec EtatTourneeCalculee
+    boolean auMoinsUneTourneeCalculee = false; // a changer en false
     for (Tournee tournee : controller.getTournees()) {
       System.out.println("HEYOOOO");
       System.out.println(tournee.estCalculee());
