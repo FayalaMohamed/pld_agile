@@ -25,32 +25,35 @@ public class VueTournee {
     private Color color;
 
     public VueTournee(Tournee tournee, GraphicalView gv, Color color) {
+        this.tournee = tournee;
+        this.gv = gv;
+        this.color = color;
+
+        setVue(tournee);
+    }
+
+    public void setVue(Tournee tournee) {
+
+        this.tournee = tournee;
+        this.vuesSegmentsCircuit.clear();
+        this.vuesLivraisons.clear();
+
         try {
-            this.tournee = tournee;
-
             if (tournee.estCalculee()) {
+                System.out.println("tournée calculée");
                 this.circuit = tournee.getCircuit();
-            } else {
-                this.circuit = null;
-            }
-
-            this.gv = gv;
-            this.color = color;
-
-            //création des vues pour les livraisons et le circuit (si besoin)
-            
-
-            if (tournee.estCalculee()) {
-                //construction des segments + livraisons avec les numéros
                 constructionVuesSegmentCircuit();
             } else {
+                System.out.println("tournée non calculée");
+                this.circuit = null;
                 //simplement création des vues livraison
                 for (Livraison l : this.tournee.getLivraisons()) {
+                    System.out.println("livraison tournee");
                     vuesLivraisons.add(new VueLivraison(l, this.gv, this.color));
                 }
             }
-
         } catch (TourneeException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -58,6 +61,7 @@ public class VueTournee {
     public void dessinerVue() {
 
         if (tournee.estCalculee()) {
+            System.out.println(vuesSegmentsCircuit.size());
             for (VueSegment vs : vuesSegmentsCircuit) {
                 vs.dessinerVue();
             }
@@ -88,12 +92,11 @@ public class VueTournee {
                 segments_tournee.put(seg.getOrigine(), seg.getDestination());
             }
             //ajout vue segment
-            vuesSegmentsCircuit.add(new VueSegment(seg, gv, colorSegment, 3));
+            this.vuesSegmentsCircuit.add(new VueSegment(seg, gv, colorSegment, 3));
             
             int i=1;
             for (Livraison l : tournee.getLivraisons()) {
                 if (l.getLieu().equals(seg.getDestination())) {
-                    System.out.println("lieu de livraison");
                     vuesLivraisons.add(new VueLivraison(l, gv, color, i));
                 }
                 i++;
@@ -123,6 +126,32 @@ public class VueTournee {
             }
         }
     return already_visited;
+  }
+
+//   public void updateTournee(Tournee tournee) {
+//     this.tournee = tournee;
+
+//     //mise à jour 
+//     vuesLivraisons = new ArrayList<VueLivraison>();
+//     for (Livraison l : this.tournee.getLivraisons()) {
+//         vuesLivraisons.add(new VueLivraison(l, this.gv, this.color));
+//     }
+//   }
+
+  /**
+   * 
+   * @return
+   */
+  public Tournee getTournee() {
+    return tournee;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Color getColor() {
+    return color;
   }
     
 }

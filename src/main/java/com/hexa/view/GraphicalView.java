@@ -2,8 +2,10 @@ package com.hexa.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JPanel;
 
 import com.hexa.model.Coordonnees;
@@ -20,14 +22,14 @@ public class GraphicalView extends JPanel implements Observer {
   private int viewHeight;
   private int viewWidth;
   private Graphics g;
-  private Tournee tournee;
+  private ArrayList<Tournee> tournees;
 
   private Graphe carte;
 
   private ArrayList<VueIntersection> vuesIntersections = new ArrayList<VueIntersection>();
   private ArrayList<VueSegment> vuesSegments = new ArrayList<VueSegment>();
   private VueEntrepot vueEntrepot;
-  private VueTournee vueTournee;
+  private ArrayList<VueTournee> vuesTournees = new ArrayList<VueTournee>();
 
   private double latitudeMin;
   private double latitudeMax;
@@ -41,21 +43,20 @@ public class GraphicalView extends JPanel implements Observer {
   private int viewY = 0;
   private double zoomFactor = 1.0;
 
+  private final Color[] couleursTournees = {Color.RED, Color.BLACK, Color.CYAN};
+  int nbTournees = 0;
+
   /**
    * Crée la vue graphique correspondant à une tournée dans une fenêtre
    * 
    * @param w
-   * @param tournee
+   * @param size
    */
-  public GraphicalView(Window w) {
+  public GraphicalView(Window w, Dimension size) {
     super();
 
-    for (Tournee tournee : w.getController().getTournees()) {
-      tournee.addObserver(this);
-    }
-
-    viewWidth = 1000;
-    viewHeight = 700;
+    viewWidth = size.width; //1000
+    viewHeight = size.height; //700
 
     setSize(viewWidth, viewHeight);
     setBackground(Color.white);
@@ -72,7 +73,18 @@ public class GraphicalView extends JPanel implements Observer {
   @Override
   public void update(Observable o, Object arg) {
     
-    vueTournee = new VueTournee((Tournee)arg, this, Color.RED);
+    boolean tourneeDejaExistante = false;
+    for (VueTournee vt : vuesTournees) {
+      if (vt.getTournee().equals((Tournee)o)) {
+        tourneeDejaExistante = true;
+        vt.setVue((Tournee)o);
+      }
+    }
+
+    if (!tourneeDejaExistante) {
+      nbTournees++;
+      vuesTournees.add(new VueTournee((Tournee)o, this, couleursTournees[nbTournees-1]));
+    }
 
     //aucun requête ne peut plus être sélectionnée fonctionnellement
     for(VueIntersection vi : vuesIntersections) {
@@ -133,22 +145,34 @@ public class GraphicalView extends JPanel implements Observer {
    * @param coordonneesSouris
    * @return
    */
-  public Intersection getIntersectionSelectionnee(Coordonnees coordonneesSouris) {
+  public List<Intersection> getIntersectionSelectionnee(Coordonnees coordonneesSouris) {
 
-    Intersection intersectionSelec = null;
+    List<Intersection> intersectionsSelectionnees = new ArrayList<>();
 
     for (VueIntersection vi : vuesIntersections) {
       if (vi.estCliquee(coordonneesSouris)) {
-        vi.afficherSelectionnee();
-        intersectionSelec = vi.getIntersection();
-      } else {
-        vi.afficherNonSelectionnee();
+        intersectionsSelectionnees.add(vi.getIntersection());
       }
     }
 
-    repaint();
+    return intersectionsSelectionnees;
+  }
 
-    return intersectionSelec;
+  /**
+   * Affichage différent pour l'intersection sélectionnée
+   * @param intersection
+   */
+  public void setSelectionnee(Intersection intersection) {
+    for (VueIntersection vi : vuesIntersections) {
+      if (vi.getIntersection().equals(intersection)) {
+        vi.afficherSelectionnee();
+      }
+    }
+    repaint();
+  }
+
+  public void clearTournees() {
+    this.vuesTournees.clear();
   }
 
   /**
@@ -207,8 +231,9 @@ public class GraphicalView extends JPanel implements Observer {
         vs.dessinerVue();
       }
 
-      if (vueTournee != null)
-        vueTournee.dessinerVue();
+      for (VueTournee vt : vuesTournees) {
+        vt.dessinerVue();
+      }
     }
   }
 

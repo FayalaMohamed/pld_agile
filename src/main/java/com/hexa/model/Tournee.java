@@ -190,7 +190,8 @@ public class Tournee extends Observable {
       return false;
     }
     boolean success = this.livraisons.add(l);
-    notifyObservers(this);
+    notifyObservers(l);
+    System.out.println("Tournee - ajouter livraison");
     return success;
   }
 
@@ -667,6 +668,10 @@ public class Tournee extends Observable {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public boolean equals(Tournee t) {
+    return livreur.getId() == t.getLivreur().getId();
   }
 
 }

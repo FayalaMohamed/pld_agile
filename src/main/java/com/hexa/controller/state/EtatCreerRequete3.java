@@ -40,25 +40,18 @@ public class EtatCreerRequete3 implements State {
    * @param coordonneesSouris
    */
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
-    ArrayList<Intersection> intersectionsEtEntrepot = new ArrayList<>(
-        Arrays.asList(c.getCarte().getIntersections()));
-    Intersection entrepot = c.getCarte().getEntrepot();
-    intersectionsEtEntrepot.add(entrepot);
-    System.out.println("etat requete 3");
-    for (Intersection intersection : intersectionsEtEntrepot) {
-      // TODO: When doing graphical view, refactor the method to compute coordinates
-      // not to duplicate code
-      Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
-      if (coord.equals(coordonneesSouris)
-          && (tournee.estLieuLivraison(intersection) || entrepot.equals(intersection))) {
-        try {
-          tournee.ajouterLivraisonApresCalcul(c.getCarte(), livraison, new Livraison(intersection));
-        } catch (Exception ex) {
-          ex.printStackTrace();
-        }
-        c.switchToState(c.getEtatAuMoinsUneRequete());
-        w.afficherMessage("Livraison Insérée !");
+
+    Intersection intersection = w.getIntersectionSelectionnee(coordonneesSouris).get(0);
+    
+    
+    if (tournee.estLieuLivraison(intersection)) {
+      try {
+        tournee.ajouterLivraisonApresCalcul(c.getCarte(), livraison, new Livraison(intersection));
+      } catch (Exception ex) {
+        ex.printStackTrace();
       }
+      c.switchToState(c.getEtatAuMoinsUneRequete());
+      w.afficherMessage("Livraison Insérée !");
     }
   }
 

@@ -15,18 +15,12 @@ public class EtatCreerRequete1 implements State {
   }
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
-    List<Intersection> intersectionsSelectionnees = new ArrayList<>();
-
-    for (Intersection intersection : c.getCarte().getIntersections()) {
-      Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
-      if (coord.equals(coordonneesSouris)) {
-        intersectionsSelectionnees.add(intersection);
-      }
-    }
+    
+    List<Intersection> intersectionsSelectionnees = w.getIntersectionSelectionnee(coordonneesSouris);
 
     Intersection intersectionChoisie = null;
     if (intersectionsSelectionnees.isEmpty()) {
-      w.afficherMessage("Veuillez cliquer sur une intersections valide.");
+      w.afficherMessage("Veuillez cliquer sur une intersections valide");
     } else if (intersectionsSelectionnees.size() == 1) {
       intersectionChoisie = intersectionsSelectionnees.get(0);
     } else {
@@ -37,26 +31,12 @@ public class EtatCreerRequete1 implements State {
         return;
       }
     }
+
+    w.afficherIntersectionSelectionnee(intersectionChoisie);
     w.afficherMessage("Intersection sélectionnée pour la livraison : " + intersectionChoisie.toString()
         + "\nSélectionnez un livreur");
     c.switchToState(c.getEtatCreerRequete2());
     c.getEtatCreerRequete2().entryAction(intersectionChoisie);
-
-    // if (!c.getTournee().estCalculee()) {
-    // w.afficherMessage("Intersection sélectionnée pour la livraison : " +
-    // intersectionChoisie.toString()
-    // + "\nSélectionnez un livreur");
-    // c.switchToState(c.getEtatCreerRequete2());
-    // c.getEtatCreerRequete2().entryAction(intersectionChoisie);
-    // } else if (c.getTournee().estCalculee()) {
-    // w.afficherMessage("Intersection sélectionnée pour la livraison : " +
-    // intersectionChoisie.toString()
-    // + "\nSélectionnez la livraison après laquelle vous voulez l'insérer car vous
-    // avez déjà calculé la tournée");
-    // c.getEtatCreerRequete3().entryAction(intersectionChoisie);
-    // c.switchToState(c.getEtatCreerRequete3());
-    // }
-
   }
 
   /**

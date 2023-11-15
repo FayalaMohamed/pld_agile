@@ -54,9 +54,10 @@ public class EtatSupprimerRequete implements State {
           if (tournee.estCalculee()) {
             tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
           } else {
-            tournee.supprimerLivraison(intersection);
+            //tournee.supprimerLivraison(intersection);
+            listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
           }
-          listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
+
         }
       }
     }
