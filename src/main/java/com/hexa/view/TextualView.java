@@ -17,6 +17,7 @@ import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
+import org.checkerframework.checker.units.qual.A;
 
 /**
  * Méthode permettant l'affichage textuel de la liste des livraisons
@@ -66,6 +67,7 @@ public class TextualView extends JPanel implements Observer{
 				break;
 			}
 		}
+		boolean tourneeASupprimer = ((Tournee)o).getNbLivraisons() == 0;
 
 		if (!tourneeDejaExistante) {
 			//System.out.println("textual view : nouvelle tournée");
@@ -86,7 +88,6 @@ public class TextualView extends JPanel implements Observer{
 				this.add(vueTournee.dessinerVue(false));
 			}
 		}
-
 	}
 
 	/**
