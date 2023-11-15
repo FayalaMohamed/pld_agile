@@ -54,29 +54,37 @@ public class TextualView extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 
 		System.out.println("\nupdate textual view\n");
+		VueTexteTournee vueTexteTourneeAUpdate = null;
 
 		boolean tourneeDejaExistante = false;
 		for (VueTexteTournee vtt : vuesTournees) {
-			if (vtt.getTournee().equals((Tournee)arg)) {
+			if (vtt.getTournee().equals((Tournee)o)) {
 				tourneeDejaExistante = true;
-				System.out.println("textual view : tournée déjà existante");
-				vtt.setTournee((Tournee)arg);
+				//System.out.println("textual view : tournée déjà existante");
+				vtt.setTournee((Tournee)o);
+				vueTexteTourneeAUpdate = vtt;
+				break;
 			}
 		}
 
 		if (!tourneeDejaExistante) {
-			System.out.println("textual view : nouvelle tournée");
-			vuesTournees.add(new VueTexteTournee((Tournee)arg, this));
+			//System.out.println("textual view : nouvelle tournée");
+			vueTexteTourneeAUpdate = new VueTexteTournee((Tournee)o, this);
+			vuesTournees.add(vueTexteTourneeAUpdate);
 		}
-		genererVue();
+		genererVue(vueTexteTourneeAUpdate);
 	}
 
-	public void genererVue() {
+	public void genererVue(VueTexteTournee vueTexteTourneeAUpdate) {
 
-		System.out.println("textual view : générer vue / nb de tournées : " + vuesTournees.size());
+		//System.out.println("textual view : générer vue / nb de tournées : " + vuesTournees.size());
 		for (VueTexteTournee vueTournee : vuesTournees) {
-			System.out.println("largeur vue : "+vueTournee.getWidth()+" / hauteur vue : " + vueTournee.getHeight());
-			this.add(vueTournee.dessinerVue());
+			//System.out.println("largeur vue : "+vueTournee.getWidth()+" / hauteur vue : " + vueTournee.getHeight());
+			if (vueTournee == vueTexteTourneeAUpdate) {
+				this.add(vueTournee.dessinerVue(true));
+			} else {
+				this.add(vueTournee.dessinerVue(false));
+			}
 		}
 
 	}

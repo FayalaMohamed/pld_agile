@@ -75,15 +75,15 @@ public class GraphicalView extends JPanel implements Observer {
     
     boolean tourneeDejaExistante = false;
     for (VueTournee vt : vuesTournees) {
-      if (vt.getTournee().equals((Tournee)arg)) {
+      if (vt.getTournee().equals((Tournee)o)) {
         tourneeDejaExistante = true;
-        vt.setVue((Tournee)arg);
+        vt.setVue((Tournee)o);
       }
     }
 
     if (!tourneeDejaExistante) {
       nbTournees++;
-      vuesTournees.add(new VueTournee((Tournee)arg, this, couleursTournees[nbTournees-1]));
+      vuesTournees.add(new VueTournee((Tournee)o, this, couleursTournees[nbTournees-1]));
     }
 
     //aucun requête ne peut plus être sélectionnée fonctionnellement

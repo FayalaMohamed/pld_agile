@@ -174,7 +174,7 @@ public class Tournee extends Observable {
       return false;
     }
     boolean success = this.livraisons.add(l);
-    notifyObservers(this);
+    notifyObservers(l);
     System.out.println("Tournee - ajouter livraison");
     return success;
   }

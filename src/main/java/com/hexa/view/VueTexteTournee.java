@@ -22,18 +22,20 @@ public class VueTexteTournee extends JPanel {
         this.tournee = tournee;
         this.tv = tv;
 
-        this.width = tv.getWidth();
+        this.width = tv.getWidth()-50;
         this.height = tv.getHeight();
 
-        setPreferredSize(new Dimension(400, 200));
+        //setPreferredSize(new Dimension(width, 200));
         setBackground(Color.RED);
     }
 
-    public VueTexteTournee dessinerVue() {
-
-        JLabel testAfftournee = new JLabel("affichage d'un tournée");
+    public VueTexteTournee dessinerVue(boolean redessine) {
+        if (!redessine) {
+            return this;
+        }
+        this.removeAll();
+        JLabel testAfftournee = new JLabel("Tournée livreur "+tournee.getLivreur().getId());
         this.add(testAfftournee);
-
         return this;
     }
 
