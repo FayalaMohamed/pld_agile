@@ -3,6 +3,7 @@ package com.hexa.view;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
+import java.awt.Dimension;
 import java.util.stream.*;
 import javax.swing.JOptionPane;
 
@@ -328,6 +329,7 @@ public class Window extends JFrame implements Observer {
    * @return l'intersection choisi
    */
   public Intersection popupChoixIntersections(List<Intersection> choixPossibles) {
+    UIManager.put("OptionPane.minimumSize",new Dimension(600,200));
     class IntersectionWrapper {
       Intersection intersection;
       String desc;
@@ -386,7 +388,7 @@ public class Window extends JFrame implements Observer {
     Object[] possibilities = choixPossiblesWrapped.toArray();
     IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(this,
         "Plusieurs intersections sont possibles.\n" + "Veuillez choisir une intersection :",
-        "Customized Dialog", JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
+        "Choix de l'intersection", JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
 
     return choix == null ? null : choix.intersection;
   }
