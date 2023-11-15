@@ -68,26 +68,36 @@ public class TextualView extends JPanel implements Observer{
 			}
 		}
 		boolean tourneeASupprimer = ((Tournee)o).getNbLivraisons() == 0;
+		if (tourneeASupprimer) {
+			genererVue(vueTexteTourneeAUpdate,true);
+		}
 
 		if (!tourneeDejaExistante) {
 			//System.out.println("textual view : nouvelle tournée");
 			vueTexteTourneeAUpdate = new VueTexteTournee((Tournee)o, this);
 			vuesTournees.add(vueTexteTourneeAUpdate);
 		}
-		genererVue(vueTexteTourneeAUpdate);
+		genererVue(vueTexteTourneeAUpdate, false);
 	}
 
-	public void genererVue(VueTexteTournee vueTexteTourneeAUpdate) {
+	public void genererVue(VueTexteTournee vueTexteTourneeAUpdate, boolean supprimeTournee) {
+		if (supprimeTournee) {
+			this.remove(vueTexteTourneeAUpdate);
+			this.vuesTournees.remove(vueTexteTourneeAUpdate);
+			revalidate();
+			repaint();
+		}
 
 		//System.out.println("textual view : générer vue / nb de tournées : " + vuesTournees.size());
 		for (VueTexteTournee vueTournee : vuesTournees) {
 			//System.out.println("largeur vue : "+vueTournee.getWidth()+" / hauteur vue : " + vueTournee.getHeight());
-			if (vueTournee == vueTexteTourneeAUpdate) {
+			if (vueTournee == vueTexteTourneeAUpdate && !supprimeTournee) {
 				this.add(vueTournee.dessinerVue(true));
 			} else {
 				this.add(vueTournee.dessinerVue(false));
 			}
 		}
+
 	}
 
 	/**
