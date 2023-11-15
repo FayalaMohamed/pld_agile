@@ -44,7 +44,7 @@ public class EtatCreerRequete3 implements State {
     Intersection intersection = w.getIntersectionSelectionnee(coordonneesSouris).get(0);
     
     
-    if (tournee.estLieuLivraison(intersection)) {
+    if (tournee.estLieuLivraison(intersection) || intersection.equals(c.getCarte().getEntrepot())) {
       try {
         tournee.ajouterLivraisonApresCalcul(c.getCarte(), livraison, new Livraison(intersection));
       } catch (Exception ex) {

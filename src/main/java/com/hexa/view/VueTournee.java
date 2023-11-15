@@ -75,7 +75,9 @@ public class VueTournee {
     private void constructionVuesSegmentCircuit() {
         Multimap<Intersection, Intersection> segments_tournee = ArrayListMultimap.create();
         Color colorSegment = this.color;
-
+        
+        int i=1;
+        circuit.reset();
         while (circuit.hasNext()) {
 
             Segment seg = circuit.next();
@@ -94,12 +96,13 @@ public class VueTournee {
             //ajout vue segment
             this.vuesSegmentsCircuit.add(new VueSegment(seg, gv, colorSegment, 3));
             
-            int i=1;
+
             for (Livraison l : tournee.getLivraisons()) {
                 if (l.getLieu().equals(seg.getDestination())) {
                     vuesLivraisons.add(new VueLivraison(l, gv, color, i));
+                    i++;
                 }
-                i++;
+                
             }
         }
     }

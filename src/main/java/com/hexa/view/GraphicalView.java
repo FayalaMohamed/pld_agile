@@ -154,6 +154,9 @@ public class GraphicalView extends JPanel implements Observer {
         intersectionsSelectionnees.add(vi.getIntersection());
       }
     }
+    if (vueEntrepot.estCliquee(coordonneesSouris)) {
+      intersectionsSelectionnees.add(vueEntrepot.getIntersection());
+    }
 
     return intersectionsSelectionnees;
   }

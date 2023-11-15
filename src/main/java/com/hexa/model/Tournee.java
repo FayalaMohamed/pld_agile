@@ -272,13 +272,11 @@ public class Tournee extends Observable {
       iterator = circuit.next();
       if (livraisons.contains(new Livraison(iterator.getOrigine()))) {
         // Pour toutes les livraisons suivantes on modifie le temps
-        // temps.put(iterator.getOrigine(), temps.get(iterator.getOrigine()) - delta);
         attente += updateHeureLivraisonPourSuppression(iterator.getOrigine(), delta, attente);
       }
     }
-    temps.put(carte.getEntrepot(), temps.get(carte.getEntrepot()) - delta + attente);
-    updateFinTourneeEstimee(carte.getEntrepot());
-    //updateHeuresLivraisonApresSuppression(carte.getEntrepot());
+    temps.put(carte.getEntrepot(), temps.get(carte.getEntrepot()) - delta);
+    updateFinTourneeEstimee(carte.getEntrepot(),attente);
     for (Livraison liv : livraisons) {
       System.out.println(liv.getLieu().getId()+" -> "+liv.getHeureEstime()[0]+":"+liv.getHeureEstime()[1]+" plage -> "+liv.getPlageHoraire()[0]+"-"+liv.getPlageHoraire()[1]);
     }
@@ -293,11 +291,13 @@ public class Tournee extends Observable {
     return true;
   }
 
-  private void updateFinTourneeEstimee(Intersection entrepot) {
+  private void updateFinTourneeEstimee(Intersection entrepot, double attente) {
     int heureDepart = 8;
-    finTourneeEstime[0] = heureDepart + temps.get(entrepot).intValue();
-    double temp = ((double) heureDepart + temps.get(entrepot));
+    Double heure = temps.get(entrepot) + attente;
+    finTourneeEstime[0] = heureDepart + heure.intValue();
+    double temp = ((double) heureDepart + temps.get(entrepot) + attente );
     finTourneeEstime[1] = (int) ((temp - (int) temp) * 60.0);
+    System.out.println("heure de fin = " + finTourneeEstime[0] + ":" + finTourneeEstime[1]);
   }
 
   private double updateHeureLivraisonPourSuppression(Intersection intersection, double delta, double attente){
@@ -381,6 +381,9 @@ public class Tournee extends Observable {
     circuit = new Circuit(list);
     circuitCalculer = true;
 
+    for (Livraison liv : livraisons) {
+      System.out.println(liv.getLieu().getId()+" -> "+liv.getHeureEstime()[0]+":"+liv.getHeureEstime()[1]+" plage -> "+liv.getPlageHoraire()[0]+"-"+liv.getPlageHoraire()[1]);
+    }
     this.notifyObservers(this);
   }
 
@@ -454,6 +457,8 @@ public class Tournee extends Observable {
     }
     temps.put(carte.getEntrepot(), temps.get(carte.getEntrepot()) + delta);
 
+        System.out.println("delta = " + delta);
+
     // MAJ des heures d'arrivées et des plages horaires pour chaque objet Livraison
     // en utilisant la map temps à jour
     updateHeuresLivraison(carte.getEntrepot());
@@ -461,6 +466,11 @@ public class Tournee extends Observable {
     // MAJ du circuit en ajoutant les 2 chemins calculés au bonne endroit
     MAJCircuitAjoutApresCalcul(carte.getEntrepot(), livraisonPrecedente.getLieu(), cheminPreToNew, cheminNewtoNext);
 
+    for (Livraison liv : livraisons) {
+      System.out.println(liv.getLieu().getId() + " -> " + liv.getHeureEstime()[0] + ":" + liv.getHeureEstime()[1]
+          + " plage -> " + liv.getPlageHoraire()[0] + "-" + liv.getPlageHoraire()[1]);
+    }
+    
     // On notifie les observeurs que la tournée à changer
     notifyObservers(this);
     return true;
@@ -543,6 +553,7 @@ public class Tournee extends Observable {
     boolean ignore = false;
     Segment seg = null;
     while (circuit.hasNext()) {
+      // 
       seg = circuit.next();
        
       if (!ignore && estLieuLivraison(seg.getOrigine()) ) {
