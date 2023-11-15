@@ -31,11 +31,16 @@ public class EtatChargerRequete implements State {
       File xmlFile = XMLfileOpener.getInstance("requete").open(true);
 
       if (xmlFile == null) {
+        boolean auMoinsUneLivraison = false;
         for (Tournee tournee : c.getTournees()) {
           if (tournee.getLivraisons().length != 0) {
-            c.switchToState(c.getEtatAuMoinsUneRequete());
+            auMoinsUneLivraison = true;
             break;
           }
+        }
+        if (auMoinsUneLivraison) {
+          c.switchToState(c.getEtatAuMoinsUneRequete());
+        } else {
           c.switchToState(c.getEtatCarteChargee()); // TODO pourquoi ?
         }
       } else {
