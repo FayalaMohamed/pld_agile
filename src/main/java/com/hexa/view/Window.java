@@ -20,7 +20,6 @@ import com.hexa.view.listener.ZoomHandler;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.hexa.controller.state.*;
 
@@ -56,9 +55,9 @@ public class Window extends JFrame implements Observer {
 
   // Une map qui associe à chaque indice de texteBoutons un bouton de l'IHM
   private Map<String, JButton> boutons;
-  private int buttonHeight = 40;
-  private int buttonWidth = 250;
-  private int messageFrameHeight = 110;
+  private final int buttonHeight = 40;
+  private final int buttonWidth = 250;
+  private final int messageFrameHeight = 110;
   private int textualViewWidth;
 
   private GraphicalView graphicalView;
@@ -81,19 +80,22 @@ public class Window extends JFrame implements Observer {
   // -------------------------------------------------------------------------------------------------
 
   /**
-   * Crée une fenêtre avec des boutons, une zone graphique contenant un plan,
-   * une zone de texte dédiée aux messages, une zone de texte dédiée aux
-   * livraisons,
-   * et les listeners associés aux différents éléments (boutons, comboBox, vue
-   * graphique)
-   * 
-   * @param controller
-   * @param t
+   * Crée un objet Window sans Controller.
+   * Pour lui donner un Controller, appeler la méthode initialiser.
    */
   public Window() {
     super();
   }
 
+  /**
+   * Crée une fenêtre avec des boutons, une zone graphique contenant un plan,
+   * une zone de texte dédiée aux messages, une zone de texte dédiée aux
+   * livraisons,
+   * et les listeners associés aux différents éléments (boutons, comboBox, vue
+   * graphique)
+   *
+   * @param controller
+   */
   public void initialiser(Controller controller) {
     this.controller = controller;
 
@@ -197,6 +199,10 @@ public class Window extends JFrame implements Observer {
     boutons.get(GENERER_FEUILLE_DE_ROUTE).setEnabled(auMoinsUneTourneeCalculee);
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param etatCarteChargee
+   */
   public void hideButtons(EtatCarteChargee etatCarteChargee) {
     toggleAllButtons(true);
     boutons.get(SUPPRIMER_REQUETES).setEnabled(false);
@@ -205,44 +211,80 @@ public class Window extends JFrame implements Observer {
     boutons.get(GENERER_FEUILLE_DE_ROUTE).setEnabled(false);
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param etatChargerRequete
+   */
   public void hideButtons(EtatChargerRequete etatChargerRequete) {
     toggleAllButtons(false);
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param etatCreerRequete1
+   */
   public void hideButtons(EtatCreerRequete1 etatCreerRequete1) {
     toggleAllButtons(false);
 
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param etatCreerRequete2
+   */
   public void hideButtons(EtatCreerRequete2 etatCreerRequete2) {
     toggleAllButtons(false);
 
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param etatCreerRequete3
+   */
   public void hideButtons(EtatCreerRequete3 etatCreerRequete3) {
     toggleAllButtons(false);
 
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param etatSauvegarderRequete
+   */
   public void hideButtons(EtatSauvegarderRequete etatSauvegarderRequete) {
     toggleAllButtons(false);
 
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param etatSupprimerRequete
+   */
   public void hideButtons(EtatSupprimerRequete etatSupprimerRequete) {
     toggleAllButtons(false);
 
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param initialState
+   */
   public void hideButtons(InitialState initialState) {
     toggleAllButtons(false);
     boutons.get(CHARGER_CARTE).setEnabled(true);
   }
 
+  /**
+   * Cache les boutons selon l'état appelant
+   * @param etatTourneeCalculee
+   */
   public void hideButtons(EtatTourneeCalculee etatTourneeCalculee) {
     toggleAllButtons(true);
   }
 
+  /**
+   * Active ou désactive tous les boutons selon shown, sauf undo et redo.
+   * @param shown
+   */
   private void toggleAllButtons(boolean shown) {
     for (JButton button : boutons.values()) {
       button.setEnabled(shown);
@@ -279,8 +321,8 @@ public class Window extends JFrame implements Observer {
   }
 
   /**
-   * En cas de clique à des coordonnées où plusieurs intersections sont possibles,
-   * affiche une popup demandant de choisir.
+   * En cas de clic à des coordonnées où plusieurs intersections sont possibles,
+   * affiche un popup demandant de choisir.
    * 
    * @param choixPossibles
    * @return l'intersection choisi
@@ -397,6 +439,12 @@ public class Window extends JFrame implements Observer {
     }
   }
 
+  /**
+   * La Window peut se faire update oar une ListOfCommands.
+   * Cela lui permet d'activer ou non les boutons undo/redo.
+   * @param o
+   * @param arg
+   */
   public void update(Observable o, Object arg) {
     undoEnabled = ((ListOfCommands) o).canUndo();
     redoEnabled = ((ListOfCommands) o).canRedo();
