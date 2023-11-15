@@ -86,7 +86,9 @@ public class Controller {
   }
 
   public void initTournees() {
-    tournees = new ArrayList<Tournee>();
+    for (Tournee tournee : tournees) {
+      tournee.initTournee();
+    }
   }
 
   public void addTournee(Tournee tournee) {

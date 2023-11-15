@@ -59,6 +59,16 @@ public class Tournee extends Observable {
 
   }
 
+  public void initTournee() {
+    this.livraisons = new HashSet<Livraison>();
+
+    circuit = null;
+    circuitCalculer = false;
+
+    finTourneeEstime = new int[2];
+    notifyObservers(this);
+  }
+
   // -----------------------------------------------------------------------------------------------------
 
   /**
@@ -76,7 +86,13 @@ public class Tournee extends Observable {
    * @return true si inter est un lieu de livraison
    */
   public boolean estLieuLivraison(Intersection inter) {
-    return livraisons.contains(new Livraison(inter));
+    for (Livraison livraison : livraisons) {
+      if (livraison.getLieu().equals(inter)) {
+        return true;
+      }
+    }
+    return false;
+    //return livraisons.contains(new Livraison(inter));
   }
 
   /**
@@ -526,25 +542,29 @@ public class Tournee extends Observable {
     boolean ignore = false;
     Segment seg = null;
     while (circuit.hasNext()) {
-       seg = circuit.next();
+      seg = circuit.next();
+       
+      if (!ignore && estLieuLivraison(seg.getOrigine()) ) {
+        listChemin.add(new Chemin(listSeg));
+        listSeg.clear();
+      }
+
+      if (seg.getOrigine().equals(intersectionPrecedente)) {
+        listChemin.add(cheminPreToSuiv);
+        ignore = true;
+      }
+
+      if (seg.getOrigine().equals(intersectionSuivante)) {
+        ignore = false;
+      }
 
       if (!ignore) {
         listSeg.add(seg);
       }
 
-      if (!ignore && livraisons.contains(new Livraison(seg.getDestination())) || entrepot.equals(seg.getDestination())) {
+      if (!ignore && entrepot.equals(seg.getDestination())) {
         listChemin.add(new Chemin(listSeg));
         listSeg.clear();
-      }
-
-      if (seg.getDestination().equals(intersectionPrecedente)) {
-        listChemin.add(cheminPreToSuiv);
-
-        ignore = true;
-      }
-
-      if (seg.getDestination().equals(intersectionSuivante)) {
-        ignore = false;
       }
     }
 
