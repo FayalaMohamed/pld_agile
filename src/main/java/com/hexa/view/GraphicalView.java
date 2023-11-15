@@ -72,8 +72,6 @@ public class GraphicalView extends JPanel implements Observer {
    */
   @Override
   public void update(Observable o, Object arg) {
-
-    System.out.println(arg.toString());
     
     boolean tourneeDejaExistante = false;
     for (VueTournee vt : vuesTournees) {
@@ -84,7 +82,6 @@ public class GraphicalView extends JPanel implements Observer {
     }
 
     if (!tourneeDejaExistante) {
-      System.out.println("nouvelle tournée");
       nbTournees++;
       vuesTournees.add(new VueTournee((Tournee)arg, this, couleursTournees[nbTournees-1]));
     }
@@ -172,6 +169,10 @@ public class GraphicalView extends JPanel implements Observer {
       }
     }
     repaint();
+  }
+
+  public void clearTournees() {
+    this.vuesTournees.clear();
   }
 
   /**

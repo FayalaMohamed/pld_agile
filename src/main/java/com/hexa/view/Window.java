@@ -56,10 +56,10 @@ public class Window extends JFrame implements Observer {
 
   // Une map qui associe à chaque indice de texteBoutons un bouton de l'IHM
   private Map<String, JButton> boutons;
-  private final int buttonHeight = 40;
-  private final int buttonWidth = 250;
-  private final int messageFrameHeight = 110;
-  private final int textualViewWidth;
+  private int buttonHeight = 40;
+  private int buttonWidth = 250;
+  private int messageFrameHeight = 110;
+  private int textualViewWidth;
 
   private GraphicalView graphicalView;
   private TextualView textualView;
@@ -90,13 +90,14 @@ public class Window extends JFrame implements Observer {
    * @param controller
    * @param t
    */
-  public Window(Controller controller, ListOfCommands listOfCommands) {
-
+  public Window() {
     super();
+  }
+
+  public void initialiser(Controller controller) {
+    this.controller = controller;
 
     FlatLightLaf.setup();
-
-    this.controller = controller;
 
     setTitle("AGILE H4113");
     setLayout(null);
@@ -142,7 +143,9 @@ public class Window extends JFrame implements Observer {
     zoomHandler = new ZoomHandler(controller, graphicalView);
     addMouseWheelListener(zoomHandler);
 
-    listOfCommands.addObserver(this);
+    controller.getListOfCommands().addObserver(this);
+
+    afficherMessage("Choisissez une carte à afficher");
 
     setWindowSize();
     setVisible(true);
@@ -206,7 +209,6 @@ public class Window extends JFrame implements Observer {
 
   public void hideButtons(EtatChargerRequete etatChargerRequete) {
     toggleAllButtons(false);
-
   }
 
   public void hideButtons(EtatCreerRequete1 etatCreerRequete1) {
@@ -260,6 +262,22 @@ public class Window extends JFrame implements Observer {
    */
   public void afficherCarte(Graphe carte) {
     graphicalView.ajouterCarte(carte);
+  }
+
+  /**
+   * Met l'affichage de l'intersection en mode sélectionné
+   * @param intersection
+   */
+  public void afficherIntersectionSelectionnee(Intersection intersection) {
+    graphicalView.setSelectionnee(intersection);
+  }
+
+  /**
+   * Vide la liste des vues tournées
+   */
+  public void clearTournees() {
+    this.graphicalView.clearTournees();
+    //this.textualView.clearTournees();
   }
 
   /**

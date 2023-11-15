@@ -46,7 +46,7 @@ public class Controller {
   private Graphe carte;
 
   // Vue
-  private final Window window;
+  private Window window;
 
   // Undo - Redo
   private ListOfCommands listOfCommands;
@@ -64,15 +64,14 @@ public class Controller {
     // WARNING: The number of "livreurs" is currently hard coded
     nbLivreurs = 3;
     tournees = new ArrayList<Tournee>();
-
     listOfCommands = new ListOfCommands();
+  }
 
-    window = new Window(this, listOfCommands);
-
+  public void initialiser(Window window) {
+    this.window = window;
+    
     previousState = initialState;
     switchToState(initialState);
-
-    window.afficherMessage("Choisissez une carte à afficher");
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -154,6 +153,11 @@ public class Controller {
 
   public void setCarte(Graphe carte) {
     this.carte = carte;
+  }
+
+  public void supprimerTournees() {
+    this.tournees.clear();
+    this.window.clearTournees();
   }
 
   /**
