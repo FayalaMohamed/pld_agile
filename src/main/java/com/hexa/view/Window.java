@@ -368,11 +368,11 @@ public class Window extends JFrame implements Observer {
       private void addToDesc(Intersection origine, Intersection destination, Graphe carte, boolean first) {
         String nom = carte.getNomSegment(new Segment(origine, destination));
 
-        if (!desc.contains(nom) || nom.equals("")) {
+        if (!desc.contains(nom) || nom.isEmpty()) {
           if (!first) {
             desc += ", ";
           }
-          desc += (nom.equals("") ? "Rue sans nom" : nom);
+          desc += (nom.isEmpty() ? "Rue sans nom" : nom);
         }
       }
 
@@ -383,8 +383,6 @@ public class Window extends JFrame implements Observer {
 
     List<IntersectionWrapper> choixPossiblesWrapped = choixPossibles.stream().map(IntersectionWrapper::new)
         .collect(Collectors.toList());
-    System.out.println("window joption:" + choixPossibles);
-    System.out.println("window joption:" + choixPossiblesWrapped);
     Object[] possibilities = choixPossiblesWrapped.toArray();
     IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(this,
         "Plusieurs intersections sont possibles.\n" + "Veuillez choisir une intersection :",
@@ -427,7 +425,7 @@ public class Window extends JFrame implements Observer {
   private void initBoutons(Controller controller) {
 
     buttonListener = new ButtonListener(controller);
-    boutons = new TreeMap<String, JButton>();
+    boutons = new TreeMap<>();
 
     for (String text : texteBoutons) {
       JButton bouton = new JButton(text);
