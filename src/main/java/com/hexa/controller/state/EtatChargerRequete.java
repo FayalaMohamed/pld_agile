@@ -1,10 +1,11 @@
 package com.hexa.controller.state;
 
-import static com.hexa.model.XMLParser.xmlToListeLivraison;
-
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Set;
 
+import com.hexa.controller.command.ChargementRequetesCommande;
 import com.hexa.model.Livreur;
 import com.hexa.controller.Controller;
 import com.hexa.model.Livraison;
@@ -13,7 +14,7 @@ import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
 import java.io.File;
 
-import static com.hexa.model.XMLParser.xmlToListeLivraison;
+import static com.hexa.model.XMLParser.*;
 
 /**
  * Etat dans lequel se trouve l'application quand le chargement d'un ensemble de
@@ -44,7 +45,7 @@ public class EtatChargerRequete implements State {
           c.switchToState(c.getEtatCarteChargee()); // TODO pourquoi ?
         }
       } else {
-        // TODO c.getTournee().setCircuitCalculer(true);
+        /* // TODO c.getTournee().setCircuitCalculer(true);
         int livreur = -1;
         Set<Livraison> livraisons = xmlToListeLivraison(xmlFile.getAbsolutePath());
         for (Livraison livraison : livraisons) {
@@ -76,7 +77,13 @@ public class EtatChargerRequete implements State {
           } else {
             c.switchToState(c.getEtatAuMoinsUneRequete());
           }
-        }
+        }*/
+        // TODO c.getTournee().setCircuitCalculer(true);
+        ArrayList<Tournee> tournees = xmlToListeLivraison2(xmlFile.getAbsolutePath());
+        //c.setTournee(tournees);
+        c.getListOfCommands().add(new ChargementRequetesCommande(c,tournees));
+        //c.getListOfCommands().add(new ChargementRequetesCommande(tournees));
+        c.switchToState(c.getEtatAuMoinsUneRequete());
       }
     } catch (Exception e) {
       e.printStackTrace();
