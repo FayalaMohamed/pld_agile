@@ -189,8 +189,6 @@ public class Window extends JFrame implements Observer {
     // TODO ne marche pas car etats bizarres
     boolean auMoinsUneTourneeCalculee = true; // a changer en false
     for (Tournee tournee : controller.getTournees()) {
-      System.out.println("HEYOOOO");
-      System.out.println(tournee.estCalculee());
       if (tournee.estCalculee()) {
         auMoinsUneTourneeCalculee = true;
         break;
