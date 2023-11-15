@@ -48,7 +48,6 @@ public class Window extends JFrame implements Observer {
   public static final String REDO = "Redo";
   public static final String UNDO = "Undo";
 
-  
   public static final String GENERER_FEUILLE_DE_ROUTE = "Générer la feuille de route";
 
   private final String texteBoutons[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
@@ -116,7 +115,7 @@ public class Window extends JFrame implements Observer {
     label.setLocation(5, boutons.size() * buttonHeight);
     getContentPane().add(label);
     livreurMenu = new JComboBox<String>(liste_livreurs);
-    
+
     BoxListener boxListener = new BoxListener(controller);
     livreurMenu.addActionListener(boxListener);
     livreurMenu.setFocusable(false);
@@ -178,15 +177,23 @@ public class Window extends JFrame implements Observer {
     messageFrame.setText(message);
   }
 
-  private final String texteBoutonss[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
-      SAUVEGARDER_REQUETES, REDO, UNDO, CALCULER_TOURNEE };
-
   public void hideButtons(ChargerCarte etatChargerCarte) {
     toggleAllButtons(false);
   }
 
   public void hideButtons(EtatAuMoinsUneRequete etatAuMoinsUneRequete) {
     toggleAllButtons(true);
+    // TODO ne marche pas car etats bizarres
+    boolean auMoinsUneTourneeCalculee = true; // a changer en false
+    for (Tournee tournee : controller.getTournees()) {
+      System.out.println("HEYOOOO");
+      System.out.println(tournee.estCalculee());
+      if (tournee.estCalculee()) {
+        auMoinsUneTourneeCalculee = true;
+        break;
+      }
+    }
+    boutons.get(GENERER_FEUILLE_DE_ROUTE).setEnabled(auMoinsUneTourneeCalculee);
   }
 
   public void hideButtons(EtatCarteChargee etatCarteChargee) {
@@ -194,6 +201,7 @@ public class Window extends JFrame implements Observer {
     boutons.get(SUPPRIMER_REQUETES).setEnabled(false);
     boutons.get(CALCULER_TOURNEE).setEnabled(false);
     boutons.get(SAUVEGARDER_REQUETES).setEnabled(false);
+    boutons.get(GENERER_FEUILLE_DE_ROUTE).setEnabled(false);
   }
 
   public void hideButtons(EtatChargerRequete etatChargerRequete) {
@@ -226,16 +234,19 @@ public class Window extends JFrame implements Observer {
 
   }
 
-  public void hideButtons(InitialState InitialState) {
+  public void hideButtons(InitialState initialState) {
     toggleAllButtons(false);
     boutons.get(CHARGER_CARTE).setEnabled(true);
+  }
+
+  public void hideButtons(EtatTourneeCalculee etatTourneeCalculee) {
+    toggleAllButtons(true);
   }
 
   private void toggleAllButtons(boolean shown) {
     for (JButton button : boutons.values()) {
       button.setEnabled(shown);
     }
-    System.out.println("UNDO : " + undoEnabled + " || REDO : " + redoEnabled);
     if (shown) {
       boutons.get(UNDO).setEnabled(undoEnabled);
       boutons.get(REDO).setEnabled(redoEnabled);
@@ -381,6 +392,7 @@ public class Window extends JFrame implements Observer {
   /**
    * Retourne l'intersection sur laquelle l'utilisateur a cliqué.
    * Dékègue le traitement à la graphicalView
+   * 
    * @param coordonneesSouris
    * @return
    */
@@ -388,5 +400,4 @@ public class Window extends JFrame implements Observer {
     return graphicalView.getIntersectionSelectionnee(coordonneesSouris);
   }
 
-  
 }

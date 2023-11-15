@@ -53,8 +53,8 @@ public class Controller {
 
   int nbLivreurs;
 
-  //Instances associées avec chacuns des états possibles pour le controlleur
-  
+  // Instances associées avec chacuns des états possibles pour le controlleur
+
   protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 
   /**
@@ -65,12 +65,13 @@ public class Controller {
     nbLivreurs = 3;
     tournees = new ArrayList<Tournee>();
 
-    currentState = initialState;
-    previousState = initialState;
-
     listOfCommands = new ListOfCommands();
 
     window = new Window(this, listOfCommands);
+
+    previousState = initialState;
+    switchToState(initialState);
+
     window.afficherMessage("Choisissez une carte à afficher");
   }
 
@@ -171,6 +172,7 @@ public class Controller {
 
   /**
    * Méthode appelée par la fenêtre après un clic gauche sur la vue graphique
+   * 
    * @param coordonnees les coordonnées du clic gauche
    * @throws TourneeException
    */
@@ -207,7 +209,7 @@ public class Controller {
    * de livreurs"
    * 
    * @throws TourneeException
- * @throws GrapheException 
+   * @throws GrapheException
    */
   public void choixLivreur(int livreur) throws TourneeException, GrapheException {
     currentState.choixLivreur(this, window, livreur, listOfCommands);
@@ -263,7 +265,8 @@ public class Controller {
   }
 
   /**
-   * Méthode appelée par la fenêtre après un clic sur le bouton "Générer la feuille de route"
+   * Méthode appelée par la fenêtre après un clic sur le bouton "Générer la
+   * feuille de route"
    */
   public void genererFeuilleDeRoute() {
     currentState.genererFeuilleDeRoute(this, window);
@@ -272,7 +275,8 @@ public class Controller {
   /**
    * Méthode appelée par un état a lorsqu'il passe à un autre état b
    * (après être passé dans l'état b)
-   * Correspond à la première action qui doit être effectuée quand on entre dans l'état
+   * Correspond à la première action qui doit être effectuée quand on entre dans
+   * l'état
    */
   public void redo() {
     currentState.redo(listOfCommands, this);

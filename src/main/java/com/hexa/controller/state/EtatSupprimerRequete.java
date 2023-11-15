@@ -21,6 +21,10 @@ import com.hexa.view.Window;
  */
 public class EtatSupprimerRequete implements State {
 
+  public void entryAction(Window w) {
+    w.hideButtons(this);
+  }
+
   public void clicDroit(Controller c, Window w) {
     System.out.println("Annuler Supprimer Requête");
     for (Tournee tournee : c.getTournees()) {
@@ -32,7 +36,8 @@ public class EtatSupprimerRequete implements State {
     c.switchToState(c.getEtatCarteChargee());
   }
 
-  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) throws TourneeException {
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands)
+      throws TourneeException {
 
     for (Intersection intersection : c.getCarte().getIntersections()) {
       // TODO: When doing graphical view, refactor the method to compute coordinates
@@ -45,12 +50,11 @@ public class EtatSupprimerRequete implements State {
             continue;
           }
           System.out.println("Livraison supprimée");
-          
+
           if (tournee.estCalculee()) {
-        	  tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
-          }
-          else {
-        	  tournee.supprimerLivraison(intersection);
+            tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+          } else {
+            tournee.supprimerLivraison(intersection);
           }
           listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
         }
