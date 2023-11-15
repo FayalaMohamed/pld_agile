@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import com.hexa.model.Livraison;
 import com.hexa.model.Tournee;
 
 public class VueTexteTournee extends JPanel {
@@ -24,6 +24,7 @@ public class VueTexteTournee extends JPanel {
 
         this.width = tv.getWidth()-50;
         this.height = tv.getHeight();
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         //setPreferredSize(new Dimension(width, 200));
         setBackground(Color.RED);
@@ -33,9 +34,14 @@ public class VueTexteTournee extends JPanel {
         if (!redessine) {
             return this;
         }
+
         this.removeAll();
-        JLabel testAfftournee = new JLabel("Tournée livreur "+tournee.getLivreur().getId());
-        this.add(testAfftournee);
+        this.add(new JLabel("Tournée livreur "+tournee.getLivreur().getId()));
+        for (Livraison l : this.tournee.getLivraisons()) {
+            JLabel labelLivraison = new JLabel(l.toString());
+            this.add(labelLivraison);
+        }
+        revalidate();
         return this;
     }
 
