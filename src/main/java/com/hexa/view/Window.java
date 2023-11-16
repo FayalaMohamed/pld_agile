@@ -215,6 +215,7 @@ public class Window extends JFrame implements Observer {
       }
     }
     boutons.get(GENERER_FEUILLE_DE_ROUTE).setEnabled(auMoinsUneTourneeCalculee);
+    boutons.get(CHARGER_CARTE).setEnabled(false);
   }
 
   /**
@@ -223,6 +224,7 @@ public class Window extends JFrame implements Observer {
    */
   public void hideButtons(EtatCarteChargee etatCarteChargee) {
     toggleAllButtons(true);
+    boutons.get(CHARGER_CARTE).setEnabled(false);
     boutons.get(SUPPRIMER_REQUETES).setEnabled(false);
     boutons.get(CALCULER_TOURNEE).setEnabled(false);
     boutons.get(SAUVEGARDER_REQUETES).setEnabled(false);
@@ -243,7 +245,6 @@ public class Window extends JFrame implements Observer {
    */
   public void hideButtons(EtatCreerRequete1 etatCreerRequete1) {
     toggleAllButtons(false);
-
   }
 
   /**
@@ -252,7 +253,6 @@ public class Window extends JFrame implements Observer {
    */
   public void hideButtons(EtatCreerRequete2 etatCreerRequete2) {
     toggleAllButtons(false);
-
   }
 
   /**
@@ -261,7 +261,6 @@ public class Window extends JFrame implements Observer {
    */
   public void hideButtons(EtatCreerRequete3 etatCreerRequete3) {
     toggleAllButtons(false);
-
   }
 
   /**
@@ -270,7 +269,6 @@ public class Window extends JFrame implements Observer {
    */
   public void hideButtons(EtatSauvegarderRequete etatSauvegarderRequete) {
     toggleAllButtons(false);
-
   }
 
   /**
@@ -279,7 +277,6 @@ public class Window extends JFrame implements Observer {
    */
   public void hideButtons(EtatSupprimerRequete etatSupprimerRequete) {
     toggleAllButtons(false);
-
   }
 
   /**
@@ -329,7 +326,7 @@ public class Window extends JFrame implements Observer {
    */
   public void clearTournees() {
     this.graphicalView.clearTournees();
-    //this.textualView.clearTournees();
+    this.textualView.clearTournees();
   }
 
   /**

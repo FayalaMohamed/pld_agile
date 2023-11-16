@@ -43,11 +43,11 @@ public class EtatAuMoinsUneRequete implements State {
     c.switchToState(c.getEtatCarteChargee());
   }
 
-  public void chargerCarte(Controller c, Window w) {
-    c.switchToState(c.getChargerCarte());
-    c.setPreviousState(c.getEtatAuMoinsUneRequete());
-    c.getChargerCarte().entryAction(c, w);
-  }
+  // public void chargerCarte(Controller c, Window w) {
+  //   c.switchToState(c.getChargerCarte());
+  //   c.setPreviousState(c.getEtatAuMoinsUneRequete());
+  //   c.getChargerCarte().entryAction(c, w);
+  // }
 
   public void sauvegarderRequetes(Controller c, Window w) {
     c.switchToState(c.getEtatSauvegarderRequete());

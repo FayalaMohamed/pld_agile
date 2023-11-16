@@ -28,7 +28,7 @@ public class ChargerCarte implements State {
 
         w.afficherCarte(map);
         w.afficherMessage("");
-        c.supprimerTournees();
+        // c.supprimerTournees();
         c.setCarte(map);
         c.switchToState(c.getEtatCarteChargee());
         c.initTournees();

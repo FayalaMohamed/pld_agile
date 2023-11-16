@@ -104,6 +104,10 @@ public class TextualView extends JPanel implements Observer{
 
 	}
 
+	public void clearTournees() {
+		this.vuesTournees.clear();
+	}
+
 	public int getViewWidth() {
 		return viewWidth;
 	}

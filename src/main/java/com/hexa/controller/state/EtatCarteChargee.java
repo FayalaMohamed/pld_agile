@@ -28,11 +28,11 @@ public class EtatCarteChargee implements State {
     c.entryAction();
   }
 
-  public void chargerCarte(Controller c, Window w) {
-    c.switchToState(c.getChargerCarte());
-    c.setPreviousState(c.getEtatCarteChargee());
-    c.entryAction();
-  }
+  // public void chargerCarte(Controller c, Window w) {
+  //   c.switchToState(c.getChargerCarte());
+  //   c.setPreviousState(c.getEtatCarteChargee());
+  //   c.entryAction();
+  // }
 
   public void undo(ListOfCommands listOfCdes, Controller c) {
     listOfCdes.undo();
