@@ -6,6 +6,13 @@ import com.hexa.model.Intersection;
 import com.hexa.view.Window;
 import java.util.List;
 
+/**
+ * Etat de l'application permettant de choisir un point de la carte pour une
+ * nouvelle requête de livraison
+ * --> clicDroit permet de retourner dans le mode etatCarteChargee ou
+ * etatAuMoinsUneRequete
+ * --> clicGauche sur une intersection permet de la sélectionner
+ */
 public class EtatCreerRequete1 implements State {
 
   public void entryAction(Window w) {
