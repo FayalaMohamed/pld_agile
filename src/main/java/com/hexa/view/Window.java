@@ -101,7 +101,8 @@ public class Window extends JFrame implements Observer {
 
 		FlatLightLaf.setup();
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Rectangle rec = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		Dimension screenSize = new Dimension(rec.width,rec.height); //Toolkit.getDefaultToolkit().getScreenSize();
 
 		float coeff = (float) screenSize.width / (float) (1000 + buttonWidth + textualViewWidth);
 		buttonHeight = (int) (40 * coeff);
