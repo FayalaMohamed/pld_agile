@@ -76,11 +76,11 @@ public class Controller {
     return tournees;
   }
 
-  public void initTournees() {
+  /*public void initTournees() {
     for (Tournee tournee : tournees) {
       tournee.initTournee();
     }
-  }
+  }*/
 
   public void addTournee(Tournee tournee) {
     tournee.addObserver(window.getGraphicalView());
