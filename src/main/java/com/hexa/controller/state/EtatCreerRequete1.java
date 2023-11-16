@@ -12,11 +12,11 @@ public class EtatCreerRequete1 implements State {
 
   public void entryAction(Window w) {
     w.hideButtons(this);
-    w.afficherMessage("Cliquez sur une intersectionp pour la sélectionner");
+    w.afficherMessage("Cliquez sur une intersection pour la sélectionner");
   }
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
-    
+
     List<Intersection> intersectionsSelectionnees = w.getIntersectionSelectionnee(coordonneesSouris);
 
     Intersection intersectionChoisie = null;
