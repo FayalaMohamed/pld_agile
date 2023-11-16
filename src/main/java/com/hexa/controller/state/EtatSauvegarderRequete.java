@@ -5,7 +5,6 @@ import com.hexa.model.XMLParser;
 import com.hexa.model.XMLfileOpener;
 import com.hexa.view.Window;
 import java.io.File;
-import com.hexa.model.Tournee;
 
 /**
  * Etat de l'application permettant la sauvegarde des requêtes
@@ -14,20 +13,21 @@ import com.hexa.model.Tournee;
  */
 public class EtatSauvegarderRequete implements State {
 
-  public void entryAction(Window w) {
-    w.hideButtons(this);
-  }
+	public void entryAction(Window w) {
+		w.hideButtons(this);
+	}
 
-  public void entryAction(Controller c, Window w) {
-    try {
-      File xmlFile = XMLfileOpener.getInstance("requete").open(false);
-      if (xmlFile != null) {
-        XMLParser.listeLivraisonsToXml2(xmlFile.getAbsolutePath(), c.getTournees());
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      c.switchToState(c.getEtatAuMoinsUneRequete());
-    }
-  }
+	public void entryAction(Controller c, Window w) {
+		try {
+			File xmlFile = XMLfileOpener.getInstance("requete").open(false);
+			if (xmlFile != null) {
+				XMLParser.listeLivraisonsToXml2(xmlFile.getAbsolutePath(), c.getTournees());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			w.afficherMessage("Erreur lors de la sauvegarde");
+		} finally {
+			c.switchToState(c.getEtatAuMoinsUneRequete());
+		}
+	}
 }

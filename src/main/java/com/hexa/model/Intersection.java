@@ -17,7 +17,7 @@ public class Intersection {
 	private double longitude;
 
 	/**
-	 * identifient
+	 * identifiant
 	 */
 	protected Long id;
 

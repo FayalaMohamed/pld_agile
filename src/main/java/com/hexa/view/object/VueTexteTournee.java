@@ -1,4 +1,4 @@
-package com.hexa.view;
+package com.hexa.view.object;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import com.hexa.model.*;
-import com.hexa.view.listener.MouseListenerTextualView;
+import com.hexa.view.TextualView;
 
 public class VueTexteTournee extends JPanel {
 
-    private TextualView tv;
+    private static final long serialVersionUID = 1L;
+	private TextualView tv;
     private int width;
     private int height;
     private Font font;

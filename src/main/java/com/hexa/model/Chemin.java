@@ -53,6 +53,9 @@ public class Chemin implements Iterator<Segment> {
 	}
 
 	
+	/**
+	 * Remet à zero l'itérateur
+	 */
 	public void reset() {
 		index = 0;
 	}

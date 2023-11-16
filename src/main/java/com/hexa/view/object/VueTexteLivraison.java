@@ -1,4 +1,4 @@
-package com.hexa.view;
+package com.hexa.view.object;
 
 import javax.swing.JLabel;
 
@@ -6,14 +6,14 @@ import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
 import com.hexa.model.Livraison;
 import com.hexa.model.Segment;
+import com.hexa.view.TextualView;
 
 import java.awt.Font;
 
 public class VueTexteLivraison extends JLabel {
     
-    private Livraison livraison;
-    private TextualView tv;
-    private Font font;
+    private static final long serialVersionUID = 1L;
+	private Livraison livraison;
 
     VueTexteLivraison(TextualView tv, Livraison livraison, Graphe carte, Font font) {
 

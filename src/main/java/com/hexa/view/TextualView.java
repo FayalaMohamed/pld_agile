@@ -9,22 +9,20 @@ import javax.swing.border.TitledBorder;
 import com.hexa.model.*;
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
-import org.checkerframework.checker.units.qual.A;
+import com.hexa.view.object.VueTexteTournee;
 
-/**
- * Méthode permettant l'affichage textuel de la liste des livraisons
- */
+
 public class TextualView extends JPanel implements Observer{
 
 	private static final long serialVersionUID = 1L;
-	private String text;
     private ArrayList<VueTexteTournee> vuesTournees = new ArrayList<VueTexteTournee>();
 
 	private int viewWidth;
-	private int viewHeight;
 	private Graphe carte;
 	private Font font;
 	private Window window;
+	
+//---------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Crée la vue textuelle des livraisons
@@ -37,7 +35,6 @@ public class TextualView extends JPanel implements Observer{
 		this.window = window;
 		this.font = windowFont;
 		this.viewWidth = textualViewWidth;
-		this.viewHeight = window.getHeight();
 
 		setBackground(Color.WHITE);
 		setFont(font);
@@ -48,6 +45,24 @@ public class TextualView extends JPanel implements Observer{
 
 		window.getContentPane().add(this);
 	}
+	
+	
+//------------------------------------------------------------------------------------------------------------------
+	
+	public int getViewWidth() {
+		return viewWidth;
+	}
+	
+	
+//------------------------------------------------------------------------------------------------------------------
+	
+	
+	public void ajouterCarte (Graphe graphe) {
+		carte=graphe;
+	}
+	
+//-----------------------------------------------------------------------------------------------------------------
+	
 	
 	/**
 	 * Appelé à chaque modification des objets observés
@@ -82,7 +97,18 @@ public class TextualView extends JPanel implements Observer{
 		window.ajouterMouseListenersTextualView(this.vuesTournees);
 	}
 
-	public void genererVue(VueTexteTournee vueTexteTourneeAUpdate, boolean supprimeTournee) {
+	
+
+	public void clearTournees() {
+		this.vuesTournees.clear();
+	}
+
+
+	
+	
+//----------------------------------------------------------------------------------------------------------------------
+	
+	private void genererVue(VueTexteTournee vueTexteTourneeAUpdate, boolean supprimeTournee) {
 		if (supprimeTournee) {
 			this.remove(vueTexteTourneeAUpdate);
 			this.vuesTournees.remove(vueTexteTourneeAUpdate);
@@ -102,17 +128,5 @@ public class TextualView extends JPanel implements Observer{
 		revalidate();
 		repaint();
 
-	}
-
-	public void clearTournees() {
-		this.vuesTournees.clear();
-	}
-
-	public int getViewWidth() {
-		return viewWidth;
-	}
-
-	public void ajouterCarte (Graphe graphe) {
-		carte=graphe;
 	}
 }

@@ -12,6 +12,8 @@ public class TasIntersection {
 	 */
 	private ArrayList<Intersection> list;
 	
+//--------------------------------------------------------------------------------------------------------------
+	
 	/**
 	 * Constructeur
 	 * 
@@ -21,6 +23,7 @@ public class TasIntersection {
 		this.list = new ArrayList<Intersection>();
 	}
 
+//--------------------------------------------------------------------------------------------------------------
 	
 	/** Retourne la taille du tas
 	 * @return int
@@ -54,18 +57,6 @@ public class TasIntersection {
 		}
 	}
 	
-	/**
-	 * Echange l'intersection à la place i avec celle de la place j
-	 * @param i 
-	 * @param j
-	 * 
-	 * Pre-condition : i < list.size() && j < list.size()
-	 */
-	private void swap(int i, int j) {
-		Intersection temp = list.get(i);
-		list.set(i, list.get(j));
-		list.set(j, temp);
-	}
 	
 	/**
 	 * Extrait la première intersection du tableau et rearrange les autres pour le maintenir trier
@@ -135,5 +126,24 @@ public class TasIntersection {
 		return result;
 		
 	}
+	
+	
+	
+//--------------------------------------------------------------------------------------------------------------
+	
+	/**
+	 * Echange l'intersection à la place i avec celle de la place j
+	 * @param i 
+	 * @param j
+	 * 
+	 * Pre-condition : i < list.size() && j < list.size()
+	 */
+	private void swap(int i, int j) {
+		Intersection temp = list.get(i);
+		list.set(i, list.get(j));
+		list.set(j, temp);
+	}
+	
+	
 	
 }

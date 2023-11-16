@@ -1,10 +1,11 @@
-package com.hexa.view;
+package com.hexa.view.object;
 
 import java.awt.Color;
 
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 import com.hexa.observer.Observable;
+import com.hexa.view.GraphicalView;
 
 public class VueIntersection extends Observable {
 

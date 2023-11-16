@@ -1,8 +1,7 @@
 package com.hexa.controller;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.controller.state.ChargerCarte;
@@ -48,7 +47,7 @@ public class Controller {
   // Undo - Redo
   private ListOfCommands listOfCommands;
 
-  int nbLivreurs;
+  private int nbLivreurs;
 
   /**
    * Crée le controlleur de l'application
@@ -75,21 +74,6 @@ public class Controller {
 
   public ArrayList<Tournee> getTournees() {
     return tournees;
-  }
-
-  public void initTournees() {
-    for (Tournee tournee : tournees) {
-      tournee.initTournee();
-    }
-  }
-
-  public void addTournee(Tournee tournee) {
-    tournee.addObserver(window.getGraphicalView());
-    tournee.notifyObservers(window.getGraphicalView());
-
-    tournee.addObserver(window.getTextualView());
-    //tournee.notifyObservers(window.getTextualView());
-    tournees.add(tournee);
   }
 
   public ListOfCommands getListOfCommands() {
@@ -153,7 +137,24 @@ public class Controller {
   public void setCarte(Graphe carte) {
     this.carte = carte;
   }
+  
+  //-----------------------------------------------------------------------------------------------------
 
+//  public void initTournees() {
+//    for (Tournee tournee : tournees) {
+//      tournee.initTournee();
+//    }
+//  }
+
+  public void addTournee(Tournee tournee) {
+    tournee.addObserver(window.getGraphicalView());
+    tournee.notifyObservers(window.getGraphicalView());
+
+    tournee.addObserver(window.getTextualView());
+    //tournee.notifyObservers(window.getTextualView());
+    tournees.add(tournee);
+  }
+  
   public void supprimerTournees() {
     this.tournees.clear();
     this.window.clearTournees();
@@ -180,7 +181,7 @@ public class Controller {
    * @throws TourneeException
    */
   public void clicGauche(Coordonnees coordonnees) throws TourneeException {
-    currentState.clicGauche(this, window, coordonnees, listOfCommands);
+    currentState.clicGauche(this, window, coordonnees);
   }
 
   /**
@@ -214,8 +215,8 @@ public class Controller {
    * @throws TourneeException
    * @throws GrapheException
    */
-  public void choixLivreur(int livreur) throws TourneeException, GrapheException {
-    currentState.choixLivreur(this, window, livreur, listOfCommands);
+  public void choixLivreur(int livreur) {
+    currentState.choixLivreur(this, window, livreur);
   }
 
   /**
@@ -227,7 +228,7 @@ public class Controller {
   }
 
   public void clicGauche(Livraison livraison) throws TourneeException {
-    currentState.clicGauche(this, window, livraison, listOfCommands);
+    currentState.clicGauche(this, window, livraison);
   }
 
   /**
@@ -298,7 +299,7 @@ public class Controller {
     currentState.entryAction(window);
   }
 
-  public void setTournee(ArrayList<Tournee> tournees) {
+  public void setTournees(ArrayList<Tournee> tournees) {
     this.supprimerTournees();
     for(Tournee tournee : tournees){
       this.addTournee(tournee);

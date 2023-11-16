@@ -3,7 +3,6 @@ package com.hexa.controller.state;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.model.Coordonnees;
-import com.hexa.model.GrapheException;
 import com.hexa.model.Livraison;
 import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
@@ -24,7 +23,7 @@ public interface State {
     System.out.println("Merci d'implémenter la fonction entryAction pour l'état " + this);
   }
 
-  public default void clicGauche(Controller c, Window w, Livraison livraison, ListOfCommands l) throws TourneeException {
+  public default void clicGauche(Controller c, Window w, Livraison livraison) throws TourneeException {
 
   }
 
@@ -36,7 +35,7 @@ public interface State {
    * @param Coordonnees
  * @throws TourneeException
    */
-  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees, ListOfCommands l) throws TourneeException {
+  public default void clicGauche(Controller c, Window w, Coordonnees Coordonnees) throws TourneeException {
   }
 
   /**
@@ -128,8 +127,7 @@ public interface State {
    * @param w
    * @param livreur
    */
-  public default void choixLivreur(Controller c, Window w, int livreur, ListOfCommands l)
-      throws TourneeException, GrapheException {
+  public default void choixLivreur(Controller c, Window w, int livreur) {
   }
 
   /**

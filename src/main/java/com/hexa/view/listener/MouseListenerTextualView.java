@@ -1,12 +1,7 @@
 package com.hexa.view.listener;
 
 import com.hexa.controller.Controller;
-import com.hexa.model.Coordonnees;
 import com.hexa.model.Livraison;
-import com.hexa.view.GraphicalView;
-import com.hexa.view.Window;
-
-import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -20,7 +15,7 @@ public class MouseListenerTextualView extends MouseAdapter {
 //-------------------------------------------------------------------------------------------------
 
     public MouseListenerTextualView(Controller c, Livraison l) {
-        System.out.println("création mouse Listener");
+        //System.out.println("création mouse Listener");
         this.controller = c;
         this.livraison = l;
     }
@@ -38,10 +33,9 @@ public class MouseListenerTextualView extends MouseAdapter {
         switch (evt.getButton()) {
             case MouseEvent.BUTTON1:
                 try {
-                    System.out.println("clic gauche sur livraison vue texte");
+                    //System.out.println("clic gauche sur livraison vue texte");
                     controller.clicGauche(livraison);
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 break;

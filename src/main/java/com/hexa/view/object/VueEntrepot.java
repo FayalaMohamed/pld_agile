@@ -1,11 +1,11 @@
-package com.hexa.view;
+package com.hexa.view.object;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Entrepot;
 import com.hexa.model.Intersection;
+import com.hexa.view.GraphicalView;
 
 public class VueEntrepot {
 

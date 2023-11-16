@@ -1,4 +1,4 @@
-package com.hexa.view;
+package com.hexa.view.object;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Livraison;
 import com.hexa.observer.Observable;
+import com.hexa.view.GraphicalView;
 
 public class VueLivraison extends Observable {
 
