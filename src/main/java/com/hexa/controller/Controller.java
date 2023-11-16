@@ -92,6 +92,15 @@ public class Controller {
     tournees.add(tournee);
   }
 
+  public void addTournee2(Tournee tournee) {
+    tournee.addObserver(window.getGraphicalView());
+    tournee.notifyObservers(window.getGraphicalView());
+
+    tournee.addObserver(window.getTextualView());
+    tournee.notifyObservers(window.getTextualView());
+    tournees.add(tournee);
+  }
+
   public ListOfCommands getListOfCommands() {
     return listOfCommands;
   }
@@ -301,7 +310,7 @@ public class Controller {
   public void setTournee(ArrayList<Tournee> tournees) {
     this.supprimerTournees();
     for(Tournee tournee : tournees){
-      this.addTournee(tournee);
+      this.addTournee2(tournee);
     }
   }
 

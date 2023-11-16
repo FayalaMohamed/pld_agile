@@ -105,7 +105,11 @@ public class TextualView extends JPanel implements Observer{
 	}
 
 	public void clearTournees() {
-		this.vuesTournees.clear();
+		ArrayList<VueTexteTournee> TempvuesTournees = new ArrayList<VueTexteTournee>();
+		TempvuesTournees.addAll(vuesTournees);
+		for (VueTexteTournee vueTournee : TempvuesTournees)
+			this.genererVue(vueTournee,true);
+
 	}
 
 	public int getViewWidth() {
