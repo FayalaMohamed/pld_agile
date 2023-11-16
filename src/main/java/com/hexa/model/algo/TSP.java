@@ -1,6 +1,5 @@
 package com.hexa.model.algo;
 
-import com.hexa.model.Graphe;
 import com.hexa.model.GrapheComplet;
 import com.hexa.model.Intersection;
 

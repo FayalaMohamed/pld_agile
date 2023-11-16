@@ -269,8 +269,6 @@ public class XMLParser {
 		doc.getDocumentElement().normalize();
 		boolean trouvee = false;
 
-		Set<Livraison> listeLivraisons = new HashSet<Livraison>();
-
 		ArrayList<Tournee> tournees = new ArrayList<Tournee>();
 
 		NodeList livraisons = doc.getElementsByTagName("livraison");

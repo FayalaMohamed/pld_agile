@@ -1,8 +1,7 @@
 package com.hexa.controller;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.controller.state.ChargerCarte;
@@ -189,7 +188,7 @@ public class Controller {
    * @throws TourneeException
    */
   public void clicGauche(Coordonnees coordonnees) throws TourneeException {
-    currentState.clicGauche(this, window, coordonnees, listOfCommands);
+    currentState.clicGauche(this, window, coordonnees);
   }
 
   /**
@@ -223,8 +222,8 @@ public class Controller {
    * @throws TourneeException
    * @throws GrapheException
    */
-  public void choixLivreur(int livreur) throws TourneeException, GrapheException {
-    currentState.choixLivreur(this, window, livreur, listOfCommands);
+  public void choixLivreur(int livreur) {
+    currentState.choixLivreur(this, window, livreur);
   }
 
   /**
@@ -236,7 +235,7 @@ public class Controller {
   }
 
   public void clicGauche(Livraison livraison) throws TourneeException {
-    currentState.clicGauche(this, window, livraison, listOfCommands);
+    currentState.clicGauche(this, window, livraison);
   }
 
   /**
@@ -307,7 +306,7 @@ public class Controller {
     currentState.entryAction(window);
   }
 
-  public void setTournee(ArrayList<Tournee> tournees) {
+  public void setTournees(ArrayList<Tournee> tournees) {
     this.supprimerTournees();
     for(Tournee tournee : tournees){
       this.addTournee2(tournee);

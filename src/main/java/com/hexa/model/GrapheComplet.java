@@ -22,11 +22,11 @@ public class GrapheComplet extends Graphe {
 	 * Construit un graphe complet ayant pour sommet l'ensemble des lieux de
 	 * livraisons de la tournée. Un segment entre deux intersections du graphe
 	 * complet est le plus court chemin entre ces deux intersections dans le graphe
-	 * en paramètre du constructeur Chaque segment est calculé avec l'algorithme de
+	 * en paramètre du constructeur. Chaque segment est calculé avec l'algorithme de
 	 * Dijkstra. Le chemin calculé pour aller d'un sommet à un autre est mémorisé
 	 * dans une table.
 	 * 
-	 * UnGrapheComplet hérite de Graphe
+	 * Un GrapheComplet hérite de Graphe
 	 * 
 	 * @param carte   le graphe représentant la carte
 	 * @param tournee la tournée de livraison
@@ -84,10 +84,6 @@ public class GrapheComplet extends Graphe {
 			for (Intersection arrive : intersections) {
 				if (!arrive.equals(depart)) {
 					s = new Segment(depart, arrive, sp.getCost(arrive), null);
-
-					if (sp.getCost(arrive) == Double.MAX_VALUE) {
-						System.out.println(depart.getId() + " " + arrive.getId());
-					}
 
 					super.ajouterSegment(s);
 					this.cheminsPlusCourt.put(s, new Chemin(sp.getSolPath(arrive)));

@@ -13,9 +13,9 @@ public class InitialState implements State {
     w.afficherMessage("Chargez une carte pour créer vos requêtes");
   }
 
-  public void chargerCarte(Controller c, Window w) {
-    c.setPreviousState(c.getInitialState());
-    c.switchToState(c.getChargerCarte());
-    c.entryAction();
-  }
+	public void chargerCarte(Controller c, Window w) {
+		c.setPreviousState(c.getInitialState());
+		c.switchToState(c.getChargerCarte());
+		c.entryAction();
+	}
 }

@@ -1,4 +1,4 @@
-package com.hexa.view;
+package com.hexa.view.object;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import com.hexa.model.Livraison;
 import com.hexa.model.Segment;
 import com.hexa.model.Tournee;
 import com.hexa.model.TourneeException;
+import com.hexa.view.GraphicalView;
 
 public class VueTournee {
 
@@ -53,7 +54,6 @@ public class VueTournee {
                 }
             }
         } catch (TourneeException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -131,15 +131,6 @@ public class VueTournee {
     return already_visited;
   }
 
-//   public void updateTournee(Tournee tournee) {
-//     this.tournee = tournee;
-
-//     //mise à jour 
-//     vuesLivraisons = new ArrayList<VueLivraison>();
-//     for (Livraison l : this.tournee.getLivraisons()) {
-//         vuesLivraisons.add(new VueLivraison(l, this.gv, this.color));
-//     }
-//   }
 
   /**
    * 

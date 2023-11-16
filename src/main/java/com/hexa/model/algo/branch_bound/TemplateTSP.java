@@ -19,6 +19,9 @@ abstract class TemplateTSP implements TSP {
 	private int timeLimit;
 	private long startTime;
 	private int sizeBestSol;
+	
+
+//--------------------------------------------------------------------------------------------------------------
 
 	
 	/** L'algo qui permet de trouver la meilleure tournée possible de l'entrepot passant par
@@ -69,7 +72,7 @@ abstract class TemplateTSP implements TSP {
 		}
 			
 		
-		System.out.println("Temps searchSolution TSP : " + (System.currentTimeMillis() - startTime));
+		//System.out.println("Temps searchSolution TSP : " + (System.currentTimeMillis() - startTime));
 	}
 
 	
@@ -101,6 +104,7 @@ abstract class TemplateTSP implements TSP {
 	}
 
 
+//--------------------------------------------------------------------------------------------------------------
 	
 	/**
 	 * Algorithme de branch and bound pour résoudre le TSP dans le graphe g

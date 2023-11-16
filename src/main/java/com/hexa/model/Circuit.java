@@ -62,6 +62,10 @@ public class Circuit implements Iterator<Segment> {
 		}
 	}
 	
+	
+	/**
+	 * Remet à zéro l'itérateur
+	 */
 	public void reset() {
 		index = 0;
 		

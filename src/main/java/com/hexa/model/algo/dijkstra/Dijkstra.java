@@ -43,6 +43,8 @@ public class Dijkstra implements ShortestPath {
 	 * Permet de savoir si on a fait au moins une recherche de plus court chemin
 	 */
 	private boolean searchOK;
+	
+//--------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Constructeur
@@ -57,6 +59,8 @@ public class Dijkstra implements ShortestPath {
 		searchOK = false;
 	}
 	
+	
+//--------------------------------------------------------------------------------------------------------------
 	
 	/** Implementation de l'algorithme de Dijkstra pour calculer le plus court chemin 
 	 * de l'Intersection de départ vers toutes les autres Intersections du graphe
@@ -162,6 +166,8 @@ public class Dijkstra implements ShortestPath {
 
 	}
 	
+	
+//--------------------------------------------------------------------------------------------------------------
 	
 	/** Fonction utilisée par l'algorithme de dijkstra pour relacher les arcs et mettre à jour le cout pour arriver au sommet
 	 * @param seg

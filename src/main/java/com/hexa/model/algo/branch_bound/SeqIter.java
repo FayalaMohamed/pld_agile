@@ -13,6 +13,8 @@ public class SeqIter implements Iterator<Intersection> {
 	private int nbCandidats;
 	private Intersection[] candidats;
 	
+//-----------------------------------------------------------------------------------------------------------------
+	
 	
 	/**
 	 * Créer un itérateur qui parcourt la liste des sommets de unvisited qui sont successeurs du sommetCourant
@@ -32,6 +34,8 @@ public class SeqIter implements Iterator<Intersection> {
 		}
 	}
 
+	
+//-----------------------------------------------------------------------------------------------------------------
 	
 	/** Retourne True si il existe au moins une autre Intersection dans le tableau candidats 
 	 * @return boolean

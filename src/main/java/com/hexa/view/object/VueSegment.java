@@ -1,8 +1,9 @@
-package com.hexa.view;
+package com.hexa.view.object;
 
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
+import com.hexa.view.GraphicalView;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

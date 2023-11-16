@@ -13,6 +13,9 @@ public class Graphe {
 	 */
 	protected Map<Segment, Double> segments;
 
+	/**
+	 * Table contenant l'ensemble des segments du graphe en clé et le nom de chacun en valeur
+	 */
 	protected Map<Segment, String> nomSegments;
 
 	/**
@@ -92,6 +95,7 @@ public class Graphe {
 		return intersections.contains(inter);
 	}
 
+	
 	/**
 	 * @param s
 	 * @return true si le graphe contient un segment identique à s
@@ -157,6 +161,7 @@ public class Graphe {
 		if (!entrepotDefinit) {
 			this.entrepot = entrepot;
 			listeSuccesseur.put(entrepot, new HashSet<Intersection>());
+			listePredecesseur.put(entrepot, new HashSet<Intersection>());
 			this.entrepotDefinit = true;
 		} else {
 			throw new GrapheException("L'entrepot de ce graphe a déjà été défini. Il n'est pas possible de le changer");

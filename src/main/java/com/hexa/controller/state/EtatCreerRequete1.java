@@ -1,11 +1,9 @@
 package com.hexa.controller.state;
 
 import com.hexa.controller.Controller;
-import com.hexa.controller.command.ListOfCommands;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 import com.hexa.view.Window;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EtatCreerRequete1 implements State {
@@ -15,9 +13,9 @@ public class EtatCreerRequete1 implements State {
     w.afficherMessage("Cliquez sur une intersection pour la sélectionner");
   }
 
-  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {
 
-    List<Intersection> intersectionsSelectionnees = w.getIntersectionSelectionnee(coordonneesSouris);
+    List<Intersection> intersectionsSelectionnees = w.getIntersectionsSelectionnees(coordonneesSouris);
 
     Intersection intersectionChoisie = null;
     if (intersectionsSelectionnees.isEmpty()) {
