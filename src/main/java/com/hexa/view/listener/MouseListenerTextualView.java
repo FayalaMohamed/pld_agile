@@ -3,8 +3,6 @@ package com.hexa.view.listener;
 import com.hexa.controller.Controller;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Livraison;
-import com.hexa.model.Tournee;
-import com.hexa.model.TourneeException;
 import com.hexa.view.GraphicalView;
 import com.hexa.view.Window;
 
@@ -17,11 +15,7 @@ public class MouseListenerTextualView extends MouseAdapter {
 //-------------------------------------------------------------------------------------------------
 
     private Controller controller;
-
-    private GraphicalView graphicalView;
-    private Window window;
-
-    private Coordonnees dernieresCoordonnees;
+    private Livraison livraison;
 
 //-------------------------------------------------------------------------------------------------
 
@@ -42,14 +36,13 @@ public class MouseListenerTextualView extends MouseAdapter {
         switch (evt.getButton()) {
             case MouseEvent.BUTTON1:
                 try {
-                    //controller.clicGauche(coordinates(evt));
+                    controller.clicGauche(livraison);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 break;
             case MouseEvent.BUTTON3:
-                System.out.println("Right click pressed");
                 controller.clicDroit();
                 break;
             default:

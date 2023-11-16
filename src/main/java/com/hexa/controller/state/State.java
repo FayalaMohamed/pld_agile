@@ -4,6 +4,7 @@ import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.GrapheException;
+import com.hexa.model.Livraison;
 import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
 
@@ -21,6 +22,10 @@ public interface State {
 
   public default void entryAction(Window w) {
     System.out.println("Merci d'implémenter la fonction entryAction pour l'état " + this);
+  }
+
+  public default void clicGauche(Controller c, Window w, Livraison livraison, ListOfCommands l) throws TourneeException {
+
   }
 
   /**

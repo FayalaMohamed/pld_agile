@@ -226,6 +226,10 @@ public class Controller {
     currentState.supprimerRequete(this, window);
   }
 
+  public void clicGauche(Livraison livraison) throws TourneeException {
+    currentState.clicGauche(this, window, livraison, listOfCommands);
+  }
+
   /**
    * Méthode appelée par la fenêtre après un clic sur le bouton "Calculer la
    * tournée"

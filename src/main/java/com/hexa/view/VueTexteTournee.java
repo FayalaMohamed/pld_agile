@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import com.hexa.model.*;
+import com.hexa.view.listener.MouseListenerTextualView;
 
 public class VueTexteTournee extends JPanel {
 

@@ -25,8 +25,34 @@ public class EtatSupprimerRequete implements State {
     w.hideButtons(this);
   }
 
+  public void clicGauche(Controller c, Window w, Livraison livraison, ListOfCommands listOfCommands) throws TourneeException {
+    for (Tournee tournee : c.getTournees()) {
+      if (!tournee.getLivraisonsSet().contains(livraison)) {
+        continue;
+      }
+      System.out.println("Livraison supprimée");
+
+      if (tournee.estCalculee()) {
+        tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+      } else {
+        //Motournee.supprimerLivraison(intersection);
+        listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
+      }
+
+    }
+
+    for (Tournee tournee : c.getTournees()) {
+      if (tournee.getLivraisons().length != 0) {
+        c.switchToState(c.getEtatAuMoinsUneRequete());
+        return;
+      }
+    }
+
+    c.switchToState(c.getEtatCarteChargee());
+
+  }
+
   public void clicDroit(Controller c, Window w) {
-    System.out.println("Annuler Supprimer Requête");
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getNbLivraisons() != 0) {
         c.switchToState(c.getEtatAuMoinsUneRequete());
@@ -40,8 +66,6 @@ public class EtatSupprimerRequete implements State {
       throws TourneeException {
 
     for (Intersection intersection : c.getCarte().getIntersections()) {
-      // TODO: When doing graphical view, refactor the method to compute coordinates
-      // not to duplicate code
       Coordonnees coord = w.getGraphicalView().CoordGPSToViewPos(intersection);
       if (coord.equals(coordonneesSouris)) {
         for (Tournee tournee : c.getTournees()) {

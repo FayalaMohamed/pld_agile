@@ -145,6 +145,10 @@ public class Tournee extends Observable {
     return livreur;
   }
 
+  public Set<Livraison> getLivraisonsSet() {
+    return this.livraisons;
+  }
+
   // -----------------------------------------------------------------------------------------------------
 
   public void setLivreur(Livreur livreur) {

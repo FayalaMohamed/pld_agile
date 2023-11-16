@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.stream.*;
 import javax.swing.JOptionPane;
 
@@ -13,11 +14,7 @@ import com.hexa.controller.command.ListOfCommands;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Graphe;
 import com.hexa.model.Tournee;
-import com.hexa.view.listener.BoxListener;
-import com.hexa.view.listener.ButtonListener;
-import com.hexa.view.listener.MouseListener;
-import com.hexa.view.listener.KeyboardListener;
-import com.hexa.view.listener.ZoomHandler;
+import com.hexa.view.listener.*;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
 
@@ -32,6 +29,7 @@ import java.util.TreeMap;
 
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
+import com.hexa.view.listener.MouseListener;
 
 public class Window extends JFrame implements Observer {
 
@@ -476,6 +474,14 @@ public class Window extends JFrame implements Observer {
    */
   public List<Intersection> getIntersectionSelectionnee(Coordonnees coordonneesSouris) {
     return graphicalView.getIntersectionSelectionnee(coordonneesSouris);
+  }
+
+  public void ajouterMouseListenersTextualView (ArrayList<VueTexteTournee> vtts) {
+    for (VueTexteTournee vtt : vtts) {
+      for (Component component : vtt.getComponents()) {
+        //((JLabel)component).addMouseListener(new MouseListenerTextualView(controller,));
+      }
+    }
   }
   
 }

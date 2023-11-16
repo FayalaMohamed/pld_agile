@@ -24,6 +24,7 @@ public class TextualView extends JPanel implements Observer{
 	private int viewHeight;
 	private Graphe carte;
 	private Font font;
+	private Window window;
 
 	/**
 	 * Crée la vue textuelle des livraisons
@@ -33,6 +34,7 @@ public class TextualView extends JPanel implements Observer{
 	public TextualView(Window window, int textualViewWidth, Font windowFont){
 		super();
 
+		this.window = window;
 		this.font = windowFont;
 		this.viewWidth = textualViewWidth;
 		this.viewHeight = window.getHeight();
@@ -77,6 +79,8 @@ public class TextualView extends JPanel implements Observer{
 			vuesTournees.add(vueTexteTourneeAUpdate);
 		}
 		genererVue(vueTexteTourneeAUpdate, false);
+
+		window.ajouterMouseListenersTextualView(this.vuesTournees);
 	}
 
 	public void genererVue(VueTexteTournee vueTexteTourneeAUpdate, boolean supprimeTournee) {
