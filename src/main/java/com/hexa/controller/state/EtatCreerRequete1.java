@@ -13,9 +13,9 @@ public class EtatCreerRequete1 implements State {
     w.afficherMessage("Cliquez sur une intersection pour la sélectionner");
   }
 
-  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {
 
-    List<Intersection> intersectionsSelectionnees = w.getIntersectionSelectionnee(coordonneesSouris);
+    List<Intersection> intersectionsSelectionnees = w.getIntersectionsSelectionnees(coordonneesSouris);
 
     Intersection intersectionChoisie = null;
     if (intersectionsSelectionnees.isEmpty()) {
