@@ -40,6 +40,7 @@ public class EtatAuMoinsUneRequete implements State {
         return;
       }
     }
+    w.afficherMessage("Cliquez sur une requête sur la carte ou dans le menu de droite pour la supprimer");
     c.switchToState(c.getEtatCarteChargee());
   }
 
@@ -62,7 +63,7 @@ public class EtatAuMoinsUneRequete implements State {
           System.out.println(livraison);
         }
         tournee.construireCircuit(c.getCarte());
-        w.afficherMessage("Tournée calculée");
+        w.afficherMessage("Tournée(s) calculée(s)");
         listOfCdes.add(new CircuitCommande(tournee, tournee.getCircuit()));
       }
     } catch (Exception e) {
@@ -94,11 +95,11 @@ public class EtatAuMoinsUneRequete implements State {
     }
   }
 
-  public void genererFeuilleDeRoute(Controller c) {
-    System.out.println("genere route");
+  public void genererFeuilleDeRoute(Controller c, Window w) {
     for (Tournee tournee : c.getTournees()) {
       tournee.genererFeuilleDeRoute(c.getCarte());
     }
+    w.afficherMessage("Les feuilles de route ont été enregistrées dans le dossier /Feuilles_Route");
   }
 
 }

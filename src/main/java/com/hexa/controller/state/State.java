@@ -153,7 +153,7 @@ public interface State {
    * @param c
    * @param w
    */
-  public default void genererFeuilleDeRoute(Controller c) {
+  public default void genererFeuilleDeRoute(Controller c, Window w) {
   }
 
 

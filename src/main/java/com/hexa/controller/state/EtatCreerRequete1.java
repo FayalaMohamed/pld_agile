@@ -12,6 +12,7 @@ public class EtatCreerRequete1 implements State {
 
   public void entryAction(Window w) {
     w.hideButtons(this);
+    w.afficherMessage("Cliquez sur une intersectionp pour la sélectionner");
   }
 
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
@@ -33,8 +34,7 @@ public class EtatCreerRequete1 implements State {
     }
 
     w.afficherIntersectionSelectionnee(intersectionChoisie);
-    w.afficherMessage("Intersection sélectionnée pour la livraison : " + intersectionChoisie.toString()
-        + "\nSélectionnez un livreur");
+    w.afficherMessage("Intersection sélectionnée pour la livraison - Sélectionnez un livreur");
     c.switchToState(c.getEtatCreerRequete2());
     c.getEtatCreerRequete2().entryAction(intersectionChoisie);
   }

@@ -71,7 +71,7 @@ public class EtatCreerRequete2 implements State {
     } else if (tournee != null) {
       System.out.println("State - choix livreur");
       //tournee.ajouterLivraison(livraison);
-      w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison : " + livraison);
+      w.afficherMessage("Le livreur " + livreur + " a été affecté à la livraison");
       listOfCommands.add(new RequeteCommande(tournee, livraison));
       c.switchToState(c.getEtatAuMoinsUneRequete());
     }
