@@ -23,6 +23,8 @@ public class TextualView extends JPanel implements Observer{
 	private Font font;
 	private Window window;
 	private VueTexteLivraison currentlyHighlightedLivraison;
+	private ScrollablePanel innerPanel;
+	private JScrollPane innerScrollPane;
 
 //---------------------------------------------------------------------------------------------------------
 
@@ -44,11 +46,29 @@ public class TextualView extends JPanel implements Observer{
 		TitledBorder border = BorderFactory.createTitledBorder("Liste des livraisons :");
 		border.setTitleFont(font);
 		setBorder(border);
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-
+		//setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		setLayout(null);
+		innerPanel = new ScrollablePanel();
+		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.PAGE_AXIS));
+		innerScrollPane = new JScrollPane(innerPanel,    ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		add(innerScrollPane);
 		window.getContentPane().add(this);
 	}
-	
+
+	/**
+	 * Donne la taille de la textualView, et adapte chacun des composants qu'elle contient en fonction.
+	 * @param width la nouvelle largeur de ce composant en pixels
+	 * @param height la nouvelle hauteur de ce composant en pixels
+	 */
+	@Override
+	public void setSize(int width, int height) {
+		super.setSize(width,height);
+		Insets insets = this.getBorder().getBorderInsets(this);
+		innerPanel.setSize(this.getWidth()-insets.left-insets.right,this.getHeight() - insets.top-insets.bottom);
+		innerPanel.setScrollableWidth(ScrollablePanel.ScrollableSizeHint.FIT);
+		innerScrollPane.setBounds(insets.left,insets.top,this.getWidth()-insets.left-insets.right,this.getHeight() - insets.top-insets.bottom);
+	}
 
 //------------------------------------------------------------------------------------------------------------------
 
@@ -106,19 +126,23 @@ public class TextualView extends JPanel implements Observer{
 			this.vuesTournees.remove(vueTexteTourneeAUpdate);
 			revalidate();
 			repaint();
+			innerPanel.revalidate();
+			innerPanel.repaint();
 		}
 
 		//System.out.println("textual view : générer vue / nb de tournées : " + vuesTournees.size());
 		for (VueTexteTournee vueTournee : vuesTournees) {
 			//System.out.println("largeur vue : "+vueTournee.getWidth()+" / hauteur vue : " + vueTournee.getHeight());
 			if (vueTournee == vueTexteTourneeAUpdate && !supprimeTournee) {
-				this.add(vueTournee.dessinerVue(this.carte, true));
+				innerPanel.add(vueTournee.dessinerVue(this.carte, true));
 			} else {
-				this.add(vueTournee.dessinerVue(this.carte, false));
+				innerPanel.add(vueTournee.dessinerVue(this.carte, false));
 			}
 		}
 		revalidate();
 		repaint();
+		innerPanel.revalidate();
+		innerPanel.repaint();
 
 	}
 
