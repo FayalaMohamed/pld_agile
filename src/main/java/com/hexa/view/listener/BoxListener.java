@@ -31,9 +31,12 @@ public class BoxListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		@SuppressWarnings("unchecked")
 		JComboBox<String> box = (JComboBox<String>) e.getSource();
-		//System.out.println("COMBO BOX " + box.getSelectedItem());
 		try {
+			if (box.getSelectedIndex() == -1) {
+				return;
+			}
 			controller.choixLivreur(Integer.valueOf((String) box.getSelectedItem()));
+			box.setSelectedIndex(-1);
 		} catch (NumberFormatException e1) {
 			e1.printStackTrace();
 		}

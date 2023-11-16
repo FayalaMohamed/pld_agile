@@ -97,7 +97,6 @@ public class VueTexteTournee extends JPanel {
 TODO REMARQUES
 - Menu de sélection des livreurs : changer pour qu'une fois sélectionné, le livreur s'applique à la création des requêtes
   et que le choix par défaut soit aucun livreur sélectionné
-- Augmenter la taille des polices
 - Augmenter la taille des numéros des livraisons sur la graphicalView
 - Bordures à rendre plus importantes
  */

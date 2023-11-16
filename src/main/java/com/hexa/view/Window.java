@@ -132,10 +132,12 @@ public class Window extends JFrame implements Observer {
 		getContentPane().add(label);
 		livreurMenu = new JComboBox<String>(liste_livreurs);
 
+
 		BoxListener boxListener = new BoxListener(controller);
 		livreurMenu.addActionListener(boxListener);
 		livreurMenu.setFont(font);
 		livreurMenu.setFocusable(false);
+		livreurMenu.setSelectedIndex(-1);
 		getContentPane().add(livreurMenu);
 
 		graphicalView = new GraphicalView(this, screenSize);
@@ -257,6 +259,7 @@ public class Window extends JFrame implements Observer {
 	 */
 	public void hideButtons(EtatCreerRequete2 etatCreerRequete2) {
 		toggleAllButtons(false);
+		this.livreurMenu.setEnabled(true);
 	}
 
 	/**
@@ -498,6 +501,7 @@ public class Window extends JFrame implements Observer {
 			boutons.get(UNDO).setEnabled(undoEnabled);
 			boutons.get(REDO).setEnabled(redoEnabled);
 		}
+		this.livreurMenu.setEnabled(false);
 	}
 
 }
