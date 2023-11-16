@@ -14,10 +14,12 @@ public class VueTexteLivraison extends JLabel {
     
     private static final long serialVersionUID = 1L;
 	private Livraison livraison;
+    boolean highlighted;
 
     VueTexteLivraison(TextualView tv, Livraison livraison, Graphe carte, Font font) {
 
         this.livraison = livraison;
+        this.highlighted = false;
 
         boolean affPlageHoraire = livraison.getPlageHoraire()[0] == 0 ? false : true;
 
@@ -71,6 +73,26 @@ public class VueTexteLivraison extends JLabel {
             desc += (nom.isEmpty() ? "Rue sans nom" : nom);
         }
         return desc;
+    }
+
+    public void highlight(boolean highlight) {
+        if (highlighted && highlight) {
+            return;
+        } else if (highlighted && !highlight) {
+            String desc = "<html><ul><li>";
+            desc+=this.getText().substring(37,this.getText().length()-24);
+            desc+="</html></li></ul>";
+            this.setText(desc);
+            System.out.println(this.getText());
+            this.highlighted = false;
+        } else {
+            String desc = "<html><ul><li><span bgcolor=\"yellow\">";
+            desc+=this.getText().substring(14,this.getText().length()-17);
+            desc+="</span></html></li></ul>";
+            this.setText(desc);
+            this.highlighted = true;
+        }
+
     }
 
     public Livraison getLivraison() {

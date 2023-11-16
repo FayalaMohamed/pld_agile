@@ -101,8 +101,7 @@ public class Window extends JFrame implements Observer {
 
 		FlatLightLaf.setup();
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // a decommenter pour fullscreen
-		// Dimension screenSize = new Dimension(1650,810);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 		float coeff = (float) screenSize.width / (float) (1000 + buttonWidth + textualViewWidth);
 		buttonHeight = (int) (40 * coeff);
@@ -120,7 +119,7 @@ public class Window extends JFrame implements Observer {
 		initBoutons(controller);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(true); // a mettre a true pour fullscreen
+		setResizable(true);
 
 		String[] liste_livreurs = new String[controller.getNbLivreurs()];
 		for (int i = 0; i < controller.getNbLivreurs(); ++i) {

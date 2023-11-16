@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import com.hexa.model.*;
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
+import com.hexa.view.object.VueTexteLivraison;
 import com.hexa.view.object.VueTexteTournee;
 
 
@@ -21,6 +22,7 @@ public class TextualView extends JPanel implements Observer{
 	private Graphe carte;
 	private Font font;
 	private Window window;
+	private VueTexteLivraison currentlyHighlightedLivraison;
 
 //---------------------------------------------------------------------------------------------------------
 
@@ -35,6 +37,7 @@ public class TextualView extends JPanel implements Observer{
 		this.window = window;
 		this.font = windowFont;
 		this.viewWidth = textualViewWidth;
+		currentlyHighlightedLivraison = null;
 
 		setBackground(Color.WHITE);
 		setFont(font);
@@ -127,5 +130,22 @@ public class TextualView extends JPanel implements Observer{
 
 	}
 
+	public void highlightLivraison(Tournee t, Livraison l) {
+			for (VueTexteTournee vtt : this.vuesTournees) {
+				if (vtt.getVuesLivraisons().contains(currentlyHighlightedLivraison)) {
+					vtt.highlightLivraison(currentlyHighlightedLivraison.getLivraison(), false);
+					this.currentlyHighlightedLivraison = null;
+				}
+			}
+		if (t != null) {
+			for (VueTexteTournee vtt : this.vuesTournees) {
+				if (vtt.getTournee().getLivreur().equals(t.getLivreur())) {
+						vtt.highlightLivraison(l, true);
+						currentlyHighlightedLivraison = vtt.getVueLivraisonCorrespondante(l);
+					break;
+				}
+			}
+		}
 
+	}
 }

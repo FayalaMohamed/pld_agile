@@ -29,4 +29,8 @@ public class Livreur {
 	public String toString() {
 		return "id : " + id;
 	}
+
+	public boolean equals(Livreur l) {
+		return this.id == l.getId();
+	}
 }

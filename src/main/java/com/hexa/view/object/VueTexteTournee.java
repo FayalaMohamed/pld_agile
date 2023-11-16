@@ -53,6 +53,23 @@ public class VueTexteTournee extends JPanel {
         return this;
     }
 
+    public void highlightLivraison(Livraison l, boolean highlight) {
+        for (VueTexteLivraison vtl : this.vuesLivraisons) {
+            if (vtl.getLivraison().equals(l)) {
+                vtl.highlight(highlight);
+            }
+        }
+    }
+
+    public VueTexteLivraison getVueLivraisonCorrespondante(Livraison l) {
+        for (VueTexteLivraison vtl : this.vuesLivraisons) {
+            if (vtl.getLivraison().equals(l)) {
+                return vtl;
+            }
+        }
+        return null;
+    }
+
     public void setTournee(Tournee tournee) {
         this.tournee = tournee;
     }

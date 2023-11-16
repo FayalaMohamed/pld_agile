@@ -3,8 +3,10 @@ package com.hexa.controller.state;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.CircuitCommande;
 import com.hexa.controller.command.ListOfCommands;
-import com.hexa.model.Tournee;
+import com.hexa.model.*;
 import com.hexa.view.Window;
+
+import java.util.List;
 
 /**
  * Etat correspondant au cas où une carte est chargée et au moins une requête
@@ -111,5 +113,27 @@ public class EtatAuMoinsUneRequete implements State {
     }
     w.afficherMessage("Les feuilles de route ont été enregistrées dans le dossier /Feuilles_Route");
   }
+
+	/*public void clicGauche(Controller c, Window w, Livraison livraison) throws TourneeException {
+
+	}*/
+
+	public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) throws TourneeException {
+		List<Intersection> intersectionsSelectionnees = w.getIntersectionsSelectionnees(coordonneesSouris);
+		boolean livraisonValide = false;
+		for (Intersection intersection : intersectionsSelectionnees) {
+			for (Tournee t : c.getTournees()) {
+				Livraison l = t.getLivraison(intersection);
+				if (l != null) {
+					w.getTextualView().highlightLivraison(t,l);
+					livraisonValide = true;
+				}
+			}
+		}
+
+		if (!livraisonValide) {
+			w.getTextualView().highlightLivraison(null,null);
+		}
+	}
 
 }
