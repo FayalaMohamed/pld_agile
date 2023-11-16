@@ -1,20 +1,12 @@
 package com.hexa.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
-import com.hexa.model.Livraison;
-import com.hexa.model.Tournee;
+import com.hexa.model.*;
 import com.hexa.observer.Observable;
 import com.hexa.observer.Observer;
 import org.checkerframework.checker.units.qual.A;
@@ -30,20 +22,27 @@ public class TextualView extends JPanel implements Observer{
 
 	private int viewWidth;
 	private int viewHeight;
+	private Graphe carte;
+	private Font font;
 
 	/**
 	 * Crée la vue textuelle des livraisons
 	 * @param window la fenêtre
 	 * @param textualViewWidth
 	 */
-	public TextualView(Window window, int textualViewWidth){
+	public TextualView(Window window, int textualViewWidth, Font windowFont){
 		super();
 
+		this.font = windowFont;
 		this.viewWidth = textualViewWidth;
 		this.viewHeight = window.getHeight();
 
 		setBackground(Color.WHITE);
-		setBorder(BorderFactory.createTitledBorder("Liste des livraisons :"));
+		setFont(font);
+		TitledBorder border = BorderFactory.createTitledBorder("Liste des livraisons :");
+		border.setTitleFont(font);
+		setBorder(border);
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		window.getContentPane().add(this);
 	}
@@ -74,7 +73,7 @@ public class TextualView extends JPanel implements Observer{
 
 		if (!tourneeDejaExistante) {
 			//System.out.println("textual view : nouvelle tournée");
-			vueTexteTourneeAUpdate = new VueTexteTournee((Tournee)o, this);
+			vueTexteTourneeAUpdate = new VueTexteTournee((Tournee)o, this, font);
 			vuesTournees.add(vueTexteTourneeAUpdate);
 		}
 		genererVue(vueTexteTourneeAUpdate, false);
@@ -92,13 +91,16 @@ public class TextualView extends JPanel implements Observer{
 		for (VueTexteTournee vueTournee : vuesTournees) {
 			//System.out.println("largeur vue : "+vueTournee.getWidth()+" / hauteur vue : " + vueTournee.getHeight());
 			if (vueTournee == vueTexteTourneeAUpdate && !supprimeTournee) {
-				this.add(vueTournee.dessinerVue(true));
+				this.add(vueTournee.dessinerVue(this.carte, true));
 			} else {
-				this.add(vueTournee.dessinerVue(false));
+				this.add(vueTournee.dessinerVue(this.carte, false));
 			}
 		}
+		revalidate();
+		repaint();
 
 	}
+
 
 	/**
 	 * Affichage d'une livraison sous forme textuelle
@@ -115,5 +117,9 @@ public class TextualView extends JPanel implements Observer{
 
 	public int getViewWidth() {
 		return viewWidth;
+	}
+
+	public void ajouterCarte (Graphe graphe) {
+		carte=graphe;
 	}
 }

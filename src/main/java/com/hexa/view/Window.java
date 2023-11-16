@@ -3,8 +3,7 @@ package com.hexa.view;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.util.stream.*;
 import javax.swing.JOptionPane;
 
@@ -61,6 +60,8 @@ public class Window extends JFrame implements Observer {
   private int buttonWidth = 250;
   private int messageFrameHeight = 110;
   private int textualViewWidth = 400;
+  private Font font;
+
 
   private GraphicalView graphicalView;
   private TextualView textualView;
@@ -103,13 +104,15 @@ public class Window extends JFrame implements Observer {
 
     FlatLightLaf.setup();
 
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //a decommenter pour fullscreen
+    //Dimension screenSize = new Dimension(1650,810);
 
-    float coeff = (float)screenSize.width/(float)(1500+buttonWidth+textualViewWidth);
+    float coeff = (float)screenSize.width/(float)(1000+buttonWidth+textualViewWidth);
     buttonHeight = (int)(40*coeff);
     buttonWidth = (int)(250*coeff);
     messageFrameHeight =(int)(110*coeff);
     textualViewWidth = (int)(400*coeff);
+    font = new Font ("", Font.PLAIN, (int)(18*coeff));
 
     int allButtonHeight = buttonHeight * texteBoutons.length;
     screenSize.height = Math.max(screenSize.height, allButtonHeight) - messageFrameHeight;
@@ -120,7 +123,7 @@ public class Window extends JFrame implements Observer {
     initBoutons(controller);
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setResizable(true);
+    setResizable(true); //a mettre a true pour fullscreen
 
     String[] liste_livreurs = new String[controller.getNbLivreurs()];
     for (int i = 0; i < controller.getNbLivreurs(); ++i) {
@@ -139,11 +142,11 @@ public class Window extends JFrame implements Observer {
 
     graphicalView = new GraphicalView(this, screenSize);
 
-    textualView = new TextualView(this, textualViewWidth); // A MODIFIER
+    textualView = new TextualView(this, textualViewWidth, font); // A MODIFIER
     textualViewWidth = textualView.getViewWidth();
 
     messageFrame = new JLabel();
-    messageFrame.setFont(UIManager.getFont("large.font"));
+    messageFrame.setFont(font);
     messageFrame.setBorder(BorderFactory.createTitledBorder(""));
     getContentPane().add(messageFrame);
 
@@ -319,6 +322,7 @@ public class Window extends JFrame implements Observer {
    */
   public void afficherCarte(Graphe carte) {
     graphicalView.ajouterCarte(carte);
+    textualView.ajouterCarte(carte);
   }
 
   /**
@@ -447,6 +451,7 @@ public class Window extends JFrame implements Observer {
       JButton bouton = new JButton(text);
       boutons.put(text, bouton);
       bouton.setSize(buttonWidth, buttonHeight);
+      bouton.setFont(font);
       bouton.setLocation(5, (boutons.size() - 1) * buttonHeight);
       bouton.setFocusable(false);
       bouton.setFocusPainted(false);
