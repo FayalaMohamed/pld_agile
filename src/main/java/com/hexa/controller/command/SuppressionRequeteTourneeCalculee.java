@@ -8,6 +8,9 @@ import com.hexa.model.Segment;
 import com.hexa.model.Tournee;
 import com.hexa.model.TourneeException;
 
+/**
+ * Commande permettant de supprimer une requête d'une tournée déjà calculée
+ */
 public class SuppressionRequeteTourneeCalculee implements Command {
   private Graphe map;
   private Tournee tournee;
