@@ -27,7 +27,7 @@ public class EtatSupprimerRequete implements State {
 
   public void clicGauche(Controller c, Window w, Livraison livraison, ListOfCommands listOfCommands) throws TourneeException {
     for (Tournee tournee : c.getTournees()) {
-      if (!tournee.getLivraisonsSet().contains(livraison)) {
+      if (tournee.getLivraison(livraison.getLieu()) == null) {
         continue;
       }
       System.out.println("Livraison supprimée");

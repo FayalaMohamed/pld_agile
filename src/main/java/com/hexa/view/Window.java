@@ -467,7 +467,7 @@ public class Window extends JFrame implements Observer {
 
   /**
    * Retourne l'intersection sur laquelle l'utilisateur a cliqué.
-   * Dékègue le traitement à la graphicalView
+   * Délègue le traitement à la graphicalView
    * 
    * @param coordonneesSouris
    * @return
@@ -476,10 +476,14 @@ public class Window extends JFrame implements Observer {
     return graphicalView.getIntersectionSelectionnee(coordonneesSouris);
   }
 
+  /**
+   * Met à jour les mouse listener sur la liste des livraisons de la vue textuelle
+   * @param vtts
+   */
   public void ajouterMouseListenersTextualView (ArrayList<VueTexteTournee> vtts) {
     for (VueTexteTournee vtt : vtts) {
-      for (Component component : vtt.getComponents()) {
-        //((JLabel)component).addMouseListener(new MouseListenerTextualView(controller,));
+      for (VueTexteLivraison vueLivraison : vtt.getVuesLivraisons()) {
+        vueLivraison.addMouseListener(new MouseListenerTextualView(controller, vueLivraison.getLivraison()));
       }
     }
   }

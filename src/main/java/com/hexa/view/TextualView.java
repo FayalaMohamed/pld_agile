@@ -55,7 +55,6 @@ public class TextualView extends JPanel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 
-		System.out.println("\nupdate textual view\n");
 		VueTexteTournee vueTexteTourneeAUpdate = null;
 
 		boolean tourneeDejaExistante = false;
@@ -103,20 +102,6 @@ public class TextualView extends JPanel implements Observer{
 		revalidate();
 		repaint();
 
-	}
-
-
-	/**
-	 * Affichage d'une livraison sous forme textuelle
-     * @param l
-     */
-	public void display(Livraison l) {
-		// text = text+"<li>";
-		// text = text+"Livraison: " + l.toString();
-		// if (tournee.estCalculee()) {
-		// 	text = text + " Plage horaire : " + l.getPlageHoraire()[0] + "h - " + l.getPlageHoraire()[1] + "h";
-		// }
-		// text = text+"</li>";
 	}
 
 	public int getViewWidth() {

@@ -20,7 +20,9 @@ public class MouseListenerTextualView extends MouseAdapter {
 //-------------------------------------------------------------------------------------------------
 
     public MouseListenerTextualView(Controller c, Livraison l) {
+        System.out.println("création mouse Listener");
         this.controller = c;
+        this.livraison = l;
     }
 
 //-------------------------------------------------------------------------------------------------
@@ -36,6 +38,7 @@ public class MouseListenerTextualView extends MouseAdapter {
         switch (evt.getButton()) {
             case MouseEvent.BUTTON1:
                 try {
+                    System.out.println("clic gauche sur livraison vue texte");
                     controller.clicGauche(livraison);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block

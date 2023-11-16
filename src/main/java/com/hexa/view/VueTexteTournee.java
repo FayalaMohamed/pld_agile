@@ -13,7 +13,7 @@ public class VueTexteTournee extends JPanel {
     private TextualView tv;
     private int width;
     private int height;
-    Font font;
+    private Font font;
 
     private Tournee tournee;
     private ArrayList<VueTexteLivraison> vuesLivraisons = new ArrayList<VueTexteLivraison>();
@@ -28,9 +28,6 @@ public class VueTexteTournee extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBackground(Color.WHITE);
         setFont(font);
-
-        //setPreferredSize(new Dimension(width, 200));
-        //setBackground(Color.RED);
     }
 
     public VueTexteTournee dessinerVue(Graphe carte, boolean redessine) {
@@ -39,21 +36,16 @@ public class VueTexteTournee extends JPanel {
         }
 
         this.removeAll();
-        JLabel labelTournee = new JLabel("Tournée livreur "+tournee.getLivreur().getId());
+        JLabel labelTournee = new JLabel("Tournée livreur " + tournee.getLivreur().getId());
         labelTournee.setFont(font);
         this.add(labelTournee);
-        for (Livraison l : this.tournee.getLivraisons()) {
-            String desc = "<html><ul><li>";
-            desc += buildDescription(carte, desc, l.getLieu());
-            if (tournee.estCalculee()){
-                desc +="<br/> Plage horaire : " + l.getPlageHoraire()[0] + "h - "+l.getPlageHoraire()[1]+"h.";
-            }
-            desc += "</li></ul></html>";
 
-            JLabel labelLivraison = new JLabel(desc);
-            labelLivraison.setFont(font);
-            this.add(labelLivraison);
+        for (Livraison l : this.tournee.getLivraisons()) {
+            VueTexteLivraison vtl = new VueTexteLivraison(tv, l, carte, font);
+            vuesLivraisons.add(vtl);
+            this.add(vtl);
         }
+
         this.add(new JLabel("<html><br></html>"));
         revalidate();
         repaint();
@@ -68,45 +60,9 @@ public class VueTexteTournee extends JPanel {
         return tournee;
     }
 
-    private String buildDescription(Graphe carte, String desc, Intersection intersection) {
-
-        Intersection[] successeurs = carte.getSuccesseur(intersection);
-        Intersection[] predecesseurs = carte.getPredecesseur(intersection);
-
-        desc = "";
-        boolean first = true;
-        for (Intersection succ : successeurs) {
-
-            desc = addToDesc(desc, intersection, succ, carte, first);
-            first = false;
-
-        }
-
-        for (Intersection pred : predecesseurs) {
-
-            desc = addToDesc(desc, pred, intersection, carte, first);
-            first = false;
-
-        }
-
-        desc += ".";
-        return desc;
+    public ArrayList<VueTexteLivraison> getVuesLivraisons() {
+        return vuesLivraisons;
     }
-
-    private String addToDesc(String desc, Intersection origine, Intersection destination, Graphe carte, boolean first) {
-        String nom = carte.getNomSegment(new Segment(origine, destination));
-
-        if (!desc.contains(nom) || nom.isEmpty()) {
-            if (!first) {
-                desc += ", ";
-            }
-            desc += (nom.isEmpty() ? "Rue sans nom" : nom);
-        }
-        return desc;
-    }
-
-
-
 }
 
 /*
