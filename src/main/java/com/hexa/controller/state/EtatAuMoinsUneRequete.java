@@ -32,15 +32,16 @@ public class EtatAuMoinsUneRequete implements State {
 		c.entryAction();
 	}
 
-	public void supprimerRequete(Controller c, Window w) {
-		for (Tournee tournee : c.getTournees()) {
-			if (tournee.getLivraisons().length != 0) {
-				c.switchToState(c.getEtatSupprimerRequete());
-				return;
-			}
-		}
-		c.switchToState(c.getEtatCarteChargee());
-	}
+  public void supprimerRequete(Controller c, Window w) {
+    for (Tournee tournee : c.getTournees()) {
+      if (tournee.getLivraisons().length != 0) {
+        c.switchToState(c.getEtatSupprimerRequete());
+        return;
+      }
+    }
+    w.afficherMessage("Cliquez sur une requête sur la carte ou dans le menu de droite pour la supprimer");
+    c.switchToState(c.getEtatCarteChargee());
+  }
 
 	// public void chargerCarte(Controller c, Window w) {
 	// c.switchToState(c.getChargerCarte());
@@ -104,10 +105,11 @@ public class EtatAuMoinsUneRequete implements State {
 		c.switchToState(c.getEtatCarteChargee());
 	}
 
-	public void genererFeuilleDeRoute(Controller c) {
-		for (Tournee tournee : c.getTournees()) {
-			tournee.genererFeuilleDeRoute(c.getCarte());
-		}
-	}
+  public void genererFeuilleDeRoute(Controller c, Window w) {
+    for (Tournee tournee : c.getTournees()) {
+      tournee.genererFeuilleDeRoute(c.getCarte());
+    }
+    w.afficherMessage("Les feuilles de route ont été enregistrées dans le dossier /Feuilles_Route");
+  }
 
 }

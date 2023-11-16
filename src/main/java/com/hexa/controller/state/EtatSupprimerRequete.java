@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.SuppresionRequeteCommande;
+import com.hexa.controller.command.SuppressionRequeteTourneeCalculee;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 import com.hexa.model.Tournee;
@@ -43,7 +44,7 @@ public class EtatSupprimerRequete implements State {
 			
 
 			if (tournee.estCalculee()) {
-				tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+				c.getListOfCommands().add(new SuppressionRequeteTourneeCalculee(c.getCarte(), tournee, livraison));
 			} else {
 				c.getListOfCommands().add(new SuppresionRequeteCommande(tournee, livraison));
 			}
@@ -88,7 +89,7 @@ public class EtatSupprimerRequete implements State {
 				}
 				
 				if (tournee.estCalculee()) {
-					tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+					c.getListOfCommands().add(new SuppressionRequeteTourneeCalculee(c.getCarte(), tournee, livraison));
 				} else {
 					c.getListOfCommands().add(new SuppresionRequeteCommande(tournee, livraison));
 				}
