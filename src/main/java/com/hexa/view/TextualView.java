@@ -21,6 +21,7 @@ public class TextualView extends JPanel implements Observer{
 	private int viewWidth;
 	private Graphe carte;
 	private Font font;
+	private Font labelFont;
 	private Window window;
 	private VueTexteLivraison currentlyHighlightedLivraison;
 	private ScrollablePanel innerPanel;
@@ -38,11 +39,12 @@ public class TextualView extends JPanel implements Observer{
 
 		this.window = window;
 		this.font = windowFont;
+		this.labelFont = new Font(font.getName(), Font.PLAIN,(int)(font.getSize()*(0.80)));
 		this.viewWidth = textualViewWidth;
 		currentlyHighlightedLivraison = null;
 
 		setBackground(Color.WHITE);
-		setFont(font);
+
 		TitledBorder border = BorderFactory.createTitledBorder("Liste des livraisons :");
 		border.setTitleFont(font);
 		setBorder(border);
@@ -52,6 +54,9 @@ public class TextualView extends JPanel implements Observer{
 		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.PAGE_AXIS));
 		innerScrollPane = new JScrollPane(innerPanel,    ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		innerPanel.setBackground(Color.WHITE);
+		innerScrollPane.getViewport().setBackground(Color.WHITE);
+		innerScrollPane.setBorder(null);
 		add(innerScrollPane);
 		window.getContentPane().add(this);
 	}
@@ -112,7 +117,7 @@ public class TextualView extends JPanel implements Observer{
 
 		if (!tourneeDejaExistante) {
 			//System.out.println("textual view : nouvelle tournée");
-			vueTexteTourneeAUpdate = new VueTexteTournee((Tournee)o, this, font);
+			vueTexteTourneeAUpdate = new VueTexteTournee((Tournee)o, this, labelFont);
 			vuesTournees.add(vueTexteTourneeAUpdate);
 		}
 		genererVue(vueTexteTourneeAUpdate, false);
