@@ -127,6 +127,7 @@ public class Window extends JFrame implements Observer {
 			liste_livreurs[i] = Integer.toString(i);
 		}
 		JLabel label = new JLabel("Livreurs");
+		label.setFont(font);
 		label.setSize(buttonWidth, buttonHeight);
 		label.setLocation(5, boutons.size() * buttonHeight);
 		getContentPane().add(label);
@@ -134,6 +135,7 @@ public class Window extends JFrame implements Observer {
 
 		BoxListener boxListener = new BoxListener(controller);
 		livreurMenu.addActionListener(boxListener);
+		livreurMenu.setFont(font);
 		livreurMenu.setFocusable(false);
 		getContentPane().add(livreurMenu);
 
