@@ -27,6 +27,7 @@ public class EtatCreerRequete1 implements State {
     Intersection intersectionChoisie = null;
     if (intersectionsSelectionnees.isEmpty()) {
       w.afficherMessage("Veuillez cliquer sur une intersections valide");
+      return;
     } else if (intersectionsSelectionnees.size() == 1) {
       intersectionChoisie = intersectionsSelectionnees.get(0);
     } else {
