@@ -43,6 +43,19 @@ public class Livraison {
 		return lieu;
 	}
 
+	
+	/** Retourne le nombre de minutes que le livreur doit attendre pour respecter la première plage horaire renseignée
+	 * @return int
+	 */
+	public int getNbMinutesAttente() {
+		int res = 0;
+		if (heureEstime[0] < plageHoraire[0]) {
+			res += 60 - heureEstime[1];
+			res += (plageHoraire[0] - heureEstime[0] - 1) * 60;
+		}
+		return res;
+	}
+
 	/**
 	 * @return Livreur
 	 */

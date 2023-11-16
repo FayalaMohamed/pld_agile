@@ -93,4 +93,12 @@ public class EtatAuMoinsUneRequete implements State {
       c.switchToState(c.getEtatCarteChargee());
     }
   }
+
+  public void genererFeuilleDeRoute(Controller c) {
+    System.out.println("genere route");
+    for (Tournee tournee : c.getTournees()) {
+      tournee.genererFeuilleDeRoute(c.getCarte());
+    }
+  }
+
 }

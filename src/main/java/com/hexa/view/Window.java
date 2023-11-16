@@ -48,7 +48,7 @@ public class Window extends JFrame implements Observer {
   public static final String REDO = "Redo";
   public static final String UNDO = "Undo";
 
-  public static final String GENERER_FEUILLE_DE_ROUTE = "Générer la feuille de route";
+  public static final String GENERER_FEUILLE_DE_ROUTE = "Générer les feuilles de route";
 
   private final String texteBoutons[] = { CHARGER_CARTE, CREER_REQUETE, CHARGER_REQUETES, SUPPRIMER_REQUETES,
       SAUVEGARDER_REQUETES,
@@ -293,13 +293,6 @@ public class Window extends JFrame implements Observer {
     boutons.get(CHARGER_CARTE).setEnabled(true);
   }
 
-  /**
-   * Cache les boutons selon l'état appelant
-   * @param etatTourneeCalculee
-   */
-  public void hideButtons(EtatTourneeCalculee etatTourneeCalculee) {
-    toggleAllButtons(true);
-  }
 
   /**
    * Active ou désactive tous les boutons selon shown, sauf undo et redo.

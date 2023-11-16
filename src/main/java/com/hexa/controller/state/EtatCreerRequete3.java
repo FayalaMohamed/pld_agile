@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.hexa.controller.Controller;
+import com.hexa.controller.command.AjoutRequeteApresCircuit;
 import com.hexa.controller.command.ListOfCommands;
-import com.hexa.model.Coordonnees;
-import com.hexa.model.Intersection;
-import com.hexa.model.Livraison;
-import com.hexa.model.Tournee;
+import com.hexa.model.*;
 import com.hexa.view.Window;
 
 public class EtatCreerRequete3 implements State {
@@ -39,17 +37,19 @@ public class EtatCreerRequete3 implements State {
    * @param w
    * @param coordonneesSouris
    */
-  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands l) {
+  public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris, ListOfCommands listOfCommands) throws TourneeException {
 
     Intersection intersection = w.getIntersectionSelectionnee(coordonneesSouris).get(0);
     
     
     if (tournee.estLieuLivraison(intersection) || intersection.equals(c.getCarte().getEntrepot())) {
-      try {
+      /*try {
         tournee.ajouterLivraisonApresCalcul(c.getCarte(), livraison, new Livraison(intersection));
       } catch (Exception ex) {
         ex.printStackTrace();
-      }
+      }*/
+      listOfCommands.add(new AjoutRequeteApresCircuit(tournee,c.getCarte(),livraison,intersection));
+
       c.switchToState(c.getEtatAuMoinsUneRequete());
       w.afficherMessage("Livraison Insérée !");
     }
