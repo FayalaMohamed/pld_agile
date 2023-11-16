@@ -53,6 +53,11 @@ public class VueTexteTournee extends JPanel {
         return this;
     }
 
+    /**
+     * Highlight ou enlève le highlight de la livraison l
+     * @param l
+     * @param highlight
+     */
     public void highlightLivraison(Livraison l, boolean highlight) {
         for (VueTexteLivraison vtl : this.vuesLivraisons) {
             if (vtl.getLivraison().equals(l)) {
@@ -61,6 +66,11 @@ public class VueTexteTournee extends JPanel {
         }
     }
 
+    /**
+     * Retourne la VueTexteLivraison correspondant à la livraison passée en paramètre
+     * @param l
+     * @return
+     */
     public VueTexteLivraison getVueLivraisonCorrespondante(Livraison l) {
         for (VueTexteLivraison vtl : this.vuesLivraisons) {
             if (vtl.getLivraison().equals(l)) {

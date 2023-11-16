@@ -118,6 +118,14 @@ public class EtatAuMoinsUneRequete implements State {
 
 	}*/
 
+	/**
+	 * Highlight la livraison cliquée sur la graphicalView dans la textualView. Si un clic est fait en dehors
+	 * d'une livraison, la livraison actuellement highlight ne le sera plus.
+	 * @param c
+	 * @param w
+	 * @param coordonneesSouris
+	 * @throws TourneeException
+	 */
 	public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) throws TourneeException {
 		List<Intersection> intersectionsSelectionnees = w.getIntersectionsSelectionnees(coordonneesSouris);
 		boolean livraisonValide = false;

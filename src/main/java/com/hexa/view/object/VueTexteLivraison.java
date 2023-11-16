@@ -75,6 +75,10 @@ public class VueTexteLivraison extends JLabel {
         return desc;
     }
 
+    /**
+     * highlight si highlight==true, enlève le highlight sinon.
+     * @param highlight
+     */
     public void highlight(boolean highlight) {
         if (highlighted && highlight) {
             return;

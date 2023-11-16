@@ -130,6 +130,12 @@ public class TextualView extends JPanel implements Observer{
 
 	}
 
+	/**
+	 * Highlight la livraison l de la tournée t dans la textualView. Si la tournée est null, enlève le highlight
+	 * de toutes les livraisons de la textualView.
+	 * @param t
+	 * @param l
+	 */
 	public void highlightLivraison(Tournee t, Livraison l) {
 			for (VueTexteTournee vtt : this.vuesTournees) {
 				if (vtt.getVuesLivraisons().contains(currentlyHighlightedLivraison)) {
