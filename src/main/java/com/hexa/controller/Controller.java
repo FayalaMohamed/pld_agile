@@ -276,7 +276,7 @@ public class Controller {
    * feuille de route"
    */
   public void genererFeuilleDeRoute() {
-    currentState.genererFeuilleDeRoute(this);
+    currentState.genererFeuilleDeRoute(this, window);
   }
 
   /**
