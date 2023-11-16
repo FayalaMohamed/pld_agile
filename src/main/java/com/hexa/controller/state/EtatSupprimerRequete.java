@@ -5,6 +5,7 @@ import com.hexa.view.Window;
 import com.hexa.controller.Controller;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.controller.command.SuppresionRequeteCommande;
+import com.hexa.controller.command.SuppressionRequeteTourneeCalculee;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
 import com.hexa.model.Livraison;
@@ -25,7 +26,8 @@ public class EtatSupprimerRequete implements State {
     w.hideButtons(this);
   }
 
-  public void clicGauche(Controller c, Window w, Livraison livraison, ListOfCommands listOfCommands) throws TourneeException {
+  public void clicGauche(Controller c, Window w, Livraison livraison, ListOfCommands listOfCommands)
+      throws TourneeException {
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraison(livraison.getLieu()) == null) {
         continue;
@@ -33,9 +35,10 @@ public class EtatSupprimerRequete implements State {
       System.out.println("Livraison supprimée");
 
       if (tournee.estCalculee()) {
-        tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+        // tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+        listOfCommands.add(new SuppressionRequeteTourneeCalculee(c.getCarte(), tournee, livraison));
       } else {
-        //Motournee.supprimerLivraison(intersection);
+        // Motournee.supprimerLivraison(intersection);
         listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
       }
 
@@ -76,9 +79,10 @@ public class EtatSupprimerRequete implements State {
           System.out.println("Livraison supprimée");
 
           if (tournee.estCalculee()) {
-            tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
+            listOfCommands.add(new SuppressionRequeteTourneeCalculee(c.getCarte(), tournee, livraison));
+            // tournee.supprimerLivraisonApresCalcul(livraison, c.getCarte());
           } else {
-            //Motournee.supprimerLivraison(intersection);
+            // Motournee.supprimerLivraison(intersection);
             listOfCommands.add(new SuppresionRequeteCommande(tournee, livraison));
           }
 
