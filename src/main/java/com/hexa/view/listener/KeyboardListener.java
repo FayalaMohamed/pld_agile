@@ -11,6 +11,10 @@ public class KeyboardListener extends KeyAdapter {
 		controller = c;
 	}
 
+	/**
+	 * Réagit quand une touche du clavier est pressée
+	 * @param e the event to be processed
+	 */
 	public void keyPressed(KeyEvent e) {
 		if ((e.getKeyCode() == KeyEvent.VK_Z) && ((e.getModifiersEx() & java.awt.event.KeyEvent.CTRL_DOWN_MASK) != 0)) {
 			controller.undo();
