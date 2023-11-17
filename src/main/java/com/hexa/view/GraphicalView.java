@@ -93,6 +93,11 @@ public class GraphicalView extends JPanel implements Observer {
 	
 //------------------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Augmente ou diminue le facteur de zoom de la vue graphique.
+	 * Augmente le zoom du facteur notches si notches est supérieur à 0, réduit sinon.
+	 * @param notches
+	 */
 	public void setZoomFactor(int notches) {
 		double temp = zoomFactor;
 		if (notches < 0) {
@@ -109,7 +114,6 @@ public class GraphicalView extends JPanel implements Observer {
 			} else {
 				if (viewX < -(coordonneesMax.getX() * (zoomFactor - 1))) {
 					viewX = (int) (-(coordonneesMax.getX() * (zoomFactor - 1)));
-					// System.out.println("Limite A atteinte");
 				} else if (viewX > coordonneesMin.getX() * (zoomFactor - 1)) {
 					viewX = (int) (coordonneesMin.getX() * (zoomFactor - 1));
 
@@ -117,7 +121,6 @@ public class GraphicalView extends JPanel implements Observer {
 
 				if (viewY < -coordonneesMin.getY() * (zoomFactor - 1)) {
 					viewY = (int) (-coordonneesMin.getY() * (zoomFactor - 1));
-					// System.out.println("Limite A atteinte");
 				} else if (viewY > coordonneesMin.getX() * (zoomFactor - 1)) {
 					viewY = (int) (coordonneesMin.getX() * (zoomFactor - 1));
 
@@ -127,6 +130,11 @@ public class GraphicalView extends JPanel implements Observer {
 		repaint();
 	}
 
+	/**
+	 * Fait défiler la carte depuis les coordonnées coordonnees vers les coordonnées dernieresCoordonnees
+	 * @param coordonnees
+	 * @param dernieresCoordonnees
+	 */
 	public void setDrag(Coordonnees coordonnees, Coordonnees dernieresCoordonnees) {
 		if (zoomFactor != 1.0) {
 			int newViewX = viewX + coordonnees.getX() - dernieresCoordonnees.getX();
@@ -351,19 +359,10 @@ public class GraphicalView extends JPanel implements Observer {
 				longitudeMin = longitude;
 		}
 
-		//System.out.println("latitude min : " + latitudeMin + " / latitude max : " + latitudeMax);
-		//System.out.println("longitude min : " + longitudeMin + " / longitude max : " + longitudeMax);
 		coordonneesMin = new Coordonnees(0, viewHeight);
 		coordonneesMax = new Coordonnees(
 				(int) ((longitudeMax - longitudeMin) / (longitudeMax - longitudeMin) * viewWidth),
 				(int) (viewHeight - ((latitudeMax - latitudeMin) / (latitudeMax - latitudeMin) * viewHeight)));
 	}
-
-	// private void translateView() {
-	// Graphics2D g2d = (Graphics2D) g;
-	// g2d.translate(viewX, viewY);
-	// // Appliquer le facteur de zoom
-	// g2d.scale(zoomFactor, zoomFactor);
-	// }
 	
 }
