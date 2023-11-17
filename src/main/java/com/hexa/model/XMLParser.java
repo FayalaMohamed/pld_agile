@@ -78,81 +78,9 @@ public class XMLParser {
    * @return un set des livraisons
    * @throws Exception
    */
-  public static Set<Livraison> xmlToListeLivraison(String path) throws Exception {
-    File stocks = new File(path);
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-    Document doc = dBuilder.parse(stocks);
-    doc.getDocumentElement().normalize();
 
-    Set<Livraison> listeLivraisons = new HashSet<Livraison>();
 
-    NodeList livraisons = doc.getElementsByTagName("livraison");
-    for (int i = 0; i < livraisons.getLength(); i++) {
-      Node uneLivraison = livraisons.item(i);
-      NamedNodeMap attributes = uneLivraison.getAttributes();
 
-      if (attributes.getLength() != 8 || attributes.item(0).getNodeName() != "dateHeure"
-          || attributes.item(1).getNodeName() != "dateMinute" || attributes.item(2).getNodeName() != "id"
-          || attributes.item(3).getNodeName() != "latitude" || attributes.item(4).getNodeName() != "livreurId"
-          || attributes.item(5).getNodeName() != "longitude"
-          || attributes.item(6).getNodeName() != "plageDebut"
-          || attributes.item(7).getNodeName() != "plageFin") {
-        throw new Exception(
-            "A delivery must have 6 attributes in this order : date, livreurId, id, latitude, longitude");
-      }
-      int dateHeure = Integer.parseInt(attributes.item(0).getNodeValue());
-      int dateMinute = Integer.parseInt(attributes.item(1).getNodeValue());
-
-      int livreurId = Integer.parseInt(attributes.item(4).getNodeValue());
-      int plageDebut = Integer.parseInt(attributes.item(6).getNodeValue());
-      int plageFin = Integer.parseInt(attributes.item(7).getNodeValue());
-      Long id = Long.parseLong(attributes.item(2).getNodeValue());
-      double latitude = Double.parseDouble(attributes.item(3).getNodeValue());
-      double longitude = Double.parseDouble(attributes.item(5).getNodeValue());
-
-      Livraison livraison = new Livraison(new Intersection(id, longitude, latitude));
-      livraison.setLivreur(new Livreur(livreurId));
-      livraison.setPlageHoraire(plageDebut, plageFin);
-      livraison.setHeureEstime(dateHeure, dateMinute);
-
-      listeLivraisons.add(livraison);
-
-    }
-
-    return listeLivraisons;
-  }
-
-  /**
-   * Sérialisation d'un set de Livraisons et sauvegarde dans le fichier XML
-   * spécifié dans le path.
-   * 
-   * Le fichier est créé s'il n'existe pas et si on a le droit d'écrire dans le
-   * répertoire spécifié et si le dossier n'est pas dans un répertoire sécurisé.
-   * 
-   * @param path
-   * @param liste_livraisons
-   */
-  public static void listeLivraisonsToXml(String path, Livraison[] liste_livraisons) {
-    try {
-      PrintWriter writer = new PrintWriter(path, "UTF-8");
-      writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
-      writer.println("<livraisons>");
-      for (Livraison livraison : liste_livraisons) {
-        writer.println("<livraison dateHeure=\"" + livraison.getHeureEstime()[0] + "\" dateMinute=\""
-            + livraison.getHeureEstime()[1] + "\" livreurId=\"" + livraison.getLivreur().getId()
-            + "\" plageDebut=\"" + livraison.getPlageHoraire()[0] + "\" plageFin=\""
-            + livraison.getPlageHoraire()[1] + "\" id=\"" + livraison.getLieu().getId() + "\" latitude=\""
-            + livraison.getLieu().getLatitude() + "\" longitude=\"" + livraison.getLieu().getLongitude()
-            + "\"/>");
-
-      }
-      writer.println("</livraisons>");
-      writer.close();
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-  }
 
   // -------------------------------------------------------------------------------------------------------------------------
 
@@ -309,7 +237,19 @@ public class XMLParser {
     }
   }
 
-  public static ArrayList<Tournee> xmlToListeLivraison2(String path) throws Exception {
+  /**
+   * Retourne une ArrayList de livraison de Livraisons créé à partir du fichier dont le path est donné
+   * en paramètre. Le fichier doit être existant et accessible en lecture.
+   *
+   * Tout fichier XML ne respectant pas la sémantique des tags : noms, nombre
+   * d'attributs, noms d'attributs n'est pas lu et throws une Exception.
+   *
+   * @param path
+   * @return ArrayList de tournées
+   * @throws Exception
+   */
+
+  public static ArrayList<Tournee> xmlToListeLivraison(String path) throws Exception {
     File stocks = new File(path);
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -369,8 +309,17 @@ public class XMLParser {
 
     return tournees;
   }
-
-  public static void listeLivraisonsToXml2(String path, ArrayList<Tournee> tournees) {
+  /**
+   * Sérialisation d'une Arraylist de tournées et sauvegarde dans le fichier XML
+   * spécifié dans le path.
+   *
+   * Le fichier est créé s'il n'existe pas et si on a le droit d'écrire dans le
+   * répertoire spécifié et si le dossier n'est pas dans un répertoire sécurisé.
+   *
+   * @param path
+   * @param tournees
+   */
+  public static void listeLivraisonsToXml(String path, ArrayList<Tournee> tournees) {
     try {
       PrintWriter writer = new PrintWriter(path, "UTF-8");
       writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");

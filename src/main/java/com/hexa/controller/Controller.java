@@ -59,7 +59,7 @@ public class Controller {
     listOfCommands = new ListOfCommands();
   }
 
-  
+
   /** Initialise la window du Controller
    * @param window
    */
@@ -70,16 +70,16 @@ public class Controller {
     switchToState(initialState);
   }
 
-  
-  /** 
+
+  /**
    * @return int
    */
   public int getNbLivreurs() {
     return nbLivreurs;
   }
 
-  
-  /** 
+
+  /**
    * @return ArrayList<Tournee>
    */
   public ArrayList<Tournee> getTournees() {
@@ -87,8 +87,8 @@ public class Controller {
   }
 
 
-  
-  /** Ajouter une nouvelle tournée 
+
+  /** Ajouter une nouvelle tournée
    * @param tournee
    */
   public void addTournee(Tournee tournee) {
@@ -100,121 +100,130 @@ public class Controller {
     tournees.add(tournee);
   }
 
+    public void addTourneeChargement(Tournee tournee) {
+        tournee.addObserver(window.getGraphicalView());
+        tournee.notifyObservers(window.getGraphicalView());
 
-  
-  /** 
+        tournee.addObserver(window.getTextualView());
+        tournee.notifyObservers(window.getTextualView());
+        tournees.add(tournee);
+    }
+
+
+
+  /**
    * @return ListOfCommands
    */
   public ListOfCommands getListOfCommands() {
     return listOfCommands;
   }
 
-  
-  /** 
+
+  /**
    * @return Graphe
    */
   public Graphe getCarte() {
     return carte;
   }
 
-  
-  /** 
+
+  /**
    * @return State
    */
   public State getPreviousState() {
     return previousState;
   }
 
-  
-  /** 
+
+  /**
    * @return InitialState
    */
   public InitialState getInitialState() {
     return initialState;
   }
 
-  
-  /** 
+
+  /**
    * @return EtatCreerRequete1
    */
   public EtatCreerRequete1 getEtatCreerRequete1() {
     return etatCreerRequete1;
   }
 
-  
-  /** 
+
+  /**
    * @return EtatCreerRequete2
    */
   public EtatCreerRequete2 getEtatCreerRequete2() {
     return etatCreerRequete2;
   }
 
-  
-  /** 
+
+  /**
    * @return EtatCreerRequete3
    */
   public EtatCreerRequete3 getEtatCreerRequete3() {
     return etatCreerRequete3;
   }
 
-  
-  /** 
+
+  /**
    * @return EtatCarteChargee
    */
   public EtatCarteChargee getEtatCarteChargee() {
     return etatCarteChargee;
   }
 
-  
-  /** 
+
+  /**
    * @return EtatAuMoinsUneRequete
    */
   public EtatAuMoinsUneRequete getEtatAuMoinsUneRequete() {
     return etatAuMoinsUneRequete;
   }
 
-  
-  /** 
+
+  /**
    * @return ChargerCarte
    */
   public ChargerCarte getChargerCarte() {
     return chargerCarte;
   }
 
-  
-  /** 
+
+  /**
    * @return EtatSupprimerRequete
    */
   public EtatSupprimerRequete getEtatSupprimerRequete() {
     return etatSupprimerRequete;
   }
 
-  
-  /** 
+
+  /**
    * @return EtatChargerRequete
    */
   public EtatChargerRequete getEtatChargerRequete() {
     return etatChargerRequete;
   }
 
-  
-  /** 
+
+  /**
    * @return EtatSauvegarderRequete
    */
   public EtatSauvegarderRequete getEtatSauvegarderRequete() {
     return etatSauvegarderRequete;
   }
 
-  
-  /** 
+
+  /**
    * @param s
    */
   public void setPreviousState(State s) {
     previousState = s;
   }
 
-  
-  /** 
+
+  /**
    * @param carte
    */
   public void setCarte(Graphe carte) {
@@ -295,7 +304,7 @@ public class Controller {
     currentState.supprimerRequete(this, window);
   }
 
-  
+
   /** Méthode appelée quand on clique sur une livraison avec un clic gauche
    * @param livraison
    * @throws TourneeException
@@ -372,14 +381,15 @@ public class Controller {
     currentState.entryAction(window);
   }
 
-  
-  /** 
+
+  /**
    * @param tournees
    */
   public void setTournees(ArrayList<Tournee> tournees) {
     this.supprimerTournees();
     for(Tournee tournee : tournees){
-      this.addTournee(tournee);
+      this.addTourneeChargement(tournee);
     }
   }
+
 }

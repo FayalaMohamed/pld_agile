@@ -12,9 +12,10 @@ public class CircuitCommande implements Command {
 	// ---------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Cree une commande qui ajoute une Livraison livraison dans une Tournee tournee
+	 * Cree une commande qui conserve le circuit calculé
 	 * 
-	 * @param tournee correspond à la tourné où on ajoute une livraison
+	 * @param tournee correspond à la tournée sans le circuit calculé
+	 * @param circuit correspond au circuit calculé
 	 */
 	public CircuitCommande(Tournee tournee, Circuit circuit) {
 		this.tournee = tournee;

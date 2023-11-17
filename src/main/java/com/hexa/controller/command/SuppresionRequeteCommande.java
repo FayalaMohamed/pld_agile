@@ -5,6 +5,13 @@ import com.hexa.model.Tournee;
 
 public class SuppresionRequeteCommande implements Command {
 
+	/**
+	 * Cree une commande qui supprime une livraison dans une tournee
+	 *
+	 * @param tournee   correspond à la tournée manipulée
+	 * @param livraison correspond à la livraison supprimé qu'on va conserver pour le undo
+	 */
+
 	private Tournee tournee;
 	private Livraison livraison;
 	

@@ -17,6 +17,12 @@ public class SuppressionRequeteTourneeCalculee implements Command {
   private Livraison livraison;
   private Livraison livraisonPrecedente;
 
+  /**
+   * Commande permettant de supprimer une requête d'une tournée déjà calculée
+   * @param livraison
+   * La commande va parcourir la tournée afin de trouver la livraisonPrécédente
+   * à la livraison qu'on va supprimer afin de bien reconstruire le circuit
+   */
   public SuppressionRequeteTourneeCalculee(Graphe map, Tournee tournee, Livraison livraison) {
     assert (tournee.estCalculee());
     this.map = map;

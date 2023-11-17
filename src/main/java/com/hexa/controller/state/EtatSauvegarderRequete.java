@@ -32,7 +32,7 @@ public class EtatSauvegarderRequete implements State {
 		try {
 			File xmlFile = XMLfileOpener.getInstance("requete").open(false);
 			if (xmlFile != null) {
-				XMLParser.listeLivraisonsToXml2(xmlFile.getAbsolutePath(), c.getTournees());
+				XMLParser.listeLivraisonsToXml(xmlFile.getAbsolutePath(), c.getTournees());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

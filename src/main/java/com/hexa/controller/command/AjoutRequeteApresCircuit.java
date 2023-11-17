@@ -17,9 +17,15 @@ public class AjoutRequeteApresCircuit implements Command {
 	// --------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Cree une commande qui ajoute une Livraison livraison dans une Tournee tournee
-	 * 
-	 * @param tournee correspond à la tourné où on ajoute une livraison
+	 * Cree une commande qui ajoute une livraison à la tournée après le calcul du circuit Le circuit est
+	 * modifié de sorte que la livraisonAjouter se fasse après la
+	 * livraisonPrecedente.
+	 *
+	 * @param carte
+	 * @param tournee
+	 * @param livraisonAjouter
+	 * @param intersectionPrecedente correspond à la livraison qui va préceder la livraisonAjouter
+	 *
 	 */
 	public AjoutRequeteApresCircuit(Tournee tournee, Graphe carte, Livraison livraisonAjouter, Intersection intersectionPrecedente)
 			throws TourneeException {
@@ -32,7 +38,6 @@ public class AjoutRequeteApresCircuit implements Command {
 	}
 
 	// ---------------------------------------------------------------------------------------------------------------------------------
-
 	@Override
 	public void doCommand() {
 		try {
@@ -40,9 +45,11 @@ public class AjoutRequeteApresCircuit implements Command {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		// tournee.setCircuitCalculer(true);
 	}
-
+	/**
+	 * Cette méthode va remettre l'ancien circuit calculé sans la livraison ajouté
+	 * et supprimer la livraison de la tournée
+	 */
 	@Override
 	public void undoCommand() {
 		tournee.setCircuit(circuitPrecedent);

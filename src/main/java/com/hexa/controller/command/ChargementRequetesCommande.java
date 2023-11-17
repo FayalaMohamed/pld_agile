@@ -11,29 +11,29 @@ public class ChargementRequetesCommande implements Command {
 
 	private ArrayList<Tournee> tourneesPrecedente;
 
-	private ArrayList<Tournee> tournees2;
+	private ArrayList<Tournee> tournees;
 
 	// ---------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Cree une commande qui ajoute une Livraison dans une Tournee
+	 * Cree une commande qui charge une liste de tournée depuis un xml
 	 *
-	 * @param controller correspond à la tourné où on charge les livraisons
-	 * @param tournees   correspond aux livraisons chargées
+	 * @param controller permet de récuperer l'ancienne liste de tournée avant le chargement
+	 * @param tournees   correspond à la liste de tournées chargées
 	 */
 	public ChargementRequetesCommande(Controller controller, ArrayList<Tournee> tournees) {
 		this.controller = controller;
-		this.tournees2 = new ArrayList<Tournee>();
+		this.tournees = new ArrayList<Tournee>();
 		this.tourneesPrecedente = new ArrayList<Tournee>();
 		this.tourneesPrecedente.addAll(controller.getTournees());
-		this.tournees2.addAll(tournees);
+		this.tournees.addAll(tournees);
 	}
 
 	// ---------------------------------------------------------------------------------------------------------------------------------
 
 	@Override
 	public void doCommand() {
-		this.controller.setTournees(tournees2);
+		this.controller.setTournees(tournees);
 	}
 
 	@Override

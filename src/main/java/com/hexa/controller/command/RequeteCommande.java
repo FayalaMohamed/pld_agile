@@ -11,7 +11,7 @@ public class RequeteCommande implements Command {
 	//---------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Cree une commande qui ajoute une Livraison livraison dans une Tournee tournee
+	 * Cree une commande qui ajoute une  livraison dans une tournee
 	 * 
 	 * @param tournee   correspond à la tourné où on ajoute une livraison
 	 * @param livraison correspond à la livraison ajouté

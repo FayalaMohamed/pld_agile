@@ -53,7 +53,7 @@ public class EtatChargerRequete implements State {
           c.switchToState(c.getEtatCarteChargee());
         }
       } else {
-        ArrayList<Tournee> tournees = xmlToListeLivraison2(xmlFile.getAbsolutePath());
+        ArrayList<Tournee> tournees = xmlToListeLivraison(xmlFile.getAbsolutePath());
         for (Tournee tournee : tournees) {
           ArrayList<Livraison> livraisons = new ArrayList<>(Arrays.asList(tournee.getLivraisons()));
           for (Livraison livraison : livraisons) {
