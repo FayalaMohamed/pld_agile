@@ -100,6 +100,7 @@ public class TextualView extends JPanel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 
+		System.out.println("UPDATE TXTV");
 		VueTexteTournee vueTexteTourneeAUpdate = null;
 
 		boolean tourneeDejaExistante = false;
@@ -135,12 +136,14 @@ public class TextualView extends JPanel implements Observer{
 	 */
 	public void genererVue(VueTexteTournee vueTexteTourneeAUpdate, boolean supprimeTournee) {
 		if (supprimeTournee) {
-			this.remove(vueTexteTourneeAUpdate);
+			innerPanel.remove(vueTexteTourneeAUpdate);
 			this.vuesTournees.remove(vueTexteTourneeAUpdate);
 			revalidate();
 			repaint();
 			innerPanel.revalidate();
 			innerPanel.repaint();
+			innerScrollPane.revalidate();
+			innerScrollPane.repaint();
 		}
 
 		for (VueTexteTournee vueTournee : vuesTournees) {
@@ -154,7 +157,8 @@ public class TextualView extends JPanel implements Observer{
 		repaint();
 		innerPanel.revalidate();
 		innerPanel.repaint();
-
+		innerScrollPane.revalidate();
+		innerScrollPane.repaint();
 	}
 
 	/**
