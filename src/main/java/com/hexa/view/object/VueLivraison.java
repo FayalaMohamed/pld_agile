@@ -63,12 +63,12 @@ public class VueLivraison extends Observable {
         g.setColor(color);
         g.fillOval(coord.getX() - rayon, coord.getY() - rayon, 2 * rayon, 2 * rayon);
 
-        if (dansTourneeCalculee) {
-            g.setColor(Color.black);
-            g.setFont(new Font("TimesRoman", Font.BOLD, (int) (25 / gv.getZoomFactor() + 1)));
-            g.drawString(String.valueOf(numero), coord.getX() + rayon, coord.getY() + rayon);
-        }
+    if (dansTourneeCalculee) {
+      g.setColor(Color.black);
+      g.setFont(new Font("TimesRoman", Font.BOLD, (int) (35)));
+      g.drawString(String.valueOf(numero), coord.getX() + rayon, coord.getY() + rayon);
     }
+  }
 
     /**
      * Retourne true si cette livraison est cliquée par les coordonnées passées en paramètre
