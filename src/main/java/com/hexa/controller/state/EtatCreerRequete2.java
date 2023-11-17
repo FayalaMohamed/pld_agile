@@ -20,14 +20,32 @@ public class EtatCreerRequete2 implements State {
 
   private Livraison livraison;
 
+  /**
+   * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+   * 
+   * @param w
+   */
   public void entryAction(Window w) {
     w.hideButtons(this);
   }
 
+
+  
+  /** Méthode appelée par l'état EtatCreerRequete1 pour faire passer l'intersection à ajouter
+   * @param intersection
+   */
   public void entryAction(Intersection intersection) {
     livraison = new Livraison(intersection);
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Choisir
+   * le nombre de livreurs"
+   * 
+   * @param c
+   * @param w
+   * @param livreur
+   */
   public void choixLivreur(Controller c, Window w, int livreur) {
 
     if (this.livraison == null) {

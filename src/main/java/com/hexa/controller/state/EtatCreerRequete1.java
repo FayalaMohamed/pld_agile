@@ -3,6 +3,7 @@ package com.hexa.controller.state;
 import com.hexa.controller.Controller;
 import com.hexa.model.Coordonnees;
 import com.hexa.model.Intersection;
+import com.hexa.model.TourneeException;
 import com.hexa.view.Window;
 import java.util.List;
 
@@ -15,11 +16,24 @@ import java.util.List;
  */
 public class EtatCreerRequete1 implements State {
 
+  /**
+   * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+   * 
+   * @param w
+   */
   public void entryAction(Window w) {
     w.hideButtons(this);
     w.afficherMessage("Cliquez sur une intersection pour la sélectionner");
   }
 
+  /**
+   * Méthode appelée par le contrôleur après un clic gauche
+   * 
+   * @param c
+   * @param w
+   * @param coordonnees
+ * @throws TourneeException
+   */
   public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris) {
 
     List<Intersection> intersectionsSelectionnees = w.getIntersectionsSelectionnees(coordonneesSouris);

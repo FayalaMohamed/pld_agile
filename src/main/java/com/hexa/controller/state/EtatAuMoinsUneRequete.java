@@ -19,22 +19,47 @@ import java.util.List;
  * --> calculerTournee génère le circuit optimal pour la tournée en cours
  */
 public class EtatAuMoinsUneRequete implements State {
-
+  /**
+   * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+   * 
+   * @param w
+   */
   public void entryAction(Window w) {
     w.hideButtons(this);
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Créer une
+   * requête"
+   * 
+   * @param c
+   * @param w
+   */
   public void creerRequete(Controller c, Window w) {
     w.afficherMessage("Cliquez sur une intersection pour créer la requête");
     c.switchToState(c.getEtatCreerRequete1());
     c.setPreviousState(c.getEtatAuMoinsUneRequete());
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Charger
+   * des requêtes"
+   * 
+   * @param c
+   * @param w
+   */
   public void chargerRequetes(Controller c, Window w) {
     c.switchToState(c.getEtatChargerRequete());
     c.entryAction();
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Supprimer
+   * des requêtes"
+   * 
+   * @param c
+   * @param w
+   */
   public void supprimerRequete(Controller c, Window w) {
     for (Tournee tournee : c.getTournees()) {
       if (tournee.getLivraisons().length != 0) {
@@ -46,17 +71,38 @@ public class EtatAuMoinsUneRequete implements State {
     c.switchToState(c.getEtatCarteChargee());
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Charger
+   * une carte"
+   * 
+   * @param c
+   * @param w
+   */
   public void chargerCarte(Controller c, Window w) {
     c.switchToState(c.getChargerCarte());
     c.setPreviousState(c.getEtatAuMoinsUneRequete());
     c.getChargerCarte().entryAction(c, w);
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton
+   * "Sauvegarder les requêtes"
+   * 
+   * @param c
+   * @param w
+   */
   public void sauvegarderRequetes(Controller c, Window w) {
     c.switchToState(c.getEtatSauvegarderRequete());
     c.entryAction();
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Calculer
+   * les tournées"
+   * 
+   * @param c
+   * @param w
+   */
   public void calculerTournee(Controller c, Window w, ListOfCommands listOfCdes) {
     try {
       int i = 0;
@@ -97,6 +143,12 @@ public class EtatAuMoinsUneRequete implements State {
     }
   }
 
+  /**
+   * Méthode appelée par le controlleur quand on appuie sur le bouton undo
+   * 
+   * @param l listOfCommands
+   * @param c controller
+   */
   @Override
   public void undo(ListOfCommands listOfCdes, Controller c) {
     listOfCdes.undo();
@@ -109,6 +161,12 @@ public class EtatAuMoinsUneRequete implements State {
 
   }
 
+  /**
+   * Méthode appelée par le controlleur quand on appuie sur le bouton redo
+   * 
+   * @param l listOfCommands
+   * @param c controller
+   */
   @Override
   public void redo(ListOfCommands listOfCdes, Controller c) {
     listOfCdes.redo();
@@ -120,6 +178,13 @@ public class EtatAuMoinsUneRequete implements State {
     c.switchToState(c.getEtatCarteChargee());
   }
 
+  /**
+   * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Générer
+   * la feuille de route"
+   * 
+   * @param c
+   * @param w
+   */
   public void genererFeuilleDeRoute(Controller c, Window w) {
     boolean generee = false;
     for (Tournee tournee : c.getTournees()) {
@@ -133,13 +198,6 @@ public class EtatAuMoinsUneRequete implements State {
       w.afficherMessage("Aucune tournée calculée, impossible de calculer la feuille de route");
     }
   }
-
-  /*
-   * public void clicGauche(Controller c, Window w, Livraison livraison) throws
-   * TourneeException {
-   * 
-   * }
-   */
 
   /**
    * Highlight la livraison cliquée sur la graphicalView dans la textualView. Si

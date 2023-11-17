@@ -19,16 +19,23 @@ public class EtatCreerRequete3 implements State {
   private Tournee tournee;
 
   /**
-   * Rentrer dans l'état EtatCreerRequete3 et donner en paramètre l'intersection à
+   * Rentrer dans l'état EtatCreerRequete3 et donner en paramètre la livraison à
    * ajouter à la tournée après calcul du plus court chemin
    * 
-   * @param intersection
+   * @param livraison
+   * @param tournee
    */
   public void entryAction(Livraison livraison, Tournee tournee) {
     this.livraison = livraison;
     this.tournee = tournee;
   }
 
+  /**
+   * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+   * 
+   * @param c
+   * @param w
+   */
   public void entryAction(Window w) {
     w.hideButtons(this);
   }

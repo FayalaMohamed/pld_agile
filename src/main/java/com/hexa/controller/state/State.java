@@ -19,10 +19,23 @@ public interface State {
 
   }
 
+  /**
+   * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+   * 
+   * @param w
+   */
   public default void entryAction(Window w) {
     System.out.println("Merci d'implémenter la fonction entryAction pour l'état " + this);
   }
 
+  /**
+   * Méthode appelée par le contrôleur après un clic gauche sur une livraison
+   * 
+   * @param c
+   * @param w
+   * @param livraison
+ * @throws TourneeException
+   */
   public default void clicGauche(Controller c, Window w, Livraison livraison) throws TourneeException {
 
   }
@@ -131,22 +144,24 @@ public interface State {
   }
 
   /**
-   * Method called by the controller after a click on the button "Undo"
+   * Méthode appelée par le controlleur quand on appuie sur le bouton undo
    * 
-   * @param l the current list of commands
+   * @param l listOfCommands
+   * @param c controller
    */
   public default void undo(ListOfCommands l, Controller c) {
   };
 
   /**
-   * Method called by the controller after a click on the button "Redo"
+   * Méthode appelée par le controlleur quand on appuie sur le bouton redo
    * 
-   * @param l the current list of commands
+   * @param l listOfCommands
+   * @param c controller
    */
   public default void redo(ListOfCommands l, Controller c) {
   };
   
-  /*
+  /**
    * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Générer la feuille de route"
    * @param c
    * @param w

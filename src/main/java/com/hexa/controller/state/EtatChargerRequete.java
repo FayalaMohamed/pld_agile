@@ -20,10 +20,21 @@ import static com.hexa.model.XMLParser.*;
  */
 public class EtatChargerRequete implements State {
 
+  /**
+   * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+   * 
+   * @param w
+   */
   public void entryAction(Window w) {
     w.hideButtons(this);
   }
 
+  /**
+   * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+   * 
+   * @param c
+   * @param w
+   */
   public void entryAction(Controller c, Window w) {
     try {
       File xmlFile = XMLfileOpener.getInstance("requete").open(true);

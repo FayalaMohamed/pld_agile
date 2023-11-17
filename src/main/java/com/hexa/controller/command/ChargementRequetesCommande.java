@@ -16,7 +16,7 @@ public class ChargementRequetesCommande implements Command {
 	// ---------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Cree une commande qui ajoute une Livraison livraison dans une Tournee tournee
+	 * Cree une commande qui ajoute une Livraison dans une Tournee
 	 *
 	 * @param controller correspond à la tourné où on charge les livraisons
 	 * @param tournees   correspond aux livraisons chargées

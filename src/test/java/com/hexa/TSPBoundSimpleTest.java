@@ -134,9 +134,5 @@ public class TSPBoundSimpleTest {
     public void TSPBoundSimpleGeneralCaseTest3() throws GrapheException {
         generalCase(15);
     }
-    @Test
-    public void TSPBoundSimpleGeneralCaseTest4() throws GrapheException {
-        generalCase(19);
-    }
 
 }

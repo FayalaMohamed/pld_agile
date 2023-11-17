@@ -8,11 +8,23 @@ import com.hexa.view.Window;
  */
 public class InitialState implements State {
 
-  public void entryAction(Window w) {
-    w.hideButtons(this);
-    w.afficherMessage("Chargez une carte pour créer vos requêtes");
-  }
+	/**
+	 * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+	 * 
+	 * @param w
+	 */
+	public void entryAction(Window w) {
+		w.hideButtons(this);
+		w.afficherMessage("Chargez une carte pour créer vos requêtes");
+	}
 
+	/**
+	 * Méthode appelée par le contrôleur après avoir cliqué sur le bouton "Charger
+	 * une carte"
+	 * 
+	 * @param c
+	 * @param w
+	 */
 	public void chargerCarte(Controller c, Window w) {
 		c.setPreviousState(c.getInitialState());
 		c.switchToState(c.getChargerCarte());

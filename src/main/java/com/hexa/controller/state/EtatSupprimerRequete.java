@@ -22,10 +22,22 @@ import com.hexa.model.TourneeException;
  */
 public class EtatSupprimerRequete implements State {
 
+	/**
+	 * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+	 * 
+	 * @param w
+	 */
 	public void entryAction(Window w) {
 		w.hideButtons(this);
 	}
-
+	
+	/**
+	 * Méthode appelée par le contrôleur après un clic gauche sur une livraison
+	 * 
+	 * @param c
+	 * @param w
+	 * @param livraison
+	 */
 	public void clicGauche(Controller c, Window w, Livraison livraison)
 			throws TourneeException {
 		
@@ -65,6 +77,12 @@ public class EtatSupprimerRequete implements State {
 
 	}
 
+	/**
+	 * Méthode appelée par le contrôleur après un clic droit
+	 * 
+	 * @param c
+	 * @param w
+	 */
 	public void clicDroit(Controller c, Window w) {
 		for (Tournee tournee : c.getTournees()) {
 			if (tournee.getNbLivraisons() != 0) {
@@ -75,6 +93,14 @@ public class EtatSupprimerRequete implements State {
 		c.switchToState(c.getEtatCarteChargee());
 	}
 
+	/**
+	 * Méthode appelée par le contrôleur après un clic gauche sur une livraison
+	 * 
+	 * @param c
+	 * @param w
+	 * @param coordonneesSouris
+	 * @throws TourneeException
+	 */
 	public void clicGauche(Controller c, Window w, Coordonnees coordonneesSouris)
 			throws TourneeException {
 

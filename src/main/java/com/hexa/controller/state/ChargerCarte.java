@@ -14,10 +14,21 @@ import com.hexa.view.Window;
  */
 public class ChargerCarte implements State {
 
+	/**
+	 * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+	 * 
+	 * @param w
+	 */
 	public void entryAction(Window w) {
 		w.hideButtons(this);
 	}
 
+	/**
+	 * Méthode appelée par le contrôleur après être entré dans un nouvel Etat
+	 * 
+	 * @param c
+	 * @param w
+	 */
 	public void entryAction(Controller c, Window w) {
 		try {
 			File xmlFile = XMLfileOpener.getInstance("map").open(true);
