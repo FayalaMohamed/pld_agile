@@ -13,6 +13,9 @@ import com.hexa.view.object.VueTexteLivraison;
 import com.hexa.view.object.VueTexteTournee;
 
 
+/**
+ * Classe gérant la vue textuelle des livraisons.
+ */
 public class TextualView extends JPanel implements Observer{
 
 	private static final long serialVersionUID = 1L;
@@ -48,7 +51,6 @@ public class TextualView extends JPanel implements Observer{
 		TitledBorder border = BorderFactory.createTitledBorder("Liste des livraisons :");
 		border.setTitleFont(font);
 		setBorder(border);
-		//setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setLayout(null);
 		innerPanel = new ScrollablePanel();
 		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.PAGE_AXIS));
@@ -125,6 +127,12 @@ public class TextualView extends JPanel implements Observer{
 		window.ajouterMouseListenersTextualView(this.vuesTournees);
 	}
 
+	/**
+	 * Regénère toutes les vues des VueTexteTournees. Si supprimeTournee est à true, supprime la tournée passée
+	 * en paramètre. Si supprimeTournee est à false, ajoute la tournée à la liste.
+	 * @param vueTexteTourneeAUpdate
+	 * @param supprimeTournee
+	 */
 	public void genererVue(VueTexteTournee vueTexteTourneeAUpdate, boolean supprimeTournee) {
 		if (supprimeTournee) {
 			this.remove(vueTexteTourneeAUpdate);
@@ -135,9 +143,7 @@ public class TextualView extends JPanel implements Observer{
 			innerPanel.repaint();
 		}
 
-		//System.out.println("textual view : générer vue / nb de tournées : " + vuesTournees.size());
 		for (VueTexteTournee vueTournee : vuesTournees) {
-			//System.out.println("largeur vue : "+vueTournee.getWidth()+" / hauteur vue : " + vueTournee.getHeight());
 			if (vueTournee == vueTexteTourneeAUpdate && !supprimeTournee) {
 				innerPanel.add(vueTournee.dessinerVue(this.carte, true));
 			} else {
@@ -151,6 +157,9 @@ public class TextualView extends JPanel implements Observer{
 
 	}
 
+	/**
+	 * Retire chacune des VueTexteTournee de la TextualView.
+	 */
 	public void clearTournees() {
 		ArrayList<VueTexteTournee> TempvuesTournees = new ArrayList<VueTexteTournee>();
 		TempvuesTournees.addAll(vuesTournees);
