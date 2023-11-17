@@ -10,6 +10,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
+/**
+ * Objet encapsulant l'objet Tournee et permettant son affichage graphique dans la GraphicalView.
+ */
 public class VueSegment {
 
     private GraphicalView gv;
@@ -24,6 +27,12 @@ public class VueSegment {
     private Coordonnees coordOrigine;
     private Coordonnees coordDestination;
 
+    /**
+     * Crée une VueSegment d'un certaine couleur avec une épaisseur légère
+     * @param s
+     * @param gv
+     * @param color
+     */
     public VueSegment(Segment s, GraphicalView gv, Color color){
         this.gv = gv;
         this.segment = s;
@@ -35,6 +44,13 @@ public class VueSegment {
         this.color = color;
     }
 
+    /**
+     * Crée une VueSegment d'une certaine couleur avec l'épaisseur stroke
+     * @param s
+     * @param gv
+     * @param color
+     * @param stroke
+     */
     public VueSegment(Segment s, GraphicalView gv, Color color, int stroke){
         this.gv = gv;
         this.segment = s;
@@ -46,6 +62,9 @@ public class VueSegment {
         this.color = color;
     }
 
+    /**
+     * Dessine ce segment dans la vue graphique
+     */
     public void dessinerVue() {
 
         coordOrigine = this.gv.CoordGPSToViewPos(origine);
