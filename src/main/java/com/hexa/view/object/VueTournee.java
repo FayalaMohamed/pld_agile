@@ -14,6 +14,9 @@ import com.hexa.model.Tournee;
 import com.hexa.model.TourneeException;
 import com.hexa.view.GraphicalView;
 
+/**
+ * Objet encapsulant l'objet Tournee et permettant son affichage graphique dans la GraphicalView.
+ */
 public class VueTournee {
 
     private GraphicalView gv;
@@ -33,6 +36,10 @@ public class VueTournee {
         setVue(tournee);
     }
 
+    /**
+     * Change l'objet tournee encapsulé par cette classe
+     * @param tournee
+     */
     public void setVue(Tournee tournee) {
 
         this.tournee = tournee;
@@ -41,15 +48,14 @@ public class VueTournee {
 
         try {
             if (tournee.estCalculee()) {
-                System.out.println("tournée calculée");
+
                 this.circuit = tournee.getCircuit();
                 constructionVuesSegmentCircuit();
             } else {
-                System.out.println("tournée non calculée");
+
                 this.circuit = null;
                 //simplement création des vues livraison
                 for (Livraison l : this.tournee.getLivraisons()) {
-                    System.out.println("livraison tournee");
                     vuesLivraisons.add(new VueLivraison(l, this.gv, this.color));
                 }
             }
@@ -58,6 +64,9 @@ public class VueTournee {
         }
     }
 
+    /**
+     * Dessine la vue de chacun des segments si la tournee est calculée, et dessine toujours les livraisons.
+     */
     public void dessinerVue() {
 
         if (tournee.estCalculee()) {
@@ -72,6 +81,9 @@ public class VueTournee {
         }
     }
 
+    /**
+     * Construit la vue associée aux segments des différents circuits des tournées.
+     */
     private void constructionVuesSegmentCircuit() {
         Multimap<Intersection, Intersection> segments_tournee = ArrayListMultimap.create();
         Color colorSegment = this.color;
@@ -107,6 +119,13 @@ public class VueTournee {
         }
     }
 
+    /**
+     * Retourne true si le segment seg a déjà été visité
+     * @param seg
+     * @param segments_tournee
+     * @param origin
+     * @return
+     */
     private boolean isAlreadyVisited(Segment seg, Multimap<Intersection, Intersection> segments_tournee, boolean origin) {
         boolean already_visited = false;
         Collection<Intersection> entry_intersections;
