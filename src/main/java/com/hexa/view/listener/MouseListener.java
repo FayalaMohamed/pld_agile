@@ -57,12 +57,20 @@ public class MouseListener extends MouseAdapter {
 		}
 	}
 
+	/**
+	 * Méthode appelée en réaction à un relâchement de clic de souris
+	 * @param evt the event to be processed
+	 */
 	@Override
 	public void mousePressed(MouseEvent evt) {
 		dernieresCoordonnees = coordinates(evt);
 
 	}
 
+	/**
+	 * Méthode appelée quand la souris est déplacée en cliquant
+	 * @param evt the event to be processed
+	 */
 	@Override
 	public void mouseDragged(MouseEvent evt) {
 
@@ -74,6 +82,11 @@ public class MouseListener extends MouseAdapter {
 
 //-------------------------------------------------------------------------------------------------
 
+	/**
+	 * Convertit les coordonnées de la souris
+	 * @param evt
+	 * @return
+	 */
 	private Coordonnees coordinates(MouseEvent evt) {
 		MouseEvent e = SwingUtilities.convertMouseEvent(window, evt, graphicalView);
 		int x = Math.round((float) e.getX());

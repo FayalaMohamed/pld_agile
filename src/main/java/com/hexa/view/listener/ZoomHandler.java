@@ -21,6 +21,11 @@ public class ZoomHandler implements MouseWheelListener {
 
 //-------------------------------------------------------------------------------------------------
 
+	/**
+	 * Détecte si la molette de la souris est tournée, et transmet l'information au controller tout en changeant
+	 * l'échelle de la vue graphique
+	 * @param e the event to be processed
+	 */
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int notches = e.getWheelRotation();
