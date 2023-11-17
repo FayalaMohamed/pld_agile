@@ -26,15 +26,15 @@ public class VueTexteLivraison extends JLabel {
      * @param carte
      * @param font
      */
-    VueTexteLivraison(TextualView tv, Livraison livraison, Graphe carte, Font font) {
+    VueTexteLivraison(TextualView tv, Livraison livraison, Graphe carte, Font font, boolean afficherPlageHoraire) {
 
         this.livraison = livraison;
         this.highlighted = false;
 
-        boolean affPlageHoraire = livraison.getPlageHoraire()[0] == 0 ? false : true;
+        //boolean affPlageHoraire = livraison.getPlageHoraire()[0] == 0 ? false : true;
 
         setFont(font);
-        dessinerVue(carte, affPlageHoraire);
+        dessinerVue(carte, afficherPlageHoraire);
     }
 
     /**

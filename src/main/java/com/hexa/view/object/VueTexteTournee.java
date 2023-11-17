@@ -57,7 +57,13 @@ public class VueTexteTournee extends JPanel {
         this.add(labelTournee);
 
         for (Livraison l : this.tournee.getLivraisons()) {
-            VueTexteLivraison vtl = new VueTexteLivraison(tv, l, carte, font);
+            VueTexteLivraison vtl = null;
+            if (this.tournee.estCalculee()) {
+                vtl = new VueTexteLivraison(tv, l, carte, font, true);
+            } else {
+                vtl = new VueTexteLivraison(tv, l, carte, font, false);
+            }
+
             vuesLivraisons.add(vtl);
             this.add(vtl);
         }
