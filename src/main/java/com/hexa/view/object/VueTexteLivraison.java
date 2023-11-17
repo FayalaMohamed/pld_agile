@@ -10,12 +10,22 @@ import com.hexa.view.TextualView;
 
 import java.awt.Font;
 
+/**
+ * Objet encapsulant l'objet livraison et permettant son affichage dans la vue textuelle.
+ */
 public class VueTexteLivraison extends JLabel {
     
     private static final long serialVersionUID = 1L;
 	private Livraison livraison;
     boolean highlighted;
 
+    /**
+     * Crée un objet VueTexteLivraison
+     * @param tv
+     * @param livraison
+     * @param carte
+     * @param font
+     */
     VueTexteLivraison(TextualView tv, Livraison livraison, Graphe carte, Font font) {
 
         this.livraison = livraison;
@@ -27,6 +37,11 @@ public class VueTexteLivraison extends JLabel {
         dessinerVue(carte, affPlageHoraire);
     }
 
+    /**
+     * Remplit le JPanel associé à cette VueTexteLivraison
+     * @param carte
+     * @param affPlageHoraire
+     */
     private void dessinerVue(Graphe carte, boolean affPlageHoraire) {
         String desc = "<html><ul><li>";
         desc += buildDescription(carte, desc, livraison.getLieu());
