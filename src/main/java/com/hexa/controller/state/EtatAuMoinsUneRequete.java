@@ -106,10 +106,17 @@ public class EtatAuMoinsUneRequete implements State {
   }
 
   public void genererFeuilleDeRoute(Controller c, Window w) {
+    boolean generee = false;
     for (Tournee tournee : c.getTournees()) {
-      tournee.genererFeuilleDeRoute(c.getCarte());
+      if (tournee.genererFeuilleDeRoute(c.getCarte())) {
+        generee = true;
+      }
     }
-    w.afficherMessage("Les feuilles de route ont été enregistrées dans le dossier /Feuilles_Route");
+    if (generee) {
+      w.afficherMessage("Les feuilles de route ont été enregistrées dans le dossier /Feuilles_Route");
+    } else {
+      w.afficherMessage("Aucune tournée calculée, impossible de calculer la feuille de route");
+    }
   }
 
   /*
