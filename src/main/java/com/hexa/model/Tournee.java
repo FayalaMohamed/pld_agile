@@ -227,6 +227,7 @@ public class Tournee extends Observable {
 		// Recherche de l'intersection précédente et suivante le lieu de livraison à
 		// supprimer dans le circuit original
 		circuit.reset();
+		ArrayList<Livraison> visited = new ArrayList<Livraison>();
 		boolean trouve = false;
 		Intersection intersectionDeLivraisonPrecedente = null;
 		Intersection intersectionDeLivraisonSuivante = null;
@@ -234,8 +235,9 @@ public class Tournee extends Observable {
 		while (circuit.hasNext()) {
 			iterator = circuit.next();
 			if ((estLieuLivraison(iterator.getOrigine()) || iterator.getOrigine().equals(entrepot)) && !trouve) {
+				visited.add(getLivraison(iterator.getOrigine()));
 				intersectionDeLivraisonPrecedente = iterator.getOrigine();
-			} else if (trouve && estLieuLivraison(iterator.getOrigine())) {
+			} else if (trouve && estLieuLivraison(iterator.getOrigine()) && !visited.contains(getLivraison(iterator.getOrigine()))) {
 				intersectionDeLivraisonSuivante = iterator.getOrigine();
 				break;
 			} else if (trouve && iterator.getDestination().equals(entrepot)) {
