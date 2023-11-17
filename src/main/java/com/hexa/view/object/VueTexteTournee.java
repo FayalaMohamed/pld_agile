@@ -8,6 +8,9 @@ import javax.swing.*;
 import com.hexa.model.*;
 import com.hexa.view.TextualView;
 
+/**
+ * Objet encapsulant l'objet tournee et permettant son affichage dans la vue textuelle.
+ */
 public class VueTexteTournee extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -19,6 +22,12 @@ public class VueTexteTournee extends JPanel {
     private Tournee tournee;
     private ArrayList<VueTexteLivraison> vuesLivraisons = new ArrayList<VueTexteLivraison>();
 
+    /**
+     * Initialise une VueTexteTournee pour une tournée particulière, avec une textualView et une police.
+     * @param tournee
+     * @param tv
+     * @param font
+     */
     public VueTexteTournee(Tournee tournee, TextualView tv, Font font) {
         this.tournee = tournee;
         this.tv = tv;
@@ -31,6 +40,12 @@ public class VueTexteTournee extends JPanel {
         setFont(font);
     }
 
+    /**
+     * Remplit le panel contenu dans la classe avec les caractéristiques de la Tournee
+     * @param carte
+     * @param redessine
+     * @return
+     */
     public VueTexteTournee dessinerVue(Graphe carte, boolean redessine) {
         if (!redessine) {
             return this;
@@ -79,7 +94,6 @@ public class VueTexteTournee extends JPanel {
         }
         return null;
     }
-
     public void setTournee(Tournee tournee) {
         this.tournee = tournee;
     }
@@ -92,11 +106,3 @@ public class VueTexteTournee extends JPanel {
         return vuesLivraisons;
     }
 }
-
-/*
-TODO REMARQUES
-- Menu de sélection des livreurs : changer pour qu'une fois sélectionné, le livreur s'applique à la création des requêtes
-  et que le choix par défaut soit aucun livreur sélectionné
-- Augmenter la taille des numéros des livraisons sur la graphicalView
-- Bordures à rendre plus importantes
- */
