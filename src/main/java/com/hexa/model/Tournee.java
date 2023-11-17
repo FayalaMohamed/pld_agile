@@ -301,7 +301,12 @@ public class Tournee extends Observable {
 		TSP tsp = new TSPBoundSimple();
 
 		// Calcul du meilleur circuit
-		tsp.searchSolution(60000, grapheComplet);
+		AlgoException e = null;
+		try {
+			tsp.searchSolution(10000, grapheComplet);
+		} catch (AlgoException ex) {
+			e = ex;
+		}
 
 		// Construction du circuit de segment et recupération des couts
 		Intersection depart, arrive;
@@ -327,6 +332,10 @@ public class Tournee extends Observable {
 		circuit = new Circuit(list);
 		circuitCalculer = true;
 		this.notifyObservers(this);
+
+		if (e!= null) {
+			throw e;
+		}
 	}
 
 	/**

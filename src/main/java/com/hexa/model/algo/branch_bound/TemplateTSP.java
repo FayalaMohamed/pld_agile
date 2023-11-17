@@ -142,7 +142,7 @@ abstract class TemplateTSP implements TSP {
 			}
 			
 			
-			throw new AlgoException("Temps limite de searchSolution du TSP atteint : le circuit calculé n'est pas forcement optimale");
+			throw new AlgoException("Temps limite de searchSolution du TSP atteint : le circuit calculé n'est pas forcément optimal");
 		}
 		
 		

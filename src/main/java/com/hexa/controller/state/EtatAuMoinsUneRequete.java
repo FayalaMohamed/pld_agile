@@ -4,6 +4,7 @@ import com.hexa.controller.Controller;
 import com.hexa.controller.command.CircuitCommande;
 import com.hexa.controller.command.ListOfCommands;
 import com.hexa.model.*;
+import com.hexa.model.algo.AlgoException;
 import com.hexa.view.Window;
 
 import java.util.List;
@@ -64,9 +65,23 @@ public class EtatAuMoinsUneRequete implements State {
         // for (Livraison livraison : tournee.getLivraisons()) {
         // System.out.println(livraison);
         // }
-        tournee.construireCircuit(c.getCarte());
-        i++;
-        listOfCdes.add(new CircuitCommande(tournee, tournee.getCircuit()));
+        try {
+          tournee.construireCircuit(c.getCarte());
+          i++;
+          listOfCdes.add(new CircuitCommande(tournee, tournee.getCircuit()));
+        } catch (GrapheException e) {
+          w.afficherMessage(e.getMessage());
+        } catch (AlgoException e) {
+          try {
+            listOfCdes.add(new CircuitCommande(tournee, tournee.getCircuit()));
+          } catch (TourneeException ex) {
+            w.afficherMessage(ex.getMessage());
+          }
+          throw e;
+        } catch (TourneeException e) {
+          w.afficherMessage(e.getMessage());
+        }
+
       }
 
       if (i > 1) {
