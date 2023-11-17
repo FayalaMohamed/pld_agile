@@ -195,7 +195,7 @@ public class Window extends JFrame implements Observer {
 // -----------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Affiche le message message
+	 * Affiche le message message dans la messageFrame
 	 * 
 	 * @param message
 	 */
@@ -203,10 +203,21 @@ public class Window extends JFrame implements Observer {
 		messageFrame.setText(message);
 	}
 
+
+	/**
+	 * Cache les boutons selon l'état appelant
+	 *
+	 * @param etatChargerCarte
+	 */
 	public void hideButtons(ChargerCarte etatChargerCarte) {
 		toggleAllButtons(false);
 	}
 
+	/**
+	 * Cache les boutons selon l'état appelant
+	 *
+	 * @param etatAuMoinsUneRequete
+	 */
 	public void hideButtons(EtatAuMoinsUneRequete etatAuMoinsUneRequete) {
 		toggleAllButtons(true);
 		// TODO update avec EtatTourneeCalculee
