@@ -2,6 +2,10 @@ package com.hexa.model;
 
 import java.util.*;
 
+/**
+ * Classe modélisant un segment.
+ * Constituée d'une longueur, un nom, et des intersections de départ et d'arrivée.
+ */
 public class Segment {
 
 //-------------------------------------------------------------------------------------------------------------------------

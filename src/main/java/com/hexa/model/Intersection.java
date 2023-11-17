@@ -2,6 +2,10 @@ package com.hexa.model;
 
 import java.util.*;
 
+/**
+ * Classe modélisant une intersection.
+ * Elle se compose de coordonnées et d'un id.
+ */
 public class Intersection {
 
 //-------------------------------------------------------------------------------------------------------------------------

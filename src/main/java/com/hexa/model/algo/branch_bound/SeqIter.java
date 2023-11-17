@@ -8,6 +8,9 @@ import com.hexa.model.Graphe;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
 
+/**
+ * Classe implémentant un itérateur séquentiel sur des intersections
+ */
 public class SeqIter implements Iterator<Intersection> {
 	
 	private int nbCandidats;

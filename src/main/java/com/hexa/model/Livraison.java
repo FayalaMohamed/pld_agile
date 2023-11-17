@@ -120,9 +120,8 @@ public class Livraison {
 	}
 
 	/**
-	 * @param min
-	 * @param max
-	 */
+     * @param anciennePlage
+     */
 	public void setAnciennePlageHoraire(int[] anciennePlage) {
 		this.plageAChangee = true;
 		this.anciennePlageHoraire = anciennePlage;

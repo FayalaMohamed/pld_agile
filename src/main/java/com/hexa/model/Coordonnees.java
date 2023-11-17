@@ -1,5 +1,8 @@
 package com.hexa.model;
 
+/**
+ * Classe modélisant des coordonnées de la vue graphique.
+ */
 public class Coordonnees {
 	
 //-------------------------------------------------------------------------------------------------------------
@@ -36,9 +39,9 @@ public class Coordonnees {
    * @return boolean
    */
   public boolean equals(Coordonnees autresCoordonnees) {
-    int floue = 5;
-    return (this.x <= autresCoordonnees.x + floue && this.x >= autresCoordonnees.x - floue
-        && this.y <= autresCoordonnees.y + floue && this.y >= autresCoordonnees.y - floue);
+    int flou = 5;
+    return (this.x <= autresCoordonnees.x + flou && this.x >= autresCoordonnees.x - flou
+        && this.y <= autresCoordonnees.y + flou && this.y >= autresCoordonnees.y - flou);
   }
 
   public String toString() {

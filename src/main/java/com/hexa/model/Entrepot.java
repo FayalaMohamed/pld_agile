@@ -1,6 +1,10 @@
 package com.hexa.model;
 
 
+/**
+ * Classe modélisant un entrepôt.
+ * Se comporte comme une intersection, sauf pour le toString.
+ */
 public class Entrepot extends Intersection {
 
 	

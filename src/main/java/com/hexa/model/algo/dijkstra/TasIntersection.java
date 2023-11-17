@@ -5,6 +5,9 @@ import java.util.Map;
 
 import com.hexa.model.Intersection;
 
+/**
+ * Classe modélisant un tas binaire d'intersections
+ */
 public class TasIntersection {
 	
 	/**

@@ -1,5 +1,9 @@
 package com.hexa.model;
 
+/**
+ * Classe modélisant un livreur.
+ * Elle est caractérisée par un id.
+ */
 public class Livreur {
 
 //-------------------------------------------------------------------------------------------------------------------------
