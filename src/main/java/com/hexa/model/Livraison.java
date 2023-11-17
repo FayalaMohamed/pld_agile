@@ -15,6 +15,8 @@ public class Livraison {
 	 * Plage horaire durant laquelle la livraison peut se faire
 	 */
 	private int[] plageHoraire; // 0: min | 1: max
+	private int[] anciennePlageHoraire;
+	boolean plageAChangee;
 
 	private Intersection lieu;
 
@@ -31,6 +33,8 @@ public class Livraison {
 
 		this.heureEstime = new int[2];
 		this.plageHoraire = new int[2];
+		this.anciennePlageHoraire = new int[2];
+		this.plageAChangee = false;
 
 	}
 
@@ -77,6 +81,21 @@ public class Livraison {
 		return plageHoraire;
 	}
 
+	/**
+	 * @return int[]
+	 */
+	public int[] getAnciennePlageHoraire() {
+		return anciennePlageHoraire;
+	}
+
+	
+	/** 
+	 * @return boolean
+	 */
+	public boolean getPlageAChangee() {
+		return this.plageAChangee;
+	}
+
 
 //-------------------------------------------------------------------------------------------------------------------------
 
@@ -98,6 +117,15 @@ public class Livraison {
 	public void setPlageHoraire(int min, int max) {
 		this.plageHoraire[0] = min;
 		this.plageHoraire[1] = max;
+	}
+
+	/**
+	 * @param min
+	 * @param max
+	 */
+	public void setAnciennePlageHoraire(int[] anciennePlage) {
+		this.plageAChangee = true;
+		this.anciennePlageHoraire = anciennePlage;
 	}
 
 	/**

@@ -45,8 +45,17 @@ public class VueTexteLivraison extends JLabel {
     private void dessinerVue(Graphe carte, boolean affPlageHoraire) {
         String desc = "<html><ul><li>";
         desc += buildDescription(carte, desc, livraison.getLieu());
-        if (affPlageHoraire){
-            desc +="<br/> Plage horaire : " + livraison.getPlageHoraire()[0] + "h - "+livraison.getPlageHoraire()[1]+"h.";
+        if (affPlageHoraire) {
+            desc += "<br/> Plage horaire : " + livraison.getPlageHoraire()[0] + "h - " + livraison.getPlageHoraire()[1]
+                    + "h.";
+        }
+        if (livraison.getPlageAChangee() && livraison.getAnciennePlageHoraire()[0]!=livraison.getPlageHoraire()[0]) {
+            desc += "<br/> Ancienne plage horaire : " + livraison.getAnciennePlageHoraire()[0] + "h - "
+                    + livraison.getAnciennePlageHoraire()[1]
+                    + "h.";
+        }
+        if (livraison.getNbMinutesAttente() != 0) {
+            desc += "<br/> Il faut attendre : "+livraison.getNbMinutesAttente()+" minutes";
         }
         desc += "</li></ul></html>";
 

@@ -320,7 +320,7 @@ public class Tournee extends Observable {
 
     }
 
-    updateHeuresLivraison(carte.getEntrepot());
+		updateHeuresLivraison(carte.getEntrepot(), false);
 
     circuit = new Circuit(list);
     circuitCalculer = true;
@@ -403,9 +403,9 @@ public class Tournee extends Observable {
     }
     temps.put(carte.getEntrepot(), temps.get(carte.getEntrepot()) + delta);
 
-    // MAJ des heures d'arrivées et des plages horaires pour chaque objet Livraison
-    // en utilisant la map temps à jour
-    updateHeuresLivraison(carte.getEntrepot());
+		// MAJ des heures d'arrivées et des plages horaires pour chaque objet Livraison
+		// en utilisant la map temps à jour
+		updateHeuresLivraison(carte.getEntrepot(), true);
 
     // MAJ du circuit en ajoutant les 2 chemins calculés au bonne endroit
     MAJCircuitAjoutApresCalcul(carte.getEntrepot(), livraisonPrecedente.getLieu(), cheminPreToNew, cheminNewtoNext);
@@ -586,19 +586,19 @@ public class Tournee extends Observable {
     circuit = new Circuit(listChemin);
   }
 
-  /**
-   * Met à jour les horaires et les plages horaires de toutes les livraisons en
-   * utilisant la map temps
-   * 
-   * @param entrepot
-   * @throws TourneeException
-   */
-  private void updateHeuresLivraison(Intersection entrepot) throws TourneeException {
-    // Calcul des heures réelles de passage
-    Double heure;
-    int heureDepart = 8;
-    int[] tab = new int[2];
-    for (Livraison l : livraisons) {
+	/**
+	 * Met à jour les horaires et les plages horaires de toutes les livraisons en
+	 * utilisant la map temps
+	 * 
+	 * @param entrepot
+	 * @throws TourneeException
+	 */
+	private void updateHeuresLivraison(Intersection entrepot, boolean verifierAnciennePlage) throws TourneeException {
+		// Calcul des heures réelles de passage
+		Double heure;
+		int heureDepart = 8;
+		int[] tab = new int[2];
+		for (Livraison l : livraisons) {
 
       if ((heure = temps.get(l.getLieu())) != null) {
 
@@ -607,10 +607,13 @@ public class Tournee extends Observable {
         double temp = ((double) heureDepart + heure);
         tab[1] = (int) ((temp - (int) temp) * 60.0);
 
-        l.setHeureEstime(tab[0], tab[1]);
-
-        tab[1] = tab[0] + 1;
-        l.setPlageHoraire(tab[0], tab[1]);
+				l.setHeureEstime(tab[0], tab[1]);
+				
+				if (verifierAnciennePlage && l.getPlageHoraire()[0] != tab[0] ) {
+					l.setAnciennePlageHoraire(l.getPlageHoraire());
+				}
+				tab[1] = tab[0] + 1;
+				l.setPlageHoraire(tab[0], tab[1]);
 
       } else {
         throw new TourneeException("Horaire d'arrivée d'une livraison incalculable : " + l.getLieu().getId());
