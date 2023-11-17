@@ -1,12 +1,9 @@
 package com.hexa.view;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.stream.*;
-import javax.swing.JOptionPane;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.hexa.controller.Controller;
@@ -21,9 +18,6 @@ import com.hexa.model.Segment;
 import java.util.List;
 import com.hexa.controller.state.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -63,6 +57,7 @@ public class Window extends JFrame implements Observer {
 
   private GraphicalView graphicalView;
   private TextualView textualView;
+  private JPanel legende;
   private JLabel messageFrame;
   private JComboBox<String> livreurMenu;
 
@@ -144,6 +139,11 @@ public class Window extends JFrame implements Observer {
 
     textualView = new TextualView(this, textualViewWidth, font); // A MODIFIER
     textualViewWidth = textualView.getViewWidth();
+
+    /*legende = new JPanel();
+    legende.setSize((int)(buttonWidth*coeff) - 5,(int)(400*coeff));
+    legende.setLocation(5, (boutons.size() + 3) * buttonHeight);
+    this.add(legende);*/
 
     messageFrame = new JLabel();
     messageFrame.setFont(font);
@@ -331,6 +331,9 @@ public class Window extends JFrame implements Observer {
     List<IntersectionWrapper> choixPossiblesWrapped = choixPossibles.stream().map(IntersectionWrapper::new)
         .collect(Collectors.toList());
     Object[] possibilities = choixPossiblesWrapped.toArray();
+    UIManager.put("OptionPane.messageFont", this.font);
+    UIManager.put("OptionPane.buttonFont", this.font);
+    UIManager.put("ComboBox.font", this.font);
     IntersectionWrapper choix = (IntersectionWrapper) JOptionPane.showInputDialog(this,
         "Plusieurs intersections sont possibles.\n" + "Veuillez choisir une intersection :",
         "Choix de l'intersection", JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
