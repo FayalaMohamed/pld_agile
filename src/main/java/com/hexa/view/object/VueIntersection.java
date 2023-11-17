@@ -7,6 +7,9 @@ import com.hexa.model.Intersection;
 import com.hexa.observer.Observable;
 import com.hexa.view.GraphicalView;
 
+/**
+ * Classe encapsulant l'objet Intersection et permettant son affichage dans la vue graphique
+ */
 public class VueIntersection extends Observable {
 
     private GraphicalView gv;
@@ -22,6 +25,9 @@ public class VueIntersection extends Observable {
         this.intersection = i;
     }
 
+    /**
+     * Dessine l'intersection encaspulée dans la vue graphique
+     */
     public void dessinerVue() {
 
         coord = this.gv.CoordGPSToViewPos(intersection);
@@ -38,11 +44,17 @@ public class VueIntersection extends Observable {
         return intersection;
     }
 
+    /**
+     * Augmente la taille et passe l'intersection en orange
+     */
     public void afficherSelectionnee() {
         rayon = 6;
         color = Color.ORANGE;
     }
 
+    /**
+     * Réduit la taille et passe l'intersection en bleu
+     */
     public void afficherNonSelectionnee() {
         rayon = 3;
         color = Color.BLUE;

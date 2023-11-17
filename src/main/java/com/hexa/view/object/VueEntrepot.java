@@ -7,6 +7,9 @@ import com.hexa.model.Entrepot;
 import com.hexa.model.Intersection;
 import com.hexa.view.GraphicalView;
 
+/**
+ * Classe encapsulant l'objet entrepôt et permettant son affichage dans la vue graphique
+ */
 public class VueEntrepot {
 
     private GraphicalView gv;
@@ -22,7 +25,10 @@ public class VueEntrepot {
         this.gv = gv;
         this.entrepot = entrepot;
     }
-    
+
+    /**
+     * Dessine l'entrepot dans la vue graphique
+     */
     public void dessinerVue() {
 
         coord = this.gv.CoordGPSToViewPos(entrepot);
