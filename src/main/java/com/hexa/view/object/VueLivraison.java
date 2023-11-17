@@ -9,6 +9,9 @@ import com.hexa.model.Livraison;
 import com.hexa.observer.Observable;
 import com.hexa.view.GraphicalView;
 
+/**
+ * Classe encapsulant une livraison et permettant son affichage dans le GraphicalView
+ */
 public class VueLivraison extends Observable {
 
     private GraphicalView gv;
@@ -21,6 +24,12 @@ public class VueLivraison extends Observable {
     private int rayon = 6;
     private Coordonnees coord;
 
+    /**
+     * Crée un objet VueLivraison avec une certaine couleur
+     * @param l
+     * @param gv
+     * @param color
+     */
     public VueLivraison(Livraison l, GraphicalView gv, Color color){
         this.gv = gv;
         this.livraison = l;
@@ -28,6 +37,13 @@ public class VueLivraison extends Observable {
         this.dansTourneeCalculee = false;
     }
 
+    /**
+     * Crée un objet VueLivraison avec une certaine couleur et un numéro
+     * @param l
+     * @param gv
+     * @param color
+     * @param numero
+     */
     public VueLivraison(Livraison l, GraphicalView gv, Color color, int numero){
         this.gv = gv;
         this.livraison = l;
@@ -36,6 +52,9 @@ public class VueLivraison extends Observable {
         this.numero = numero;
     }
 
+    /**
+     * Dessine cette VueLivraison dans la vue graphique
+     */
     public void dessinerVue() {
 
         coord = this.gv.CoordGPSToViewPos(livraison.getLieu());
@@ -51,6 +70,11 @@ public class VueLivraison extends Observable {
         }
     }
 
+    /**
+     * Retourne true si cette livraison est cliquée par les coordonnées passées en paramètre
+     * @param coordonneesSouris
+     * @return
+     */
     public boolean estCliquee(Coordonnees coordonneesSouris) {
         return coord.equals(coordonneesSouris);
     }

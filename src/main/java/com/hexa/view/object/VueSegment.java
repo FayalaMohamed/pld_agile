@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 /**
- * Objet encapsulant l'objet Tournee et permettant son affichage graphique dans la GraphicalView.
+ * Objet encapsulant l'objet Segment et permettant son affichage graphique dans la GraphicalView.
  */
 public class VueSegment {
 
