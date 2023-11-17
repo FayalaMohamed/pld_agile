@@ -62,16 +62,6 @@ public class Tournee extends Observable {
 
 	}
 
-	// public void initTournee() {
-	// this.livraisons = new HashSet<Livraison>();
-	//
-	// circuit = null;
-	// circuitCalculer = false;
-	//
-	// finTourneeEstime = new int[2];
-	// notifyObservers(this);
-	// }
-
 	// -----------------------------------------------------------------------------------------------------
 
 	/**
@@ -89,12 +79,6 @@ public class Tournee extends Observable {
 	 * @return true si inter est un lieu de livraison
 	 */
 	public boolean estLieuLivraison(Intersection inter) {
-		// for (Livraison livraison : livraisons) {
-		// if (livraison.getLieu().equals(inter)) {
-		// return true;
-		// }
-		// }
-		// return false;
 		return livraisons.contains(new Livraison(inter));
 	}
 
@@ -144,6 +128,9 @@ public class Tournee extends Observable {
 		return livraisons.toArray(new Livraison[0]);
 	}
 
+	/**
+	 * @return livreur
+	 */
 	public Livreur getLivreur() {
 		return livreur;
 	}
@@ -555,9 +542,9 @@ public class Tournee extends Observable {
 	 * 
 	 * @param entrepot
 	 * @param intersectionPrecedente
-	 * @param cheminPreToNew
-	 * @param cheminNewtoNext
-	 */
+     * @param intersectionSuivante
+     * @param cheminPreToSuiv
+     */
 	private void MAJCircuitSuppressionApresCalcul(Intersection entrepot, Intersection intersectionPrecedente,
 			Intersection intersectionSuivante, Chemin cheminPreToSuiv) {
 		ArrayList<Chemin> listChemin = new ArrayList<Chemin>();

@@ -3,6 +3,9 @@ package com.hexa.model;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Classe modélisant un chemin, c'est à dire une suite de segments.
+ */
 public class Chemin implements Iterator<Segment> {
 
 //-------------------------------------------------------------------------------------------------------------------------------

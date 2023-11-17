@@ -12,6 +12,9 @@ import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
 import com.hexa.model.algo.ShortestPath;
 
+/**
+ * Classe implémentant l'algorithme de calcul de plus court chemin Dijkstra
+ */
 public class Dijkstra implements ShortestPath {
 
 	/**

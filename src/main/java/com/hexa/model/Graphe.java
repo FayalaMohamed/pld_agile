@@ -2,6 +2,9 @@ package com.hexa.model;
 
 import java.util.*;
 
+/**
+ * Classe modélisant un graphe
+ */
 public class Graphe {
 	
 	

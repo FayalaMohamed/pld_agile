@@ -11,6 +11,9 @@ import com.hexa.model.Segment;
 import com.hexa.model.algo.AlgoException;
 import com.hexa.model.algo.TSP;
 
+/**
+ * Classe abstraite implémentant l'interface TSP et servant de modèle aux différents algorithmes de TSP
+ */
 abstract class TemplateTSP implements TSP {
 	
 	private Intersection[] bestSol;

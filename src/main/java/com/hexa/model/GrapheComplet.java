@@ -6,6 +6,10 @@ import java.util.Map;
 import com.hexa.model.algo.ShortestPath;
 import com.hexa.model.algo.dijkstra.Dijkstra;
 
+/**
+ * Modélisation d'un graphe complet.
+ * Contient une Map des chemins les plus courts associés à chaque segment du graphe complet.
+ */
 public class GrapheComplet extends Graphe {
 
 //------------------------------------------------------------------------------------------------------------------

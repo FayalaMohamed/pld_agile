@@ -6,6 +6,9 @@ import java.util.List;
 import com.hexa.model.Intersection;
 import com.hexa.model.Segment;
 
+/**
+ * Classe implémentant un algorithme de TSP avec une fonction bound.
+ */
 public class TSPBoundSimple extends TemplateTSP {
 
 	

@@ -3,6 +3,9 @@ package com.hexa.model.algo;
 import com.hexa.model.GrapheComplet;
 import com.hexa.model.Intersection;
 
+/**
+ * Interface devant être implémentée pour les différents algorithmes de TSP
+ */
 public interface TSP {
 
 	/**

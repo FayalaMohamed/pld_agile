@@ -3,6 +3,9 @@ package com.hexa.model;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Classe modélisant un circuit, c'est à dire une suite de segments revenant sur le point de départ.
+ */
 public class Circuit implements Iterator<Segment> {
 	
 //------------------------------------------------------------------------------------------------------------------
